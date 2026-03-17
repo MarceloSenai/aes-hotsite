@@ -155,7 +155,7 @@ function DesktopDropdown({
                   onClick={onClose}
                   className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                 >
-                  <ChevronRight size={14} className="text-emerald-500 opacity-0 group-hover:opacity-100" />
+                  <ChevronRight size={14} className="opacity-0 group-hover:opacity-100" style={{ color: 'var(--color-primary)' }} />
                   {child.label}
                 </Link>
               ))}
@@ -221,7 +221,7 @@ function MobileNavItem({
                   onClick={onNavigate}
                   className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
                 >
-                  <ChevronRight size={14} className="text-emerald-400" />
+                  <ChevronRight size={14} className="text-theme-primary" />
                   {child.label}
                 </Link>
               ))}
@@ -270,7 +270,7 @@ export default function Header() {
           <div className="flex items-center gap-4 sm:gap-6">
             <a
               href="tel:+551133679900"
-              className="hidden sm:flex items-center gap-1.5 hover:text-emerald-200 transition-colors"
+              className="hidden sm:flex items-center gap-1.5 hover:text-theme-primary-light transition-colors"
             >
               <Phone size={13} />
               (11) 3367-9900
@@ -279,14 +279,14 @@ export default function Header() {
               href="https://wa.me/551133679900"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors"
+              className="flex items-center gap-1.5 hover:text-theme-primary-light transition-colors"
             >
               <MessageCircle size={13} />
               <span className="hidden xs:inline">WhatsApp</span>
             </a>
             <a
               href="mailto:contato@aes.org.br"
-              className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors"
+              className="flex items-center gap-1.5 hover:text-theme-primary-light transition-colors"
             >
               <Mail size={13} />
               <span className="hidden sm:inline">Email</span>
@@ -299,14 +299,14 @@ export default function Header() {
               href="https://webmail.aes.org.br"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors"
+              className="flex items-center gap-1.5 hover:text-theme-primary-light transition-colors"
             >
               <Mail size={13} />
               Webmail
             </a>
             <Link
               href="/area-do-associado"
-              className="flex items-center gap-1.5 font-semibold hover:text-emerald-200 transition-colors"
+              className="flex items-center gap-1.5 font-semibold hover:text-theme-primary-light transition-colors"
             >
               <UserCircle size={14} />
               Área do Associado
@@ -334,7 +334,7 @@ export default function Header() {
                 <span className="block text-white font-bold text-base lg:text-lg tracking-tight">
                   AES
                 </span>
-                <span className="block text-emerald-200 text-[10px] lg:text-xs font-medium leading-tight">
+                <span className="block text-theme-primary-light text-[10px] lg:text-xs font-medium leading-tight">
                   Associação dos Empregados do SENAI
                 </span>
               </div>
@@ -367,7 +367,10 @@ export default function Header() {
             <div className="flex items-center gap-2">
               <Link
                 href="/admin"
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-200/70 hover:text-white hover:bg-emerald-600/50 rounded-md transition-colors"
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium hover:text-white rounded-md transition-colors"
+                style={{ color: 'color-mix(in srgb, var(--color-primary-light) 70%, transparent)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--color-primary-dark) 50%, transparent)'; e.currentTarget.style.color = 'white'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = 'color-mix(in srgb, var(--color-primary-light) 70%, transparent)'; }}
                 title="Administração"
               >
                 <Shield size={14} />
@@ -377,7 +380,10 @@ export default function Header() {
               {/* Mobile toggle */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="xl:hidden p-2 text-white hover:bg-emerald-600/50 rounded-lg transition-colors"
+                className="xl:hidden p-2 text-white rounded-lg transition-colors"
+                style={{ backgroundColor: 'transparent' }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'color-mix(in srgb, var(--color-primary-dark) 50%, transparent)')}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
               >
                 <AnimatePresence mode="wait" initial={false}>
@@ -420,20 +426,25 @@ export default function Header() {
               className="absolute left-0 right-0 top-full z-50 xl:hidden bg-white shadow-2xl shadow-black/10 max-h-[calc(100dvh-100px)] overflow-y-auto"
             >
               {/* Quick links bar (mobile) */}
-              <div className="flex items-center gap-3 px-4 py-3 bg-emerald-50 border-b border-emerald-100 text-sm">
+              <div
+                className="flex items-center gap-3 px-4 py-3 border-b text-sm"
+                style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 30%, white)', borderColor: 'color-mix(in srgb, var(--color-primary-light) 50%, white)' }}
+              >
                 <a
                   href="https://wa.me/551133679900"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-emerald-700 font-medium"
+                  className="flex items-center gap-1.5 font-medium"
+                  style={{ color: 'var(--color-primary-dark)' }}
                 >
                   <MessageCircle size={15} />
                   WhatsApp
                 </a>
-                <span className="text-emerald-300">|</span>
+                <span style={{ color: 'var(--color-primary-light)' }}>|</span>
                 <a
                   href="tel:+551133679900"
-                  className="flex items-center gap-1.5 text-emerald-700 font-medium"
+                  className="flex items-center gap-1.5 font-medium"
+                  style={{ color: 'var(--color-primary-dark)' }}
                 >
                   <Phone size={15} />
                   (11) 3367-9900

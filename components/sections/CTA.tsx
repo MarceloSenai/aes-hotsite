@@ -87,10 +87,10 @@ export default function CTA() {
           style={{ top: '-15%', right: '-10%' }}
         />
         <motion.div
-          className="absolute w-[400px] h-[400px] bg-emerald-400/15 rounded-full blur-[100px]"
+          className="absolute w-[400px] h-[400px] rounded-full blur-[100px]"
           animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ bottom: '-10%', left: '-5%' }}
+          style={{ bottom: '-10%', left: '-5%', backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 15%, transparent)' }}
         />
       </div>
 

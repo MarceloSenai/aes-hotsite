@@ -100,6 +100,60 @@
   --tw-shadow-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
   --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color);
 }
+.hover\:shadow-theme-glow:hover {
+  box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--color-primary) 20%, transparent),
+              0 4px 6px -4px color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+
+/* Primary with opacity */
+.bg-theme-primary-5 { background-color: color-mix(in srgb, var(--color-primary) 5%, transparent) !important; }
+.bg-theme-primary-10 { background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important; }
+.bg-theme-primary-20 { background-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important; }
+
+/* Gradient text */
+.text-theme-gradient {
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Focus ring with theme */
+.focus\:ring-theme-primary:focus {
+  --tw-ring-color: var(--color-primary) !important;
+}
+
+/* Light background variants for cards/badges */
+.bg-theme-primary-light\/50 { background-color: color-mix(in srgb, var(--color-primary-light) 50%, transparent) !important; }
+.bg-theme-primary-light\/30 { background-color: color-mix(in srgb, var(--color-primary-light) 30%, transparent) !important; }
+
+/* Dark mode primary backgrounds */
+.dark .dark\:bg-theme-primary-10 { background-color: color-mix(in srgb, var(--color-primary) 10%, transparent) !important; }
+.dark .dark\:bg-theme-primary-20 { background-color: color-mix(in srgb, var(--color-primary) 20%, transparent) !important; }
+.dark .dark\:bg-theme-primary-30 { background-color: color-mix(in srgb, var(--color-primary) 30%, transparent) !important; }
+.dark .dark\:text-theme-primary { color: var(--color-primary) !important; }
+.dark .dark\:text-theme-primary-light { color: var(--color-primary-light) !important; }
+.dark .dark\:border-theme-primary-dark { border-color: color-mix(in srgb, var(--color-primary-dark) 40%, transparent) !important; }
+
+/* Hover border */
+.hover\:border-theme-primary-light:hover { border-color: var(--color-primary-light) !important; }
+.dark .dark\:hover\:border-theme-primary-dark:hover { border-color: color-mix(in srgb, var(--color-primary) 60%, transparent) !important; }
+
+/* Hero section CTA button gradient */
+.gradient-theme-btn {
+  background: linear-gradient(to right, var(--color-primary), var(--color-primary-dark)) !important;
+}
+.gradient-theme-btn:hover {
+  background: linear-gradient(to right, var(--color-primary-dark), var(--color-primary-dark)) !important;
+}
+
+/* Page section light gradient bg */
+.gradient-theme-page-light {
+  background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-primary) 5%, white), white, color-mix(in srgb, var(--color-primary) 3%, white)) !important;
+}
+.dark .gradient-theme-page-light {
+  background: linear-gradient(to bottom right, #030712, #111827, #030712) !important;
+}
 
 /* ============================================ */
 /* Base styles                                  */

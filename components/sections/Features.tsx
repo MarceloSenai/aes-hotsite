@@ -52,10 +52,13 @@ const services = [
     description:
       'Rede conveniada de farmácias com descontos exclusivos para associados.',
     link: '/servicos/farmacias',
-    gradient: 'from-emerald-500 to-green-500',
-    bgLight: 'bg-emerald-50',
-    bgIcon: 'bg-emerald-100 dark:bg-emerald-900/30',
-    textIcon: 'text-emerald-600 dark:text-emerald-400',
+    gradient: '',
+    gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))' } as React.CSSProperties,
+    bgLight: '',
+    bgIcon: '',
+    bgIconStyle: { backgroundColor: 'var(--color-primary-light)' } as React.CSSProperties,
+    textIcon: '',
+    textIconStyle: { color: 'var(--color-primary)' } as React.CSSProperties,
   },
   {
     icon: ShieldCheck,
@@ -147,15 +150,17 @@ export default function Features() {
                   <div className="relative h-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 transition-all duration-300 hover:shadow-xl hover:border-theme-primary hover:-translate-y-1">
                     {/* Gradient overlay on hover */}
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.04] dark:group-hover:opacity-[0.08] transition-opacity duration-300`}
+                      className={`absolute inset-0 ${service.gradient ? `bg-gradient-to-br ${service.gradient}` : ''} opacity-0 group-hover:opacity-[0.04] dark:group-hover:opacity-[0.08] transition-opacity duration-300`}
+                      {...('gradientStyle' in service ? { style: (service as Record<string, any>).gradientStyle } : {})}
                     />
 
                     {/* Icon */}
                     <div className="relative mb-5">
                       <div
                         className={`w-14 h-14 ${service.bgIcon} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
+                        {...('bgIconStyle' in service ? { style: (service as Record<string, any>).bgIconStyle } : {})}
                       >
-                        <Icon className={service.textIcon} size={28} />
+                        <Icon className={service.textIcon} size={28} {...('textIconStyle' in service ? { style: (service as Record<string, any>).textIconStyle } : {})} />
                       </div>
                     </div>
 

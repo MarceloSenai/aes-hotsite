@@ -54,20 +54,20 @@ const itemVariants = {
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-green-50 via-emerald-50/50 to-white dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 overflow-hidden">
+    <section className="relative min-h-screen dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 overflow-hidden" style={{ background: 'linear-gradient(to bottom right, var(--color-primary-light), rgba(255,255,255,0.5), white)' }}>
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute w-[500px] h-[500px] bg-green-300/30 dark:bg-green-800/20 rounded-full blur-[100px]"
+          className="absolute w-[500px] h-[500px] rounded-full blur-[100px]"
           animate={{ x: [0, 60, 0], y: [0, 80, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ top: '-5%', left: '-10%' }}
+          style={{ top: '-5%', left: '-10%', backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 30%, transparent)' }}
         />
         <motion.div
-          className="absolute w-[400px] h-[400px] bg-emerald-200/30 dark:bg-emerald-900/20 rounded-full blur-[80px]"
+          className="absolute w-[400px] h-[400px] rounded-full blur-[80px]"
           animate={{ x: [0, -40, 0], y: [0, 60, 0] }}
           transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ top: '30%', right: '-5%' }}
+          style={{ top: '30%', right: '-5%', backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 30%, transparent)' }}
         />
         <motion.div
           className="absolute w-[350px] h-[350px] bg-teal-200/20 dark:bg-teal-900/15 rounded-full blur-[90px]"
@@ -114,8 +114,8 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border backdrop-blur-sm mb-6"
               style={{ backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary-light)' }}
             >
-              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-primary)' }} />
+              <span className="text-sm font-medium" style={{ color: 'var(--color-primary-dark)' }}>
                 Utilidade Pública desde 1966 &mdash; Decreto Estadual n.&ordm; 9376
               </span>
             </motion.div>
@@ -152,7 +152,7 @@ export default function Hero() {
                 href="https://associado.aessenai.org.br"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white rounded-xl font-semibold transition-all shadow-lg shadow-green-500/25 hover:shadow-xl hover:shadow-green-500/30 duration-300"
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl duration-300"
                 style={{ background: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}
               >
                 Área do Associado
@@ -163,7 +163,7 @@ export default function Hero() {
               </a>
               <Link
                 href="/contato"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 border-2 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 border-2 rounded-xl font-semibold transition-colors duration-300"
                 style={{ borderColor: 'var(--color-primary-light)', color: 'var(--color-primary)' }}
               >
                 Fale Conosco
@@ -188,20 +188,21 @@ export default function Hero() {
                     delay: 0.8 + index * 0.1,
                     ease: [0.22, 1, 0.36, 1] as const,
                   }}
-                  className="group relative bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-green-100/60 dark:border-green-800/30 hover:border-green-300 dark:hover:border-green-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/5"
+                  className="group relative bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border transition-all duration-300 hover:shadow-lg"
+                  style={{ borderColor: 'color-mix(in srgb, var(--color-primary-light) 60%, transparent)' }}
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--color-primary-light)' }}>
                       <Icon
                         size={20}
-                        className="text-green-600 dark:text-green-400"
+                        style={{ color: 'var(--color-primary)' }}
                       />
                     </div>
                   </div>
                   <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                     {stat.value}
                   </p>
-                  <p className="text-sm font-semibold text-green-600 dark:text-green-400 mt-1">
+                  <p className="text-sm font-semibold mt-1" style={{ color: 'var(--color-primary)' }}>
                     {stat.label}
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">

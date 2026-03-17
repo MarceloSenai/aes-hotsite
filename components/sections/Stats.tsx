@@ -49,14 +49,14 @@ function StatCounter({ label, description, value, suffix, icon: Icon, delay }: S
       transition={{ duration: 0.6, delay }}
       className="relative group"
     >
-      <div className="text-center p-8 rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border border-green-100 dark:border-green-900/30 hover:border-green-300 dark:hover:border-green-700 transition-all duration-300 hover:shadow-lg hover:shadow-green-100/50 dark:hover:shadow-green-900/20">
+      <div className="text-center p-8 rounded-2xl bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border transition-all duration-300 hover:shadow-lg" style={{ borderColor: 'color-mix(in srgb, var(--color-primary-light) 60%, transparent)' }}>
         {/* Icon */}
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-green-100 dark:bg-green-900/30 mb-5 group-hover:scale-110 transition-transform duration-300">
-          <Icon size={28} className="text-green-600 dark:text-green-400" />
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl mb-5 group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: 'var(--color-primary-light)' }}>
+          <Icon size={28} style={{ color: 'var(--color-primary)' }} />
         </div>
 
         {/* Number */}
-        <p className="text-5xl sm:text-6xl font-bold bg-gradient-to-r from-green-600 to-green-500 dark:from-green-400 dark:to-green-300 bg-clip-text text-transparent mb-2">
+        <p className="text-5xl sm:text-6xl font-bold bg-clip-text text-transparent mb-2" style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}>
           {displayValue}
           {suffix}
         </p>
@@ -112,11 +112,11 @@ export default function Stats() {
   ];
 
   return (
-    <section id="numeros" className="py-24 bg-gradient-to-b from-green-50/50 to-white dark:from-gray-900 dark:to-gray-950 relative overflow-hidden">
+    <section id="numeros" className="py-24 dark:from-gray-900 dark:to-gray-950 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom, color-mix(in srgb, var(--color-primary-light) 50%, transparent), white)' }}>
       {/* Background decoration */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-green-200/30 dark:bg-green-900/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-green-200/20 dark:bg-green-900/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/4 w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 30%, transparent)' }} />
+        <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 20%, transparent)' }} />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -128,12 +128,12 @@ export default function Stats() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold rounded-full mb-4">
+          <span className="inline-block px-4 py-1.5 text-sm font-semibold rounded-full mb-4" style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary-dark)' }}>
             Nossos Números
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             AES em{' '}
-            <span className="bg-gradient-to-r from-green-600 to-green-500 dark:from-green-400 dark:to-green-300 bg-clip-text text-transparent">
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}>
               Números
             </span>
           </h2>

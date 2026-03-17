@@ -55,8 +55,11 @@ export default function Footer() {
               Promovendo o bem-estar, a qualidade de vida e os direitos dos
               empregados do SENAI-SP e seus dependentes.
             </p>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-900/40 border border-green-700/50 rounded-full text-green-400 text-xs font-semibold tracking-wide">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-xs font-semibold tracking-wide"
+              style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-dark) 40%, transparent)', borderColor: 'color-mix(in srgb, var(--color-primary) 50%, transparent)', color: 'var(--color-primary-light)' }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary-light)' }} />
               Desde 1947
             </span>
           </div>
@@ -71,7 +74,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-gray-400 hover:text-green-400 transition-colors text-sm"
+                    className="text-gray-400 hover:text-theme-primary-light transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -90,11 +93,11 @@ export default function Footer() {
                   <li key={servico.href}>
                     <Link
                       href={servico.href}
-                      className="flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors text-sm group"
+                      className="flex items-center gap-2 text-gray-400 hover:text-theme-primary-light transition-colors text-sm group"
                     >
                       <Icon
                         size={14}
-                        className="text-gray-500 group-hover:text-green-400 transition-colors"
+                        className="text-gray-500 group-hover:text-theme-primary-light transition-colors"
                       />
                       {servico.label}
                     </Link>
@@ -110,7 +113,7 @@ export default function Footer() {
             <ul className="space-y-3.5 text-sm">
               {/* Telefone */}
               <li className="flex items-center gap-2.5 text-gray-400">
-                <Phone size={16} className="text-green-500 shrink-0" />
+                <Phone size={16} className="text-theme-primary shrink-0" />
                 <a
                   href="tel:+551133679900"
                   className="hover:text-white transition-colors"
@@ -121,7 +124,7 @@ export default function Footer() {
 
               {/* WhatsApp */}
               <li className="flex items-center gap-2.5 text-gray-400">
-                <MessageCircle size={16} className="text-green-500 shrink-0" />
+                <MessageCircle size={16} className="text-theme-primary shrink-0" />
                 <a
                   href="https://wa.me/551133679900"
                   target="_blank"
@@ -134,7 +137,7 @@ export default function Footer() {
 
               {/* Email */}
               <li className="flex items-center gap-2.5 text-gray-400">
-                <Mail size={16} className="text-green-500 shrink-0" />
+                <Mail size={16} className="text-theme-primary shrink-0" />
                 <a
                   href="mailto:clube@aessenai.org.br"
                   className="hover:text-white transition-colors"
@@ -145,7 +148,7 @@ export default function Footer() {
 
               {/* Endereço */}
               <li className="flex items-start gap-2.5 text-gray-400">
-                <MapPin size={16} className="text-green-500 shrink-0 mt-0.5" />
+                <MapPin size={16} className="text-theme-primary shrink-0 mt-0.5" />
                 <span className="leading-relaxed">
                   Rua Correia de Andrade, 232
                   <br />
@@ -157,7 +160,7 @@ export default function Footer() {
 
               {/* Horário */}
               <li className="flex items-center gap-2.5 text-gray-400">
-                <Clock size={16} className="text-green-500 shrink-0" />
+                <Clock size={16} className="text-theme-primary shrink-0" />
                 <span>Seg-Sex 7:00 - 16:00</span>
               </li>
             </ul>
@@ -177,7 +180,7 @@ export default function Footer() {
                 href="https://quicksolutions-ai.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-green-400 transition-colors"
+                className="text-gray-500 hover:text-theme-primary-light transition-colors"
               >
                 Quick Solutions AI
               </a>
