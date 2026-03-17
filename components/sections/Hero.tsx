@@ -1,132 +1,230 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, GraduationCap } from 'lucide-react';
+import { ArrowRight, Heart, MapPin, Shield, CalendarDays, ChevronDown } from 'lucide-react';
+
+const stats = [
+  {
+    icon: CalendarDays,
+    value: '78+',
+    label: 'Anos de História',
+    description: 'Fundada em 1947',
+  },
+  {
+    icon: MapPin,
+    value: 'Núcleos',
+    label: 'de Lazer',
+    description: 'Para associados e família',
+  },
+  {
+    icon: Shield,
+    value: 'UNIMED',
+    label: 'Plano de Saúde',
+    description: 'Cobertura completa',
+  },
+  {
+    icon: Heart,
+    value: 'Assistência',
+    label: 'Completa',
+    description: 'Saúde, lazer e bem-estar',
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const },
+  },
+};
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-white dark:from-gray-900 dark:via-gray-850 dark:to-gray-900 overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-green-50 via-emerald-50/50 to-white dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 overflow-hidden">
       {/* Animated Background Orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          className="absolute w-96 h-96 bg-green-200 dark:bg-green-900 rounded-full opacity-20 dark:opacity-10 blur-3xl"
-          animate={{ x: [0, 50, 0], y: [0, 100, 0] }}
-          transition={{ duration: 15, repeat: Infinity }}
-          style={{ top: '10%', left: '-10%' }}
+          className="absolute w-[500px] h-[500px] bg-green-300/30 dark:bg-green-800/20 rounded-full blur-[100px]"
+          animate={{ x: [0, 60, 0], y: [0, 80, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ top: '-5%', left: '-10%' }}
         />
         <motion.div
-          className="absolute w-96 h-96 bg-blue-200 dark:bg-blue-900 rounded-full opacity-20 dark:opacity-10 blur-3xl"
-          animate={{ x: [0, -50, 0], y: [0, -100, 0] }}
-          transition={{ duration: 20, repeat: Infinity }}
-          style={{ bottom: '10%', right: '-10%' }}
+          className="absolute w-[400px] h-[400px] bg-emerald-200/30 dark:bg-emerald-900/20 rounded-full blur-[80px]"
+          animate={{ x: [0, -40, 0], y: [0, 60, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ top: '30%', right: '-5%' }}
+        />
+        <motion.div
+          className="absolute w-[350px] h-[350px] bg-teal-200/20 dark:bg-teal-900/15 rounded-full blur-[90px]"
+          animate={{ x: [0, 30, 0], y: [0, -50, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ bottom: '5%', left: '20%' }}
+        />
+
+        {/* Subtle grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
         />
       </div>
 
       {/* Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
-          {/* Left: Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-100 dark:bg-green-900/20 rounded-full border border-green-200 dark:border-green-800"
-              >
-                <GraduationCap size={16} className="text-green-600 dark:text-green-400" />
-                <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                  Educação Transformadora
-                </span>
-              </motion.div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center pt-24 pb-20">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full"
+        >
+          {/* Logo + Badge */}
+          <div className="flex flex-col items-center text-center mb-10">
+            <motion.div variants={itemVariants} className="mb-8">
+              <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto">
+                <Image
+                  src="/images/aes-logo.svg"
+                  alt="AES - Associação dos Empregados do SENAI"
+                  fill
+                  className="object-contain drop-shadow-lg"
+                  priority
+                />
+              </div>
+            </motion.div>
 
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
-                Educação de{' '}
-                <span className="bg-gradient-to-r from-green-600 to-blue-600 dark:from-green-400 dark:to-blue-400 bg-clip-text text-transparent">
-                  Qualidade para Todos
-                </span>
-              </h1>
+            <motion.div
+              variants={itemVariants}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-100/80 dark:bg-green-900/30 rounded-full border border-green-200/60 dark:border-green-700/40 backdrop-blur-sm mb-6"
+            >
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                Utilidade Pública desde 1966 &mdash; Decreto Estadual n.&ordm; 9376
+              </span>
+            </motion.div>
 
-              <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed">
-                Transformando vidas através de educação profissional inovadora, com currículo atualizado
-                e docentes especializados.
-              </p>
-            </div>
+            {/* Headline */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white leading-tight max-w-4xl"
+            >
+              Associação dos{' '}
+              <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+                Empregados do SENAI
+              </span>
+            </motion.h1>
+
+            {/* Sub-headline */}
+            <motion.p
+              variants={itemVariants}
+              className="mt-6 text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed"
+            >
+              Proporcionando qualidade de vida aos nossos associados, dependentes e
+              agregados desde 1947
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="/solucoes"
-                className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg font-semibold transition-all shadow-lg hover:shadow-xl duration-300"
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-4 mt-10"
+            >
+              <a
+                href="https://associado.aessenai.org.br"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-green-500/25 hover:shadow-xl hover:shadow-green-500/30 duration-300"
               >
-                Conhecer Soluções
-                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+                Área do Associado
+                <ArrowRight
+                  size={20}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </a>
               <Link
                 href="/contato"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white rounded-lg font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 border-2 border-green-200 dark:border-green-700 text-green-700 dark:text-green-300 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-300"
               >
                 Fale Conosco
               </Link>
-            </div>
+            </motion.div>
+          </div>
 
-            {/* Stats Preview */}
-            <div className="flex items-center gap-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <div>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400">10+</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Anos de Histórico</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">5K+</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Associados</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400">50K+</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">Alunos Beneficiados</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right: Visual Illustration */}
+          {/* Stats Cards */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="hidden lg:block"
+            variants={itemVariants}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-16 max-w-4xl mx-auto"
           >
-            <div className="relative w-full h-full max-h-96 mx-auto">
-              {/* Placeholder for illustration/image */}
-              <div className="w-full h-96 bg-gradient-to-br from-green-100 dark:from-green-900/20 to-blue-100 dark:to-blue-900/20 rounded-2xl border-2 border-green-200 dark:border-green-800 flex items-center justify-center">
-                <div className="text-center">
-                  <GraduationCap size={80} className="mx-auto text-green-500 dark:text-green-400 mb-4" />
-                  <p className="text-gray-600 dark:text-gray-400 font-medium">
-                    Ilustração Educacional
+            {stats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 40 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.8 + index * 0.1,
+                    ease: [0.22, 1, 0.36, 1] as const,
+                  }}
+                  className="group relative bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-green-100/60 dark:border-green-800/30 hover:border-green-300 dark:hover:border-green-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/5"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                      <Icon
+                        size={20}
+                        className="text-green-600 dark:text-green-400"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                    {stat.value}
                   </p>
-                </div>
-              </div>
-            </div>
+                  <p className="text-sm font-semibold text-green-600 dark:text-green-400 mt-1">
+                    {stat.label}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    {stat.description}
+                  </p>
+                </motion.div>
+              );
+            })}
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5, duration: 0.8 }}
       >
-        <div className="text-center text-gray-600 dark:text-gray-400">
-          <p className="text-sm mb-2">Descubra Mais</p>
-          <div className="w-6 h-10 border-2 border-current rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-2 bg-current rounded-full animate-bounce"></div>
-          </div>
-        </div>
+        <motion.div
+          className="flex flex-col items-center text-gray-500 dark:text-gray-400 cursor-pointer"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <span className="text-xs font-medium tracking-wider uppercase mb-2">
+            Descubra Mais
+          </span>
+          <ChevronDown size={20} className="opacity-60" />
+        </motion.div>
       </motion.div>
     </section>
   );

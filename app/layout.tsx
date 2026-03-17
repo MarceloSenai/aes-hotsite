@@ -11,16 +11,16 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'AES - Educação de Qualidade para Todos',
-  description: 'Transformando vidas através de educação profissional inovadora',
+  title: 'AES - Associação dos Empregados do SENAI',
+  description: 'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.',
   icons: {
     icon: '/favicon.ico',
   },
   openGraph: {
-    title: 'AES - Educação de Qualidade',
-    description: 'Transformando vidas através de educação profissional inovadora',
+    title: 'AES - Associação dos Empregados do SENAI',
+    description: 'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.',
     type: 'website',
-    url: 'https://aes-senai.edu.br',
+    url: 'https://aessenai.org.br',
     locale: 'pt_BR',
   },
 };

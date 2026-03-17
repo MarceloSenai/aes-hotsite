@@ -1,122 +1,184 @@
 import Link from 'next/link';
-import { Mail, Phone, MapPin, Facebook, Linkedin, Twitter } from 'lucide-react';
+import Image from 'next/image';
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  MessageCircle,
+  Heart,
+  Stethoscope,
+  Shield,
+  Pill,
+} from 'lucide-react';
+
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Quem Somos', href: '/quem-somos' },
+  { label: 'Representantes', href: '/representantes' },
+  { label: 'Associados', href: '/associados' },
+  { label: 'Galeria', href: '/galeria' },
+  { label: 'Parcerias', href: '/parcerias' },
+];
+
+const servicos = [
+  { label: 'Assistência Médica', href: '/servicos#medica', icon: Stethoscope },
+  { label: 'Assistência Odontológica', href: '/servicos#odontologica', icon: Heart },
+  { label: 'Fundo Mútuo', href: '/servicos#fundo-mutuo', icon: Shield },
+  { label: 'Farmácias', href: '/servicos#farmacias', icon: Pill },
+  { label: 'Seguros', href: '/servicos#seguros', icon: Shield },
+];
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-gray-900 text-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+          {/* Column 1: Brand */}
           <div>
-            <div className="flex items-center gap-2 font-bold text-2xl text-white mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-blue-500 rounded-lg flex items-center justify-center text-white text-sm font-bold">
-                AES
-              </div>
-              <span>AES</span>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Transformando vidas através de educação profissional inovadora.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Links Rápidos</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="text-gray-400 hover:text-white transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/sobre" className="text-gray-400 hover:text-white transition-colors">
-                  Sobre
-                </Link>
-              </li>
-              <li>
-                <Link href="/solucoes" className="text-gray-400 hover:text-white transition-colors">
-                  Soluções
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="text-gray-400 hover:text-white transition-colors">
-                  Blog
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Contato</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2 text-gray-400">
-                <Mail size={16} />
-                <a href="mailto:contato@aes.org.br" className="hover:text-white transition-colors">
-                  contato@aes.org.br
-                </a>
-              </li>
-              <li className="flex items-center gap-2 text-gray-400">
-                <Phone size={16} />
-                <a href="tel:+551132345678" className="hover:text-white transition-colors">
-                  (11) 3234-5678
-                </a>
-              </li>
-              <li className="flex items-center gap-2 text-gray-400">
-                <MapPin size={16} />
-                <span>São Paulo, SP</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter */}
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Newsletter</h3>
-            <form className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder="seu@email.com"
-                className="px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 text-sm focus:outline-none focus:border-green-500"
+            <div className="mb-4">
+              <Image
+                src="/images/aes-logo.svg"
+                alt="AES - Associação dos Empregados do SENAI"
+                width={160}
+                height={60}
+                className="brightness-0 invert"
               />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-medium text-sm"
-              >
-                Inscrever
-              </button>
-            </form>
+            </div>
+            <p className="text-white font-semibold text-sm mb-1">
+              Associação dos Empregados do SENAI
+            </p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              Promovendo o bem-estar, a qualidade de vida e os direitos dos
+              empregados do SENAI-SP e seus dependentes.
+            </p>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-900/40 border border-green-700/50 rounded-full text-green-400 text-xs font-semibold tracking-wide">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full" />
+              Desde 1947
+            </span>
+          </div>
+
+          {/* Column 2: Links Rápidos */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-5">
+              Links Rápidos
+            </h3>
+            <ul className="space-y-2.5">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-400 hover:text-green-400 transition-colors text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Serviços */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-5">Serviços</h3>
+            <ul className="space-y-2.5">
+              {servicos.map((servico) => {
+                const Icon = servico.icon;
+                return (
+                  <li key={servico.href}>
+                    <Link
+                      href={servico.href}
+                      className="flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors text-sm group"
+                    >
+                      <Icon
+                        size={14}
+                        className="text-gray-500 group-hover:text-green-400 transition-colors"
+                      />
+                      {servico.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* Column 4: Contato */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-5">Contato</h3>
+            <ul className="space-y-3.5 text-sm">
+              {/* Telefone */}
+              <li className="flex items-center gap-2.5 text-gray-400">
+                <Phone size={16} className="text-green-500 shrink-0" />
+                <a
+                  href="tel:+551133679900"
+                  className="hover:text-white transition-colors"
+                >
+                  (11) 3367-9900
+                </a>
+              </li>
+
+              {/* WhatsApp */}
+              <li className="flex items-center gap-2.5 text-gray-400">
+                <MessageCircle size={16} className="text-green-500 shrink-0" />
+                <a
+                  href="https://wa.me/551133679900"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  WhatsApp
+                </a>
+              </li>
+
+              {/* Email */}
+              <li className="flex items-center gap-2.5 text-gray-400">
+                <Mail size={16} className="text-green-500 shrink-0" />
+                <a
+                  href="mailto:clube@aessenai.org.br"
+                  className="hover:text-white transition-colors"
+                >
+                  clube@aessenai.org.br
+                </a>
+              </li>
+
+              {/* Endereço */}
+              <li className="flex items-start gap-2.5 text-gray-400">
+                <MapPin size={16} className="text-green-500 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  Rua Correia de Andrade, 232
+                  <br />
+                  Brás, São Paulo - SP
+                  <br />
+                  CEP 03008-020
+                </span>
+              </li>
+
+              {/* Horário */}
+              <li className="flex items-center gap-2.5 text-gray-400">
+                <Clock size={16} className="text-green-500 shrink-0" />
+                <span>Seg-Sex 7:00 - 16:00</span>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-800 py-8">
-          {/* Social Links */}
-          <div className="flex items-center justify-center gap-6 mb-8">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Facebook size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Linkedin size={20} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Twitter size={20} />
-            </a>
-          </div>
-
-          {/* Copyright */}
-          <div className="text-center text-sm text-gray-500">
-            <p>
-              © {currentYear} AES. Todos os direitos reservados. |{' '}
-              <Link href="#" className="hover:text-gray-400 transition-colors">
-                Política de Privacidade
-              </Link>
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800 pt-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <p className="text-sm text-gray-500">
+              &copy; {currentYear} Associação dos Empregados do SENAI - Todos os
+              Direitos Reservados
             </p>
-            <p className="mt-2 text-xs">
+            <p className="text-xs text-gray-600">
               Desenvolvido por{' '}
-              <a href="https://quicksolutions-ai.com" className="hover:text-gray-400 transition-colors">
+              <a
+                href="https://quicksolutions-ai.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-green-400 transition-colors"
+              >
                 Quick Solutions AI
               </a>
             </p>
