@@ -17,56 +17,56 @@ const documentSections = [
     icon: Megaphone,
     title: 'Comunicados',
     description:
-      'Ultimos comunicados, avisos e boletins informativos da AES SENAI para os associados.',
+      'Últimos comunicados, avisos e boletins informativos da AES SENAI para os associados.',
     gradient: 'from-sky-500 to-blue-500',
     bgIcon: 'bg-sky-100 dark:bg-sky-900/30',
     textIcon: 'text-sky-600 dark:text-sky-400',
     items: [
-      { name: 'Comunicado Geral - Marco 2026', date: 'Mar 2026', type: 'PDF' },
+      { name: 'Comunicado Geral - Março 2026', date: 'Mar 2026', type: 'PDF' },
       { name: 'Informativo Mensal - Fevereiro 2026', date: 'Fev 2026', type: 'PDF' },
-      { name: 'Aviso - Calendario de Eventos 2026', date: 'Jan 2026', type: 'PDF' },
+      { name: 'Aviso - Calendário de Eventos 2026', date: 'Jan 2026', type: 'PDF' },
     ],
   },
   {
     icon: BookOpen,
     title: 'Estatuto e Regulamentos',
     description:
-      'Documentos oficiais que regem o funcionamento da associacao, incluindo estatuto social e regulamentos internos.',
+      'Documentos oficiais que regem o funcionamento da associação, incluindo estatuto social e regulamentos internos.',
     gradient: 'from-emerald-500 to-green-500',
     bgIcon: 'bg-emerald-100 dark:bg-emerald-900/30',
     textIcon: 'text-emerald-600 dark:text-emerald-400',
     items: [
       { name: 'Estatuto Social da AES SENAI', date: 'Vigente', type: 'PDF' },
-      { name: 'Regulamento do Nucleo de Lazer', date: 'Vigente', type: 'PDF' },
+      { name: 'Regulamento do Núcleo de Lazer', date: 'Vigente', type: 'PDF' },
       { name: 'Regulamento do FUMUS', date: 'Vigente', type: 'PDF' },
     ],
   },
   {
     icon: BarChart3,
-    title: 'Relatorio Anual',
+    title: 'Relatório Anual',
     description:
-      'Relatorios anuais de atividades e prestacao de contas da diretoria aos associados.',
+      'Relatórios anuais de atividades e prestação de contas da diretoria aos associados.',
     gradient: 'from-violet-500 to-purple-500',
     bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
     textIcon: 'text-violet-600 dark:text-violet-400',
     items: [
-      { name: 'Relatorio Anual 2025', date: '2025', type: 'PDF' },
-      { name: 'Relatorio Anual 2024', date: '2024', type: 'PDF' },
-      { name: 'Relatorio Anual 2023', date: '2023', type: 'PDF' },
+      { name: 'Relatório Anual 2025', date: '2025', type: 'PDF' },
+      { name: 'Relatório Anual 2024', date: '2024', type: 'PDF' },
+      { name: 'Relatório Anual 2023', date: '2023', type: 'PDF' },
     ],
   },
   {
     icon: FileText,
-    title: 'Formularios de Reembolso',
+    title: 'Formulários de Reembolso',
     description:
-      'Formularios para solicitacao de reembolso de despesas medicas, odontologicas e demais beneficios.',
+      'Formulários para solicitação de reembolso de despesas médicas, odontológicas e demais benefícios.',
     gradient: 'from-amber-500 to-orange-500',
     bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
     textIcon: 'text-amber-600 dark:text-amber-400',
     items: [
-      { name: 'Formulario de Reembolso Medico', date: 'Atualizado', type: 'PDF' },
-      { name: 'Formulario de Reembolso Odontologico', date: 'Atualizado', type: 'PDF' },
-      { name: 'Instrucoes para Envio de Reembolso', date: 'Atualizado', type: 'PDF' },
+      { name: 'Formulário de Reembolso Médico', date: 'Atualizado', type: 'PDF' },
+      { name: 'Formulário de Reembolso Odontológico', date: 'Atualizado', type: 'PDF' },
+      { name: 'Instruções para Envio de Reembolso', date: 'Atualizado', type: 'PDF' },
     ],
   },
 ];
@@ -113,8 +113,8 @@ export default function DocumentosPage() {
               Documentos
             </h1>
             <p className="text-lg sm:text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-              Acesse comunicados, estatutos, relatorios e formularios da AES SENAI.
-              Todos os documentos importantes em um so lugar.
+              Acesse comunicados, estatutos, relatórios e formulários da AES SENAI.
+              Todos os documentos importantes em um só lugar.
             </p>
           </motion.div>
         </div>
@@ -224,7 +224,7 @@ export default function DocumentosPage() {
               Precisa de outro documento?
             </h3>
             <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-lg mx-auto">
-              Acesse a area do associado para consultar documentos adicionais ou entre em contato com a secretaria.
+              Acesse a área do associado para consultar documentos adicionais ou entre em contato com a secretaria.
             </p>
             <a
               href="https://associado.aessenai.org.br"
@@ -232,7 +232,7 @@ export default function DocumentosPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25"
             >
-              Area do Associado
+              Área do Associado
               <ExternalLink size={18} />
             </a>
           </motion.div>

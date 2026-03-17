@@ -52,13 +52,13 @@ const milestones = [
     icon: Calendar,
     title: 'Fundada em 21 de novembro de 1947',
     description:
-      'A AES nasceu com o objetivo de representar e apoiar os empregados do SENAI no estado de Sao Paulo.',
+      'A AES nasceu com o objetivo de representar e apoiar os empregados do SENAI no estado de São Paulo.',
   },
   {
     icon: Award,
-    title: 'Utilidade Publica desde 1966',
+    title: 'Utilidade Pública desde 1966',
     description:
-      'Declarada de utilidade publica pelo Decreto Estadual n. 9376, de 7 de junho de 1966, reconhecendo sua relevancia social.',
+      'Declarada de utilidade pública pelo Decreto Estadual n. 9376, de 7 de junho de 1966, reconhecendo sua relevância social.',
   },
 ];
 
@@ -103,7 +103,7 @@ export default function QuemSomosPage() {
               Quem Somos
             </h1>
             <p className="text-lg text-emerald-100/90 max-w-2xl">
-              Desde 1947 promovendo qualidade de vida, integracao social e
+              Desde 1947 promovendo qualidade de vida, integração social e
               cidadania para os empregados do SENAI-SP.
             </p>
           </motion.div>
@@ -152,13 +152,13 @@ export default function QuemSomosPage() {
                   <Target size={22} className="text-green-600 dark:text-green-400" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Nossa Missao
+                  Nossa Missão
                 </h2>
               </div>
               <blockquote className="border-l-4 border-emerald-500 pl-6 py-2 text-gray-700 dark:text-gray-300 text-lg leading-relaxed italic bg-emerald-50/50 dark:bg-emerald-950/20 rounded-r-xl pr-6">
                 &ldquo;Proporcionar qualidade de vida aos seus associados, dependentes e
-                agregados, promovendo a integracao social, a solidariedade e a cidadania,
-                construindo a consciencia coletiva.&rdquo;
+                agregados, promovendo a integração social, a solidariedade e a cidadania,
+                construindo a consciência coletiva.&rdquo;
               </blockquote>
             </motion.div>
 
@@ -173,22 +173,22 @@ export default function QuemSomosPage() {
                 </h2>
               </div>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                A AES e administrada por um corpo diretivo composto por 18 membros
-                eleitos, organizados em tres instancias:
+                A AES é administrada por um corpo diretivo composto por 18 membros
+                eleitos, organizados em três instâncias:
               </p>
               <div className="grid sm:grid-cols-3 gap-4">
                 {[
                   {
                     title: 'Conselho Deliberativo',
-                    desc: 'Orgao maximo de deliberacao da associacao.',
+                    desc: 'Órgão máximo de deliberação da associação.',
                   },
                   {
                     title: 'Conselho Fiscal',
-                    desc: 'Responsavel pela fiscalizacao financeira e contabil.',
+                    desc: 'Responsável pela fiscalização financeira e contábil.',
                   },
                   {
                     title: 'Diretoria Executiva',
-                    desc: 'Execucao das decisoes e gestao do dia a dia.',
+                    desc: 'Execução das decisões e gestão do dia a dia.',
                   },
                 ].map((org) => (
                   <div
@@ -209,7 +209,7 @@ export default function QuemSomosPage() {
                   href="/sobre/administracao"
                   className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
                 >
-                  Ver membros da administracao
+                  Ver membros da administração
                   <ChevronRight size={16} />
                 </Link>
               </div>
@@ -226,7 +226,7 @@ export default function QuemSomosPage() {
                 </h2>
               </div>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                A AES conta com 4 departamentos que atuam em areas diversas para atender
+                A AES conta com 4 departamentos que atuam em áreas diversas para atender
                 os associados:
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -263,12 +263,12 @@ export default function QuemSomosPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
-                        Endereco
+                        Endereço
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                         Rua Correia de Andrade, 232
                         <br />
-                        Bras, Sao Paulo - SP
+                        Brás, São Paulo - SP
                         <br />
                         1. Andar - CEP 03008-020
                       </p>
@@ -300,7 +300,7 @@ export default function QuemSomosPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-1">
-                        Horario de Atendimento
+                        Horário de Atendimento
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400">
                         Segunda a Sexta

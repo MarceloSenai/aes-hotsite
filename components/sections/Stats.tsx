@@ -78,7 +78,7 @@ function StatCounter({ label, description, value, suffix, icon: Icon, delay }: S
 export default function Stats() {
   const stats: StatItemProps[] = [
     {
-      label: 'Anos de Historia',
+      label: 'Anos de História',
       description: 'Fundada em 1947, promovendo lazer e bem-estar',
       value: 78,
       suffix: '+',
@@ -86,15 +86,15 @@ export default function Stats() {
       delay: 0,
     },
     {
-      label: 'Nucleos de Lazer',
-      description: 'Clube de Campo, Nautico Boraceia e Colonia Itanhaem',
+      label: 'Núcleos de Lazer',
+      description: 'Clube de Campo, Náutico Boracéia e Colônia Itanhaém',
       value: 3,
       suffix: '',
       icon: TreePalm,
       delay: 0.1,
     },
     {
-      label: 'Membros na Administracao',
+      label: 'Membros na Administração',
       description: 'Conselho Deliberativo, Fiscal e Diretoria Executiva',
       value: 18,
       suffix: '',
@@ -102,8 +102,8 @@ export default function Stats() {
       delay: 0.2,
     },
     {
-      label: 'Anos de Utilidade Publica',
-      description: 'Reconhecida desde 1966 pelo poder publico',
+      label: 'Anos de Utilidade Pública',
+      description: 'Reconhecida desde 1966 pelo poder público',
       value: 60,
       suffix: '+',
       icon: Scale,
@@ -129,16 +129,16 @@ export default function Stats() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold rounded-full mb-4">
-            Nossos Numeros
+            Nossos Números
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             AES em{' '}
             <span className="bg-gradient-to-r from-green-600 to-green-500 dark:from-green-400 dark:to-green-300 bg-clip-text text-transparent">
-              Numeros
+              Números
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Decadas de dedicacao ao bem-estar e lazer dos associados e seus dependentes
+            Décadas de dedicação ao bem-estar e lazer dos associados e seus dependentes
           </p>
         </motion.div>
 

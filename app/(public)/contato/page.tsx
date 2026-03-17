@@ -28,14 +28,14 @@ const contactInfo = [
   },
   {
     icon: MapPin,
-    label: 'Endereco',
-    value: 'Rua Jose Getulio, 78/90 - Aclimacao, Sao Paulo - SP',
+    label: 'Endereço',
+    value: 'Rua José Getúlio, 78/90 - Aclimação, São Paulo - SP',
     href: null,
   },
   {
     icon: Clock,
-    label: 'Horario',
-    value: 'Segunda a Sexta, 8h as 17h',
+    label: 'Horário',
+    value: 'Segunda a Sexta, 8h às 17h',
     href: null,
   },
 ];
@@ -180,14 +180,14 @@ export default function ContatoPage() {
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all"
                   >
                     <option value="">Selecione...</option>
-                    <option value="associacao">Associacao</option>
-                    <option value="assistencia-medica">Assistencia Medica</option>
-                    <option value="odontologica">Assistencia Odontologica</option>
-                    <option value="fundo-mutuo">Fundo Mutuo</option>
-                    <option value="farmacias">Farmacias</option>
+                    <option value="associacao">Associação</option>
+                    <option value="assistencia-medica">Assistência Médica</option>
+                    <option value="odontologica">Assistência Odontológica</option>
+                    <option value="fundo-mutuo">Fundo Mútuo</option>
+                    <option value="farmacias">Farmácias</option>
                     <option value="seguros">Seguros</option>
                     <option value="parcerias">Parcerias</option>
-                    <option value="nucleos-lazer">Nucleos de Lazer</option>
+                    <option value="nucleos-lazer">Núcleos de Lazer</option>
                     <option value="outros">Outros</option>
                   </select>
                 </div>
@@ -232,7 +232,7 @@ export default function ContatoPage() {
             {/* Info Cards */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                Informacoes de Contato
+                Informações de Contato
               </h3>
               <div className="space-y-4">
                 {contactInfo.map((info) => {
@@ -295,7 +295,7 @@ export default function ContatoPage() {
             <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 overflow-hidden">
               <div className="p-4">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  Localizacao
+                  Localização
                 </h3>
               </div>
               <div className="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">

@@ -153,7 +153,7 @@ function DesktopDropdown({
                   key={child.href}
                   href={child.href}
                   onClick={onClose}
-                  className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors"
                 >
                   <ChevronRight size={14} className="text-emerald-500 opacity-0 group-hover:opacity-100" />
                   {child.label}
@@ -185,7 +185,7 @@ function MobileNavItem({
       <Link
         href={item.href}
         onClick={onNavigate}
-        className="block px-4 py-3 text-base font-medium text-gray-800 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-colors"
+        className="block px-4 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
       >
         {item.label}
       </Link>
@@ -196,7 +196,7 @@ function MobileNavItem({
     <div>
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-center justify-between px-4 py-3 text-base font-medium text-gray-800 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-colors"
+        className="flex w-full items-center justify-between px-4 py-3 text-base font-medium text-gray-800 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
       >
         {item.label}
         <ChevronDown
@@ -219,7 +219,7 @@ function MobileNavItem({
                   key={child.href}
                   href={child.href}
                   onClick={onNavigate}
-                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg transition-colors"
+                  className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-lg transition-colors"
                 >
                   <ChevronRight size={14} className="text-emerald-400" />
                   {child.label}
@@ -264,7 +264,7 @@ export default function Header() {
       }`}
     >
       {/* ── Top bar ── */}
-      <div className="bg-emerald-900 text-white">
+      <div className="text-white" style={{ backgroundColor: 'var(--color-primary-dark)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9 text-xs sm:text-sm">
           {/* Left: contact */}
           <div className="flex items-center gap-4 sm:gap-6">
@@ -316,7 +316,7 @@ export default function Header() {
       </div>
 
       {/* ── Main nav bar ── */}
-      <div className="bg-emerald-700">
+      <div style={{ backgroundColor: 'var(--color-primary)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
@@ -452,7 +452,8 @@ export default function Header() {
                 <Link
                   href="/area-do-associado"
                   onClick={closeMobile}
-                  className="flex items-center gap-2 px-4 py-3 bg-emerald-600 text-white rounded-lg font-medium text-sm hover:bg-emerald-700 transition-colors justify-center"
+                  className="flex items-center gap-2 px-4 py-3 text-white rounded-lg font-medium text-sm transition-colors justify-center"
+                  style={{ backgroundColor: 'var(--color-primary)' }}
                 >
                   <UserCircle size={18} />
                   Área do Associado

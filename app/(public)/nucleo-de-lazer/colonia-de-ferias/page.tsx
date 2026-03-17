@@ -205,7 +205,7 @@ export default function ColoniaDeFeriasPage() {
                 <div>
                   <p className="font-semibold text-gray-900 dark:text-white text-sm">Endereço</p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    Av. Padre Manoel da Nobrega, 158, Cibratel II, Itanhaém/SP, CEP 11740-000
+                    Av. Padre Manoel da Nóbrega, 158, Cibratel II, Itanhaém/SP, CEP 11740-000
                   </p>
                 </div>
               </div>
@@ -558,7 +558,7 @@ export default function ColoniaDeFeriasPage() {
             <div className="text-center">
               <MapPin size={48} className="text-green-500 mx-auto mb-4" />
               <p className="text-gray-600 dark:text-gray-300 font-medium">
-                Av. Padre Manoel da Nobrega, 158
+                Av. Padre Manoel da Nóbrega, 158
               </p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">
                 Cibratel II - Itanhaém/SP - CEP 11740-000

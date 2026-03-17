@@ -63,7 +63,8 @@ export default function CTA() {
   return (
     <section
       id="contato"
-      className="relative py-24 bg-gradient-to-br from-emerald-600 via-green-600 to-green-700 overflow-hidden"
+      className="relative py-24 overflow-hidden"
+      style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' }}
     >
       {/* Grid Pattern Overlay */}
       <div className="absolute inset-0 pointer-events-none">
@@ -120,7 +121,8 @@ export default function CTA() {
               href="https://associado.aessenai.org.br"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-white text-green-700 rounded-xl font-semibold hover:bg-gray-50 transition-all shadow-lg shadow-black/10 hover:shadow-xl duration-300 text-lg"
+              className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-white rounded-xl font-semibold hover:bg-gray-50 transition-all shadow-lg shadow-black/10 hover:shadow-xl duration-300 text-lg"
+              style={{ color: 'var(--color-primary)' }}
             >
               Área do Associado
               <ExternalLink

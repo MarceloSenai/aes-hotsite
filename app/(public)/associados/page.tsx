@@ -20,16 +20,16 @@ import {
 const benefits = [
   {
     icon: HeartPulse,
-    title: 'Assistencia Medica',
+    title: 'Assistência Médica',
     description:
-      'Plano de saude UNIMED FESP com cobertura completa para voce e seus dependentes.',
+      'Plano de saúde UNIMED FESP com cobertura completa para você e seus dependentes.',
     gradient: 'from-rose-500 to-red-500',
     bgIcon: 'bg-rose-100 dark:bg-rose-900/30',
     textIcon: 'text-rose-600 dark:text-rose-400',
   },
   {
     icon: Smile,
-    title: 'Assistencia Odontologica',
+    title: 'Assistência Odontológica',
     description:
       'Cuidado dental completo com rede credenciada de qualidade.',
     gradient: 'from-sky-500 to-blue-500',
@@ -38,27 +38,27 @@ const benefits = [
   },
   {
     icon: Palmtree,
-    title: 'Nucleos de Lazer',
+    title: 'Núcleos de Lazer',
     description:
-      'Clube de Campo, Clube Nautico e Colonia de Ferias com estrutura completa.',
+      'Clube de Campo, Clube Náutico e Colônia de Férias com estrutura completa.',
     gradient: 'from-teal-500 to-cyan-500',
     bgIcon: 'bg-teal-100 dark:bg-teal-900/30',
     textIcon: 'text-teal-600 dark:text-teal-400',
   },
   {
     icon: Shield,
-    title: 'Fundo Mutuo (FUMUS)',
+    title: 'Fundo Mútuo (FUMUS)',
     description:
-      'Auxilio financeiro solidario em caso de falecimento do associado ou dependente.',
+      'Auxílio financeiro solidário em caso de falecimento do associado ou dependente.',
     gradient: 'from-amber-500 to-orange-500',
     bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
     textIcon: 'text-amber-600 dark:text-amber-400',
   },
   {
     icon: Handshake,
-    title: 'Parcerias e Convenios',
+    title: 'Parcerias e Convênios',
     description:
-      'Descontos e condicoes especiais em farmacias, seguros e servicos diversos.',
+      'Descontos e condições especiais em farmácias, seguros e serviços diversos.',
     gradient: 'from-violet-500 to-purple-500',
     bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
     textIcon: 'text-violet-600 dark:text-violet-400',
@@ -68,22 +68,22 @@ const benefits = [
 const quickLinks = [
   {
     icon: ExternalLink,
-    title: 'Area do Associado',
-    description: 'Acesse sua conta, atualize dados e acompanhe seus beneficios.',
+    title: 'Área do Associado',
+    description: 'Acesse sua conta, atualize dados e acompanhe seus benefícios.',
     href: 'https://associado.aessenai.org.br',
     color: 'green',
   },
   {
     icon: CreditCard,
     title: 'Boletos e Pagamentos',
-    description: 'Consulte e emita seus boletos de contribuicao.',
+    description: 'Consulte e emita seus boletos de contribuição.',
     href: 'https://associado.aessenai.org.br/#/main/billing',
     color: 'emerald',
   },
   {
     icon: CalendarCheck,
     title: 'Reservas',
-    description: 'Reserve espacos nos nucleos de lazer online.',
+    description: 'Reserve espaços nos núcleos de lazer online.',
     href: 'https://associado.aessenai.org.br/#/main/booking',
     color: 'teal',
   },
@@ -125,13 +125,13 @@ export default function AssociadosPage() {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
-              Faca parte da AES
+              Faça parte da AES
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
               Associados
             </h1>
             <p className="text-lg sm:text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-              Conheca os beneficios exclusivos para associados da AES SENAI e saiba como fazer parte
+              Conheça os benefícios exclusivos para associados da AES SENAI e saiba como fazer parte
               desta comunidade que valoriza o bem-estar de seus membros e familiares.
             </p>
           </motion.div>
@@ -158,7 +158,7 @@ export default function AssociadosPage() {
               </span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Funcionarios e aposentados do SENAI-SP podem se associar e usufruir de todos os beneficios
+              Funcionários e aposentados do SENAI-SP podem se associar e usufruir de todos os benefícios
             </p>
           </motion.div>
 
@@ -178,18 +178,18 @@ export default function AssociadosPage() {
                   Quem pode se associar?
                 </h3>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                  Funcionarios ativos e aposentados do SENAI no Estado de Sao Paulo,
-                  bem como seus dependentes diretos, podem se associar a AES e ter acesso
-                  a todos os beneficios oferecidos pela entidade.
+                  Funcionários ativos e aposentados do SENAI no Estado de São Paulo,
+                  bem como seus dependentes diretos, podem se associar à AES e ter acesso
+                  a todos os benefícios oferecidos pela entidade.
                 </p>
               </div>
             </div>
 
             <div className="space-y-3 mb-8">
               {[
-                'Preencha o formulario de associacao',
-                'Apresente documentos pessoais e vinculo com o SENAI',
-                'Escolha os beneficios desejados',
+                'Preencha o formulário de associação',
+                'Apresente documentos pessoais e vínculo com o SENAI',
+                'Escolha os benefícios desejados',
                 'Comece a usufruir imediatamente',
               ].map((step, idx) => (
                 <div key={idx} className="flex items-center gap-3">
@@ -206,7 +206,7 @@ export default function AssociadosPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-green-500/25"
               >
-                Acessar Area do Associado
+                Acessar Área do Associado
                 <ExternalLink size={18} />
               </a>
               <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
@@ -232,13 +232,13 @@ export default function AssociadosPage() {
               Vantagens
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Beneficios{' '}
+              Benefícios{' '}
               <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                 Exclusivos
               </span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Uma gama completa de servicos para cuidar de voce e sua familia
+              Uma gama completa de serviços para cuidar de você e sua família
             </p>
           </motion.div>
 
@@ -295,10 +295,10 @@ export default function AssociadosPage() {
             className="text-center mb-12"
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Acesso Rapido
+              Acesso Rápido
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              Links uteis para associados
+              Links úteis para associados
             </p>
           </motion.div>
 
@@ -353,7 +353,7 @@ export default function AssociadosPage() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Duvidas sobre como se associar?
+              Dúvidas sobre como se associar?
             </h2>
             <p className="text-green-100 text-lg mb-8">
               Entre em contato conosco pelo telefone ou visite nossa sede.

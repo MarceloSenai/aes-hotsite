@@ -44,7 +44,7 @@ export default function FundoMutuoPage() {
             className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium hover:gap-3 transition-all duration-300 mb-8"
           >
             <ArrowLeft size={18} />
-            Voltar para Servicos
+            Voltar para Serviços
           </Link>
         </motion.div>
 
@@ -62,12 +62,12 @@ export default function FundoMutuoPage() {
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
               Fundo{' '}
               <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                Mutuo
+                Mútuo
               </span>
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            A AES disponibiliza dois fundos mutuos para proteger seus associados e
+            A AES disponibiliza dois fundos mútuos para proteger seus associados e
             dependentes em momentos de necessidade.
           </p>
         </motion.div>
@@ -90,14 +90,14 @@ export default function FundoMutuoPage() {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">FUMUS</h2>
                 <p className="text-green-600 dark:text-green-400 font-medium text-sm">
-                  Fundo Mutuo de Solidariedade
+                  Fundo Mútuo de Solidariedade
                 </p>
               </div>
             </div>
 
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Auxilio financeiro destinado aos associados em caso de falecimento ou
-              amputacao de membros. Um fundo de solidariedade mantido pelo Conselho
+              Auxílio financeiro destinado aos associados em caso de falecimento ou
+              amputação de membros. Um fundo de solidariedade mantido pelo Conselho
               Deliberativo da AES.
             </p>
 
@@ -129,8 +129,8 @@ export default function FundoMutuoPage() {
             <div className="flex items-start gap-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 border border-amber-100 dark:border-amber-800/40">
               <HandCoins className="text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" size={20} />
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                A reserva do FUMUS e mantida e gerida pelo Conselho Deliberativo da AES,
-                garantindo seguranca e transparencia na administracao dos recursos.
+                A reserva do FUMUS é mantida e gerida pelo Conselho Deliberativo da AES,
+                garantindo segurança e transparência na administração dos recursos.
               </p>
             </div>
           </motion.div>
@@ -147,14 +147,14 @@ export default function FundoMutuoPage() {
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white">FUMUA</h2>
                 <p className="text-blue-600 dark:text-blue-400 font-medium text-sm">
-                  Fundo Mutuo de Utilizacao de Ambulancia
+                  Fundo Mútuo de Utilização de Ambulância
                 </p>
               </div>
             </div>
 
             <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-              Reembolso parcial para transporte de ambulancia nao coberto pelo plano de
-              saude. Disponivel para todos os associados, dependentes e agregados
+              Reembolso parcial para transporte de ambulância não coberto pelo plano de
+              saúde. Disponível para todos os associados, dependentes e agregados
               cadastrados.
             </p>
 
@@ -186,8 +186,8 @@ export default function FundoMutuoPage() {
             <div className="flex items-start gap-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-4 border border-blue-100 dark:border-blue-800/40">
               <HandCoins className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" size={20} />
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                Quando a reserva diminui, e cobrada uma taxa de R$ 1,00 dos associados
-                para reposicao do fundo, garantindo a continuidade do beneficio.
+                Quando a reserva diminui, é cobrada uma taxa de R$ 1,00 dos associados
+                para reposição do fundo, garantindo a continuidade do benefício.
               </p>
             </div>
           </motion.div>

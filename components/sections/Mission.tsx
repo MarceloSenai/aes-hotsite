@@ -6,21 +6,21 @@ import { Target, Eye, Heart } from 'lucide-react'
 const cards = [
   {
     icon: Target,
-    title: 'Missao',
+    title: 'Missão',
     description:
-      'Proporcionar qualidade de vida aos seus associados, dependentes e agregados, promovendo a integracao social, a solidariedade e a cidadania, construindo a consciencia coletiva.',
+      'Proporcionar qualidade de vida aos seus associados, dependentes e agregados, promovendo a integração social, a solidariedade e a cidadania, construindo a consciência coletiva.',
   },
   {
     icon: Eye,
-    title: 'Visao',
+    title: 'Visão',
     description:
-      'Ser referencia como associacao de empregados, promovendo o bem-estar e a qualidade de vida atraves de servicos de excelencia e integracao social.',
+      'Ser referência como associação de empregados, promovendo o bem-estar e a qualidade de vida através de serviços de excelência e integração social.',
   },
   {
     icon: Heart,
     title: 'Valores',
     description:
-      'Solidariedade, Cidadania, Integracao Social, Transparencia, Compromisso com o associado.',
+      'Solidariedade, Cidadania, Integração Social, Transparência, Compromisso com o associado.',
   },
 ]
 
@@ -65,10 +65,10 @@ export default function Mission() {
           </span>
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
             Nossa{' '}
-            <span className="text-green-600">Essencia</span>
+            <span className="text-green-600">Essência</span>
           </h2>
           <p className="mt-4 max-w-2xl mx-auto text-gray-500 text-lg">
-            Conheca os pilares que orientam todas as acoes da AES em prol dos
+            Conheça os pilares que orientam todas as ações da AES em prol dos
             nossos associados.
           </p>
         </motion.div>

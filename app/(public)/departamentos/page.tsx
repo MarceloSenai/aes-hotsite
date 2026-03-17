@@ -16,12 +16,12 @@ const departments = [
     director: 'Dulceni Maria Paglione de Oliveira',
     role: 'Diretora',
     description:
-      'Departamento dedicado ao suporte e integracao dos associados aposentados, promovendo atividades de convivencia, bem-estar e valorizacao dos membros que contribuiram para a historia do SENAI.',
+      'Departamento dedicado ao suporte e integração dos associados aposentados, promovendo atividades de convivência, bem-estar e valorização dos membros que contribuíram para a história do SENAI.',
     highlights: [
-      'Eventos de confraternizacao',
-      'Apoio e orientacao',
+      'Eventos de confraternização',
+      'Apoio e orientação',
       'Atividades recreativas',
-      'Integracao social',
+      'Integração social',
     ],
     gradient: 'from-amber-500 to-orange-500',
     bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
@@ -35,11 +35,11 @@ const departments = [
     director: 'Alessandra Angelim da Silva',
     role: 'Diretora',
     description:
-      'Promove atividades culturais, artisticas e recreativas para os associados e familiares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
+      'Promove atividades culturais, artísticas e recreativas para os associados e familiares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
     highlights: [
       'Eventos culturais',
-      'Passeios e excursoes',
-      'Programacao artistica',
+      'Passeios e excursões',
+      'Programação artística',
       'Atividades recreativas',
     ],
     gradient: 'from-violet-500 to-purple-500',
@@ -54,12 +54,12 @@ const departments = [
     director: 'Rubens da Silva Moreira',
     role: 'Diretor',
     description:
-      'Coordena as atividades esportivas na regiao da capital paulista, organizando campeonatos, torneios e eventos esportivos para associados de todas as idades.',
+      'Coordena as atividades esportivas na região da capital paulista, organizando campeonatos, torneios e eventos esportivos para associados de todas as idades.',
     highlights: [
       'Campeonatos internos',
       'Torneios esportivos',
       'Atividades em grupo',
-      'Promocao da saude',
+      'Promoção da saúde',
     ],
     gradient: 'from-sky-500 to-blue-500',
     bgIcon: 'bg-sky-100 dark:bg-sky-900/30',
@@ -73,12 +73,12 @@ const departments = [
     director: 'Edison Simon',
     role: 'Diretor',
     description:
-      'Responsavel pelas atividades esportivas nas cidades do interior de Sao Paulo, garantindo que associados de todas as regioes tenham acesso a pratica esportiva e integracao.',
+      'Responsável pelas atividades esportivas nas cidades do interior de São Paulo, garantindo que associados de todas as regiões tenham acesso à prática esportiva e integração.',
     highlights: [
       'Eventos regionais',
       'Torneios intermunicipais',
       'Esportes ao ar livre',
-      'Integracao regional',
+      'Integração regional',
     ],
     gradient: 'from-emerald-500 to-green-500',
     bgIcon: 'bg-emerald-100 dark:bg-emerald-900/30',
@@ -130,8 +130,8 @@ export default function DepartamentosPage() {
               Departamentos
             </h1>
             <p className="text-lg sm:text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-              Conheca os departamentos da AES SENAI e seus diretores, responsaveis por organizar
-              atividades e servicos para os associados.
+              Conheça os departamentos da AES SENAI e seus diretores, responsáveis por organizar
+              atividades e serviços para os associados.
             </p>
           </motion.div>
         </div>
@@ -151,13 +151,13 @@ export default function DepartamentosPage() {
               Nossos Departamentos
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              Areas de{' '}
+              Áreas de{' '}
               <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                Atuacao
+                Atuação
               </span>
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Cada departamento e liderado por um diretor dedicado a promover atividades e beneficios
+              Cada departamento é liderado por um diretor dedicado a promover atividades e benefícios
             </p>
           </motion.div>
 

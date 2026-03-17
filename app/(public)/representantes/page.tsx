@@ -53,7 +53,7 @@ interface Representative {
 
 const centralReps: Representative[] = [
   { name: 'Anelise Wulk Oliveira', unit: 'EDITORA / ACPGR / GSTI' },
-  { name: 'Erika da Graca Paiva Braga', unit: 'GSCF' },
+  { name: 'Erika da Graça Paiva Braga', unit: 'GSCF' },
   { name: 'Walter do Nascimento', unit: 'SCL' },
   { name: 'Eduardo Fausto da Silva', unit: 'GSRH' },
   { name: 'Fabiano Ramos', unit: 'GSJ / AAE / DOS / GAS' },
@@ -96,7 +96,7 @@ export default function RepresentantesPage() {
               Representantes AES
             </h1>
             <p className="text-lg text-emerald-100/90 max-w-2xl">
-              Associados distribuidos pelas unidades do SENAI no estado de Sao Paulo,
+              Associados distribuídos pelas unidades do SENAI no estado de São Paulo,
               representando a AES junto aos colegas.
             </p>
           </motion.div>
@@ -123,14 +123,14 @@ export default function RepresentantesPage() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                  O que sao os Representantes?
+                  O que são os Representantes?
                 </h2>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Os representantes sao associados da AES distribuidos pelas diversas
-                  unidades do SENAI no estado de Sao Paulo. Eles atuam como elo entre
-                  a associacao e os colegas de trabalho, divulgando beneficios,
-                  atividades e servicos oferecidos pela AES, alem de encaminhar
-                  demandas e sugestoes dos associados.
+                  Os representantes são associados da AES distribuídos pelas diversas
+                  unidades do SENAI no estado de São Paulo. Eles atuam como elo entre
+                  a associação e os colegas de trabalho, divulgando benefícios,
+                  atividades e serviços oferecidos pela AES, além de encaminhar
+                  demandas e sugestões dos associados.
                 </p>
               </div>
             </motion.div>
@@ -146,10 +146,10 @@ export default function RepresentantesPage() {
                 </div>
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Administracao Central
+                    Administração Central
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Representantes nas gerencias e departamentos centrais do SENAI-SP
+                    Representantes nas gerências e departamentos centrais do SENAI-SP
                   </p>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function RepresentantesPage() {
                     Representantes Regionais
                   </h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Presentes em CFPs e CTs em todo o estado de Sao Paulo
+                    Presentes em CFPs e CTs em todo o estado de São Paulo
                   </p>
                 </div>
               </div>
@@ -209,15 +209,15 @@ export default function RepresentantesPage() {
                   </h3>
                 </div>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
-                  A AES conta com representantes distribuidos nos Centros de Formacao
+                  A AES conta com representantes distribuídos nos Centros de Formação
                   Profissional (CFP) e Centros de Tecnologia (CT) do SENAI em diversas
-                  cidades do estado de Sao Paulo. Esses representantes garantem que
-                  todos os associados, independentemente da sua localizacao, tenham
-                  acesso as informacoes e beneficios da associacao.
+                  cidades do estado de São Paulo. Esses representantes garantem que
+                  todos os associados, independentemente da sua localização, tenham
+                  acesso às informações e benefícios da associação.
                 </p>
                 <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                  Para saber quem e o representante da sua unidade ou obter mais
-                  informacoes, entre em contato com a sede da AES.
+                  Para saber quem é o representante da sua unidade ou obter mais
+                  informações, entre em contato com a sede da AES.
                 </p>
               </div>
             </motion.div>
@@ -235,7 +235,7 @@ export default function RepresentantesPage() {
                   Entre em Contato
                 </h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md mx-auto">
-                  Para mais informacoes sobre os representantes ou para se tornar um
+                  Para mais informações sobre os representantes ou para se tornar um
                   representante AES na sua unidade, ligue para a sede.
                 </p>
                 <a

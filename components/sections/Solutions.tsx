@@ -8,50 +8,47 @@ const nucleos = [
   {
     icon: TreePalm,
     title: 'Clube de Campo',
-    location: 'Jundiai/SP',
+    location: 'Jundiaí/SP',
     description:
-      '24 chales e apartamentos, piscinas, churrasqueiras, campo de futebol, sauna, playground e estacionamento gratuito.',
+      '24 chalés e apartamentos, piscinas, churrasqueiras, campo de futebol, sauna, playground e estacionamento gratuito.',
     price: 'R$ 45,00',
-    priceLabel: 'Diaria associado',
+    priceLabel: 'Diária associado',
     link: '/nucleo-de-lazer/clube-de-campo',
-    gradient: 'from-green-500 to-green-600',
-    gradientBg: 'from-green-500/10 to-green-600/10',
-    iconBg: 'bg-green-100 dark:bg-green-900/30',
-    iconColor: 'text-green-600 dark:text-green-400',
-    priceBg: 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800',
-    priceColor: 'text-green-700 dark:text-green-300',
+    gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))' } as React.CSSProperties,
+    iconBgStyle: { backgroundColor: 'var(--color-primary-light)' } as React.CSSProperties,
+    iconColorStyle: { color: 'var(--color-primary)' } as React.CSSProperties,
+    priceBgStyle: { backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary)' } as React.CSSProperties,
+    priceColorStyle: { color: 'var(--color-primary-dark)' } as React.CSSProperties,
   },
   {
     icon: Waves,
-    title: 'Clube Nautico',
+    title: 'Clube Náutico',
     location: 'Boraceia/SP',
     description:
-      '8 chales a beira do lago, piscina, academia ao ar livre, pier de pesca, cozinha caipira e quadra de volei.',
+      '8 chalés à beira do lago, piscina, academia ao ar livre, pier de pesca, cozinha caipira e quadra de vôlei.',
     price: 'R$ 45,00',
-    priceLabel: 'Diaria associado',
+    priceLabel: 'Diária associado',
     link: '/nucleo-de-lazer/clube-nautico',
-    gradient: 'from-blue-500 to-blue-600',
-    gradientBg: 'from-blue-500/10 to-blue-600/10',
-    iconBg: 'bg-blue-100 dark:bg-blue-900/30',
-    iconColor: 'text-blue-600 dark:text-blue-400',
-    priceBg: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800',
-    priceColor: 'text-blue-700 dark:text-blue-300',
+    gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-secondary), var(--color-secondary-dark))' } as React.CSSProperties,
+    iconBgStyle: { backgroundColor: 'var(--color-secondary-light)' } as React.CSSProperties,
+    iconColorStyle: { color: 'var(--color-secondary)' } as React.CSSProperties,
+    priceBgStyle: { backgroundColor: 'var(--color-secondary-light)', borderColor: 'var(--color-secondary)' } as React.CSSProperties,
+    priceColorStyle: { color: 'var(--color-secondary-dark)' } as React.CSSProperties,
   },
   {
     icon: Umbrella,
-    title: 'Colonia de Ferias',
-    location: 'Itanhaem/SP',
+    title: 'Colônia de Férias',
+    location: 'Itanhaém/SP',
     description:
-      '48 apartamentos proximos a praia, restaurante, sala de cinema, piscina, churrasqueiras e forno de pizza.',
+      '48 apartamentos próximos à praia, restaurante, sala de cinema, piscina, churrasqueiras e forno de pizza.',
     price: 'R$ 118,00',
-    priceLabel: 'Diaria associado',
+    priceLabel: 'Diária associado',
     link: '/nucleo-de-lazer/colonia-de-ferias',
-    gradient: 'from-emerald-500 to-teal-600',
-    gradientBg: 'from-emerald-500/10 to-teal-600/10',
-    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30',
-    iconColor: 'text-emerald-600 dark:text-emerald-400',
-    priceBg: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800',
-    priceColor: 'text-emerald-700 dark:text-emerald-300',
+    gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-primary), var(--color-accent))' } as React.CSSProperties,
+    iconBgStyle: { backgroundColor: 'var(--color-primary-light)' } as React.CSSProperties,
+    iconColorStyle: { color: 'var(--color-primary)' } as React.CSSProperties,
+    priceBgStyle: { backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary)' } as React.CSSProperties,
+    priceColorStyle: { color: 'var(--color-primary-dark)' } as React.CSSProperties,
   },
 ];
 
@@ -66,10 +63,10 @@ export default function Solutions() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Nucleos de Lazer
+            Núcleos de Lazer
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Espacos exclusivos para descanso e diversao dos associados
+            Espaços exclusivos para descanso e diversão dos associados
           </p>
         </motion.div>
 
@@ -87,16 +84,18 @@ export default function Solutions() {
               >
                 {/* Gradient Background on Hover */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${nucleo.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                  style={nucleo.gradientStyle}
                 />
 
                 {/* Content */}
                 <div className="relative p-8 flex flex-col h-full">
                   {/* Icon */}
                   <div
-                    className={`w-14 h-14 ${nucleo.iconBg} rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
+                    className="w-14 h-14 rounded-lg flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300"
+                    style={nucleo.iconBgStyle}
                   >
-                    <Icon className={nucleo.iconColor} size={28} />
+                    <Icon size={28} style={nucleo.iconColorStyle} />
                   </div>
 
                   {/* Title & Location */}
@@ -115,12 +114,13 @@ export default function Solutions() {
 
                   {/* Price Badge */}
                   <div
-                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border ${nucleo.priceBg} mb-6 w-fit`}
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border mb-6 w-fit"
+                    style={nucleo.priceBgStyle}
                   >
                     <span className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">
                       {nucleo.priceLabel}
                     </span>
-                    <span className={`text-lg font-bold ${nucleo.priceColor}`}>
+                    <span className="text-lg font-bold" style={nucleo.priceColorStyle}>
                       {nucleo.price}
                     </span>
                   </div>
@@ -128,7 +128,8 @@ export default function Solutions() {
                   {/* Link */}
                   <Link
                     href={nucleo.link}
-                    className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold hover:gap-3 transition-all"
+                    className="inline-flex items-center gap-2 font-semibold hover:gap-3 transition-all"
+                    style={{ color: 'var(--color-primary)' }}
                   >
                     Saiba Mais
                     <ArrowRight size={20} />

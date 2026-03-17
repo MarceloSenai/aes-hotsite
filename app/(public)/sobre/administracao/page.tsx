@@ -68,12 +68,12 @@ const councils: Council[] = [
     borderColor: 'border-emerald-100 dark:border-emerald-900/40',
     members: [
       { name: 'Marcio Vieira Marinho', role: 'Presidente' },
-      { name: 'Fernando Manoel Goncalves', role: 'Vice Presidente' },
-      { name: 'Ygor Ferreira Fabre', role: 'Secretario' },
+      { name: 'Fernando Manoel Gonçalves', role: 'Vice Presidente' },
+      { name: 'Ygor Ferreira Fabre', role: 'Secretário' },
       { name: 'Carlos Alberto Lopes Fagundes', role: 'Membro' },
       { name: 'Danilo Kazuhire Shimoda', role: 'Membro' },
-      { name: 'Joao Domingos Chiari Sanchez', role: 'Membro' },
-      { name: 'Jose Luis Leme Candido Teixeira', role: 'Membro' },
+      { name: 'João Domingos Chiari Sanchez', role: 'Membro' },
+      { name: 'José Luis Leme Cândido Teixeira', role: 'Membro' },
       { name: 'Josivaldo Ferreira dos Santos', role: 'Membro' },
       { name: 'Ronaldo Sotrate Junior', role: 'Membro' },
       { name: 'Thiago de Souza Santos', role: 'Membro' },
@@ -87,10 +87,10 @@ const councils: Council[] = [
     bgColor: 'bg-blue-50 dark:bg-blue-950/30',
     borderColor: 'border-blue-100 dark:border-blue-900/40',
     members: [
-      { name: 'Fulvia Alves da Silva', role: 'Presidente' },
-      { name: 'Adriano Cesar Cardoso', role: 'Secretario' },
+      { name: 'Fúlvia Alves da Silva', role: 'Presidente' },
+      { name: 'Adriano César Cardoso', role: 'Secretário' },
       { name: 'Caiza Carla Herbella', role: 'Membro' },
-      { name: 'Jose Antonio Espelho', role: 'Membro' },
+      { name: 'José Antonio Espelho', role: 'Membro' },
     ],
   },
   {
@@ -103,11 +103,11 @@ const councils: Council[] = [
       { name: 'Marcel Adriano Pereira Porto', role: 'Presidente' },
       { name: 'Ademir Redondo', role: '1. Vice Presidente' },
       { name: 'Everson de Aro Capobianco', role: '2. Vice Presidente' },
-      { name: 'Maria Eugenia Cioffi', role: '1. Secretaria' },
-      { name: 'Selma Maria Rossi Ganzarolli', role: '2. Secretaria' },
-      { name: 'Jose Heroino de Sousa', role: '1. Tesoureiro' },
+      { name: 'Maria Eugênia Cioffi', role: '1. Secretária' },
+      { name: 'Selma Maria Rossi Ganzarolli', role: '2. Secretária' },
+      { name: 'José Heroíno de Sousa', role: '1. Tesoureiro' },
       { name: 'Denise Riguero Gallego', role: '2. Tesoureiro' },
-      { name: 'Jose Marlito Benicio Ricarte', role: '3. Tesoureiro' },
+      { name: 'José Marlito Benício Ricarte', role: '3. Tesoureiro' },
     ],
   },
 ];
@@ -246,11 +246,11 @@ export default function AdministracaoPage() {
                 Sobre a AES
               </Link>
               <ChevronRight size={14} />
-              <span className="text-white font-medium">Administracao</span>
+              <span className="text-white font-medium">Administração</span>
             </nav>
 
             <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              Administracao
+              Administração
             </h1>
             <p className="text-lg text-emerald-100/90 max-w-2xl">
               Corpo diretivo composto por 18 membros eleitos, organizados em

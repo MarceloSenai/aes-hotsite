@@ -8,17 +8,17 @@ const products = [
   {
     icon: Heart,
     title: 'Seguro de Vida',
-    description: 'Protecao financeira para voce e sua familia com condicoes especiais.',
+    description: 'Proteção financeira para você e sua família com condições especiais.',
   },
   {
     icon: Shield,
     title: 'Seguro Residencial',
-    description: 'Proteja seu patrimonio contra imprevistos com coberturas abrangentes.',
+    description: 'Proteja seu patrimônio contra imprevistos com coberturas abrangentes.',
   },
   {
     icon: Car,
     title: 'Seguro Auto',
-    description: 'Condicoes diferenciadas para seguros de veiculos dos associados.',
+    description: 'Condições diferenciadas para seguros de veículos dos associados.',
   },
 ];
 
@@ -37,7 +37,7 @@ export default function SegurosPage() {
             className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium hover:gap-3 transition-all duration-300 mb-8"
           >
             <ArrowLeft size={18} />
-            Voltar para Servicos
+            Voltar para Serviços
           </Link>
         </motion.div>
 
@@ -59,8 +59,8 @@ export default function SegurosPage() {
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            A AES negocia condicoes especiais em produtos de seguros para seus associados,
-            oferecendo protecao e tranquilidade com precos diferenciados.
+            A AES negocia condições especiais em produtos de seguros para seus associados,
+            oferecendo proteção e tranquilidade com preços diferenciados.
           </p>
         </motion.div>
 

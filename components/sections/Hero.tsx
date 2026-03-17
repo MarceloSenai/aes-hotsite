@@ -111,7 +111,8 @@ export default function Hero() {
 
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-100/80 dark:bg-green-900/30 rounded-full border border-green-200/60 dark:border-green-700/40 backdrop-blur-sm mb-6"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border backdrop-blur-sm mb-6"
+              style={{ backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary-light)' }}
             >
               <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="text-sm font-medium text-green-700 dark:text-green-300">
@@ -125,7 +126,10 @@ export default function Hero() {
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 dark:text-white leading-tight max-w-4xl"
             >
               Associação dos{' '}
-              <span className="bg-gradient-to-r from-green-600 via-emerald-500 to-teal-500 dark:from-green-400 dark:via-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+              <span
+                className="bg-clip-text text-transparent"
+                style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}
+              >
                 Empregados do SENAI
               </span>
             </motion.h1>
@@ -148,7 +152,8 @@ export default function Hero() {
                 href="https://associado.aessenai.org.br"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-green-500/25 hover:shadow-xl hover:shadow-green-500/30 duration-300"
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 text-white rounded-xl font-semibold transition-all shadow-lg shadow-green-500/25 hover:shadow-xl hover:shadow-green-500/30 duration-300"
+                style={{ background: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}
               >
                 Área do Associado
                 <ArrowRight
@@ -158,7 +163,8 @@ export default function Hero() {
               </a>
               <Link
                 href="/contato"
-                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 border-2 border-green-200 dark:border-green-700 text-green-700 dark:text-green-300 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-300"
+                className="inline-flex items-center justify-center gap-2.5 px-8 py-4 border-2 rounded-xl font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors duration-300"
+                style={{ borderColor: 'var(--color-primary-light)', color: 'var(--color-primary)' }}
               >
                 Fale Conosco
               </Link>
@@ -185,7 +191,7 @@ export default function Hero() {
                   className="group relative bg-white/60 dark:bg-gray-800/40 backdrop-blur-sm rounded-2xl p-5 sm:p-6 border border-green-100/60 dark:border-green-800/30 hover:border-green-300 dark:hover:border-green-600/50 transition-all duration-300 hover:shadow-lg hover:shadow-green-500/5"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                    <div className="p-2 rounded-lg" style={{ backgroundColor: 'var(--color-primary-light)' }}>
                       <Icon
                         size={20}
                         className="text-green-600 dark:text-green-400"

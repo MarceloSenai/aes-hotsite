@@ -113,12 +113,12 @@ export default function Features() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold rounded-full mb-4">
+          <span className="inline-block px-4 py-1.5 text-sm font-semibold rounded-full mb-4" style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary)' }}>
             Benefícios
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Nossos{' '}
-            <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
+            <span className="bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}>
               Serviços
             </span>
           </h2>
@@ -144,7 +144,7 @@ export default function Features() {
                 className="group relative"
               >
                 <Link href={service.link} className="block h-full">
-                  <div className="relative h-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 transition-all duration-300 hover:shadow-xl hover:shadow-green-500/5 hover:border-green-200 dark:hover:border-green-700/60 hover:-translate-y-1">
+                  <div className="relative h-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 transition-all duration-300 hover:shadow-xl hover:border-theme-primary hover:-translate-y-1">
                     {/* Gradient overlay on hover */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.04] dark:group-hover:opacity-[0.08] transition-opacity duration-300`}
@@ -169,7 +169,7 @@ export default function Features() {
                       </p>
 
                       {/* CTA */}
-                      <span className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-semibold text-sm group-hover:gap-3 transition-all duration-300">
+                      <span className="inline-flex items-center gap-2 font-semibold text-sm group-hover:gap-3 transition-all duration-300" style={{ color: 'var(--color-primary)' }}>
                         Saiba mais
                         <ArrowRight
                           size={16}

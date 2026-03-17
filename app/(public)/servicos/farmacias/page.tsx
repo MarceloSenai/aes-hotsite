@@ -8,12 +8,12 @@ const highlights = [
   {
     icon: Percent,
     title: 'Descontos Exclusivos',
-    description: 'Precos especiais negociados para associados AES em medicamentos e produtos de saude.',
+    description: 'Preços especiais negociados para associados AES em medicamentos e produtos de saúde.',
   },
   {
     icon: MapPin,
     title: 'Rede Ampla',
-    description: 'Farmacias conveniadas em diversas localidades para sua comodidade.',
+    description: 'Farmácias conveniadas em diversas localidades para sua comodidade.',
   },
   {
     icon: CreditCard,
@@ -37,7 +37,7 @@ export default function FarmaciasPage() {
             className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium hover:gap-3 transition-all duration-300 mb-8"
           >
             <ArrowLeft size={18} />
-            Voltar para Servicos
+            Voltar para Serviços
           </Link>
         </motion.div>
 
@@ -53,15 +53,15 @@ export default function FarmaciasPage() {
               <Pill className="text-emerald-600 dark:text-emerald-400" size={32} />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Farmacias{' '}
+              Farmácias{' '}
               <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
                 Conveniadas
               </span>
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            A AES mantem convenios com redes de farmacias para oferecer descontos
-            exclusivos em medicamentos e produtos de saude para seus associados e
+            A AES mantém convênios com redes de farmácias para oferecer descontos
+            exclusivos em medicamentos e produtos de saúde para seus associados e
             dependentes.
           </p>
         </motion.div>

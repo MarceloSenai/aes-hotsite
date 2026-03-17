@@ -16,36 +16,36 @@ const categories = [
   { id: 'todos', label: 'Todos', count: 20 },
   { id: 'eventos', label: 'Eventos', count: 5 },
   { id: 'clube-campo', label: 'Clube de Campo', count: 4 },
-  { id: 'clube-nautico', label: 'Clube Nautico', count: 4 },
-  { id: 'colonia-ferias', label: 'Colonia de Ferias', count: 4 },
+  { id: 'clube-nautico', label: 'Clube Náutico', count: 4 },
+  { id: 'colonia-ferias', label: 'Colônia de Férias', count: 4 },
   { id: 'esportivo', label: 'Esportivo', count: 3 },
 ];
 
 const photos = [
   // Eventos
-  { id: 1, category: 'eventos', title: 'Festa Junina 2025', description: 'Confraternizacao dos associados' },
-  { id: 2, category: 'eventos', title: 'Assembleia Geral 2025', description: 'Reuniao anual dos associados' },
-  { id: 3, category: 'eventos', title: 'Dia das Criancas', description: 'Evento especial para as familias' },
-  { id: 4, category: 'eventos', title: 'Confraternizacao de Final de Ano', description: 'Celebracao 2025' },
-  { id: 5, category: 'eventos', title: 'Aniversario da AES', description: 'Comemoracao especial' },
+  { id: 1, category: 'eventos', title: 'Festa Junina 2025', description: 'Confraternização dos associados' },
+  { id: 2, category: 'eventos', title: 'Assembleia Geral 2025', description: 'Reunião anual dos associados' },
+  { id: 3, category: 'eventos', title: 'Dia das Crianças', description: 'Evento especial para as famílias' },
+  { id: 4, category: 'eventos', title: 'Confraternização de Final de Ano', description: 'Celebração 2025' },
+  { id: 5, category: 'eventos', title: 'Aniversário da AES', description: 'Comemoração especial' },
   // Clube de Campo
-  { id: 6, category: 'clube-campo', title: 'Vista Aerea', description: 'Clube de Campo em Jundiai' },
-  { id: 7, category: 'clube-campo', title: 'Piscinas', description: 'Area aquatica do clube' },
-  { id: 8, category: 'clube-campo', title: 'Churrasqueiras', description: 'Area de convivencia' },
+  { id: 6, category: 'clube-campo', title: 'Vista Aérea', description: 'Clube de Campo em Jundiaí' },
+  { id: 7, category: 'clube-campo', title: 'Piscinas', description: 'Área aquática do clube' },
+  { id: 8, category: 'clube-campo', title: 'Churrasqueiras', description: 'Área de convivência' },
   { id: 9, category: 'clube-campo', title: 'Campos Esportivos', description: 'Quadras e campos' },
-  // Clube Nautico
-  { id: 10, category: 'clube-nautico', title: 'Praia de Boraceia', description: 'Clube Nautico' },
-  { id: 11, category: 'clube-nautico', title: 'Estrutura do Clube', description: 'Instalacoes do nautico' },
-  { id: 12, category: 'clube-nautico', title: 'Area de Lazer', description: 'Espacos de convivencia' },
+  // Clube Náutico
+  { id: 10, category: 'clube-nautico', title: 'Praia de Boracéia', description: 'Clube Náutico' },
+  { id: 11, category: 'clube-nautico', title: 'Estrutura do Clube', description: 'Instalações do náutico' },
+  { id: 12, category: 'clube-nautico', title: 'Área de Lazer', description: 'Espaços de convivência' },
   { id: 13, category: 'clube-nautico', title: 'Vista para o Mar', description: 'Paisagem do clube' },
-  // Colonia de Ferias
-  { id: 14, category: 'colonia-ferias', title: 'Colonia de Itanhaem', description: 'Vista geral' },
-  { id: 15, category: 'colonia-ferias', title: 'Chalés', description: 'Acomodacoes da colonia' },
-  { id: 16, category: 'colonia-ferias', title: 'Area de Recreacao', description: 'Espaco infantil' },
-  { id: 17, category: 'colonia-ferias', title: 'Salao de Jogos', description: 'Entretenimento' },
+  // Colônia de Férias
+  { id: 14, category: 'colonia-ferias', title: 'Colônia de Itanhaém', description: 'Vista geral' },
+  { id: 15, category: 'colonia-ferias', title: 'Chalés', description: 'Acomodações da colônia' },
+  { id: 16, category: 'colonia-ferias', title: 'Área de Recreação', description: 'Espaço infantil' },
+  { id: 17, category: 'colonia-ferias', title: 'Salão de Jogos', description: 'Entretenimento' },
   // Esportivo
   { id: 18, category: 'esportivo', title: 'Torneio de Futebol', description: 'Campeonato interno' },
-  { id: 19, category: 'esportivo', title: 'Campeonato de Volei', description: 'Torneio regional' },
+  { id: 19, category: 'esportivo', title: 'Campeonato de Vôlei', description: 'Torneio regional' },
   { id: 20, category: 'esportivo', title: 'Corrida AES', description: 'Evento esportivo anual' },
 ];
 
@@ -129,7 +129,7 @@ export default function GaleriaPage() {
               Galeria de Fotos
             </h1>
             <p className="text-lg sm:text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
-              Confira os melhores momentos dos eventos, nucleos de lazer e atividades esportivas da AES SENAI.
+              Confira os melhores momentos dos eventos, núcleos de lazer e atividades esportivas da AES SENAI.
             </p>
           </motion.div>
         </div>

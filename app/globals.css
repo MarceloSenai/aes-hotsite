@@ -1,26 +1,119 @@
 @import "tailwindcss";
 
+/* ============================================ */
+/* AES Theme System — CSS Variables             */
+/* ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default theme (Modern Green) — overridden by ThemeProvider */
+  --color-primary: #10B981;
+  --color-primary-dark: #059669;
+  --color-primary-light: #A7F3D0;
+  --color-secondary: #0EA5E9;
+  --color-secondary-dark: #0284C7;
+  --color-secondary-light: #BAE6FD;
+  --color-accent: #F59E0B;
+  --color-accent-dark: #D97706;
+  --color-accent-light: #FCD34D;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #0EA5E9;
+  --color-foreground: #1F2937;
+  --color-foreground-muted: #6B7280;
+  --color-background: #FFFFFF;
+  --color-surface: #F3F4F6;
+  --color-border: #E5E7EB;
+  --color-dark-foreground: #F9FAFB;
+  --color-dark-background: #111827;
+  --color-dark-surface: #1F2937;
+  --color-dark-border: #374151;
+
+  /* Design layout defaults */
+  --design-radius: 12px;
+  --design-spacing: 1;
 }
 
+/* ============================================ */
+/* Tailwind theme integration                   */
+/* ============================================ */
+
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-theme-primary: var(--color-primary);
+  --color-theme-primary-dark: var(--color-primary-dark);
+  --color-theme-primary-light: var(--color-primary-light);
+  --color-theme-secondary: var(--color-secondary);
+  --color-theme-secondary-dark: var(--color-secondary-dark);
+  --color-theme-accent: var(--color-accent);
+  --color-theme-accent-dark: var(--color-accent-dark);
+  --color-theme-surface: var(--color-surface);
+  --color-theme-border: var(--color-border);
+  --font-sans: var(--font-inter);
+}
+
+/* ============================================ */
+/* Theme-aware utility classes                  */
+/* ============================================ */
+
+/* Backgrounds */
+.bg-theme-primary { background-color: var(--color-primary) !important; }
+.bg-theme-primary-dark { background-color: var(--color-primary-dark) !important; }
+.bg-theme-primary-light { background-color: var(--color-primary-light) !important; }
+.bg-theme-secondary { background-color: var(--color-secondary) !important; }
+.bg-theme-accent { background-color: var(--color-accent) !important; }
+.bg-theme-surface { background-color: var(--color-surface) !important; }
+
+/* Text colors */
+.text-theme-primary { color: var(--color-primary) !important; }
+.text-theme-primary-dark { color: var(--color-primary-dark) !important; }
+.text-theme-accent { color: var(--color-accent) !important; }
+.text-theme-foreground { color: var(--color-foreground) !important; }
+.text-theme-muted { color: var(--color-foreground-muted) !important; }
+
+/* Border colors */
+.border-theme-primary { border-color: var(--color-primary) !important; }
+.border-theme-light { border-color: var(--color-primary-light) !important; }
+.border-theme-border { border-color: var(--color-border) !important; }
+
+/* Gradient helpers */
+.gradient-theme-hero {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)) !important;
+}
+.gradient-theme-hero-light {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-surface)) !important;
+}
+.gradient-theme-cta {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)) !important;
+}
+
+/* Hover variants */
+.hover\:bg-theme-primary-dark:hover { background-color: var(--color-primary-dark) !important; }
+.hover\:text-theme-primary:hover { color: var(--color-primary) !important; }
+.hover\:border-theme-primary:hover { border-color: var(--color-primary) !important; }
+
+/* Ring / focus */
+.ring-theme-primary { --tw-ring-color: var(--color-primary) !important; }
+.focus\:ring-theme-primary:focus { --tw-ring-color: var(--color-primary) !important; }
+
+/* Shadow with theme color */
+.shadow-theme-primary {
+  --tw-shadow-color: color-mix(in srgb, var(--color-primary) 25%, transparent);
+  --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color);
+}
+
+/* ============================================ */
+/* Base styles                                  */
+/* ============================================ */
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background: var(--color-dark-background);
+    color: var(--color-dark-foreground);
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

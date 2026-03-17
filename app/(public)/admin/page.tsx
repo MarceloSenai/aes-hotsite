@@ -49,12 +49,16 @@ export default function AdminPage() {
     setActiveTheme(newTheme);
     await ThemeManager.saveTheme(newTheme);
     applyTheme(newTheme);
+    // Notify ThemeProvider
+    window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: newTheme } }));
     showSaved();
   };
 
   const handleSelectDesign = (designId: DesignLayoutId) => {
     setActiveDesign(designId);
     DesignManager.saveLayout(designId);
+    // Notify ThemeProvider
+    window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { design: designId } }));
     showSaved();
   };
 
@@ -75,6 +79,7 @@ export default function AdminPage() {
     };
     await ThemeManager.saveTheme(custom);
     applyTheme(custom);
+    window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: custom } }));
     showSaved();
   };
 
@@ -85,6 +90,7 @@ export default function AdminPage() {
     await ThemeManager.saveTheme(defaultTheme);
     DesignManager.saveLayout('moderno');
     applyTheme(defaultTheme);
+    window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: defaultTheme, design: 'moderno' } }));
     showSaved();
   };
 

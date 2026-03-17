@@ -18,7 +18,7 @@ const partners = [
   {
     name: 'Wise UP',
     category: 'Idiomas',
-    description: 'Escola de ingles com condicoes especiais para associados AES.',
+    description: 'Escola de inglês com condições especiais para associados AES.',
     contact: 'Gustavo: (11) 94019-6285',
     contactHref: 'tel:+5511940196285',
     icon: BookOpen,
@@ -28,7 +28,7 @@ const partners = [
   {
     name: 'IFEPAF',
     category: 'Instituto',
-    description: 'Instituto FEPAF com beneficios para associados.',
+    description: 'Instituto FEPAF com benefícios para associados.',
     link: 'https://www.ifepaf.com.br',
     linkLabel: 'ifepaf.com.br',
     icon: GraduationCap,
@@ -48,7 +48,7 @@ const partners = [
   {
     name: 'Academia RCR SPORTS',
     category: 'Fitness',
-    description: 'Academia com condicoes exclusivas para associados AES.',
+    description: 'Academia com condições exclusivas para associados AES.',
     social: '@rcrsports',
     icon: Dumbbell,
     color: 'bg-red-100 dark:bg-red-900/30',
@@ -67,8 +67,8 @@ const partners = [
   },
   {
     name: 'Electrolux',
-    category: 'Eletrodomesticos',
-    description: 'Ate 40% de desconto, 10x sem juros e frete gratis.',
+    category: 'Eletrodomésticos',
+    description: 'Até 40% de desconto, 10x sem juros e frete grátis.',
     link: 'https://shopclub.com.br',
     linkLabel: 'shopclub.com.br',
     icon: ShoppingCart,
@@ -77,7 +77,7 @@ const partners = [
   },
   {
     name: 'UNIP',
-    category: 'Educacao',
+    category: 'Educação',
     description: 'Universidade Paulista - Av. Paulista, 900.',
     link: 'https://www.unip.br',
     linkLabel: 'unip.br',
@@ -87,7 +87,7 @@ const partners = [
   },
   {
     name: 'OMEC/UMC',
-    category: 'Educacao',
+    category: 'Educação',
     description: 'Universidade de Mogi das Cruzes.',
     contact: '(11) 4798-7000',
     contactHref: 'tel:+551147987000',
@@ -99,8 +99,8 @@ const partners = [
   },
   {
     name: 'UNIVAP',
-    category: 'Educacao',
-    description: 'Universidade do Vale do Paraiba - Sao Jose dos Campos.',
+    category: 'Educação',
+    description: 'Universidade do Vale do Paraíba - São José dos Campos.',
     contact: '(12) 3947-1000',
     contactHref: 'tel:+551239471000',
     link: 'https://www.univap.br',
@@ -112,7 +112,7 @@ const partners = [
   {
     name: 'Totalpass',
     category: 'Bem-estar',
-    description: 'Acesso a academias (Smart Fit, Bio Ritmo) e servicos de saude mental e nutricao.',
+    description: 'Acesso a academias (Smart Fit, Bio Ritmo) e serviços de saúde mental e nutrição.',
     icon: Dumbbell,
     color: 'bg-rose-100 dark:bg-rose-900/30',
     textColor: 'text-rose-600 dark:text-rose-400',
@@ -148,7 +148,7 @@ export default function ParceriasPage() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold rounded-full mb-4">
-            Convenios
+            Convênios
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Nossas{' '}
@@ -157,7 +157,7 @@ export default function ParceriasPage() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Convenios e parcerias exclusivas para associados AES
+            Convênios e parcerias exclusivas para associados AES
           </p>
         </motion.div>
 

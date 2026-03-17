@@ -19,8 +19,8 @@ import {
 const coverageItems = [
   {
     icon: FlaskConical,
-    title: 'Laboratorios Credenciados FESP',
-    description: 'Rede completa de laboratorios credenciados para exames e diagnosticos.',
+    title: 'Laboratórios Credenciados FESP',
+    description: 'Rede completa de laboratórios credenciados para exames e diagnósticos.',
   },
   {
     icon: Stethoscope,
@@ -29,20 +29,20 @@ const coverageItems = [
   },
   {
     icon: Siren,
-    title: 'Urgencias e Emergencias',
-    description: 'Atendimento 24h em pronto-socorro para situacoes de urgencia e emergencia.',
+    title: 'Urgências e Emergências',
+    description: 'Atendimento 24h em pronto-socorro para situações de urgência e emergência.',
   },
   {
     icon: Baby,
     title: 'Maternidade',
-    description: 'Cobertura completa para gestacao, parto e pos-parto.',
+    description: 'Cobertura completa para gestação, parto e pós-parto.',
   },
 ];
 
 const contacts = [
   {
     icon: Phone,
-    label: 'Autorizacoes (24h)',
+    label: 'Autorizações (24h)',
     value: '(11) 3385-6074',
     href: 'tel:+551133856074',
   },
@@ -92,7 +92,7 @@ export default function AssistenciaMedicaPage() {
             className="inline-flex items-center gap-2 text-green-600 dark:text-green-400 font-medium hover:gap-3 transition-all duration-300 mb-8"
           >
             <ArrowLeft size={18} />
-            Voltar para Servicos
+            Voltar para Serviços
           </Link>
         </motion.div>
 
@@ -109,17 +109,17 @@ export default function AssistenciaMedicaPage() {
             </div>
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-                Assistencia{' '}
+                Assistência{' '}
                 <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-                  Medica
+                  Médica
                 </span>
               </h1>
             </div>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            A AES oferece aos seus associados e dependentes o plano de saude UNIMED FESP
+            A AES oferece aos seus associados e dependentes o plano de saúde UNIMED FESP
             (Carteira 970 - UNIMED Paulistana), com acesso a uma ampla rede nacional de
-            hospitais e clinicas credenciados.
+            hospitais e clínicas credenciados.
           </p>
         </motion.div>
 
@@ -139,7 +139,7 @@ export default function AssistenciaMedicaPage() {
                 UNIMED FESP
               </h3>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
-                Carteira 970 &mdash; UNIMED Paulistana | Rede nacional de hospitais e clinicas credenciados
+                Carteira 970 &mdash; UNIMED Paulistana | Rede nacional de hospitais e clínicas credenciados
               </p>
             </div>
           </div>
@@ -188,7 +188,7 @@ export default function AssistenciaMedicaPage() {
             <div>
               <h3 className="text-lg font-bold">Central NAS 24h</h3>
               <p className="text-green-100 text-sm">
-                Servicos de gestao em saude e suporte 24 horas para associados
+                Serviços de gestão em saúde e suporte 24 horas para associados
               </p>
             </div>
           </div>
@@ -241,7 +241,7 @@ export default function AssistenciaMedicaPage() {
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-8"
         >
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-            Escritorio de Atendimento
+            Escritório de Atendimento
           </h2>
           <div className="flex flex-col sm:flex-row gap-6">
             <div className="flex items-start gap-3">
@@ -249,9 +249,9 @@ export default function AssistenciaMedicaPage() {
                 <MapPin className="text-green-600 dark:text-green-400" size={20} />
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Endereco</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Endereço</p>
                 <p className="text-gray-900 dark:text-white font-semibold">
-                  Rua Jose Getulio, 78/90 - Aclimacao, Sao Paulo - SP
+                  Rua José Getúlio, 78/90 - Aclimação, São Paulo - SP
                 </p>
               </div>
             </div>
@@ -260,9 +260,9 @@ export default function AssistenciaMedicaPage() {
                 <Clock className="text-green-600 dark:text-green-400" size={20} />
               </div>
               <div>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Horario</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Horário</p>
                 <p className="text-gray-900 dark:text-white font-semibold">
-                  Segunda a Sexta, 8h as 17h
+                  Segunda a Sexta, 8h às 17h
                 </p>
               </div>
             </div>

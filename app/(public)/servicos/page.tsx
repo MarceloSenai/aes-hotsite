@@ -14,9 +14,9 @@ import {
 const services = [
   {
     icon: HeartPulse,
-    title: 'Assistencia Medica',
+    title: 'Assistência Médica',
     description:
-      'Plano de saude UNIMED FESP com cobertura completa: consultas, exames, urgencias, emergencias e maternidade.',
+      'Plano de saúde UNIMED FESP com cobertura completa: consultas, exames, urgências, emergências e maternidade.',
     link: '/servicos/assistencia-medica',
     gradient: 'from-rose-500 to-red-500',
     bgIcon: 'bg-rose-100 dark:bg-rose-900/30',
@@ -24,9 +24,9 @@ const services = [
   },
   {
     icon: Shield,
-    title: 'Fundo Mutuo',
+    title: 'Fundo Mútuo',
     description:
-      'FUMUS e FUMUA: auxilio financeiro solidario e reembolso parcial de ambulancia para associados e dependentes.',
+      'FUMUS e FUMUA: auxílio financeiro solidário e reembolso parcial de ambulância para associados e dependentes.',
     link: '/servicos/fundo-mutuo',
     gradient: 'from-amber-500 to-orange-500',
     bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
@@ -34,7 +34,7 @@ const services = [
   },
   {
     icon: Smile,
-    title: 'Assistencia Odontologica',
+    title: 'Assistência Odontológica',
     description:
       'Cuidado dental completo para associados e dependentes com rede credenciada de qualidade.',
     link: '/servicos/assistencia-odontologica',
@@ -44,9 +44,9 @@ const services = [
   },
   {
     icon: Pill,
-    title: 'Farmacias Conveniadas',
+    title: 'Farmácias Conveniadas',
     description:
-      'Rede conveniada de farmacias com descontos exclusivos para associados AES.',
+      'Rede conveniada de farmácias com descontos exclusivos para associados AES.',
     link: '/servicos/farmacias',
     gradient: 'from-emerald-500 to-green-500',
     bgIcon: 'bg-emerald-100 dark:bg-emerald-900/30',
@@ -56,7 +56,7 @@ const services = [
     icon: ShieldCheck,
     title: 'Seguros',
     description:
-      'Produtos de seguros com condicoes especiais negociadas para associados AES.',
+      'Produtos de seguros com condições especiais negociadas para associados AES.',
     link: '/servicos/seguros',
     gradient: 'from-violet-500 to-purple-500',
     bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
@@ -96,16 +96,16 @@ export default function ServicosPage() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-semibold rounded-full mb-4">
-            Beneficios
+            Benefícios
           </span>
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Nossos{' '}
             <span className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-400 dark:to-emerald-400 bg-clip-text text-transparent">
-              Servicos
+              Serviços
             </span>
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Beneficios exclusivos para associados, dependentes e agregados
+            Benefícios exclusivos para associados, dependentes e agregados
           </p>
         </motion.div>
 
