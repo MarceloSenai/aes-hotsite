@@ -57,11 +57,15 @@ export interface BoletimEdicao {
   pdfData?: string; // base64
 }
 
+export type CategoriaRepresentante = 'conselho-deliberativo' | 'conselho-fiscal' | 'diretoria-executiva' | 'diretores-departamentos' | 'representantes-regionais';
+
 export interface Representante {
   id: string;
   nome: string;
-  regional: string;
-  unidade: string;
+  cargo?: string;
+  categoria: CategoriaRepresentante;
+  regional?: string;
+  unidade?: string;
   email?: string;
   telefone?: string;
 }
@@ -185,16 +189,28 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { id: 'b4', numero: 45, titulo: 'Boletim AES - Dezembro 2025', data: 'Dezembro 2025', resumo: 'Encerramento do ano, festa de confraternização e prestação de contas anual.' },
   ],
   representantes: [
-    { id: 'r1', nome: 'Carlos Alberto Santos', regional: 'Capital', unidade: 'SENAI Brás', email: 'representante.bras@aessenai.org.br' },
-    { id: 'r2', nome: 'Maria Helena Oliveira', regional: 'Capital', unidade: 'SENAI Ipiranga' },
-    { id: 'r3', nome: 'José Roberto Silva', regional: 'Grande São Paulo', unidade: 'SENAI Santo André' },
-    { id: 'r4', nome: 'Ana Paula Ferreira', regional: 'Grande São Paulo', unidade: 'SENAI Osasco' },
-    { id: 'r5', nome: 'Roberto Mendes', regional: 'Interior', unidade: 'SENAI Campinas' },
-    { id: 'r6', nome: 'Fernanda Costa', regional: 'Interior', unidade: 'SENAI Jundiaí' },
-    { id: 'r7', nome: 'Paulo Ricardo Lima', regional: 'Interior', unidade: 'SENAI Sorocaba' },
-    { id: 'r8', nome: 'Sandra Almeida', regional: 'Litoral', unidade: 'SENAI Santos' },
-    { id: 'r9', nome: 'Marcos Pereira', regional: 'Litoral', unidade: 'SENAI São Vicente' },
-    { id: 'r10', nome: 'Lucia Martins', regional: 'Vale do Paraíba', unidade: 'SENAI São José dos Campos' },
+    // Conselho Deliberativo
+    { id: 'cd1', nome: 'Luiz Marcelo de Oliveira Silva', cargo: 'Presidente', categoria: 'conselho-deliberativo' },
+    { id: 'cd2', nome: 'Membro Conselho 1', cargo: 'Conselheiro', categoria: 'conselho-deliberativo' },
+    { id: 'cd3', nome: 'Membro Conselho 2', cargo: 'Conselheiro', categoria: 'conselho-deliberativo' },
+    // Conselho Fiscal
+    { id: 'cf1', nome: 'Membro Fiscal 1', cargo: 'Titular', categoria: 'conselho-fiscal' },
+    { id: 'cf2', nome: 'Membro Fiscal 2', cargo: 'Titular', categoria: 'conselho-fiscal' },
+    { id: 'cf3', nome: 'Membro Fiscal 3', cargo: 'Suplente', categoria: 'conselho-fiscal' },
+    // Diretoria Executiva
+    { id: 'de1', nome: 'Luiz Marcelo de Oliveira Silva', cargo: 'Gerente', categoria: 'diretoria-executiva', email: 'gerente@aessenai.org.br' },
+    // Diretores de Departamentos
+    { id: 'dd1', nome: 'Dulceni Maria Paglione de Oliveira', cargo: 'Diretora - Aposentados', categoria: 'diretores-departamentos' },
+    { id: 'dd2', nome: 'Alessandra Angelim da Silva', cargo: 'Diretora - Cultural e Recreativo', categoria: 'diretores-departamentos' },
+    { id: 'dd3', nome: 'Rubens da Silva Moreira', cargo: 'Diretor - Esportivo Capital', categoria: 'diretores-departamentos' },
+    { id: 'dd4', nome: 'Edison Simon', cargo: 'Diretor - Esportivo Interior', categoria: 'diretores-departamentos' },
+    // Representantes Regionais
+    { id: 'r1', nome: 'Carlos Alberto Santos', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Capital', unidade: 'SENAI Brás', email: 'representante.bras@aessenai.org.br' },
+    { id: 'r2', nome: 'Maria Helena Oliveira', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Capital', unidade: 'SENAI Ipiranga' },
+    { id: 'r3', nome: 'José Roberto Silva', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Grande São Paulo', unidade: 'SENAI Santo André' },
+    { id: 'r4', nome: 'Roberto Mendes', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Interior', unidade: 'SENAI Campinas' },
+    { id: 'r5', nome: 'Sandra Almeida', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Litoral', unidade: 'SENAI Santos' },
+    { id: 'r6', nome: 'Lucia Martins', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Vale do Paraíba', unidade: 'SENAI São José dos Campos' },
   ],
   planosOdontologicos: [
     { id: 'po1', tipo: 'MetLife Dental Básico', operadora: 'MetLife', cobertura: 'Consultas, limpeza, restaurações, extrações simples', faixas: [{ faixa: 'Titular', valor: 'R$ 28,90' }, { faixa: 'Dependente', valor: 'R$ 28,90' }], aberto: true },

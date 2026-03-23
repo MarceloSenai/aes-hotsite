@@ -588,23 +588,44 @@ export default function AdminPage() {
  <motion.div key="servicos" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
  <h2 className="text-lg font-semibold text-gray-900">Gestão de Serviços e Representantes</h2>
 
- {/* Representantes */}
- <div className="bg-white rounded-xl p-5 border border-gray-200">
-  <div className="flex items-center justify-between mb-4">
-   <h3 className="text-sm font-bold text-gray-800">Representantes Regionais</h3>
-   <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: [...siteConfig.representantes, { id: `r${Date.now()}`, nome: 'Novo Representante', regional: 'Capital', unidade: 'SENAI', email: '' }] })} className="flex items-center gap-1 text-xs text-theme-primary font-medium"><Plus size={12} /> Adicionar</button>
-  </div>
-  <div className="space-y-2 max-h-60 overflow-y-auto">
-   {siteConfig.representantes.map((rep, idx) => (
-    <div key={rep.id} className="flex items-center gap-2">
-     <input type="text" value={rep.nome} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], nome: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Nome" />
-     <input type="text" value={rep.regional} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], regional: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-24 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Regional" />
-     <input type="text" value={rep.unidade} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], unidade: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-28 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Unidade" />
-     <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: siteConfig.representantes.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={12} /></button>
+ {/* Representantes por Categoria */}
+ {([
+  { key: 'conselho-deliberativo' as const, label: 'Conselho Deliberativo', color: '#6366F1' },
+  { key: 'conselho-fiscal' as const, label: 'Conselho Fiscal', color: '#0EA5E9' },
+  { key: 'diretoria-executiva' as const, label: 'Diretoria Executiva', color: '#10B981' },
+  { key: 'diretores-departamentos' as const, label: 'Diretores de Departamentos', color: '#F59E0B' },
+  { key: 'representantes-regionais' as const, label: 'Representantes Regionais', color: '#8B5CF6' },
+ ]).map((cat) => {
+  const membros = siteConfig.representantes.filter(r => r.categoria === cat.key);
+  return (
+  <div key={cat.key} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+   <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100" style={{ backgroundColor: `${cat.color}08` }}>
+    <div className="flex items-center gap-2">
+     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
+     <h3 className="text-sm font-bold text-gray-800">{cat.label}</h3>
+     <span className="text-xs text-gray-400 ml-1">({membros.length})</span>
     </div>
-   ))}
+    <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: [...siteConfig.representantes, { id: `${cat.key.slice(0,2)}${Date.now()}`, nome: '', cargo: '', categoria: cat.key, regional: cat.key === 'representantes-regionais' ? 'Capital' : undefined, unidade: cat.key === 'representantes-regionais' ? '' : undefined }] })} className="flex items-center gap-1 text-xs font-medium" style={{ color: cat.color }}><Plus size={12} /> Adicionar</button>
+   </div>
+   <div className="p-4 space-y-2 max-h-48 overflow-y-auto">
+    {membros.length === 0 && <p className="text-xs text-gray-400 text-center py-2">Nenhum membro cadastrado</p>}
+    {membros.map((rep) => {
+     const idx = siteConfig.representantes.findIndex(r => r.id === rep.id);
+     return (
+     <div key={rep.id} className="flex items-center gap-2">
+      <input type="text" value={rep.nome} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], nome: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1" style={{ '--tw-ring-color': cat.color } as React.CSSProperties} placeholder="Nome" />
+      <input type="text" value={rep.cargo || ''} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], cargo: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-32 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1" placeholder="Cargo" />
+      {cat.key === 'representantes-regionais' && <>
+       <input type="text" value={rep.regional || ''} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], regional: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-20 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1" placeholder="Regional" />
+       <input type="text" value={rep.unidade || ''} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], unidade: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-24 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1" placeholder="Unidade" />
+      </>}
+      <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: siteConfig.representantes.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={12} /></button>
+     </div>
+    );})}
+   </div>
   </div>
- </div>
+  );
+ })}
 
  {/* Parceiros Seguros */}
  <div className="bg-white rounded-xl p-5 border border-gray-200">
