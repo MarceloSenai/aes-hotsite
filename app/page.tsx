@@ -12,11 +12,11 @@ export default function Home() {
     <>
       <Hero />
       <Carousel />
-      <QuickAccess />
       <Mission />
-      <Stats />
       <Features />
+      <QuickAccess />
       <Solutions />
+      <Stats />
       <CTA />
     </>
   );

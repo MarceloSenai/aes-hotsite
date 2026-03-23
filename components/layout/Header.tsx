@@ -46,10 +46,19 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { href: '/sobre/quem-somos', label: 'Quem Somos' },
       { href: '/sobre/administracao', label: 'Administração' },
+      { href: '/representantes', label: 'Representantes' },
+      { href: '/associados', label: 'Associados' },
     ],
   },
-  { href: '/representantes', label: 'Representantes' },
-  { href: '/associados', label: 'Associados' },
+  {
+    href: '/nucleo-de-lazer',
+    label: 'Lazer',
+    children: [
+      { href: '/nucleo-de-lazer/clube-de-campo', label: 'Clube de Campo' },
+      { href: '/nucleo-de-lazer/clube-nautico', label: 'Clube Náutico' },
+      { href: '/nucleo-de-lazer/colonia-de-ferias', label: 'Colônia de Férias' },
+    ],
+  },
   {
     href: '/departamentos',
     label: 'Departamentos',
@@ -58,26 +67,6 @@ const NAV_ITEMS: NavItem[] = [
       { href: '/departamentos/cultural-recreativo', label: 'Cultural e Recreativo' },
       { href: '/departamentos/esportivo-capital', label: 'Esportivo Capital' },
       { href: '/departamentos/esportivo-interior', label: 'Esportivo Interior' },
-    ],
-  },
-  {
-    href: '/documentos',
-    label: 'Documentos',
-    children: [
-      { href: '/documentos/comunicados', label: 'Comunicados' },
-      { href: '/documentos/estatuto-regulamentos', label: 'Estatuto e Regulamentos' },
-      { href: '/documentos/relatorio-anual', label: 'Relatório Anual' },
-      { href: '/documentos/formularios-reembolso', label: 'Formulários de Reembolso' },
-    ],
-  },
-  { href: '/galeria', label: 'Galeria de Fotos' },
-  {
-    href: '/nucleo-de-lazer',
-    label: 'Núcleo de Lazer',
-    children: [
-      { href: '/nucleo-de-lazer/clube-de-campo', label: 'Clube de Campo' },
-      { href: '/nucleo-de-lazer/clube-nautico', label: 'Clube Náutico' },
-      { href: '/nucleo-de-lazer/colonia-de-ferias', label: 'Colônia de Férias' },
     ],
   },
   {
@@ -92,9 +81,17 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { href: '/parcerias', label: 'Parcerias' },
-  { href: '/calendario', label: 'Eventos' },
-  { href: '/boletim', label: 'Boletim' },
-  { href: '/indusprev', label: 'INDUSPREV' },
+  {
+    href: '/informacoes',
+    label: 'Informações',
+    children: [
+      { href: '/calendario', label: 'Calendário de Eventos' },
+      { href: '/boletim', label: 'Boletim Informativo' },
+      { href: '/indusprev', label: 'INDUSPREV' },
+      { href: '/documentos', label: 'Documentos' },
+      { href: '/galeria', label: 'Galeria de Fotos' },
+    ],
+  },
   { href: '/associe-se', label: 'Associe-se' },
 ];
 

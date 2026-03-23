@@ -67,6 +67,7 @@ const slides: CarouselSlide[] = [
 export default function Carousel() {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   const next = useCallback(() => {
     setDirection(1);
@@ -78,11 +79,12 @@ export default function Carousel() {
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   }, []);
 
-  // Auto-play
+  // Auto-play with pause on hover
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next]);
+  }, [next, paused]);
 
   const slide = slides[current];
   const Icon = slide.icon;
@@ -114,7 +116,11 @@ export default function Carousel() {
         </div>
 
         {/* Carousel container */}
-        <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[260px]">
+        <div
+          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[260px]"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={slide.id}
@@ -176,22 +182,27 @@ export default function Carousel() {
             <ChevronRight size={20} />
           </button>
 
-          {/* Dots */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
-            {slides.map((s, i) => (
-              <button
-                key={s.id}
-                onClick={() => {
-                  setDirection(i > current ? 1 : -1);
-                  setCurrent(i);
-                }}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === current ? 'w-6' : 'w-2 bg-gray-300 dark:bg-gray-600'
-                }`}
-                style={i === current ? { backgroundColor: slide.badgeColor } : undefined}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
+          {/* Dots + counter */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <span className="text-xs font-semibold text-gray-400 dark:text-gray-500 tabular-nums">
+              {current + 1}/{slides.length}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {slides.map((s, i) => (
+                <button
+                  key={s.id}
+                  onClick={() => {
+                    setDirection(i > current ? 1 : -1);
+                    setCurrent(i);
+                  }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === current ? 'w-7' : 'w-2 bg-gray-300 dark:bg-gray-600'
+                  }`}
+                  style={i === current ? { backgroundColor: slide.badgeColor } : undefined}
+                  aria-label={`Slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
