@@ -542,6 +542,7 @@ export default function AdminPage() {
         case 'documentos': ok = !!(await documentosService.remove(id)); break;
         case 'parcerias': ok = !!(await parceriasService.remove(id)); break;
         case 'seguros': ok = !!(await parceirosSeguroService.remove(id)); break;
+        case 'planos': ok = !!(await planosSaudeService.remove(id)); break;
         default: break;
       }
       if (ok) {
@@ -607,6 +608,11 @@ export default function AdminPage() {
           ok = isNew
             ? !!(await parceirosSeguroService.create(rest))
             : !!(await parceirosSeguroService.update(id as string, rest));
+          break;
+        case 'planos':
+          ok = isNew
+            ? !!(await planosSaudeService.create(rest))
+            : !!(await planosSaudeService.update(id as string, rest));
           break;
       }
 
@@ -1399,39 +1405,57 @@ export default function AdminPage() {
               {/* ═══ PLANOS MEDICOS SECTION ═══ */}
               {activeSection === 'planos' && (
                 <div>
-                  <SectionHeader title="Planos Médicos e Odontológicos" />
-                  {loading.planos ? <TableSkeleton cols={5} /> : (
+                  <SectionHeader
+                    title="Planos Médicos e Odontológicos"
+                    onAdd={() => openEditModal('planos', {
+                      tipo_plano: 'odontologico', tipo: '', operadora: '', cobertura: '', aberto: true,
+                    })}
+                  />
+                  {loading.planos ? <TableSkeleton cols={6} /> : (
                     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome do Plano</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Operadora</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Cobertura</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Aberto</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Faixas</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
                           </tr>
                         </thead>
                         <tbody>
                           {planosData.map((plano) => (
                             <tr key={plano.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 font-medium">{plano.tipo_plano as string || plano.tipo as string}</td>
-                              <td className="px-4 py-3 text-gray-500">{plano.operadora as string}</td>
-                              <td className="px-4 py-3 text-gray-500 text-xs max-w-xs truncate">{plano.cobertura as string}</td>
+                              <td className="px-4 py-3 text-gray-900 font-medium">{plano.tipo as string}</td>
                               <td className="px-4 py-3">
-                                <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${(plano.tipo_plano as string) === 'medico' ? 'bg-green-50 text-green-700' : 'bg-blue-50 text-blue-700'}`}>
+                                  {(plano.tipo_plano as string) === 'medico' ? 'Médico' : 'Odontológico'}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-gray-500">{plano.operadora as string}</td>
+                              <td className="px-4 py-3">
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${plano.aberto ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
+                                  {plano.aberto ? 'Aberto' : 'Fechado'}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
                                   {((plano.plano_faixas as unknown[]) || []).length} faixas
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-right">
-                                <button className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                              <td className="px-4 py-3 text-right flex justify-end gap-1">
+                                <button onClick={() => openEditModal('planos', plano)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar">
                                   <Edit3 size={14} />
+                                </button>
+                                <button onClick={() => handleDelete('planos', plano.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir">
+                                  <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {planosData.length === 0 && (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum plano cadastrado</td></tr>
+                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum plano cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1843,6 +1867,30 @@ export default function AdminPage() {
                 <Field label="Tipo" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} />
                 <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field label="Contato" value={(editingItem.contato as string) || ''} onChange={(v) => updateEditingField('contato', v)} />
+              </>
+            )}
+
+            {editModalSection === 'planos' && (
+              <>
+                <Field label="Nome do Plano" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} />
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Tipo do Plano</label>
+                    <select value={(editingItem.tipo_plano as string) || 'odontologico'} onChange={(e) => updateEditingField('tipo_plano', e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="odontologico">Odontológico</option>
+                      <option value="medico">Médico</option>
+                    </select>
+                  </div>
+                  <Field label="Operadora" value={(editingItem.operadora as string) || ''} onChange={(v) => updateEditingField('operadora', v)} />
+                </div>
+                <Field label="Cobertura" value={(editingItem.cobertura as string) || ''} onChange={(v) => updateEditingField('cobertura', v)} type="textarea" />
+                <div>
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="checkbox" checked={!!editingItem.aberto} onChange={(e) => updateEditingField('aberto', e.target.checked)} className="rounded" />
+                    Aberto para novas adesões
+                  </label>
+                </div>
               </>
             )}
 
