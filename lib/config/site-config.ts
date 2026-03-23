@@ -94,6 +94,36 @@ export interface FarmaciaInfo {
   contato: string;
 }
 
+export interface GaleriaFoto {
+  id: string;
+  titulo: string;
+  descricao?: string;
+  categoria: string;
+  imageData?: string; // base64 thumbnail
+  fileName?: string;
+}
+
+export interface DocumentoArquivo {
+  id: string;
+  titulo: string;
+  descricao?: string;
+  categoria: string;
+  fileName?: string;
+  fileData?: string; // base64
+  dataUpload: string;
+}
+
+export interface Parceria {
+  id: string;
+  nome: string;
+  categoria: string;
+  descricao: string;
+  contato?: string;
+  site?: string;
+  instagram?: string;
+  destaque?: string;
+}
+
 export interface SiteConfig {
   socialLinks: SocialLink[];
   contactPhone: string;
@@ -111,6 +141,9 @@ export interface SiteConfig {
   planosMedicos: PlanoSaude[];
   parceirosSeguro: ParceiroSeguro[];
   farmacia: FarmaciaInfo;
+  galeria: GaleriaFoto[];
+  documentos: DocumentoArquivo[];
+  parcerias: Parceria[];
 }
 
 const STORAGE_KEY = 'aes-site-config';
@@ -231,6 +264,20 @@ export const DEFAULT_CONFIG: SiteConfig = {
     restricao: 'Disponível apenas nas unidades da capital de São Paulo.',
     contato: 'cadastro@aessenai.org.br',
   },
+  galeria: [],
+  documentos: [],
+  parcerias: [
+    { id: 'p1', nome: 'Wise UP', categoria: 'Idiomas', descricao: 'Escola de inglês com condições especiais para associados AES.', contato: 'Gustavo: (11) 94019-6285' },
+    { id: 'p2', nome: 'IFEPAF', categoria: 'Instituto', descricao: 'Instituto FEPAF com benefícios para associados.', site: 'ifepaf.com.br' },
+    { id: 'p3', nome: 'My Box Pompeia', categoria: 'Fitness', descricao: 'Aula experimental gratuita.', destaque: '12% desconto cash/Pix, 7% boleto', site: 'myboxoficial.com.br' },
+    { id: 'p4', nome: 'Academia RCR SPORTS', categoria: 'Fitness', descricao: 'Academia com condições exclusivas para associados AES.', instagram: '@rcrsports' },
+    { id: 'p5', nome: 'Pousada Alpes', categoria: 'Hospedagem', descricao: 'Hospedagem com tarifas especiais para associados.', site: 'pousadaalpes.com.br', instagram: '@pousada_alpes' },
+    { id: 'p6', nome: 'Electrolux', categoria: 'Eletrodomésticos', descricao: 'Até 40% de desconto, 10x sem juros e frete grátis.', site: 'shopclub.com.br' },
+    { id: 'p7', nome: 'UNIP', categoria: 'Educação', descricao: 'Universidade Paulista - Av. Paulista, 900.', site: 'unip.br' },
+    { id: 'p8', nome: 'OMEC/UMC', categoria: 'Educação', descricao: 'Universidade de Mogi das Cruzes.', contato: '(11) 4798-7000', site: 'umc.br' },
+    { id: 'p9', nome: 'UNIVAP', categoria: 'Educação', descricao: 'Universidade do Vale do Paraíba - São José dos Campos.', contato: '(12) 3947-1000', site: 'univap.br' },
+    { id: 'p10', nome: 'Totalpass', categoria: 'Bem-estar', descricao: 'Acesso a academias (Smart Fit, Bio Ritmo) e serviços de saúde mental.' },
+  ],
 };
 
 export class SiteConfigManager {

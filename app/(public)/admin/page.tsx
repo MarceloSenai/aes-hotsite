@@ -11,9 +11,9 @@ import {
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
  Sparkles, Globe, Trash2, Plus, ImageIcon, DollarSign
 } from 'lucide-react';
-import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento, type Representante, type PlanoSaude, type ParceiroSeguro, type BoletimEdicao } from '@/lib/config/site-config';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento, type Representante, type PlanoSaude, type ParceiroSeguro, type BoletimEdicao, type GaleriaFoto, type DocumentoArquivo, type Parceria } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos' | 'servicos' | 'boletim';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos' | 'servicos' | 'boletim' | 'galeria' | 'documentos' | 'parcerias';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -156,6 +156,9 @@ export default function AdminPage() {
  { id: 'eventos', label: 'Eventos', icon: Calendar },
  { id: 'servicos', label: 'Serviços', icon: Sparkles },
  { id: 'boletim', label: 'Boletim', icon: Sparkles },
+ { id: 'galeria', label: 'Galeria', icon: ImageIcon },
+ { id: 'documentos', label: 'Documentos', icon: Save },
+ { id: 'parcerias', label: 'Parcerias', icon: ExternalLink },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -240,9 +243,9 @@ export default function AdminPage() {
  </div>
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos' || activeTab === 'boletim') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
+ <div className={(activeTab !== 'designs' && activeTab !== 'themes' && activeTab !== 'colors') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
  {/* Options panel */}
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos' || activeTab === 'boletim') ? '' : 'xl:col-span-1'}>
+ <div className={(activeTab !== 'designs' && activeTab !== 'themes' && activeTab !== 'colors') ? '' : 'xl:col-span-1'}>
  <AnimatePresence mode="wait">
  {activeTab === 'designs' && (
  <motion.div
@@ -676,6 +679,106 @@ export default function AdminPage() {
    <div>
     <label className="block text-xs text-gray-500 mb-1">PDF {bol.pdfFileName && <span className="text-theme-primary font-medium">({bol.pdfFileName})</span>}</label>
     <input type="file" accept=".pdf" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], pdfData: reader.result as string, pdfFileName: file.name }; handleSaveConfig({ ...siteConfig, boletins: b }); }; reader.readAsDataURL(file); }} className="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-theme-primary-5 file:text-theme-primary hover:file:bg-theme-primary-10 cursor-pointer" />
+   </div>
+  </div>
+ ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'galeria' && (
+ <motion.div key="galeria" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <div>
+   <h2 className="text-lg font-semibold text-gray-900">📸 Galeria de Fotos</h2>
+   <p className="text-xs text-gray-500 mt-1">Faça upload de fotos para a galeria do site. As fotos ficam organizadas por categoria.</p>
+  </div>
+  <button onClick={() => handleSaveConfig({ ...siteConfig, galeria: [...siteConfig.galeria, { id: `g${Date.now()}`, titulo: '', descricao: '', categoria: 'Eventos' }] })} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ backgroundColor: 'var(--color-primary)' }}><Plus size={14} /> Nova Foto</button>
+ </div>
+ <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-700">💡 <strong>Dica:</strong> Use imagens com no máximo 500KB para melhor desempenho. Formatos aceitos: JPG, PNG, WebP.</div>
+ {siteConfig.galeria.length === 0 && <div className="text-center py-12 bg-white rounded-xl border border-dashed border-gray-300"><p className="text-gray-400 text-sm">Nenhuma foto cadastrada</p><p className="text-gray-400 text-xs mt-1">Clique em &quot;Nova Foto&quot; para começar</p></div>}
+ {siteConfig.galeria.map((foto, idx) => (
+  <div key={foto.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
+   <div className="flex items-start gap-4">
+    {foto.imageData ? (
+     <img src={foto.imageData} alt={foto.titulo} className="w-20 h-20 rounded-lg object-cover border border-gray-200" />
+    ) : (
+     <div className="w-20 h-20 rounded-lg bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center text-gray-400 text-xs">Sem foto</div>
+    )}
+    <div className="flex-1 space-y-2">
+     <div className="flex items-center justify-between">
+      <span className="text-sm font-semibold text-gray-700">{foto.titulo || 'Sem título'}</span>
+      <button onClick={() => handleSaveConfig({ ...siteConfig, galeria: siteConfig.galeria.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+     </div>
+     <div className="grid grid-cols-2 gap-2">
+      <div><label className="block text-xs text-gray-500 mb-1">Título</label><input type="text" value={foto.titulo} onChange={(e) => { const g = [...siteConfig.galeria]; g[idx] = { ...g[idx], titulo: e.target.value }; handleSaveConfig({ ...siteConfig, galeria: g }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+      <div><label className="block text-xs text-gray-500 mb-1">Categoria</label><select value={foto.categoria} onChange={(e) => { const g = [...siteConfig.galeria]; g[idx] = { ...g[idx], categoria: e.target.value }; handleSaveConfig({ ...siteConfig, galeria: g }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary">{['Eventos','Clube de Campo','Clube Náutico','Colônia de Férias','Esportivo','Institucional'].map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+     </div>
+     <div><label className="block text-xs text-gray-500 mb-1">Descrição</label><input type="text" value={foto.descricao || ''} onChange={(e) => { const g = [...siteConfig.galeria]; g[idx] = { ...g[idx], descricao: e.target.value }; handleSaveConfig({ ...siteConfig, galeria: g }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Descrição da foto" /></div>
+     <div><label className="block text-xs text-gray-500 mb-1">📷 Upload da Imagem</label><input type="file" accept="image/*" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const g = [...siteConfig.galeria]; g[idx] = { ...g[idx], imageData: reader.result as string, fileName: file.name }; handleSaveConfig({ ...siteConfig, galeria: g }); }; reader.readAsDataURL(file); }} className="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-theme-primary-5 file:text-theme-primary hover:file:bg-theme-primary-10 cursor-pointer" /></div>
+    </div>
+   </div>
+  </div>
+ ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'documentos' && (
+ <motion.div key="documentos" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <div>
+   <h2 className="text-lg font-semibold text-gray-900">📄 Documentos</h2>
+   <p className="text-xs text-gray-500 mt-1">Gerencie comunicados, estatutos, relatórios e formulários disponíveis no site.</p>
+  </div>
+  <button onClick={() => handleSaveConfig({ ...siteConfig, documentos: [...siteConfig.documentos, { id: `d${Date.now()}`, titulo: '', descricao: '', categoria: 'Comunicados', dataUpload: new Date().toLocaleDateString('pt-BR') }] })} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ backgroundColor: 'var(--color-primary)' }}><Plus size={14} /> Novo Documento</button>
+ </div>
+ <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-700">💡 <strong>Dica:</strong> Faça upload de PDFs com no máximo 2MB. Organize por categoria para facilitar a busca dos associados.</div>
+ {siteConfig.documentos.length === 0 && <div className="text-center py-12 bg-white rounded-xl border border-dashed border-gray-300"><p className="text-gray-400 text-sm">Nenhum documento cadastrado</p><p className="text-gray-400 text-xs mt-1">Clique em &quot;Novo Documento&quot; para começar</p></div>}
+ {siteConfig.documentos.map((doc, idx) => (
+  <div key={doc.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
+   <div className="flex items-center justify-between">
+    <div className="flex items-center gap-2">
+     <span className="text-lg">📄</span>
+     <span className="text-sm font-semibold text-gray-700">{doc.titulo || 'Sem título'}</span>
+     {doc.fileName && <span className="text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full">✓ {doc.fileName}</span>}
+    </div>
+    <button onClick={() => handleSaveConfig({ ...siteConfig, documentos: siteConfig.documentos.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+   </div>
+   <div className="grid grid-cols-2 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Título do Documento</label><input type="text" value={doc.titulo} onChange={(e) => { const d = [...siteConfig.documentos]; d[idx] = { ...d[idx], titulo: e.target.value }; handleSaveConfig({ ...siteConfig, documentos: d }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Categoria</label><select value={doc.categoria} onChange={(e) => { const d = [...siteConfig.documentos]; d[idx] = { ...d[idx], categoria: e.target.value }; handleSaveConfig({ ...siteConfig, documentos: d }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary">{['Comunicados','Estatuto e Regulamentos','Relatórios','Formulários'].map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+   </div>
+   <div><label className="block text-xs text-gray-500 mb-1">Descrição</label><input type="text" value={doc.descricao || ''} onChange={(e) => { const d = [...siteConfig.documentos]; d[idx] = { ...d[idx], descricao: e.target.value }; handleSaveConfig({ ...siteConfig, documentos: d }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Breve descrição do documento" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">📎 Upload do Arquivo (PDF)</label><input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const d = [...siteConfig.documentos]; d[idx] = { ...d[idx], fileData: reader.result as string, fileName: file.name }; handleSaveConfig({ ...siteConfig, documentos: d }); }; reader.readAsDataURL(file); }} className="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-theme-primary-5 file:text-theme-primary hover:file:bg-theme-primary-10 cursor-pointer" /></div>
+  </div>
+ ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'parcerias' && (
+ <motion.div key="parcerias" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <div>
+   <h2 className="text-lg font-semibold text-gray-900">🤝 Parcerias e Convênios</h2>
+   <p className="text-xs text-gray-500 mt-1">Gerencie os parceiros e convênios da AES exibidos na página de Parcerias.</p>
+  </div>
+  <button onClick={() => handleSaveConfig({ ...siteConfig, parcerias: [...siteConfig.parcerias, { id: `p${Date.now()}`, nome: '', categoria: 'Outros', descricao: '' }] })} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ backgroundColor: 'var(--color-primary)' }}><Plus size={14} /> Nova Parceria</button>
+ </div>
+ {siteConfig.parcerias.map((parc, idx) => (
+  <div key={parc.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
+   <div className="flex items-center justify-between">
+    <span className="text-sm font-semibold text-gray-700">{parc.nome || 'Sem nome'}</span>
+    <button onClick={() => handleSaveConfig({ ...siteConfig, parcerias: siteConfig.parcerias.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+   </div>
+   <div className="grid grid-cols-2 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Nome do Parceiro</label><input type="text" value={parc.nome} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], nome: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Categoria</label><select value={parc.categoria} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], categoria: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary">{['Idiomas','Fitness','Hospedagem','Educação','Eletrodomésticos','Bem-estar','Instituto','Outros'].map(c => <option key={c} value={c}>{c}</option>)}</select></div>
+   </div>
+   <div><label className="block text-xs text-gray-500 mb-1">Descrição</label><textarea value={parc.descricao} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], descricao: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} rows={2} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary resize-none" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">Destaque (ex: &quot;40% desconto&quot;)</label><input type="text" value={parc.destaque || ''} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], destaque: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   <div className="grid grid-cols-3 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Contato</label><input type="text" value={parc.contato || ''} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], contato: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Tel / WhatsApp" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Site</label><input type="text" value={parc.site || ''} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], site: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary font-mono" placeholder="site.com.br" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Instagram</label><input type="text" value={parc.instagram || ''} onChange={(e) => { const p = [...siteConfig.parcerias]; p[idx] = { ...p[idx], instagram: e.target.value }; handleSaveConfig({ ...siteConfig, parcerias: p }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="@perfil" /></div>
    </div>
   </div>
  ))}

@@ -1,339 +1,350 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
- Camera,
- Image as ImageIcon,
- Filter,
- X,
- ChevronLeft,
- ChevronRight,
- ZoomIn,
+  Camera,
+  Image as ImageIcon,
+  Filter,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
 } from 'lucide-react';
-
-const categories = [
- { id: 'todos', label: 'Todos', count: 20 },
- { id: 'eventos', label: 'Eventos', count: 5 },
- { id: 'clube-campo', label: 'Clube de Campo', count: 4 },
- { id: 'clube-nautico', label: 'Clube Náutico', count: 4 },
- { id: 'colonia-ferias', label: 'Colônia de Férias', count: 4 },
- { id: 'esportivo', label: 'Esportivo', count: 3 },
-];
-
-const photos = [
- // Eventos
- { id: 1, category: 'eventos', title: 'Festa Junina 2025', description: 'Confraternização dos associados' },
- { id: 2, category: 'eventos', title: 'Assembleia Geral 2025', description: 'Reunião anual dos associados' },
- { id: 3, category: 'eventos', title: 'Dia das Crianças', description: 'Evento especial para as famílias' },
- { id: 4, category: 'eventos', title: 'Confraternização de Final de Ano', description: 'Celebração 2025' },
- { id: 5, category: 'eventos', title: 'Aniversário da AES', description: 'Comemoração especial' },
- // Clube de Campo
- { id: 6, category: 'clube-campo', title: 'Vista Aérea', description: 'Clube de Campo em Jundiaí' },
- { id: 7, category: 'clube-campo', title: 'Piscinas', description: 'Área aquática do clube' },
- { id: 8, category: 'clube-campo', title: 'Churrasqueiras', description: 'Área de convivência' },
- { id: 9, category: 'clube-campo', title: 'Campos Esportivos', description: 'Quadras e campos' },
- // Clube Náutico
- { id: 10, category: 'clube-nautico', title: 'Praia de Boracéia', description: 'Clube Náutico' },
- { id: 11, category: 'clube-nautico', title: 'Estrutura do Clube', description: 'Instalações do náutico' },
- { id: 12, category: 'clube-nautico', title: 'Área de Lazer', description: 'Espaços de convivência' },
- { id: 13, category: 'clube-nautico', title: 'Vista para o Mar', description: 'Paisagem do clube' },
- // Colônia de Férias
- { id: 14, category: 'colonia-ferias', title: 'Colônia de Itanhaém', description: 'Vista geral' },
- { id: 15, category: 'colonia-ferias', title: 'Chalés', description: 'Acomodações da colônia' },
- { id: 16, category: 'colonia-ferias', title: 'Área de Recreação', description: 'Espaço infantil' },
- { id: 17, category: 'colonia-ferias', title: 'Salão de Jogos', description: 'Entretenimento' },
- // Esportivo
- { id: 18, category: 'esportivo', title: 'Torneio de Futebol', description: 'Campeonato interno' },
- { id: 19, category: 'esportivo', title: 'Campeonato de Vôlei', description: 'Torneio regional' },
- { id: 20, category: 'esportivo', title: 'Corrida AES', description: 'Evento esportivo anual' },
-];
+import { SiteConfigManager, type GaleriaFoto } from '@/lib/config/site-config';
 
 const placeholderGradients = [
- 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
- 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
- 'linear-gradient(to bottom right, #2dd4bf, #06b6d4)',
- 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-light))',
- 'linear-gradient(to bottom right, var(--color-primary-light), var(--color-primary))',
- 'linear-gradient(to bottom right, var(--color-secondary), var(--color-primary))',
+  'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
+  'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
+  'linear-gradient(to bottom right, #2dd4bf, #06b6d4)',
+  'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-light))',
+  'linear-gradient(to bottom right, var(--color-primary-light), var(--color-primary))',
+  'linear-gradient(to bottom right, var(--color-secondary), var(--color-primary))',
 ];
 
 const containerVariants = {
- hidden: { opacity: 0 },
- visible: {
- opacity: 1,
- transition: {
- staggerChildren: 0.06,
- delayChildren: 0.1,
- },
- },
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+      delayChildren: 0.1,
+    },
+  },
 };
 
 const cardVariants = {
- hidden: { opacity: 0, scale: 0.9 },
- visible: {
- opacity: 1,
- scale: 1,
- transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
- },
- exit: {
- opacity: 0,
- scale: 0.9,
- transition: { duration: 0.2 },
- },
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.9,
+    transition: { duration: 0.2 },
+  },
 };
 
 export default function GaleriaPage() {
- const [activeCategory, setActiveCategory] = useState('todos');
- const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+  const [photos, setPhotos] = useState<GaleriaFoto[]>([]);
+  const [activeCategory, setActiveCategory] = useState('todos');
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
- const filteredPhotos =
- activeCategory === 'todos'
- ? photos
- : photos.filter((p) => p.category === activeCategory);
+  useEffect(() => {
+    const load = () => setPhotos(SiteConfigManager.getConfig().galeria);
+    load();
+    const handler = () => load();
+    window.addEventListener('aes-config-change', handler);
+    return () => window.removeEventListener('aes-config-change', handler);
+  }, []);
 
- const selectedIndex = selectedPhoto !== null
- ? filteredPhotos.findIndex((p) => p.id === selectedPhoto)
- : -1;
+  // Build categories from config data
+  const categorySet = Array.from(new Set(photos.map((p) => p.categoria)));
+  const categories = [
+    { id: 'todos', label: 'Todos', count: photos.length },
+    ...categorySet.map((cat) => ({
+      id: cat,
+      label: cat,
+      count: photos.filter((p) => p.categoria === cat).length,
+    })),
+  ];
 
- const handlePrev = () => {
- if (selectedIndex > 0) {
- setSelectedPhoto(filteredPhotos[selectedIndex - 1].id);
- }
- };
+  const filteredPhotos =
+    activeCategory === 'todos'
+      ? photos
+      : photos.filter((p) => p.categoria === activeCategory);
 
- const handleNext = () => {
- if (selectedIndex < filteredPhotos.length - 1) {
- setSelectedPhoto(filteredPhotos[selectedIndex + 1].id);
- }
- };
+  const selectedIndex = selectedPhoto !== null
+    ? filteredPhotos.findIndex((p) => p.id === selectedPhoto)
+    : -1;
 
- return (
- <div className="min-h-screen">
- {/* Hero Section */}
- <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark), var(--color-primary-dark))" }}>
- <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
- <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
- <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
+  const handlePrev = () => {
+    if (selectedIndex > 0) {
+      setSelectedPhoto(filteredPhotos[selectedIndex - 1].id);
+    }
+  };
 
- <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- >
- <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
- Nossos Momentos
- </span>
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
- Galeria de Fotos
- </h1>
- <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
- Confira os melhores momentos dos eventos, núcleos de lazer e atividades esportivas da AES SENAI.
- </p>
- </motion.div>
- </div>
- </section>
+  const handleNext = () => {
+    if (selectedIndex < filteredPhotos.length - 1) {
+      setSelectedPhoto(filteredPhotos[selectedIndex + 1].id);
+    }
+  };
 
- {/* Filter Bar */}
- <section className="sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
- <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
- <Filter size={18} className="text-gray-400 flex-shrink-0 mr-1" />
- {categories.map((cat) => (
- <button
- key={cat.id}
- onClick={() => setActiveCategory(cat.id)}
- className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
- activeCategory === cat.id
- ? 'bg-theme-primary text-white shadow-lg shadow-theme-primary'
- : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
- }`}
- >
- {cat.label}
- <span
- className={`ml-1.5 text-xs ${
- activeCategory === cat.id ? 'text-white/60' : 'text-gray-400'
- }`}
- >
- ({cat.count})
- </span>
- </button>
- ))}
- </div>
- </div>
- </section>
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark), var(--color-primary-dark))" }}>
+        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
 
- {/* Photo Grid */}
- <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
- <AnimatePresence mode="wait">
- <motion.div
- key={activeCategory}
- variants={containerVariants}
- initial="hidden"
- animate="visible"
- exit="hidden"
- className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
- >
- {filteredPhotos.map((photo, idx) => {
- const colorIndex = idx % placeholderGradients.length;
- return (
- <motion.div
- key={photo.id}
- variants={cardVariants}
- layout
- className="group cursor-pointer"
- onClick={() => setSelectedPhoto(photo.id)}
- >
- <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
- {/* Placeholder gradient */}
- <div
- className="absolute inset-0"
- style={{ background: placeholderGradients[colorIndex] }}
- />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
+              Nossos Momentos
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
+              Galeria de Fotos
+            </h1>
+            <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
+              Confira os melhores momentos dos eventos, nucleos de lazer e atividades esportivas da AES SENAI.
+            </p>
+          </motion.div>
+        </div>
+      </section>
 
- {/* Camera icon placeholder */}
- <div className="absolute inset-0 flex items-center justify-center">
- <Camera
- className="text-white/30"
- size={48}
- strokeWidth={1}
- />
- </div>
+      {/* Filter Bar */}
+      {categories.length > 1 && (
+        <section className="sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+              <Filter size={18} className="text-gray-400 flex-shrink-0 mr-1" />
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeCategory === cat.id
+                      ? 'bg-theme-primary text-white shadow-lg shadow-theme-primary'
+                      : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                  }`}
+                >
+                  {cat.label}
+                  <span
+                    className={`ml-1.5 text-xs ${
+                      activeCategory === cat.id ? 'text-white/60' : 'text-gray-400'
+                    }`}
+                  >
+                    ({cat.count})
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
- {/* Hover overlay */}
- <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
- <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
- <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
- <ZoomIn className="text-white" size={24} />
- </div>
- </div>
- </div>
+      {/* Photo Grid */}
+      <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCategory}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+            >
+              {filteredPhotos.map((photo, idx) => {
+                const colorIndex = idx % placeholderGradients.length;
+                return (
+                  <motion.div
+                    key={photo.id}
+                    variants={cardVariants}
+                    layout
+                    className="group cursor-pointer"
+                    onClick={() => setSelectedPhoto(photo.id)}
+                  >
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                      {/* Photo or placeholder gradient */}
+                      {photo.imageData ? (
+                        <img
+                          src={photo.imageData}
+                          alt={photo.titulo}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      ) : (
+                        <>
+                          <div
+                            className="absolute inset-0"
+                            style={{ background: placeholderGradients[colorIndex] }}
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Camera
+                              className="text-white/30"
+                              size={48}
+                              strokeWidth={1}
+                            />
+                          </div>
+                        </>
+                      )}
 
- {/* Category badge */}
- <div className="absolute top-3 left-3">
- <span className="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full">
- {categories.find((c) => c.id === photo.category)?.label}
- </span>
- </div>
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                            <ZoomIn className="text-white" size={24} />
+                          </div>
+                        </div>
+                      </div>
 
- {/* Title overlay */}
- <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-12">
- <h3 className="text-white font-semibold text-sm">
- {photo.title}
- </h3>
- <p className="text-white/70 text-xs mt-0.5">
- {photo.description}
- </p>
- </div>
- </div>
- </motion.div>
- );
- })}
- </motion.div>
- </AnimatePresence>
+                      {/* Category badge */}
+                      <div className="absolute top-3 left-3">
+                        <span className="px-3 py-1 bg-black/40 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                          {photo.categoria}
+                        </span>
+                      </div>
 
- {/* Empty state */}
- {filteredPhotos.length === 0 && (
- <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- className="text-center py-20"
- >
- <ImageIcon className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={64} />
- <h3 className="text-xl font-semibold text-gray-500 dark:text-gray-400">
- Nenhuma foto nesta categoria
- </h3>
- </motion.div>
- )}
- </div>
- </section>
+                      {/* Title overlay */}
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-12">
+                        <h3 className="text-white font-semibold text-sm">
+                          {photo.titulo}
+                        </h3>
+                        {photo.descricao && (
+                          <p className="text-white/70 text-xs mt-0.5">
+                            {photo.descricao}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </AnimatePresence>
 
- {/* Lightbox Modal */}
- <AnimatePresence>
- {selectedPhoto !== null && selectedIndex >= 0 && (
- <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- exit={{ opacity: 0 }}
- className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
- onClick={() => setSelectedPhoto(null)}
- >
- {/* Close button */}
- <button
- onClick={() => setSelectedPhoto(null)}
- className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
- >
- <X className="text-white" size={24} />
- </button>
+          {/* Empty state */}
+          {filteredPhotos.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
+              <ImageIcon className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={64} />
+              <h3 className="text-xl font-semibold text-gray-500 dark:text-gray-400">
+                Nenhuma foto nesta categoria
+              </h3>
+              <p className="text-gray-400 dark:text-gray-500 mt-2">
+                Fotos podem ser adicionadas pelo painel administrativo.
+              </p>
+            </motion.div>
+          )}
+        </div>
+      </section>
 
- {/* Prev button */}
- {selectedIndex > 0 && (
- <button
- onClick={(e) => {
- e.stopPropagation();
- handlePrev();
- }}
- className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
- >
- <ChevronLeft className="text-white" size={28} />
- </button>
- )}
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedPhoto !== null && selectedIndex >= 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
+            onClick={() => setSelectedPhoto(null)}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
+            >
+              <X className="text-white" size={24} />
+            </button>
 
- {/* Next button */}
- {selectedIndex < filteredPhotos.length - 1 && (
- <button
- onClick={(e) => {
- e.stopPropagation();
- handleNext();
- }}
- className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
- >
- <ChevronRight className="text-white" size={28} />
- </button>
- )}
+            {/* Prev button */}
+            {selectedIndex > 0 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePrev();
+                }}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
+              >
+                <ChevronLeft className="text-white" size={28} />
+              </button>
+            )}
 
- {/* Image content */}
- <motion.div
- key={selectedPhoto}
- initial={{ opacity: 0, scale: 0.9 }}
- animate={{ opacity: 1, scale: 1 }}
- exit={{ opacity: 0, scale: 0.9 }}
- transition={{ duration: 0.3 }}
- className="relative w-full max-w-4xl aspect-[16/10] rounded-2xl overflow-hidden"
- onClick={(e) => e.stopPropagation()}
- >
- {/* Placeholder gradient */}
- <div
- className="absolute inset-0"
- style={{ background: placeholderGradients[selectedIndex % placeholderGradients.length] }}
- />
- <div className="absolute inset-0 flex items-center justify-center">
- <Camera className="text-white/20" size={96} strokeWidth={1} />
- </div>
+            {/* Next button */}
+            {selectedIndex < filteredPhotos.length - 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNext();
+                }}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors z-10"
+              >
+                <ChevronRight className="text-white" size={28} />
+              </button>
+            )}
 
- {/* Info bar */}
- <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-16">
- <h3 className="text-white text-xl font-bold">
- {filteredPhotos[selectedIndex].title}
- </h3>
- <p className="text-white/70 mt-1">
- {filteredPhotos[selectedIndex].description}
- </p>
- <div className="flex items-center justify-between mt-3">
- <span className="px-3 py-1 bg-white/20 text-white text-xs font-medium rounded-full">
- {categories.find((c) => c.id === filteredPhotos[selectedIndex].category)?.label}
- </span>
- <span className="text-white/50 text-sm">
- {selectedIndex + 1} / {filteredPhotos.length}
- </span>
- </div>
- </div>
- </motion.div>
- </motion.div>
- )}
- </AnimatePresence>
- </div>
- );
+            {/* Image content */}
+            <motion.div
+              key={selectedPhoto}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+              className="relative w-full max-w-4xl aspect-[16/10] rounded-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Photo or placeholder gradient */}
+              {filteredPhotos[selectedIndex].imageData ? (
+                <img
+                  src={filteredPhotos[selectedIndex].imageData}
+                  alt={filteredPhotos[selectedIndex].titulo}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <>
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: placeholderGradients[selectedIndex % placeholderGradients.length] }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Camera className="text-white/20" size={96} strokeWidth={1} />
+                  </div>
+                </>
+              )}
+
+              {/* Info bar */}
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 pt-16">
+                <h3 className="text-white text-xl font-bold">
+                  {filteredPhotos[selectedIndex].titulo}
+                </h3>
+                {filteredPhotos[selectedIndex].descricao && (
+                  <p className="text-white/70 mt-1">
+                    {filteredPhotos[selectedIndex].descricao}
+                  </p>
+                )}
+                <div className="flex items-center justify-between mt-3">
+                  <span className="px-3 py-1 bg-white/20 text-white text-xs font-medium rounded-full">
+                    {filteredPhotos[selectedIndex].categoria}
+                  </span>
+                  <span className="text-white/50 text-sm">
+                    {selectedIndex + 1} / {filteredPhotos.length}
+                  </span>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
 }
