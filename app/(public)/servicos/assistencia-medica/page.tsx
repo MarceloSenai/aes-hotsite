@@ -19,7 +19,38 @@ import {
  XCircle,
  DollarSign,
 } from 'lucide-react';
-import { SiteConfigManager, type PlanoSaude } from '@/lib/config/site-config';
+import { planosSaudeService } from '@/lib/supabase/data-service';
+
+interface PlanoFaixa {
+  id: string;
+  faixa: string;
+  valor: string;
+}
+
+interface PlanoSaude {
+  id: string;
+  tipo: string;
+  operadora: string;
+  cobertura: string;
+  aberto: boolean;
+  faixas: PlanoFaixa[];
+}
+
+function mapPlanoSaude(row: Record<string, unknown>): PlanoSaude {
+  const faixasRaw = (row.plano_faixas as Record<string, unknown>[]) ?? [];
+  return {
+    id: row.id as string,
+    tipo: row.tipo as string,
+    operadora: row.operadora as string,
+    cobertura: row.cobertura as string,
+    aberto: row.aberto as boolean,
+    faixas: faixasRaw.map((f) => ({
+      id: f.id as string,
+      faixa: f.faixa as string,
+      valor: f.valor as string,
+    })),
+  };
+}
 
 const coverageItems = [
  {
@@ -86,13 +117,11 @@ export default function AssistenciaMedicaPage() {
  const [planos, setPlanos] = useState<PlanoSaude[]>([]);
 
  useEffect(() => {
-  const load = () => {
-   const config = SiteConfigManager.getConfig();
-   setPlanos(config.planosMedicos);
+  const load = async () => {
+   const data = await planosSaudeService.getAll('medico');
+   setPlanos(data.map((row) => mapPlanoSaude(row as unknown as Record<string, unknown>)));
   };
   load();
-  window.addEventListener('aes-config-change', load);
-  return () => window.removeEventListener('aes-config-change', load);
  }, []);
 
  return (

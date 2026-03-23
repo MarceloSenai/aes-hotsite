@@ -4,19 +4,25 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ShieldCheck, Mail } from 'lucide-react';
-import { SiteConfigManager, type ParceiroSeguro } from '@/lib/config/site-config';
+import { parceirosSeguroService } from '@/lib/supabase/data-service';
+
+interface ParceiroSeguro {
+  id: string;
+  nome: string;
+  tipo: string;
+  descricao: string;
+  contato: string;
+}
 
 export default function SegurosPage() {
  const [parceiros, setParceiros] = useState<ParceiroSeguro[]>([]);
 
  useEffect(() => {
-  const load = () => {
-   const config = SiteConfigManager.getConfig();
-   setParceiros(config.parceirosSeguro);
+  const load = async () => {
+   const data = await parceirosSeguroService.getAll();
+   setParceiros(data as unknown as ParceiroSeguro[]);
   };
   load();
-  window.addEventListener('aes-config-change', load);
-  return () => window.removeEventListener('aes-config-change', load);
  }, []);
 
  return (

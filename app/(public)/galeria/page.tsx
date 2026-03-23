@@ -11,7 +11,16 @@ import {
   ChevronRight,
   ZoomIn,
 } from 'lucide-react';
-import { SiteConfigManager, type GaleriaFoto } from '@/lib/config/site-config';
+import { galeriaService, getPublicUrl } from '@/lib/supabase/data-service';
+
+interface GaleriaFoto {
+  id: string;
+  titulo: string;
+  descricao?: string;
+  categoria: string;
+  image_path?: string;
+  imageUrl?: string;
+}
 
 const placeholderGradients = [
   'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
@@ -53,11 +62,15 @@ export default function GaleriaPage() {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   useEffect(() => {
-    const load = () => setPhotos(SiteConfigManager.getConfig().galeria);
+    const load = async () => {
+      const data = await galeriaService.getAll();
+      const mapped: GaleriaFoto[] = (data as unknown as GaleriaFoto[]).map((row) => ({
+        ...row,
+        imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path) : undefined,
+      }));
+      setPhotos(mapped);
+    };
     load();
-    const handler = () => load();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   // Build categories from config data
@@ -174,9 +187,9 @@ export default function GaleriaPage() {
                   >
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                       {/* Photo or placeholder gradient */}
-                      {photo.imageData ? (
+                      {photo.imageUrl ? (
                         <img
-                          src={photo.imageData}
+                          src={photo.imageUrl}
                           alt={photo.titulo}
                           className="absolute inset-0 w-full h-full object-cover"
                         />
@@ -304,9 +317,9 @@ export default function GaleriaPage() {
               onClick={(e) => e.stopPropagation()}
             >
               {/* Photo or placeholder gradient */}
-              {filteredPhotos[selectedIndex].imageData ? (
+              {filteredPhotos[selectedIndex].imageUrl ? (
                 <img
-                  src={filteredPhotos[selectedIndex].imageData}
+                  src={filteredPhotos[selectedIndex].imageUrl}
                   alt={filteredPhotos[selectedIndex].titulo}
                   className="absolute inset-0 w-full h-full object-cover"
                 />

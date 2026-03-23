@@ -4,7 +4,18 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
-import { SiteConfigManager, type Evento } from '@/lib/config/site-config';
+import { eventosService } from '@/lib/supabase/data-service';
+
+interface Evento {
+  id: string;
+  titulo: string;
+  data: string;
+  local: string;
+  departamento: string;
+  horario?: string;
+  mes: string;
+  enabled: boolean;
+}
 
 const MESES_ORDEM = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
@@ -12,14 +23,11 @@ export default function CalendarioPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
 
   useEffect(() => {
-    const load = () => {
-      const config = SiteConfigManager.getConfig();
-      setEventos(config.eventos.filter((e) => e.enabled));
+    const load = async () => {
+      const data = await eventosService.getAll();
+      setEventos((data as unknown as Evento[]).filter((e) => e.enabled));
     };
     load();
-    const handler = () => load();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   const eventosPorMes = useMemo(() => {

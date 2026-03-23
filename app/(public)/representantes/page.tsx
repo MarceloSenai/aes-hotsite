@@ -3,7 +3,20 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Mail, Building, MapPin, Crown, Eye, Gavel, Briefcase } from 'lucide-react';
-import { SiteConfigManager, type Representante, type CategoriaRepresentante } from '@/lib/config/site-config';
+import { representantesService } from '@/lib/supabase/data-service';
+
+type CategoriaRepresentante = 'conselho-deliberativo' | 'conselho-fiscal' | 'diretoria-executiva' | 'diretores-departamentos' | 'representantes-regionais';
+
+interface Representante {
+  id: string;
+  nome: string;
+  cargo?: string;
+  categoria: CategoriaRepresentante;
+  regional?: string;
+  unidade?: string;
+  email?: string;
+  telefone?: string;
+}
 
 const CATEGORIAS: { key: CategoriaRepresentante; label: string; icon: React.ElementType; color: string; desc: string }[] = [
   { key: 'conselho-deliberativo', label: 'Conselho Deliberativo', icon: Crown, color: '#6366F1', desc: 'Órgão máximo de deliberação da associação' },
@@ -17,10 +30,11 @@ export default function RepresentantesPage() {
   const [reps, setReps] = useState<Representante[]>([]);
 
   useEffect(() => {
-    const load = () => setReps(SiteConfigManager.getConfig().representantes);
+    const load = async () => {
+      const data = await representantesService.getAll();
+      setReps(data as unknown as Representante[]);
+    };
     load();
-    window.addEventListener('aes-config-change', load);
-    return () => window.removeEventListener('aes-config-change', load);
   }, []);
 
   const grouped = useMemo(() => {

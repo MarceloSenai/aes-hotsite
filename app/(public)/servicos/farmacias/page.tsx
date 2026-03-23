@@ -4,7 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Pill, Percent, CreditCard, MapPin, Mail, AlertTriangle } from 'lucide-react';
-import { SiteConfigManager, type FarmaciaInfo } from '@/lib/config/site-config';
+import { farmaciaService } from '@/lib/supabase/data-service';
+
+interface FarmaciaInfo {
+  rede: string;
+  descricao: string;
+  restricao: string;
+  contato: string;
+}
 
 const highlights = [
  {
@@ -28,13 +35,11 @@ export default function FarmaciasPage() {
  const [farmacia, setFarmacia] = useState<FarmaciaInfo | null>(null);
 
  useEffect(() => {
-  const load = () => {
-   const config = SiteConfigManager.getConfig();
-   setFarmacia(config.farmacia);
+  const load = async () => {
+   const data = await farmaciaService.get();
+   setFarmacia(data as unknown as FarmaciaInfo | null);
   };
   load();
-  window.addEventListener('aes-config-change', load);
-  return () => window.removeEventListener('aes-config-change', load);
  }, []);
 
  return (

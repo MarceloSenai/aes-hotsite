@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, TreePalm, Waves, Umbrella, MapPin } from 'lucide-react';
-import { SiteConfigManager } from '@/lib/config/site-config';
+import { nucleoPricingService } from '@/lib/supabase/data-service';
 
 const nucleosBase = [
   {
@@ -58,21 +58,17 @@ export default function Solutions() {
   const [prices, setPrices] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    const loadPrices = () => {
-      const config = SiteConfigManager.getConfig();
+    const loadPrices = async () => {
+      const data = await nucleoPricingService.getAll();
       const p: Record<string, string> = {};
-      config.nucleoPricing.forEach((n) => {
-        if (n.precos.length > 0) {
-          p[n.id] = n.precos[0].associado;
+      (data as unknown as { id: string; nucleo_precos: { associado: string }[] }[]).forEach((n) => {
+        if (n.nucleo_precos && n.nucleo_precos.length > 0) {
+          p[n.id] = n.nucleo_precos[0].associado;
         }
       });
       setPrices(p);
     };
     loadPrices();
-
-    const handler = () => loadPrices();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   return (

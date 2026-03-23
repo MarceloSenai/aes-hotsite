@@ -4,7 +4,31 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { SiteConfigManager, type CarouselSlide } from '@/lib/config/site-config';
+import { carouselService } from '@/lib/supabase/data-service';
+
+interface CarouselSlide {
+  id: string;
+  badge: string;
+  badgeColor: string;
+  title: string;
+  description: string;
+  cta: string;
+  href: string;
+  enabled: boolean;
+}
+
+function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
+  return {
+    id: row.id as string,
+    badge: row.badge as string,
+    badgeColor: (row.badge_color as string) ?? '',
+    title: row.title as string,
+    description: row.description as string,
+    cta: row.cta as string,
+    href: row.href as string,
+    enabled: row.enabled as boolean,
+  };
+}
 
 export default function Carousel() {
   const [slides, setSlides] = useState<CarouselSlide[]>([]);
@@ -12,21 +36,14 @@ export default function Carousel() {
   const [direction, setDirection] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Load slides from config
+  // Load slides from Supabase
   useEffect(() => {
-    const config = SiteConfigManager.getConfig();
-    const active = config.carouselSlides.filter((s) => s.enabled);
-    setSlides(active);
-
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail;
-      if (detail?.carouselSlides) {
-        setSlides(detail.carouselSlides.filter((s: CarouselSlide) => s.enabled));
-        setCurrent(0);
-      }
+    const load = async () => {
+      const data = await carouselService.getAll();
+      const mapped = data.map((row) => mapCarouselSlide(row as unknown as Record<string, unknown>));
+      setSlides(mapped.filter((s) => s.enabled));
     };
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
+    load();
   }, []);
 
   const next = useCallback(() => {

@@ -9,7 +9,18 @@ import {
   FolderOpen,
   Calendar,
 } from 'lucide-react';
-import { SiteConfigManager, type DocumentoArquivo } from '@/lib/config/site-config';
+import { documentosService, getPublicUrl } from '@/lib/supabase/data-service';
+
+interface DocumentoArquivo {
+  id: string;
+  titulo: string;
+  descricao?: string;
+  categoria: string;
+  file_path?: string;
+  file_name?: string;
+  fileUrl?: string;
+  created_at?: string;
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -53,11 +64,15 @@ export default function DocumentosPage() {
   const [documentos, setDocumentos] = useState<DocumentoArquivo[]>([]);
 
   useEffect(() => {
-    const load = () => setDocumentos(SiteConfigManager.getConfig().documentos);
+    const load = async () => {
+      const data = await documentosService.getAll();
+      const mapped: DocumentoArquivo[] = (data as unknown as DocumentoArquivo[]).map((row) => ({
+        ...row,
+        fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path) : undefined,
+      }));
+      setDocumentos(mapped);
+    };
     load();
-    const handler = () => load();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   // Group documents by categoria
@@ -69,10 +84,11 @@ export default function DocumentosPage() {
   const categoryNames = Object.keys(grouped);
 
   const handleDownload = (doc: DocumentoArquivo) => {
-    if (doc.fileData) {
+    if (doc.fileUrl) {
       const link = document.createElement('a');
-      link.href = doc.fileData;
-      link.download = doc.fileName || `${doc.titulo}.pdf`;
+      link.href = doc.fileUrl;
+      link.download = doc.file_name || `${doc.titulo}.pdf`;
+      link.target = '_blank';
       link.click();
     }
   };
@@ -170,17 +186,17 @@ export default function DocumentosPage() {
                                   <div className="flex items-center gap-2 mt-0.5">
                                     <Calendar size={12} className="text-gray-400" />
                                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                                      {doc.dataUpload}
+                                      {doc.created_at}
                                     </span>
-                                    {doc.fileName && (
+                                    {doc.file_name && (
                                       <span className="text-xs px-2 py-0.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light rounded-full font-medium">
-                                        {doc.fileName.split('.').pop()?.toUpperCase() || 'PDF'}
+                                        {doc.file_name.split('.').pop()?.toUpperCase() || 'PDF'}
                                       </span>
                                     )}
                                   </div>
                                 </div>
                               </div>
-                              {doc.fileData ? (
+                              {doc.fileUrl ? (
                                 <button
                                   onClick={() => handleDownload(doc)}
                                   className="flex items-center gap-2 text-theme-primary dark:text-theme-primary opacity-60 hover:opacity-100 group-hover/item:opacity-100 transition-opacity duration-200 cursor-pointer"

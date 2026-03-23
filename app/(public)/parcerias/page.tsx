@@ -10,7 +10,18 @@ import {
   Globe,
   Star,
 } from 'lucide-react';
-import { SiteConfigManager, type Parceria } from '@/lib/config/site-config';
+import { parceriasService } from '@/lib/supabase/data-service';
+
+interface Parceria {
+  id: string;
+  nome: string;
+  categoria: string;
+  descricao: string;
+  contato?: string;
+  site?: string;
+  instagram?: string;
+  destaque?: string;
+}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -50,11 +61,11 @@ export default function ParceriasPage() {
   const [parcerias, setParcerias] = useState<Parceria[]>([]);
 
   useEffect(() => {
-    const load = () => setParcerias(SiteConfigManager.getConfig().parcerias);
+    const load = async () => {
+      const data = await parceriasService.getAll();
+      setParcerias(data as unknown as Parceria[]);
+    };
     load();
-    const handler = () => load();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   return (

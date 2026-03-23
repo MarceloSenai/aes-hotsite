@@ -4,24 +4,35 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
-import { SiteConfigManager, type BoletimEdicao } from '@/lib/config/site-config';
+import { boletinsService, getPublicUrl } from '@/lib/supabase/data-service';
+
+interface BoletimEdicao {
+  id: string;
+  numero: number;
+  titulo: string;
+  data: string;
+  resumo: string;
+  pdf_path?: string;
+}
 
 export default function BoletimPage() {
   const [boletins, setBoletins] = useState<BoletimEdicao[]>([]);
 
   useEffect(() => {
-    const load = () => setBoletins(SiteConfigManager.getConfig().boletins);
+    const load = async () => {
+      const data = await boletinsService.getAll();
+      setBoletins(data as unknown as BoletimEdicao[]);
+    };
     load();
-    const handler = () => load();
-    window.addEventListener('aes-config-change', handler);
-    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
   const handleDownload = (bol: BoletimEdicao) => {
-    if (bol.pdfData) {
+    if (bol.pdf_path) {
+      const url = getPublicUrl('aes-boletins', bol.pdf_path);
       const link = document.createElement('a');
-      link.href = bol.pdfData;
-      link.download = bol.pdfFileName || `${bol.titulo}.pdf`;
+      link.href = url;
+      link.download = `${bol.titulo}.pdf`;
+      link.target = '_blank';
       link.click();
     }
   };
@@ -81,7 +92,7 @@ export default function BoletimPage() {
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-300">{bol.resumo}</p>
               </div>
-              {bol.pdfData ? (
+              {bol.pdf_path ? (
                 <button onClick={() => handleDownload(bol)}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors shrink-0"
                   style={{ backgroundColor: 'var(--color-primary)' }}>
