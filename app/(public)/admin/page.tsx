@@ -40,7 +40,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [{ id: 'themes', label: 'Temas & Cores' }],
   },
   {
-    label: 'Conteudo',
+    label: 'Conteúdo',
     icon: FileText,
     items: [
       { id: 'carousel', label: 'Carrossel' },
@@ -59,11 +59,11 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [{ id: 'representantes', label: 'Representantes' }],
   },
   {
-    label: 'Servicos',
+    label: 'Serviços',
     icon: Heart,
     items: [
-      { id: 'planos', label: 'Planos Medicos' },
-      { id: 'seguros', label: 'Seguros & Farmacia' },
+      { id: 'planos', label: 'Planos Médicos' },
+      { id: 'seguros', label: 'Seguros & Farmácia' },
     ],
   },
   {
@@ -77,14 +77,14 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [{ id: 'documentos', label: 'Documentos' }],
   },
   {
-    label: 'Precos',
+    label: 'Preços',
     icon: DollarSign,
-    items: [{ id: 'precos', label: 'Precos' }],
+    items: [{ id: 'precos', label: 'Preços' }],
   },
   {
-    label: 'Configuracoes',
+    label: 'Configurações',
     icon: Settings,
-    items: [{ id: 'config', label: 'Configuracoes' }],
+    items: [{ id: 'config', label: 'Configurações' }],
   },
 ];
 
@@ -965,7 +965,7 @@ export default function AdminPage() {
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Badge</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Titulo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Link</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
                             <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
@@ -1010,7 +1010,7 @@ export default function AdminPage() {
               {activeSection === 'eventos' && (
                 <div>
                   <SectionHeader
-                    title="Calendario de Eventos"
+                    title="Calendário de Eventos"
                     onAdd={() => openEditModal('eventos', {
                       titulo: '', data: '', local: '', departamento: 'Cultural e Recreativo',
                       horario: '', mes: 'Janeiro', enabled: true,
@@ -1022,7 +1022,7 @@ export default function AdminPage() {
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Titulo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Local</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Mes</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
@@ -1069,8 +1069,8 @@ export default function AdminPage() {
               {activeSection === 'boletim' && (
                 <div>
                   <SectionHeader
-                    title="Edicoes do Boletim"
-                    addLabel="Nova Edicao"
+                    title="Edições do Boletim"
+                    addLabel="Nova Edição"
                     onAdd={() => openEditModal('boletim', {
                       numero: (boletinsData.length > 0 ? Math.max(...boletinsData.map((b) => Number(b.numero) || 0)) + 1 : 1),
                       titulo: '', data: '', resumo: '', pdf_path: '',
@@ -1082,7 +1082,7 @@ export default function AdminPage() {
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">No.</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Titulo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">PDF</th>
                             <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
@@ -1190,7 +1190,7 @@ export default function AdminPage() {
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Foto</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Titulo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
                             <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
                           </tr>
@@ -1248,7 +1248,7 @@ export default function AdminPage() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Titulo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Arquivo</th>
                             <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
@@ -1300,7 +1300,7 @@ export default function AdminPage() {
               {activeSection === 'parcerias' && (
                 <div>
                   <SectionHeader
-                    title="Parcerias e Convenios"
+                    title="Parcerias e Convênios"
                     addLabel="Nova Parceria"
                     onAdd={() => openEditModal('parcerias', {
                       nome: '', categoria: 'Outros', descricao: '', contato: '', site: '', instagram: '', destaque: '', sort_order: parceriasData.length,
@@ -1350,7 +1350,7 @@ export default function AdminPage() {
               {/* ═══ PRECOS SECTION ═══ */}
               {activeSection === 'precos' && (
                 <div>
-                  <SectionHeader title="Precos - Nucleos de Lazer" />
+                  <SectionHeader title="Preços - Núcleos de Lazer" />
                   {loading.precos ? <TableSkeleton cols={6} /> : (
                     <div className="space-y-6">
                       {precosData.map((nucleo) => (
@@ -1388,7 +1388,7 @@ export default function AdminPage() {
                       ))}
                       {precosData.length === 0 && (
                         <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-400 text-sm">
-                          Nenhum nucleo de preco cadastrado
+                          Nenhum núcleo de preço cadastrado
                         </div>
                       )}
                     </div>
@@ -1399,7 +1399,7 @@ export default function AdminPage() {
               {/* ═══ PLANOS MEDICOS SECTION ═══ */}
               {activeSection === 'planos' && (
                 <div>
-                  <SectionHeader title="Planos Medicos e Odontologicos" />
+                  <SectionHeader title="Planos Médicos e Odontológicos" />
                   {loading.planos ? <TableSkeleton cols={5} /> : (
                     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
                       <table className="w-full text-sm">
@@ -1457,7 +1457,7 @@ export default function AdminPage() {
                             <tr className="bg-gray-50 border-b border-gray-200">
                               <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
                               <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
-                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Descricao</th>
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Descrição</th>
                               <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
                             </tr>
                           </thead>
@@ -1490,20 +1490,20 @@ export default function AdminPage() {
                     )}
                   </div>
 
-                  {/* Farmacia */}
+                  {/* Farmácia */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">Farmacia Conveniada</h3>
+                    <h3 className="text-lg font-bold text-gray-900 mb-4">Farmácia Conveniada</h3>
                     {farmaciaData && (
                       <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
                         <Field label="Rede" value={farmaciaData.rede || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, rede: v })} />
-                        <Field label="Descricao" value={farmaciaData.descricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, descricao: v })} type="textarea" />
-                        <Field label="Restricao" value={farmaciaData.restricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, restricao: v })} />
+                        <Field label="Descrição" value={farmaciaData.descricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, descricao: v })} type="textarea" />
+                        <Field label="Restrição" value={farmaciaData.restricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, restricao: v })} />
                         <Field label="Contato" value={farmaciaData.contato || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, contato: v })} />
                         <button
                           onClick={async () => {
                             if (!farmaciaData) return;
                             await farmaciaService.update(farmaciaData);
-                            showToast('Farmacia atualizada');
+                            showToast('Farmácia atualizada');
                           }}
                           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
                         >
@@ -1519,7 +1519,7 @@ export default function AdminPage() {
               {/* ═══ CONFIGURACOES SECTION ═══ */}
               {activeSection === 'config' && (
                 <div className="space-y-8">
-                  <SectionHeader title="Configuracoes do Site" />
+                  <SectionHeader title="Configurações do Site" />
 
                   {loading.config ? <TableSkeleton cols={3} /> : (
                     <>
@@ -1638,12 +1638,12 @@ export default function AdminPage() {
                               onClick={async () => {
                                 if (!siteConfigData) return;
                                 await siteConfigService.update(siteConfigData);
-                                showToast('Configuracoes salvas');
+                                showToast('Configurações salvas');
                               }}
                               className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
                             >
                               <Save size={16} />
-                              Salvar Configuracoes
+                              Salvar Configurações
                             </button>
                           </div>
                         </div>
@@ -1668,12 +1668,12 @@ export default function AdminPage() {
             {/* CAROUSEL MODAL */}
             {editModalSection === 'carousel' && (
               <>
-                <Field label="Titulo" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} />
+                <Field label="Título" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} />
                 <Field label="Badge" value={(editingItem.badge as string) || ''} onChange={(v) => updateEditingField('badge', v)} />
                 <div className="flex items-center gap-3">
                   <Field label="Cor do Badge" value={(editingItem.badge_color as string) || '#6366F1'} onChange={(v) => updateEditingField('badge_color', v)} type="color" />
                 </div>
-                <Field label="Descricao" value={(editingItem.description as string) || ''} onChange={(v) => updateEditingField('description', v)} type="textarea" />
+                <Field label="Descrição" value={(editingItem.description as string) || ''} onChange={(v) => updateEditingField('description', v)} type="textarea" />
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Botao CTA" value={(editingItem.cta as string) || ''} onChange={(v) => updateEditingField('cta', v)} />
                   <Field label="Link" value={(editingItem.href as string) || ''} onChange={(v) => updateEditingField('href', v)} placeholder="/" />
@@ -1685,7 +1685,7 @@ export default function AdminPage() {
             {/* EVENTOS MODAL */}
             {editModalSection === 'eventos' && (
               <>
-                <Field label="Titulo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Data" value={(editingItem.data as string) || ''} onChange={(v) => updateEditingField('data', v)} placeholder="Ex: 18/01" />
                   <Field label="Horario" value={(editingItem.horario as string) || ''} onChange={(v) => updateEditingField('horario', v)} placeholder="Ex: 14:00" />
@@ -1710,7 +1710,7 @@ export default function AdminPage() {
                   <Field label="Numero" value={(editingItem.numero as number) || 0} onChange={(v) => updateEditingField('numero', parseInt(v) || 0)} type="number" />
                   <Field label="Data" value={(editingItem.data as string) || ''} onChange={(v) => updateEditingField('data', v)} placeholder="Marco 2026" />
                 </div>
-                <Field label="Titulo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
                 <Field label="Resumo" value={(editingItem.resumo as string) || ''} onChange={(v) => updateEditingField('resumo', v)} type="textarea" />
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-2">PDF do Boletim</label>
@@ -1756,14 +1756,14 @@ export default function AdminPage() {
             {/* GALERIA MODAL */}
             {editModalSection === 'galeria' && (
               <>
-                <Field label="Titulo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
-                <Field label="Descricao" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field
                   label="Categoria"
                   value={(editingItem.categoria as string) || 'Eventos'}
                   onChange={(v) => updateEditingField('categoria', v)}
                   type="select"
-                  options={['Eventos','Clube de Campo','Clube Nautico','Colonia de Ferias','Esportivo','Institucional']}
+                  options={['Eventos','Clube de Campo','Clube Náutico','Colônia de Férias','Esportivo','Institucional']}
                 />
                 <div>
                   <label className="block text-xs font-medium text-gray-600 mb-2">Imagem</label>
@@ -1785,8 +1785,8 @@ export default function AdminPage() {
             {/* DOCUMENTOS MODAL */}
             {editModalSection === 'documentos' && (
               <>
-                <Field label="Titulo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
-                <Field label="Descricao" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field
                   label="Categoria"
                   value={(editingItem.categoria as string) || 'Comunicados'}
@@ -1826,7 +1826,7 @@ export default function AdminPage() {
                   type="select"
                   options={['Idiomas','Fitness','Hospedagem','Educacao','Eletrodomesticos','Bem-estar','Instituto','Outros']}
                 />
-                <Field label="Descricao" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
+                <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field label="Destaque" value={(editingItem.destaque as string) || ''} onChange={(v) => updateEditingField('destaque', v)} placeholder="Ex: 40% desconto" />
                 <div className="grid grid-cols-3 gap-3">
                   <Field label="Contato" value={(editingItem.contato as string) || ''} onChange={(v) => updateEditingField('contato', v)} placeholder="Tel / WhatsApp" />
@@ -1841,7 +1841,7 @@ export default function AdminPage() {
               <>
                 <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
                 <Field label="Tipo" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} />
-                <Field label="Descricao" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
+                <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field label="Contato" value={(editingItem.contato as string) || ''} onChange={(v) => updateEditingField('contato', v)} />
               </>
             )}
@@ -1895,7 +1895,7 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
             {!isMobile && (
               <>
                 <span className="text-white/80 text-[10px]">Sobre</span>
-                <span className="text-white/80 text-[10px]">Servicos</span>
+                <span className="text-white/80 text-[10px]">Serviços</span>
                 <span className="text-white/80 text-[10px]">Lazer</span>
                 <span className="text-white/80 text-[10px]">Contato</span>
               </>
@@ -1966,13 +1966,13 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
 
       {/* SERVICES */}
       <div className={`${spacing} px-6`} style={{ backgroundColor: c.surface }}>
-        <h2 className="font-semibold text-base mb-1 text-center" style={{ color: c.foreground }}>Nossos Servicos</h2>
+        <h2 className="font-semibold text-base mb-1 text-center" style={{ color: c.foreground }}>Nossos Serviços</h2>
         <p className="text-[10px] text-center mb-6" style={{ color: c.foregroundMuted }}>Beneficios exclusivos para associados</p>
         <div className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-3'} gap-3`}>
           {[
             { icon: Heart, label: 'Assistencia Medica', desc: 'UNIMED FESP' },
             { icon: Shield, label: 'Fundo Mutuo', desc: 'FUMUS' },
-            { icon: TreePalm, label: 'Lazer', desc: '3 Nucleos' },
+            { icon: TreePalm, label: 'Lazer', desc: '3 Núcleos' },
             { icon: Users, label: 'Odontologico', desc: 'Rede credenciada' },
             { icon: Calendar, label: 'Eventos', desc: 'Cultural e esportivo' },
             { icon: ExternalLink, label: 'Parcerias', desc: '10+ parceiros' },
@@ -1994,12 +1994,12 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
 
       {/* LEISURE */}
       <div className={`${spacing} px-6`} style={{ backgroundColor: c.background }}>
-        <h2 className="font-semibold text-base mb-4 text-center" style={{ color: c.foreground }}>Nucleos de Lazer</h2>
+        <h2 className="font-semibold text-base mb-4 text-center" style={{ color: c.foreground }}>Núcleos de Lazer</h2>
         <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-3`}>
           {[
             { name: 'Clube de Campo', loc: 'Jundiai/SP', price: 'R$ 45' },
-            { name: 'Clube Nautico', loc: 'Boraceia/SP', price: 'R$ 45' },
-            { name: 'Colonia de Ferias', loc: 'Itanhaem/SP', price: 'R$ 118' },
+            { name: 'Clube Náutico', loc: 'Boraceia/SP', price: 'R$ 45' },
+            { name: 'Colônia de Férias', loc: 'Itanhaem/SP', price: 'R$ 118' },
           ].map((club, i) => (
             <div key={i} className="overflow-hidden" style={{ borderRadius: radius }}>
               <div className="h-16" style={{ background: `linear-gradient(135deg, ${c.primary}${i === 0 ? '' : i === 1 ? '90' : '60'}, ${c.primaryDark})` }} />
@@ -2038,12 +2038,12 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
             <div className="text-white font-bold text-[8px] mb-1">Links</div>
             <div className="text-gray-400 text-[8px] space-y-0.5">
               <div>Quem Somos</div>
-              <div>Servicos</div>
+              <div>Serviços</div>
               <div>Contato</div>
             </div>
           </div>
           <div>
-            <div className="text-white font-bold text-[8px] mb-1">Servicos</div>
+            <div className="text-white font-bold text-[8px] mb-1">Serviços</div>
             <div className="text-gray-400 text-[8px] space-y-0.5">
               <div>Medico</div>
               <div>FUMUS</div>
