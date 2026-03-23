@@ -39,7 +39,6 @@ interface NavItem {
 /* ------------------------------------------------------------------ */
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '/', label: 'Home' },
   {
     href: '/sobre',
     label: 'Sobre a AES',
