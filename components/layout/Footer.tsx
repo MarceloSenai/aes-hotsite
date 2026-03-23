@@ -110,59 +110,33 @@ export default function Footer() {
           {/* Column 4: Contato */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-5">Contato</h3>
-            <ul className="space-y-3.5 text-sm">
-              {/* Telefone */}
+            <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2.5 text-gray-400">
                 <Phone size={16} className="text-theme-primary shrink-0" />
-                <a
-                  href="tel:+551133679900"
-                  className="hover:text-white transition-colors"
-                >
-                  (11) 3367-9900
-                </a>
+                <a href="tel:+551133679900" className="hover:text-white transition-colors">(11) 3367-9900</a>
               </li>
-
-              {/* WhatsApp */}
               <li className="flex items-center gap-2.5 text-gray-400">
                 <MessageCircle size={16} className="text-theme-primary shrink-0" />
-                <a
-                  href="https://wa.me/551133679900"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors"
-                >
-                  WhatsApp
-                </a>
+                <a href="https://wa.me/551133679900" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">WhatsApp</a>
               </li>
-
-              {/* Email */}
-              <li className="flex items-center gap-2.5 text-gray-400">
-                <Mail size={16} className="text-theme-primary shrink-0" />
-                <a
-                  href="mailto:clube@aessenai.org.br"
-                  className="hover:text-white transition-colors"
-                >
-                  clube@aessenai.org.br
-                </a>
-              </li>
-
-              {/* Endereço */}
               <li className="flex items-start gap-2.5 text-gray-400">
                 <MapPin size={16} className="text-theme-primary shrink-0 mt-0.5" />
-                <span className="leading-relaxed">
-                  Rua Correia de Andrade, 232
-                  <br />
-                  Brás, São Paulo - SP
-                  <br />
-                  CEP 03008-020
-                </span>
+                <span className="leading-relaxed">Rua Correia de Andrade, 232<br />Brás, São Paulo - SP<br />CEP 03008-020</span>
               </li>
-
-              {/* Horário */}
               <li className="flex items-center gap-2.5 text-gray-400">
                 <Clock size={16} className="text-theme-primary shrink-0" />
-                <span>Seg-Sex 7:00 - 16:00</span>
+                <span>Seg-Sex 7:00 - 17:00</span>
               </li>
+            </ul>
+
+            <h4 className="text-sm font-semibold text-white mt-5 mb-2.5">E-mails por Setor</h4>
+            <ul className="space-y-1.5 text-xs">
+              <li className="text-gray-400"><span className="text-gray-500">Gerente:</span>{' '}<a href="mailto:gerente@aessenai.org.br" className="hover:text-white transition-colors">gerente@aessenai.org.br</a></li>
+              <li className="text-gray-400"><span className="text-gray-500">Cadastro / Odonto / TotalPass:</span>{' '}<a href="mailto:cadastro@aessenai.org.br" className="hover:text-white transition-colors">cadastro@aessenai.org.br</a></li>
+              <li className="text-gray-400"><span className="text-gray-500">Planos de Saúde:</span>{' '}<a href="mailto:rh@aessenai.org.br" className="hover:text-white transition-colors">rh@aessenai.org.br</a></li>
+              <li className="text-gray-400"><span className="text-gray-500">Boletos e Cobranças:</span>{' '}<a href="mailto:cobranca@aessenai.org.br" className="hover:text-white transition-colors">cobranca@aessenai.org.br</a></li>
+              <li className="text-gray-400"><span className="text-gray-500">Contas a Receber:</span>{' '}<a href="mailto:boletim.aes@aessenai.org.br" className="hover:text-white transition-colors">boletim.aes@aessenai.org.br</a></li>
+              <li className="text-gray-400"><span className="text-gray-500">Contas a Pagar:</span>{' '}<a href="mailto:financeiro@aessenai.org.br" className="hover:text-white transition-colors">financeiro@aessenai.org.br</a></li>
             </ul>
           </div>
         </div>

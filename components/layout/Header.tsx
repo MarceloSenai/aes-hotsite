@@ -14,7 +14,10 @@ import {
   MessageCircle,
   UserCircle,
   Shield,
+  Sun,
+  Moon,
 } from 'lucide-react';
+import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -89,6 +92,9 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   { href: '/parcerias', label: 'Parcerias' },
+  { href: '/calendario', label: 'Eventos' },
+  { href: '/boletim', label: 'Boletim' },
+  { href: '/indusprev', label: 'INDUSPREV' },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -241,6 +247,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const a11y = useAccessibility();
 
   /* Track scroll for shadow effect */
   useEffect(() => {
@@ -304,6 +311,14 @@ export default function Header() {
               <Mail size={13} />
               Webmail
             </a>
+            <button
+              onClick={() => a11y.setDarkMode(!a11y.darkMode)}
+              className="flex items-center gap-1.5 hover:text-theme-primary-light transition-colors"
+              aria-label={a11y.darkMode ? 'Modo claro' : 'Modo escuro'}
+            >
+              {a11y.darkMode ? <Sun size={14} /> : <Moon size={14} />}
+              <span className="hidden sm:inline">{a11y.darkMode ? 'Claro' : 'Escuro'}</span>
+            </button>
             <Link
               href="/area-do-associado"
               className="flex items-center gap-1.5 font-semibold hover:text-theme-primary-light transition-colors"
