@@ -72,12 +72,11 @@ if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('
           </ThemeProvider>
         </AccessibilityProvider>
         {/* VLibras widget - official gov.br implementation */}
-        <div vw="true" className="enabled">
-          <div vw-access-button="true" className="active" />
-          <div vw-plugin-wrapper="true">
-            <div className="vw-plugin-top-wrapper" />
-          </div>
-        </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: `<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>`,
+          }}
+        />
         <script src="https://vlibras.gov.br/app/vlibras-plugin.js" async />
       </body>
     </html>
