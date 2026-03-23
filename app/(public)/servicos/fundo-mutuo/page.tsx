@@ -29,7 +29,7 @@ const itemVariants = {
  },
 };
 
-export default function FundoMutuoPage() {
+export default function FundoMútuoPage() {
  return (
  <section className="py-24 gradient-theme-page-light min-h-screen">
  <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">

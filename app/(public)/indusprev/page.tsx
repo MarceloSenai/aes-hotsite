@@ -21,8 +21,8 @@ const beneficios = [
 ];
 
 const faqs = [
-  { q: 'O que e o INDUSPREV?', a: 'O INDUSPREV e uma entidade fechada de previdencia complementar que administra planos de beneficios para empregados de empresas do Sistema Industria.' },
-  { q: 'Quem pode participar?', a: 'Todos os empregados do SENAI-SP, tanto ativos quanto aposentados, podem aderir ao plano de previdencia complementar.' },
+  { q: 'O que é o INDUSPREV?', a: 'O INDUSPREV é uma entidade fechada de previdência complementar que administra planos de beneficios para empregados de empresas do Sistema Indústria.' },
+  { q: 'Quem pode participar?', a: 'Todos os empregados do SENAI-SP, tanto ativos quanto aposentados, podem aderir ao plano de previdência complementar.' },
   { q: 'Como funciona a contribuicao?', a: 'O participante escolhe o percentual de contribuicao mensal, que e descontado diretamente em folha. A patrocinadora (SENAI) tambem contribui conforme regulamento.' },
   { q: 'Posso resgatar a qualquer momento?', a: 'O resgate esta sujeito as regras do regulamento do plano. Consulte o INDUSPREV para detalhes sobre carencia e condicoes de resgate.' },
   { q: 'Como aderir?', a: 'Entre em contato com o RH do SENAI-SP ou diretamente com o INDUSPREV pelos canais de atendimento listados abaixo.' },

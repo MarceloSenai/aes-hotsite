@@ -76,7 +76,7 @@ const cardVariants = {
  },
 };
 
-export default function NucleosDeLazerPage() {
+export default function NúcleosDeLazerPage() {
  return (
  <>
  {/* Hero Banner */}

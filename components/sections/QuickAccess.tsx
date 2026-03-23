@@ -20,9 +20,9 @@ import {
 } from 'lucide-react';
 
 const portalLinks = [
-  { icon: TreePalm, label: 'Nucleos de Lazer', href: '/nucleo-de-lazer', color: '#10B981' },
+  { icon: TreePalm, label: 'Núcleos de Lazer', href: '/nucleo-de-lazer', color: '#10B981' },
   { icon: Building2, label: 'Departamentos', href: '/departamentos', color: '#8B5CF6' },
-  { icon: Briefcase, label: 'Servicos', href: '/servicos', color: '#0EA5E9' },
+  { icon: Briefcase, label: 'Serviços', href: '/servicos', color: '#0EA5E9' },
   { icon: Handshake, label: 'Parcerias', href: '/parcerias', color: '#F59E0B' },
   { icon: FileText, label: 'Documentos', href: '/documentos', color: '#6366F1' },
   { icon: Calendar, label: 'Eventos', href: '/calendario', color: '#EC4899' },
@@ -89,10 +89,10 @@ export default function QuickAccess() {
             Portal
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-            Acesso <span className="text-theme-gradient">Rapido</span>
+            Acesso <span className="text-theme-gradient">Rápido</span>
           </h2>
           <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-            Navegue por todas as areas do Portal AES
+            Navegue por todas as áreas do Portal AES
           </p>
         </motion.div>
 

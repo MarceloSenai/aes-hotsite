@@ -345,7 +345,7 @@ export default function AccessibilityPanel() {
                 <div>
                   <h2 className="text-lg font-bold text-white">Acessibilidade</h2>
                   <p className="text-xs text-white/70">
-                    Personalize sua experiencia
+                    Personalize sua experiência
                   </p>
                 </div>
               </div>
@@ -378,10 +378,10 @@ export default function AccessibilityPanel() {
                 </Section>
               </div>
 
-              {/* ── Interacao e leitura ── */}
+              {/* ── Interação e leitura ── */}
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3">
-                  Interacao e leitura
+                  Interação e leitura
                 </h3>
                 <div className="space-y-3">
                   <Section
@@ -400,7 +400,7 @@ export default function AccessibilityPanel() {
                   <Section
                     icon={AlignJustify}
                     iconColor="#8B5CF6"
-                    title="Espacamento entre linhas"
+                    title="Espaçamento entre linhas"
                     description="Aumenta o espacamento entre linhas para facilitar a leitura."
                   >
                     <Toggle
@@ -413,13 +413,13 @@ export default function AccessibilityPanel() {
                   <Section
                     icon={Pause}
                     iconColor="#F59E0B"
-                    title="Reduzir animacoes"
-                    description="Reduz ou desativa animacoes e transicoes."
+                    title="Reduzir animações"
+                    description="Reduz ou desativa animações e transicoes."
                   >
                     <Toggle
                       checked={a11y.reducedMotion}
                       onChange={a11y.setReducedMotion}
-                      label="Reduzir animacoes"
+                      label="Reduzir animações"
                     />
                   </Section>
                 </div>
@@ -428,7 +428,7 @@ export default function AccessibilityPanel() {
               {/* ── Visibilidade ── */}
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-3">
-                  Opcoes de visibilidade
+                  Opções de visibilidade
                 </h3>
                 <div className="space-y-3">
                   <Section
@@ -447,7 +447,7 @@ export default function AccessibilityPanel() {
                   <Section
                     icon={Eye}
                     iconColor="#10B981"
-                    title="Modo daltonico"
+                    title="Modo daltônico"
                     description="Ajusta as cores para facilitar a visualizacao."
                   >
                     <ColorModeSelect
@@ -459,13 +459,13 @@ export default function AccessibilityPanel() {
                   <Section
                     icon={EyeOff}
                     iconColor="#6B7280"
-                    title="Modo monocromatico"
+                    title="Modo monocromático"
                     description="Transforma as cores em tons de cinza para melhor contraste."
                   >
                     <Toggle
                       checked={a11y.monochrome}
                       onChange={a11y.setMonochrome}
-                      label="Ativar modo monocromatico"
+                      label="Ativar modo monocromático"
                     />
                   </Section>
 
@@ -491,14 +491,14 @@ export default function AccessibilityPanel() {
                   className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 py-3 text-sm font-medium text-gray-500 dark:text-gray-400 hover:border-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                 >
                   <RotateCcw size={16} />
-                  Restaurar configuracoes padrao
+                  Restaurar configurações padrao
                 </button>
               )}
             </div>
 
             {/* Footer */}
             <div className="px-5 py-4 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-700">
-              As preferencias sao salvas automaticamente no seu navegador.
+              As preferências sao salvas automaticamente no seu navegador.
             </div>
           </motion.div>
         )}

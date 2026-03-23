@@ -8,7 +8,7 @@ const atividades = [
   'Organizacao de festas e eventos tematicos',
   'Passeios culturais, excursoes e viagens',
   'Programacao artistica (shows, teatro, cinema)',
-  'Atividades recreativas para toda a familia',
+  'Atividades recreativas para toda a família',
   'Coordenacao de eventos nos nucleos de lazer',
   'Festas juninas, carnaval e datas comemorativas',
 ];
@@ -18,7 +18,7 @@ const eventos = [
   { data: '08/03', titulo: 'Dia Internacional da Mulher', local: 'Sede AES - Sao Paulo' },
   { data: '14/06', titulo: 'Festa Junina AES', local: 'Clube de Campo - Jundiai' },
   { data: '07-11/07', titulo: 'Colonia de Ferias Infantil', local: 'Colonia de Ferias - Itanhaem' },
-  { data: '11/10', titulo: 'Dia das Criancas', local: 'Todos os Nucleos' },
+  { data: '11/10', titulo: 'Dia das Criancas', local: 'Todos os Núcleos' },
   { data: '13/12', titulo: 'Confraternizacao de Final de Ano', local: 'Clube de Campo - Jundiai' },
 ];
 
@@ -47,10 +47,10 @@ export default function CulturalRecreativoPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <Music size={20} className="text-violet-500" /> O que e o Departamento
+            <Music size={20} className="text-violet-500" /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento Cultural e Recreativo promove atividades culturais, artisticas e recreativas para os associados e familiares. Organiza eventos, passeios, shows e programas de entretenimento ao longo do ano, contribuindo para a integracao e qualidade de vida dos membros da AES.
+            O Departamento Cultural e Recreativo promove atividades culturais, artisticas e recreativas para os associados e famíliares. Organiza eventos, passeios, shows e programas de entretenimento ao longo do ano, contribuindo para a integração e qualidade de vida dos membros da AES.
           </p>
         </motion.div>
 
@@ -75,7 +75,7 @@ export default function CulturalRecreativoPage() {
             <Users size={20} className="text-violet-600" /> A quem se destina
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Todos os associados da AES, dependentes e agregados. Atividades abertas para toda a familia, com programacao especial para criancas, jovens e adultos.
+            Todos os associados da AES, dependentes e agregados. Atividades abertas para toda a família, com programação especial para criancas, jovens e adultos.
           </p>
         </motion.div>
 

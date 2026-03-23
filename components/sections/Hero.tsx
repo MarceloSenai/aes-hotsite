@@ -6,9 +6,9 @@ import { motion } from 'framer-motion';
 import { ArrowRight, TreePalm, Stethoscope, Shield, Handshake } from 'lucide-react';
 
 const benefits = [
-  { icon: Stethoscope, label: 'Saude', desc: 'Medica e Odontologica' },
-  { icon: TreePalm, label: '3 Nucleos', desc: 'de Lazer' },
-  { icon: Shield, label: 'Fundo Mutuo', desc: 'FUMUS e FUMUA' },
+  { icon: Stethoscope, label: 'Saúde', desc: 'Medica e Odontologica' },
+  { icon: TreePalm, label: '3 Núcleos', desc: 'de Lazer' },
+  { icon: Shield, label: 'Fundo Mútuo', desc: 'FUMUS e FUMUA' },
   { icon: Handshake, label: 'Parcerias', desc: 'Exclusivas' },
 ];
 
@@ -77,7 +77,7 @@ export default function Hero() {
             >
               <span className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: 'var(--color-primary)' }} />
               <span className="text-xs sm:text-sm font-medium" style={{ color: 'var(--color-primary-dark)' }}>
-                Utilidade Publica desde 1966
+                Utilidade Pública desde 1966
               </span>
             </motion.div>
 
@@ -99,7 +99,7 @@ export default function Hero() {
               variants={itemVariants}
               className="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-xl leading-relaxed"
             >
-              Associacao dos Empregados do SENAI — proporcionando qualidade de vida desde 1947
+              Associação dos Empregados do SENAI — proporcionando qualidade de vida desde 1947
             </motion.p>
 
             {/* CTA Buttons */}

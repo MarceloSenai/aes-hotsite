@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Users, Calendar, Heart, Coffee, Mail, Phone, ArrowRight } from 'lucide-react';
 
 const atividades = [
-  'Encontros mensais de confraternizacao',
+  'Encontros mensais de confraternização',
   'Passeios culturais e turisticos',
   'Eventos comemorativos (Dia do Aposentado, festas de final de ano)',
-  'Orientacao sobre direitos e beneficios',
+  'Orientação sobre direitos e beneficios',
   'Atividades recreativas nos nucleos de lazer',
   'Integracao com demais departamentos da AES',
 ];
@@ -45,10 +45,10 @@ export default function AposentadosPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <Heart size={20} className="text-amber-500" /> O que e o Departamento
+            <Heart size={20} className="text-amber-500" /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento de Aposentados e dedicado ao suporte, integracao e valorizacao dos associados aposentados do SENAI-SP. Promove atividades de convivencia, bem-estar e lazer, mantendo o vinculo dos aposentados com a associacao e garantindo que continuem usufruindo de todos os beneficios da AES.
+            O Departamento de Aposentados é dedicado ao suporte, integração e valorização dos associados aposentados do SENAI-SP. Promove atividades de convivência, bem-estar e lazer, mantendo o vínculo dos aposentados com a associação e garantindo que continuem usufruindo de todos os benefícios da AES.
           </p>
         </motion.div>
 
@@ -75,7 +75,7 @@ export default function AposentadosPage() {
             <Users size={20} className="text-amber-600" /> A quem se destina
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Todos os associados aposentados do SENAI-SP e seus dependentes. Aposentados que mantenham seu vinculo associativo tem acesso a todas as atividades e beneficios do departamento.
+            Todos os associados aposentados do SENAI-SP e seus dependentes. Aposentados que mantenham seu vínculo associativo tem acesso a todas as atividades e beneficios do departamento.
           </p>
         </motion.div>
 

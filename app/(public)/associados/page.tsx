@@ -132,7 +132,7 @@ export default function AssociadosPage() {
  </h1>
  <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
  Conheça os benefícios exclusivos para associados da AES SENAI e saiba como fazer parte
- desta comunidade que valoriza o bem-estar de seus membros e familiares.
+ desta comunidade que valoriza o bem-estar de seus membros e famíliares.
  </p>
  </motion.div>
  </div>

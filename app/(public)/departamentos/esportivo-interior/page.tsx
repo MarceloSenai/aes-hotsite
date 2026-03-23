@@ -44,10 +44,10 @@ export default function EsportivoInteriorPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <Trophy size={20} style={{ color: 'var(--color-primary)' }} /> O que e o Departamento
+            <Trophy size={20} style={{ color: 'var(--color-primary)' }} /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento Esportivo Interior e responsavel pelas atividades esportivas nas cidades do interior de Sao Paulo. Garante que associados de todas as regioes tenham acesso a pratica esportiva, integracao e lazer, com eventos nos nucleos de lazer da AES.
+            O Departamento Esportivo Interior é responsável pelas atividades esportivas nas cidades do interior de Sao Paulo. Garante que associados de todas as regioes tenham acesso a prática esportiva, integração e lazer, com eventos nos nucleos de lazer da AES.
           </p>
         </motion.div>
 

@@ -68,7 +68,7 @@ export default function Carousel() {
             <span className="text-theme-gradient">Novidades</span>
           </h2>
           <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-            Acompanhe as ultimas ofertas, noticias e comunicados da AES
+            Acompanhe as últimas ofertas, notícias e comunicados da AES
           </p>
         </div>
 

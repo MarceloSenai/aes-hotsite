@@ -35,7 +35,7 @@ const departments = [
  director: 'Alessandra Angelim da Silva',
  role: 'Diretora',
  description:
- 'Promove atividades culturais, artísticas e recreativas para os associados e familiares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
+ 'Promove atividades culturais, artísticas e recreativas para os associados e famíliares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
  highlights: [
  'Eventos culturais',
  'Passeios e excursões',

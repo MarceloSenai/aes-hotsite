@@ -39,7 +39,7 @@ const calendario: Evento[] = [
   {
     mes: 'Abril',
     eventos: [
-      { titulo: 'Pascoa nos Nucleos', data: '05/04', local: 'Todos os Nucleos', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Pascoa nos Núcleos', data: '05/04', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
       { titulo: 'Campeonato de Futebol', data: '12/04', local: 'Clube de Campo - Jundiai', departamento: 'Esportivo Capital', horario: '08:00' },
     ],
   },
@@ -59,7 +59,7 @@ const calendario: Evento[] = [
   {
     mes: 'Julho',
     eventos: [
-      { titulo: 'Ferias de Inverno nos Nucleos', data: '01-31/07', local: 'Todos os Nucleos', departamento: 'Nucleos de Lazer' },
+      { titulo: 'Ferias de Inverno nos Núcleos', data: '01-31/07', local: 'Todos os Núcleos', departamento: 'Núcleos de Lazer' },
       { titulo: 'Colonia de Ferias Infantil', data: '07-11/07', local: 'Colonia de Ferias - Itanhaem', departamento: 'Cultural e Recreativo' },
     ],
   },
@@ -79,7 +79,7 @@ const calendario: Evento[] = [
   {
     mes: 'Outubro',
     eventos: [
-      { titulo: 'Dia das Criancas nos Nucleos', data: '11/10', local: 'Todos os Nucleos', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Dia das Criancas nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
       { titulo: 'Campeonato de Pesca', data: '25/10', local: 'Clube Nautico - Boraceia', departamento: 'Esportivo Interior' },
     ],
   },
@@ -93,12 +93,12 @@ const calendario: Evento[] = [
     mes: 'Dezembro',
     eventos: [
       { titulo: 'Confraternizacao de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiai', departamento: 'Cultural e Recreativo', horario: '12:00' },
-      { titulo: 'Reveillon na Colonia', data: '30-31/12', local: 'Colonia de Ferias - Itanhaem', departamento: 'Nucleos de Lazer' },
+      { titulo: 'Reveillon na Colonia', data: '30-31/12', local: 'Colonia de Ferias - Itanhaem', departamento: 'Núcleos de Lazer' },
     ],
   },
 ];
 
-export default function CalendarioPage() {
+export default function CalendárioPage() {
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,11 +115,11 @@ export default function CalendarioPage() {
               <Calendar size={32} style={{ color: 'var(--color-primary)' }} />
             </div>
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Calendario de <span className="text-theme-gradient">Eventos 2026</span>
+              Calendário de <span className="text-theme-gradient">Eventos 2026</span>
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Confira a programacao completa de eventos, atividades culturais, esportivas e de lazer da AES.
+            Confira a programação completa de eventos, atividades culturais, esportivas e de lazer da AES.
           </p>
         </motion.div>
 

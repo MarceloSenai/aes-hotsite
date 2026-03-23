@@ -71,10 +71,10 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { label: 'Contas a Pagar', email: 'financeiro@aessenai.org.br' },
   ],
   carouselSlides: [
-    { id: 's1', badge: 'Eventos', badgeColor: '#8B5CF6', title: 'Calendario de Eventos 2026', description: 'Confira a programacao completa de eventos, atividades culturais, esportivas e de lazer.', cta: 'Ver Calendario', href: '/calendario', enabled: true },
+    { id: 's1', badge: 'Eventos', badgeColor: '#8B5CF6', title: 'Calendário de Eventos 2026', description: 'Confira a programação completa de eventos, atividades culturais, esportivas e de lazer.', cta: 'Ver Calendário', href: '/calendario', enabled: true },
     { id: 's2', badge: 'Comunicado', badgeColor: '#EF4444', title: 'Novas Parcerias Exclusivas', description: 'A AES firmou novas parcerias com universidades e academias. Descontos especiais para associados.', cta: 'Saiba Mais', href: '/parcerias', enabled: true },
-    { id: 's3', badge: 'Oferta', badgeColor: '#10B981', title: 'Reservas nos Nucleos de Lazer', description: 'Aproveite nos 3 nucleos: Clube de Campo, Clube Nautico e Colonia de Ferias.', cta: 'Reservar Agora', href: '/nucleo-de-lazer', enabled: true },
-    { id: 's4', badge: 'Boletim', badgeColor: '#0EA5E9', title: 'Boletim Informativo AES', description: 'Fique por dentro de todas as novidades, comunicados e informacoes da Associacao.', cta: 'Ler Boletim', href: '/boletim', enabled: true },
+    { id: 's3', badge: 'Oferta', badgeColor: '#10B981', title: 'Reservas nos Núcleos de Lazer', description: 'Aproveite nos 3 nucleos: Clube de Campo, Clube Nautico e Colonia de Ferias.', cta: 'Reservar Agora', href: '/nucleo-de-lazer', enabled: true },
+    { id: 's4', badge: 'Boletim', badgeColor: '#0EA5E9', title: 'Boletim Informativo AES', description: 'Fique por dentro de todas as novidades, comunicados e informações da Associação.', cta: 'Ler Boletim', href: '/boletim', enabled: true },
   ],
   nucleoPricing: [
     {

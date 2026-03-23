@@ -237,9 +237,9 @@ export default function AdminPage() {
  </div>
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
- {/* Left: Options */}
- <div className="xl:col-span-1">
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
+ {/* Options panel */}
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing') ? '' : 'xl:col-span-1'}>
  <AnimatePresence mode="wait">
  {activeTab === 'designs' && (
  <motion.div
@@ -524,7 +524,7 @@ export default function AdminPage() {
 
  {activeTab === 'pricing' && (
  <motion.div key="pricing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
- <h2 className="text-lg font-semibold text-gray-900">Tabelas de Precos - Nucleos de Lazer</h2>
+ <h2 className="text-lg font-semibold text-gray-900">Tabelas de Precos - Núcleos de Lazer</h2>
  {siteConfig.nucleoPricing.map((nucleo, nIdx) => (
   <div key={nucleo.id} className="bg-white rounded-xl p-5 border border-gray-200">
    <h3 className="text-sm font-bold text-gray-800 mb-4">{nucleo.nome}</h3>
@@ -553,8 +553,8 @@ export default function AdminPage() {
  </AnimatePresence>
  </div>
 
- {/* Right: Real Preview */}
- <div className="xl:col-span-2">
+ {/* Right: Real Preview (only for design tabs) */}
+ {(activeTab === 'designs' || activeTab === 'themes' || activeTab === 'colors') && <div className="xl:col-span-2">
  <div className="sticky top-28">
  <div className="flex items-center justify-between mb-4">
  <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -591,7 +591,7 @@ export default function AdminPage() {
  </div>
  </div>
  </div>
- </div>
+ </div>}
  </div>
  </div>
  </div>

@@ -8,9 +8,9 @@ const atividades = [
   'Campeonatos internos de futebol, volei e outras modalidades',
   'Torneios esportivos para associados e dependentes',
   'Atividades esportivas em grupo nos nucleos de lazer',
-  'Promocao da saude e bem-estar atraves do esporte',
+  'Promoção da saúde e bem-estar através do esporte',
   'Organizacao de competicoes intersetoriais',
-  'Apoio a pratica esportiva para todas as idades',
+  'Apoio a prática esportiva para todas as idades',
 ];
 
 const eventos = [
@@ -44,10 +44,10 @@ export default function EsportivoCapitalPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-            <Dumbbell size={20} className="text-sky-500" /> O que e o Departamento
+            <Dumbbell size={20} className="text-sky-500" /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento Esportivo Capital coordena todas as atividades esportivas na regiao da capital paulista. Organiza campeonatos, torneios e eventos esportivos para associados de todas as idades, promovendo saude, integracao e espírito esportivo.
+            O Departamento Esportivo Capital coordena todas as atividades esportivas na regiao da capital paulista. Organiza campeonatos, torneios e eventos esportivos para associados de todas as idades, promovendo saude, integração e espírito esportivo.
           </p>
         </motion.div>
 

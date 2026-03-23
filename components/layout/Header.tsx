@@ -82,7 +82,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   { href: '/parcerias', label: 'Parcerias' },
   {
-    href: '/informacoes',
+    href: '/informações',
     label: 'Informações',
     children: [
       { href: '/calendario', label: 'Calendário de Eventos' },

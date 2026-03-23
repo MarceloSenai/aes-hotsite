@@ -17,23 +17,23 @@ import {
 } from 'lucide-react';
 
 const beneficios = [
-  { icon: Stethoscope, label: 'Assistencia Medica e Odontologica' },
-  { icon: TreePalm, label: '3 Nucleos de Lazer' },
-  { icon: Shield, label: 'Fundo Mutuo (FUMUS e FUMUA)' },
+  { icon: Stethoscope, label: 'Assistência Médica e Odontológica' },
+  { icon: TreePalm, label: '3 Núcleos de Lazer' },
+  { icon: Shield, label: 'Fundo Mútuo (FUMUS e FUMUA)' },
   { icon: Heart, label: 'Parcerias exclusivas' },
 ];
 
 const tipos = [
-  { titulo: 'Socio Titular', desc: 'Empregado ativo ou aposentado do SENAI-SP.' },
-  { titulo: 'Dependente', desc: 'Conjuge, filhos e pais do associado titular.' },
-  { titulo: 'Agregado', desc: 'Familiares e indicados pelo associado titular, mediante aprovacao.' },
+  { titulo: 'Sócio Titular', desc: 'Empregado ativo ou aposentado do SENAI-SP.' },
+  { titulo: 'Dependente', desc: 'Cônjuge, filhos e pais do associado titular.' },
+  { titulo: 'Agregado', desc: 'Familiares e indicados pelo associado titular, mediante aprovação.' },
 ];
 
 const passos = [
   'Preencha a ficha cadastral abaixo',
-  'Aguarde a analise e aprovacao do Conselho',
-  'Receba a confirmacao por e-mail',
-  'Acesse a Area do Associado e aproveite os beneficios',
+  'Aguarde a análise e aprovação do Conselho',
+  'Receba a confirmação por e-mail',
+  'Acesse a Área do Associado e aproveite os benefícios',
 ];
 
 export default function AssocieSeSeePage() {
@@ -56,7 +56,7 @@ export default function AssocieSeSeePage() {
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Faca parte da AES e tenha acesso a todos os beneficios para voce e sua familia.
+            Faça parte da AES e tenha acesso a todos os benefícios para você e sua família.
           </p>
         </motion.div>
 
@@ -118,7 +118,7 @@ export default function AssocieSeSeePage() {
           style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' }}>
           <h3 className="text-2xl font-bold mb-3">Pronto para se associar?</h3>
           <p className="text-white/80 mb-6 max-w-lg mx-auto">
-            Entre em contato conosco para receber a ficha cadastral ou acesse a Area do Associado para iniciar seu cadastro.
+            Entre em contato conosco para receber a ficha cadastral ou acesse a Área do Associado para iniciar seu cadastro.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
