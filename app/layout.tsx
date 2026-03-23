@@ -71,14 +71,7 @@ if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('
             <AccessibilityPanel />
           </ThemeProvider>
         </AccessibilityProvider>
-        {/* VLibras - container hidden, script loads on demand via AccessibilityProvider */}
-        <div
-          id="vlibras-root"
-          style={{ display: 'none' }}
-          dangerouslySetInnerHTML={{
-            __html: `<div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div>`,
-          }}
-        />
+{/* VLibras injected by AccessibilityProvider */}
       </body>
     </html>
   );
