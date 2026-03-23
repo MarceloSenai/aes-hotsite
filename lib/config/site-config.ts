@@ -47,6 +47,16 @@ export interface Evento {
   enabled: boolean;
 }
 
+export interface BoletimEdicao {
+  id: string;
+  numero: number;
+  titulo: string;
+  data: string;
+  resumo: string;
+  pdfFileName?: string;
+  pdfData?: string; // base64
+}
+
 export interface Representante {
   id: string;
   nome: string;
@@ -91,6 +101,7 @@ export interface SiteConfig {
   carouselSlides: CarouselSlide[];
   nucleoPricing: NucleoPricing[];
   eventos: Evento[];
+  boletins: BoletimEdicao[];
   representantes: Representante[];
   planosOdontologicos: PlanoSaude[];
   planosMedicos: PlanoSaude[];
@@ -166,6 +177,12 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { id: 'e9', titulo: 'Encontro de Aposentados', data: '23/08', local: 'Sede AES - São Paulo', departamento: 'Aposentados', horario: '10:00', mes: 'Agosto', enabled: true },
     { id: 'e10', titulo: 'Dia das Crianças nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo', mes: 'Outubro', enabled: true },
     { id: 'e11', titulo: 'Confraternização de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '12:00', mes: 'Dezembro', enabled: true },
+  ],
+  boletins: [
+    { id: 'b1', numero: 48, titulo: 'Boletim AES - Março 2026', data: 'Março 2026', resumo: 'Novas parcerias, calendário de eventos atualizado e informações sobre reservas nos núcleos de lazer.' },
+    { id: 'b2', numero: 47, titulo: 'Boletim AES - Fevereiro 2026', data: 'Fevereiro 2026', resumo: 'Carnaval nos núcleos, torneio de verão e novidades sobre o plano de saúde.' },
+    { id: 'b3', numero: 46, titulo: 'Boletim AES - Janeiro 2026', data: 'Janeiro 2026', resumo: 'Posse da nova gestão 2026-2030, confraternização de início de ano e balanço 2025.' },
+    { id: 'b4', numero: 45, titulo: 'Boletim AES - Dezembro 2025', data: 'Dezembro 2025', resumo: 'Encerramento do ano, festa de confraternização e prestação de contas anual.' },
   ],
   representantes: [
     { id: 'r1', nome: 'Carlos Alberto Santos', regional: 'Capital', unidade: 'SENAI Brás', email: 'representante.bras@aessenai.org.br' },

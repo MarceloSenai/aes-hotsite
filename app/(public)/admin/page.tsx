@@ -11,9 +11,9 @@ import {
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
  Sparkles, Globe, Trash2, Plus, ImageIcon, DollarSign
 } from 'lucide-react';
-import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento, type Representante, type PlanoSaude, type ParceiroSeguro } from '@/lib/config/site-config';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento, type Representante, type PlanoSaude, type ParceiroSeguro, type BoletimEdicao } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos' | 'servicos';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos' | 'servicos' | 'boletim';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -155,6 +155,7 @@ export default function AdminPage() {
  { id: 'pricing', label: 'Preços', icon: DollarSign },
  { id: 'eventos', label: 'Eventos', icon: Calendar },
  { id: 'servicos', label: 'Serviços', icon: Sparkles },
+ { id: 'boletim', label: 'Boletim', icon: Sparkles },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -239,9 +240,9 @@ export default function AdminPage() {
  </div>
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos' || activeTab === 'boletim') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
  {/* Options panel */}
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos') ? '' : 'xl:col-span-1'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos' || activeTab === 'boletim') ? '' : 'xl:col-span-1'}>
  <AnimatePresence mode="wait">
  {activeTab === 'designs' && (
  <motion.div
@@ -630,6 +631,33 @@ export default function AdminPage() {
    <div><label className="block text-xs text-gray-500 mb-1">Restrição</label><input type="text" value={siteConfig.farmacia.restricao} onChange={(e) => handleSaveConfig({ ...siteConfig, farmacia: { ...siteConfig.farmacia, restricao: e.target.value } })} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
   </div>
  </div>
+ </motion.div>
+ )}
+
+ {activeTab === 'boletim' && (
+ <motion.div key="boletim" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <h2 className="text-lg font-semibold text-gray-900">Edições do Boletim</h2>
+  <button onClick={() => { const nextNum = Math.max(0, ...siteConfig.boletins.map(b => b.numero)) + 1; handleSaveConfig({ ...siteConfig, boletins: [{ id: `b${Date.now()}`, numero: nextNum, titulo: `Boletim AES - Nova Edição`, data: new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }), resumo: '' }, ...siteConfig.boletins] }); }} className="flex items-center gap-1 text-xs text-theme-primary hover:text-theme-primary-dark font-medium"><Plus size={14} /> Nova Edição</button>
+ </div>
+ {siteConfig.boletins.map((bol, idx) => (
+  <div key={bol.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
+   <div className="flex items-center justify-between">
+    <span className="text-sm font-semibold text-gray-700">Edição {bol.numero}</span>
+    <button onClick={() => handleSaveConfig({ ...siteConfig, boletins: siteConfig.boletins.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+   </div>
+   <div className="grid grid-cols-3 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Número</label><input type="number" value={bol.numero} onChange={(e) => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], numero: parseInt(e.target.value) || 0 }; handleSaveConfig({ ...siteConfig, boletins: b }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div className="col-span-2"><label className="block text-xs text-gray-500 mb-1">Título</label><input type="text" value={bol.titulo} onChange={(e) => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], titulo: e.target.value }; handleSaveConfig({ ...siteConfig, boletins: b }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   </div>
+   <div><label className="block text-xs text-gray-500 mb-1">Data</label><input type="text" value={bol.data} onChange={(e) => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], data: e.target.value }; handleSaveConfig({ ...siteConfig, boletins: b }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Ex: Março 2026" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">Resumo</label><textarea value={bol.resumo} onChange={(e) => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], resumo: e.target.value }; handleSaveConfig({ ...siteConfig, boletins: b }); }} rows={2} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary resize-none" /></div>
+   <div>
+    <label className="block text-xs text-gray-500 mb-1">PDF {bol.pdfFileName && <span className="text-theme-primary font-medium">({bol.pdfFileName})</span>}</label>
+    <input type="file" accept=".pdf" onChange={(e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = () => { const b = [...siteConfig.boletins]; b[idx] = { ...b[idx], pdfData: reader.result as string, pdfFileName: file.name }; handleSaveConfig({ ...siteConfig, boletins: b }); }; reader.readAsDataURL(file); }} className="w-full text-xs file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-theme-primary-5 file:text-theme-primary hover:file:bg-theme-primary-10 cursor-pointer" />
+   </div>
+  </div>
+ ))}
  </motion.div>
  )}
  </AnimatePresence>
