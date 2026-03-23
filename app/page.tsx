@@ -1,4 +1,3 @@
-import Hero from '@/components/sections/Hero';
 import Carousel from '@/components/sections/Carousel';
 import QuickAccess from '@/components/sections/QuickAccess';
 import Mission from '@/components/sections/Mission';
@@ -10,7 +9,6 @@ import CTA from '@/components/sections/CTA';
 export default function Home() {
   return (
     <>
-      <Hero />
       <Carousel />
       <Mission />
       <Features />
