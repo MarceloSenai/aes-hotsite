@@ -4,7 +4,6 @@ import Mission from '@/components/sections/Mission';
 import Stats from '@/components/sections/Stats';
 import Features from '@/components/sections/Features';
 import Solutions from '@/components/sections/Solutions';
-import CTA from '@/components/sections/CTA';
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       <QuickAccess />
       <Solutions />
       <Stats />
-      <CTA />
     </>
   );
 }
