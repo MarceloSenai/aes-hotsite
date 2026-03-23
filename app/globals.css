@@ -171,3 +171,59 @@ body {
     color: var(--color-dark-foreground);
   }
 }
+
+/* ============================================ */
+/* Accessibility modes                          */
+/* ============================================ */
+
+/* Monochrome (grayscale) */
+html.a11y-monochrome {
+  filter: grayscale(100%);
+}
+
+/* High contrast */
+html.a11y-high-contrast {
+  filter: contrast(1.5);
+}
+html.a11y-monochrome.a11y-high-contrast {
+  filter: grayscale(100%) contrast(1.5);
+}
+
+/* Color blind modes — SVG filter based */
+html.a11y-deuteranopia {
+  filter: url('#a11y-deuteranopia');
+}
+html.a11y-protanopia {
+  filter: url('#a11y-protanopia');
+}
+html.a11y-tritanopia {
+  filter: url('#a11y-tritanopia');
+}
+
+/* Combined monochrome + color blind → monochrome wins */
+html.a11y-monochrome.a11y-deuteranopia,
+html.a11y-monochrome.a11y-protanopia,
+html.a11y-monochrome.a11y-tritanopia {
+  filter: grayscale(100%);
+}
+
+/* Reduced motion */
+html.a11y-reduced-motion *,
+html.a11y-reduced-motion *::before,
+html.a11y-reduced-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Line spacing */
+html.a11y-line-spacing body {
+  line-height: 2 !important;
+}
+html.a11y-line-spacing p,
+html.a11y-line-spacing li,
+html.a11y-line-spacing span,
+html.a11y-line-spacing td {
+  line-height: 2 !important;
+}

@@ -2,8 +2,11 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import ThemeProvider from '@/components/providers/ThemeProvider';
+import AccessibilityProvider from '@/components/providers/AccessibilityProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import AccessibilityPanel from '@/components/layout/AccessibilityPanel';
+import A11yFilters from '@/components/layout/A11yFilters';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -36,11 +39,15 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.variable} antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-50`}>
-        <ThemeProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </ThemeProvider>
+        <AccessibilityProvider>
+          <ThemeProvider>
+            <A11yFilters />
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <AccessibilityPanel />
+          </ThemeProvider>
+        </AccessibilityProvider>
       </body>
     </html>
   );
