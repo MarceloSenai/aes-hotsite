@@ -129,7 +129,7 @@ export default function AssocieSeSeePage() {
               style={{ color: 'var(--color-primary-dark)' }}
             >
               <ArrowRight size={16} />
-              Area do Associado
+              Área do Associado
             </a>
             <a
               href="mailto:cadastro@aessenai.org.br?subject=Solicitar%20Ficha%20Cadastral"
@@ -140,7 +140,7 @@ export default function AssocieSeSeePage() {
             </a>
           </div>
           <p className="mt-4 text-white/60 text-xs flex items-center justify-center gap-2">
-            <Phone size={12} /> Duvidas? Ligue (11) 3367-9900
+            <Phone size={12} /> Dúvidas? Ligue (11) 3367-9900
           </p>
         </motion.div>
       </div>

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, TreePalm, Stethoscope, Shield, Handshake } from 'lucide-react';
 
 const benefits = [
-  { icon: Stethoscope, label: 'Saúde', desc: 'Medica e Odontologica' },
+  { icon: Stethoscope, label: 'Saúde', desc: 'Médica e Odontológica' },
   { icon: TreePalm, label: '3 Núcleos', desc: 'de Lazer' },
   { icon: Shield, label: 'Fundo Mútuo', desc: 'FUMUS e FUMUA' },
   { icon: Handshake, label: 'Parcerias', desc: 'Exclusivas' },
@@ -111,7 +111,7 @@ export default function Hero() {
                 className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 text-white rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl duration-300"
                 style={{ background: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}
               >
-                Area do Associado
+                Área do Associado
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </a>
               <Link

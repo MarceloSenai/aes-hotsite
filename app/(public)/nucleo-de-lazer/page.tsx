@@ -31,7 +31,7 @@ const nucleos = [
  {
  title: 'Clube Náutico',
  slug: 'clube-nautico',
- location: 'Boraceia/SP',
+ location: 'Boracéia/SP',
  description:
  'Chalés à beira da represa com pier de pesca, academia ao ar livre e a tranquilidade do interior paulista.',
  icon: Waves,

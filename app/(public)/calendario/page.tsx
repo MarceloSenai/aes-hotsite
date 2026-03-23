@@ -19,68 +19,68 @@ const calendario: Evento[] = [
   {
     mes: 'Janeiro',
     eventos: [
-      { titulo: 'Confraternizacao de Inicio de Ano', data: '18/01', local: 'Clube de Campo - Jundiai', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Confraternizacao de Início de Ano', data: '18/01', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo' },
     ],
   },
   {
     mes: 'Fevereiro',
     eventos: [
-      { titulo: 'Carnaval no Clube Nautico', data: '14-18/02', local: 'Clube Nautico - Boraceia', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Torneio de Verao', data: '22/02', local: 'Clube de Campo - Jundiai', departamento: 'Esportivo Capital', horario: '09:00' },
+      { titulo: 'Carnaval no Clube Náutico', data: '14-18/02', local: 'Clube Náutico - Boracéia', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Torneio de Verão', data: '22/02', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Capital', horario: '09:00' },
     ],
   },
   {
     mes: 'Marco',
     eventos: [
-      { titulo: 'Dia Internacional da Mulher', data: '08/03', local: 'Sede AES - Sao Paulo', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Assembleia Geral Ordinaria', data: '22/03', local: 'Sede AES - Sao Paulo', departamento: 'Administracao', horario: '10:00' },
+      { titulo: 'Dia Internacional da Mulher', data: '08/03', local: 'Sede AES - São Paulo', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Assembleia Geral Ordinária', data: '22/03', local: 'Sede AES - São Paulo', departamento: 'Administração', horario: '10:00' },
     ],
   },
   {
     mes: 'Abril',
     eventos: [
-      { titulo: 'Pascoa nos Núcleos', data: '05/04', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Campeonato de Futebol', data: '12/04', local: 'Clube de Campo - Jundiai', departamento: 'Esportivo Capital', horario: '08:00' },
+      { titulo: 'Páscoa nos Núcleos', data: '05/04', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Campeonato de Futebol', data: '12/04', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Capital', horario: '08:00' },
     ],
   },
   {
     mes: 'Maio',
     eventos: [
-      { titulo: 'Dia das Maes', data: '10/05', local: 'Colonia de Ferias - Itanhaem', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Dia das Mães', data: '10/05', local: 'Colônia de Férias - Itanhaém', departamento: 'Cultural e Recreativo' },
     ],
   },
   {
     mes: 'Junho',
     eventos: [
-      { titulo: 'Festa Junina AES', data: '14/06', local: 'Clube de Campo - Jundiai', departamento: 'Cultural e Recreativo', horario: '14:00' },
-      { titulo: 'Torneio de Inverno', data: '28/06', local: 'Clube de Campo - Jundiai', departamento: 'Esportivo Interior' },
+      { titulo: 'Festa Junina AES', data: '14/06', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '14:00' },
+      { titulo: 'Torneio de Inverno', data: '28/06', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Interior' },
     ],
   },
   {
     mes: 'Julho',
     eventos: [
-      { titulo: 'Ferias de Inverno nos Núcleos', data: '01-31/07', local: 'Todos os Núcleos', departamento: 'Núcleos de Lazer' },
-      { titulo: 'Colonia de Ferias Infantil', data: '07-11/07', local: 'Colonia de Ferias - Itanhaem', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Férias de Inverno nos Núcleos', data: '01-31/07', local: 'Todos os Núcleos', departamento: 'Núcleos de Lazer' },
+      { titulo: 'Colônia de Férias Infantil', data: '07-11/07', local: 'Colônia de Férias - Itanhaém', departamento: 'Cultural e Recreativo' },
     ],
   },
   {
     mes: 'Agosto',
     eventos: [
-      { titulo: 'Dia dos Pais', data: '09/08', local: 'Clube Nautico - Boraceia', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Encontro de Aposentados', data: '23/08', local: 'Sede AES - Sao Paulo', departamento: 'Aposentados', horario: '10:00' },
+      { titulo: 'Dia dos Pais', data: '09/08', local: 'Clube Náutico - Boracéia', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Encontro de Aposentados', data: '23/08', local: 'Sede AES - São Paulo', departamento: 'Aposentados', horario: '10:00' },
     ],
   },
   {
     mes: 'Setembro',
     eventos: [
-      { titulo: 'Semana do Associado', data: '15-19/09', local: 'Sede AES - Sao Paulo', departamento: 'Administracao' },
+      { titulo: 'Semana do Associado', data: '15-19/09', local: 'Sede AES - São Paulo', departamento: 'Administração' },
     ],
   },
   {
     mes: 'Outubro',
     eventos: [
-      { titulo: 'Dia das Criancas nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Campeonato de Pesca', data: '25/10', local: 'Clube Nautico - Boraceia', departamento: 'Esportivo Interior' },
+      { titulo: 'Dia das Crianças nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
+      { titulo: 'Campeonato de Pesca', data: '25/10', local: 'Clube Náutico - Boracéia', departamento: 'Esportivo Interior' },
     ],
   },
   {
@@ -92,8 +92,8 @@ const calendario: Evento[] = [
   {
     mes: 'Dezembro',
     eventos: [
-      { titulo: 'Confraternizacao de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiai', departamento: 'Cultural e Recreativo', horario: '12:00' },
-      { titulo: 'Reveillon na Colonia', data: '30-31/12', local: 'Colonia de Ferias - Itanhaem', departamento: 'Núcleos de Lazer' },
+      { titulo: 'Confraternizacao de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '12:00' },
+      { titulo: 'Reveillon na Colonia', data: '30-31/12', local: 'Colônia de Férias - Itanhaém', departamento: 'Núcleos de Lazer' },
     ],
   },
 ];

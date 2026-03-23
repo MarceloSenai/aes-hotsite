@@ -12,12 +12,12 @@ interface Edicao {
 }
 
 const edições: Edicao[] = [
-  { numero: 48, titulo: 'Boletim AES - Marco 2026', data: 'Marco 2026', resumo: 'Novas parcerias, calendario de eventos atualizado e informações sobre reservas nos nucleos de lazer.' },
-  { numero: 47, titulo: 'Boletim AES - Fevereiro 2026', data: 'Fevereiro 2026', resumo: 'Carnaval nos nucleos, torneio de verao e novidades sobre o plano de saude.' },
-  { numero: 46, titulo: 'Boletim AES - Janeiro 2026', data: 'Janeiro 2026', resumo: 'Posse da nova gestao 2026-2030, confraternização de inicio de ano e balanco 2025.' },
-  { numero: 45, titulo: 'Boletim AES - Dezembro 2025', data: 'Dezembro 2025', resumo: 'Encerramento do ano, festa de confraternização e prestacao de contas anual.' },
-  { numero: 44, titulo: 'Boletim AES - Novembro 2025', data: 'Novembro 2025', resumo: 'Eleicoes AES, Black Friday nas parcerias e resultados do campeonato esportivo.' },
-  { numero: 43, titulo: 'Boletim AES - Outubro 2025', data: 'Outubro 2025', resumo: 'Dia das Criancas nos nucleos, campeonato de pesca e novidades Totalpass.' },
+  { numero: 48, titulo: 'Boletim AES - Março 2026', data: 'Março 2026', resumo: 'Novas parcerias, calendário de eventos atualizado e informações sobre reservas nos núcleos de lazer.' },
+  { numero: 47, titulo: 'Boletim AES - Fevereiro 2026', data: 'Fevereiro 2026', resumo: 'Carnaval nos nucleos, torneio de verão e novidades sobre o plano de saúde.' },
+  { numero: 46, titulo: 'Boletim AES - Janeiro 2026', data: 'Janeiro 2026', resumo: 'Posse da nova gestão 2026-2030, confraternização de início de ano e balanço 2025.' },
+  { numero: 45, titulo: 'Boletim AES - Dezembro 2025', data: 'Dezembro 2025', resumo: 'Encerramento do ano, festa de confraternização e prestação de contas anual.' },
+  { numero: 44, titulo: 'Boletim AES - Novembro 2025', data: 'Novembro 2025', resumo: 'Eleições AES, Black Friday nas parcerias e resultados do campeonato esportivo.' },
+  { numero: 43, titulo: 'Boletim AES - Outubro 2025', data: 'Outubro 2025', resumo: 'Dia das Crianças nos nucleos, campeonato de pesca e novidades Totalpass.' },
 ];
 
 export default function BoletimPage() {
@@ -56,7 +56,7 @@ export default function BoletimPage() {
           <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2">Receba o Boletim por E-mail</h3>
-              <p className="text-white/80 text-sm">Cadastre-se para receber as proximas edições diretamente no seu e-mail.</p>
+              <p className="text-white/80 text-sm">Cadastre-se para receber as próximas edições diretamente no seu e-mail.</p>
             </div>
             <a
               href="mailto:boletim.aes@aessenai.org.br?subject=Cadastro%20Boletim%20AES"

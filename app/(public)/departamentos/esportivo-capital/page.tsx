@@ -5,17 +5,17 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Trophy, Calendar, Users, Mail, Phone, ArrowRight, Dumbbell } from 'lucide-react';
 
 const atividades = [
-  'Campeonatos internos de futebol, volei e outras modalidades',
+  'Campeonatos internos de futebol, vôlei e outras modalidades',
   'Torneios esportivos para associados e dependentes',
-  'Atividades esportivas em grupo nos nucleos de lazer',
+  'Atividades esportivas em grupo nos núcleos de lazer',
   'Promoção da saúde e bem-estar através do esporte',
-  'Organizacao de competicoes intersetoriais',
+  'Organização de competições intersetoriais',
   'Apoio a prática esportiva para todas as idades',
 ];
 
 const eventos = [
-  { data: '22/02', titulo: 'Torneio de Verao', local: 'Clube de Campo - Jundiai' },
-  { data: '12/04', titulo: 'Campeonato de Futebol', local: 'Clube de Campo - Jundiai' },
+  { data: '22/02', titulo: 'Torneio de Verão', local: 'Clube de Campo - Jundiaí' },
+  { data: '12/04', titulo: 'Campeonato de Futebol', local: 'Clube de Campo - Jundiaí' },
   { data: '15/09', titulo: 'Semana do Associado - Atividades Esportivas', local: 'Sede AES' },
 ];
 
@@ -47,7 +47,7 @@ export default function EsportivoCapitalPage() {
             <Dumbbell size={20} className="text-sky-500" /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento Esportivo Capital coordena todas as atividades esportivas na regiao da capital paulista. Organiza campeonatos, torneios e eventos esportivos para associados de todas as idades, promovendo saude, integração e espírito esportivo.
+            O Departamento Esportivo Capital coordena todas as atividades esportivas na região da capital paulista. Organiza campeonatos, torneios e eventos esportivos para associados de todas as idades, promovendo saude, integração e espírito esportivo.
           </p>
         </motion.div>
 
@@ -71,7 +71,7 @@ export default function EsportivoCapitalPage() {
             <Users size={20} className="text-sky-600" /> A quem se destina
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Associados da AES residentes na capital de Sao Paulo e Grande Sao Paulo, seus dependentes e agregados. Atividades para todas as faixas etarias.
+            Associados da AES residentes na capital de São Paulo e Grande São Paulo, seus dependentes e agregados. Atividades para todas as faixas etárias.
           </p>
         </motion.div>
 

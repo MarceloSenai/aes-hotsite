@@ -33,7 +33,7 @@ export interface NucleoPricing {
   nome: string;
   precos: NucleoPreco[];
   dayUse?: string;
-  criancasInfo?: string;
+  criançasInfo?: string;
 }
 
 export interface SiteConfig {
@@ -73,7 +73,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   carouselSlides: [
     { id: 's1', badge: 'Eventos', badgeColor: '#8B5CF6', title: 'Calendário de Eventos 2026', description: 'Confira a programação completa de eventos, atividades culturais, esportivas e de lazer.', cta: 'Ver Calendário', href: '/calendario', enabled: true },
     { id: 's2', badge: 'Comunicado', badgeColor: '#EF4444', title: 'Novas Parcerias Exclusivas', description: 'A AES firmou novas parcerias com universidades e academias. Descontos especiais para associados.', cta: 'Saiba Mais', href: '/parcerias', enabled: true },
-    { id: 's3', badge: 'Oferta', badgeColor: '#10B981', title: 'Reservas nos Núcleos de Lazer', description: 'Aproveite nos 3 nucleos: Clube de Campo, Clube Nautico e Colonia de Ferias.', cta: 'Reservar Agora', href: '/nucleo-de-lazer', enabled: true },
+    { id: 's3', badge: 'Oferta', badgeColor: '#10B981', title: 'Reservas nos Núcleos de Lazer', description: 'Aproveite nos 3 núcleos: Clube de Campo, Clube Náutico e Colônia de Férias.', cta: 'Reservar Agora', href: '/nucleo-de-lazer', enabled: true },
     { id: 's4', badge: 'Boletim', badgeColor: '#0EA5E9', title: 'Boletim Informativo AES', description: 'Fique por dentro de todas as novidades, comunicados e informações da Associação.', cta: 'Ler Boletim', href: '/boletim', enabled: true },
   ],
   nucleoPricing: [
@@ -83,23 +83,23 @@ export const DEFAULT_CONFIG: SiteConfig = {
         { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
       ],
       dayUse: 'R$ 50,00',
-      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+      criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
     },
     {
-      id: 'clube-nautico', nome: 'Clube Nautico',
+      id: 'clube-nautico', nome: 'Clube Náutico',
       precos: [
         { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
       ],
-      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+      criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
     },
     {
-      id: 'colonia-ferias', nome: 'Colonia de Ferias',
+      id: 'colonia-ferias', nome: 'Colônia de Férias',
       precos: [
         { categoria: 'Hospedagem', associado: 'R$ 118,00', dependente: 'R$ 146,00', convidado: 'R$ 169,00' },
-        { categoria: 'Cafe da Manha', associado: 'R$ 25,00', dependente: 'R$ 32,00', convidado: 'R$ 39,00' },
-        { categoria: 'Almoco', associado: 'R$ 40,00', dependente: 'R$ 52,00', convidado: 'R$ 64,00' },
+        { categoria: 'Café da Manhã', associado: 'R$ 25,00', dependente: 'R$ 32,00', convidado: 'R$ 39,00' },
+        { categoria: 'Almoço', associado: 'R$ 40,00', dependente: 'R$ 52,00', convidado: 'R$ 64,00' },
       ],
-      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+      criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
     },
   ],
 };

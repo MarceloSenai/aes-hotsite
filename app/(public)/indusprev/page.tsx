@@ -15,16 +15,16 @@ import {
 } from 'lucide-react';
 
 const beneficios = [
-  { icon: ShieldCheck, titulo: 'Seguranca Financeira', desc: 'Planejamento de longo prazo para uma aposentadoria tranquila e segura.' },
-  { icon: TrendingUp, titulo: 'Rentabilidade', desc: 'Gestao profissional dos recursos com foco em rentabilidade e seguranca.' },
+  { icon: ShieldCheck, titulo: 'Segurança Financeira', desc: 'Planejamento de longo prazo para uma aposentadoria tranquila e segura.' },
+  { icon: TrendingUp, titulo: 'Rentabilidade', desc: 'Gestão profissional dos recursos com foco em rentabilidade e segurança.' },
   { icon: Users, titulo: 'Para Todos', desc: 'Aberto a todos os empregados do SENAI-SP, ativos e aposentados.' },
 ];
 
 const faqs = [
   { q: 'O que é o INDUSPREV?', a: 'O INDUSPREV é uma entidade fechada de previdência complementar que administra planos de beneficios para empregados de empresas do Sistema Indústria.' },
   { q: 'Quem pode participar?', a: 'Todos os empregados do SENAI-SP, tanto ativos quanto aposentados, podem aderir ao plano de previdência complementar.' },
-  { q: 'Como funciona a contribuicao?', a: 'O participante escolhe o percentual de contribuicao mensal, que e descontado diretamente em folha. A patrocinadora (SENAI) tambem contribui conforme regulamento.' },
-  { q: 'Posso resgatar a qualquer momento?', a: 'O resgate esta sujeito as regras do regulamento do plano. Consulte o INDUSPREV para detalhes sobre carencia e condicoes de resgate.' },
+  { q: 'Como funciona a contribuição?', a: 'O participante escolhe o percentual de contribuição mensal, que é descontado diretamente em folha. A patrocinadora (SENAI) também contribui conforme regulamento.' },
+  { q: 'Posso resgatar a qualquer momento?', a: 'O resgate está sujeito as regras do regulamento do plano. Consulte o INDUSPREV para detalhes sobre carencia e condições de resgate.' },
   { q: 'Como aderir?', a: 'Entre em contato com o RH do SENAI-SP ou diretamente com o INDUSPREV pelos canais de atendimento listados abaixo.' },
 ];
 
@@ -49,7 +49,7 @@ export default function IndusprevPage() {
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Previdencia Complementar para empregados do SENAI-SP. Planeje seu futuro com seguranca e tranquilidade.
+            Previdência Complementar para empregados do SENAI-SP. Planeje seu futuro com segurança e tranquilidade.
           </p>
         </motion.div>
 

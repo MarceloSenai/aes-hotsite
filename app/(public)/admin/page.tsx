@@ -545,7 +545,7 @@ export default function AdminPage() {
    {nucleo.dayUse !== undefined && (
     <div className="mb-2"><label className="block text-xs text-gray-500 mb-1">Day Use</label><input type="text" value={nucleo.dayUse || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], dayUse: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
    )}
-   <div><label className="block text-xs text-gray-500 mb-1">Info Criancas</label><input type="text" value={nucleo.criancasInfo || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], criancasInfo: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">Info Criancas</label><input type="text" value={nucleo.criançasInfo || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], criançasInfo: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
   </div>
  ))}
  </motion.div>
@@ -724,7 +724,7 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
  <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-3`}>
  {[
  { name: 'Clube de Campo', loc: 'Jundiaí/SP', price: 'R$ 45' },
- { name: 'Clube Náutico', loc: 'Boraceia/SP', price: 'R$ 45' },
+ { name: 'Clube Náutico', loc: 'Boracéia/SP', price: 'R$ 45' },
  { name: 'Colônia de Férias', loc: 'Itanhaém/SP', price: 'R$ 118' },
  ].map((club, i) => (
  <div key={i} className="overflow-hidden" style={{ borderRadius: radius }}>

@@ -6,17 +6,17 @@ import { ArrowLeft, Users, Calendar, Heart, Coffee, Mail, Phone, ArrowRight } fr
 
 const atividades = [
   'Encontros mensais de confraternização',
-  'Passeios culturais e turisticos',
+  'Passeios culturais e turísticos',
   'Eventos comemorativos (Dia do Aposentado, festas de final de ano)',
   'Orientação sobre direitos e beneficios',
-  'Atividades recreativas nos nucleos de lazer',
+  'Atividades recreativas nos núcleos de lazer',
   'Integracao com demais departamentos da AES',
 ];
 
 const eventos = [
-  { data: '23/08', titulo: 'Encontro de Aposentados', local: 'Sede AES - Sao Paulo' },
+  { data: '23/08', titulo: 'Encontro de Aposentados', local: 'Sede AES - São Paulo' },
   { data: '15/10', titulo: 'Passeio Cultural', local: 'A definir' },
-  { data: '13/12', titulo: 'Confraternizacao de Final de Ano', local: 'Clube de Campo - Jundiai' },
+  { data: '13/12', titulo: 'Confraternizacao de Final de Ano', local: 'Clube de Campo - Jundiaí' },
 ];
 
 export default function AposentadosPage() {

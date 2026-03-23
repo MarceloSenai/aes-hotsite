@@ -126,7 +126,7 @@ export default function ClubeNauticoPage() {
  >
  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-blue-100 text-sm font-medium mb-6">
  <Waves size={16} />
- Boraceia/SP
+ Boracéia/SP
  </span>
  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
  Clube Náutico
@@ -166,7 +166,7 @@ export default function ClubeNauticoPage() {
  <div>
  <p className="font-semibold text-gray-900 dark:text-white text-sm">Endereço</p>
  <p className="text-sm text-gray-600 dark:text-gray-300">
- Estrada Vicinal Joaquim Luis Nunes, Km 3, Boraceia/SP, CEP 17271-400
+ Estrada Vicinal Joaquim Luis Nunes, Km 3, Boracéia/SP, CEP 17271-400
  </p>
  </div>
  </div>
@@ -420,7 +420,7 @@ export default function ClubeNauticoPage() {
  Estrada Vicinal Joaquim Luis Nunes, Km 3
  </p>
  <p className="text-gray-500 dark:text-gray-400 text-sm">
- Boraceia/SP - CEP 17271-400
+ Boracéia/SP - CEP 17271-400
  </p>
  </div>
  </motion.div>

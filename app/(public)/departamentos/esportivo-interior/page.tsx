@@ -7,16 +7,16 @@ import { ArrowLeft, MapPin, Calendar, Users, Mail, Phone, ArrowRight, Trophy } f
 const atividades = [
   'Eventos esportivos regionais no interior paulista',
   'Torneios intermunicipais entre associados',
-  'Esportes ao ar livre nos nucleos de lazer',
+  'Esportes ao ar livre nos núcleos de lazer',
   'Integracao esportiva regional',
-  'Campeonatos de pesca, volei e futebol',
+  'Campeonatos de pesca, vôlei e futebol',
   'Caminhadas e atividades na natureza',
 ];
 
 const eventos = [
-  { data: '28/06', titulo: 'Torneio de Inverno', local: 'Clube de Campo - Jundiai' },
-  { data: '25/10', titulo: 'Campeonato de Pesca', local: 'Clube Nautico - Boraceia' },
-  { data: '08/11', titulo: 'Torneio Regional de Volei', local: 'Clube de Campo - Jundiai' },
+  { data: '28/06', titulo: 'Torneio de Inverno', local: 'Clube de Campo - Jundiaí' },
+  { data: '25/10', titulo: 'Campeonato de Pesca', local: 'Clube Náutico - Boracéia' },
+  { data: '08/11', titulo: 'Torneio Regional de Vôlei', local: 'Clube de Campo - Jundiaí' },
 ];
 
 export default function EsportivoInteriorPage() {
@@ -47,7 +47,7 @@ export default function EsportivoInteriorPage() {
             <Trophy size={20} style={{ color: 'var(--color-primary)' }} /> O que é o Departamento
           </h2>
           <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-            O Departamento Esportivo Interior é responsável pelas atividades esportivas nas cidades do interior de Sao Paulo. Garante que associados de todas as regioes tenham acesso a prática esportiva, integração e lazer, com eventos nos nucleos de lazer da AES.
+            O Departamento Esportivo Interior é responsável pelas atividades esportivas nas cidades do interior de São Paulo. Garante que associados de todas as regiões tenham acesso a prática esportiva, integração e lazer, com eventos nos núcleos de lazer da AES.
           </p>
         </motion.div>
 
@@ -71,7 +71,7 @@ export default function EsportivoInteriorPage() {
             <Users size={20} style={{ color: 'var(--color-primary)' }} /> A quem se destina
           </h2>
           <p className="text-gray-600 dark:text-gray-300">
-            Associados da AES residentes no interior de Sao Paulo e seus dependentes. Os eventos sao realizados nos nucleos de lazer (Jundiai, Boraceia, Itanhaem) e em outras localidades do interior.
+            Associados da AES residentes no interior de São Paulo e seus dependentes. Os eventos sao realizados nos núcleos de lazer (Jundiaí, Boracéia, Itanhaém) e em outras localidades do interior.
           </p>
         </motion.div>
 

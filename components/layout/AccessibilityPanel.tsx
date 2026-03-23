@@ -388,7 +388,7 @@ export default function AccessibilityPanel() {
                     icon={Hand}
                     iconColor="#3B82F6"
                     title="VLibras"
-                    description="Tradutor virtual para Libras (Lingua Brasileira de Sinais)."
+                    description="Tradutor virtual para Libras (Língua Brasileira de Sinais)."
                   >
                     <Toggle
                       checked={a11y.vlibras}
@@ -414,7 +414,7 @@ export default function AccessibilityPanel() {
                     icon={Pause}
                     iconColor="#F59E0B"
                     title="Reduzir animações"
-                    description="Reduz ou desativa animações e transicoes."
+                    description="Reduz ou desativa animações e transições."
                   >
                     <Toggle
                       checked={a11y.reducedMotion}
@@ -448,7 +448,7 @@ export default function AccessibilityPanel() {
                     icon={Eye}
                     iconColor="#10B981"
                     title="Modo daltônico"
-                    description="Ajusta as cores para facilitar a visualizacao."
+                    description="Ajusta as cores para facilitar a visualização."
                   >
                     <ColorModeSelect
                       value={a11y.colorMode}
@@ -498,7 +498,7 @@ export default function AccessibilityPanel() {
 
             {/* Footer */}
             <div className="px-5 py-4 text-center text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-700">
-              As preferências sao salvas automaticamente no seu navegador.
+              As preferências são salvas automaticamente no seu navegador.
             </div>
           </motion.div>
         )}

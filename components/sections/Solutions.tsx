@@ -26,7 +26,7 @@ const nucleosBase = [
     id: 'clube-nautico',
     icon: Waves,
     title: 'Clube Náutico',
-    location: 'Boraceia/SP',
+    location: 'Boracéia/SP',
     description:
       '8 chalés à beira do lago, piscina, academia ao ar livre, pier de pesca, cozinha caipira e quadra de vôlei.',
     defaultPrice: 'R$ 45,00',

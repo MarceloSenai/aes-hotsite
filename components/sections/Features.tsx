@@ -75,7 +75,7 @@ const services = [
     icon: Palmtree,
     title: 'Núcleos de Lazer',
     description:
-      '3 opções: Clube de Campo (Jundiaí), Clube Náutico (Boraceia) e Colônia de Férias (Itanhaém).',
+      '3 opções: Clube de Campo (Jundiaí), Clube Náutico (Boracéia) e Colônia de Férias (Itanhaém).',
     link: '/servicos/nucleos-de-lazer',
     gradient: 'from-teal-500 to-cyan-500',
     bgLight: 'bg-teal-50',
