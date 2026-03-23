@@ -95,6 +95,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/calendario', label: 'Eventos' },
   { href: '/boletim', label: 'Boletim' },
   { href: '/indusprev', label: 'INDUSPREV' },
+  { href: '/associe-se', label: 'Associe-se' },
 ];
 
 /* ------------------------------------------------------------------ */

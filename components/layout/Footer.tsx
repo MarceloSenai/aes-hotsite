@@ -10,6 +10,9 @@ import {
   Stethoscope,
   Shield,
   Pill,
+  Facebook,
+  Instagram,
+  Linkedin,
 } from 'lucide-react';
 
 const quickLinks = [
@@ -56,12 +59,32 @@ export default function Footer() {
               empregados do SENAI-SP e seus dependentes.
             </p>
             <span
-              className="inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-xs font-semibold tracking-wide"
+              className="inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-xs font-semibold tracking-wide mb-5"
               style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-dark) 40%, transparent)', borderColor: 'color-mix(in srgb, var(--color-primary) 50%, transparent)', color: 'var(--color-primary-light)' }}
             >
               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: 'var(--color-primary-light)' }} />
               Desde 1947
             </span>
+
+            {/* Social Media */}
+            <div className="flex items-center gap-3">
+              <a href="https://facebook.com/aessenai" target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#1877F2] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                <Facebook size={16} />
+              </a>
+              <a href="https://instagram.com/aessenai" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#E4405F] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                <Instagram size={16} />
+              </a>
+              <a href="https://linkedin.com/company/aessenai" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#0A66C2] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                <Linkedin size={16} />
+              </a>
+              <a href="https://wa.me/551133679900" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+                className="w-9 h-9 rounded-lg bg-gray-800 hover:bg-[#22C55E] flex items-center justify-center text-gray-400 hover:text-white transition-all duration-200">
+                <MessageCircle size={16} />
+              </a>
+            </div>
           </div>
 
           {/* Column 2: Links Rápidos */}

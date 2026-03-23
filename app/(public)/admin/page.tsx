@@ -9,10 +9,11 @@ import {
  Palette, Layout, Settings, Check, Eye, Save, RotateCcw,
  Monitor, Smartphone, Heart, Shield, TreePalm,
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
- Sparkles
+ Sparkles, Globe, Trash2, Plus
 } from 'lucide-react';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -21,12 +22,14 @@ export default function AdminPage() {
  const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
  const [isLoading, setIsLoading] = useState(true);
  const [saved, setSaved] = useState(false);
+ const [siteConfig, setSiteConfig] = useState<SiteConfig>(DEFAULT_CONFIG);
 
  useEffect(() => {
  const load = async () => {
  const theme = await ThemeManager.getActiveTheme();
  setActiveTheme(theme || { id: 'modern-default', isActive: true, ...THEME_PRESETS.modern });
  setActiveDesign(DesignManager.getActiveLayout());
+ setSiteConfig(SiteConfigManager.getConfig());
  setIsLoading(false);
  };
  load();
@@ -107,10 +110,47 @@ export default function AdminPage() {
  );
  }
 
+ const handleSaveConfig = (config: SiteConfig) => {
+ setSiteConfig(config);
+ SiteConfigManager.saveConfig(config);
+ showSaved();
+ };
+
+ const handleUpdateSocialLink = (id: string, field: keyof SocialLink, value: string | boolean) => {
+ const updated = {
+  ...siteConfig,
+  socialLinks: siteConfig.socialLinks.map((l) => l.id === id ? { ...l, [field]: value } : l),
+ };
+ handleSaveConfig(updated);
+ };
+
+ const handleAddSocialLink = () => {
+ const updated = {
+  ...siteConfig,
+  socialLinks: [...siteConfig.socialLinks, { id: `custom-${Date.now()}`, platform: 'Nova Rede', url: 'https://', enabled: true }],
+ };
+ handleSaveConfig(updated);
+ };
+
+ const handleRemoveSocialLink = (id: string) => {
+ const updated = {
+  ...siteConfig,
+  socialLinks: siteConfig.socialLinks.filter((l) => l.id !== id),
+ };
+ handleSaveConfig(updated);
+ };
+
+ const handleUpdateEmail = (index: number, field: 'label' | 'email', value: string) => {
+ const emails = [...siteConfig.emails];
+ emails[index] = { ...emails[index], [field]: value };
+ handleSaveConfig({ ...siteConfig, emails });
+ };
+
  const tabs: { id: AdminTab; label: string; icon: typeof Palette }[] = [
  { id: 'designs', label: 'Layouts', icon: Layout },
  { id: 'themes', label: 'Temas de Cores', icon: Palette },
  { id: 'colors', label: 'Customizar Cores', icon: Settings },
+ { id: 'config', label: 'Configurações', icon: Globe },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -341,6 +381,111 @@ export default function AdminPage() {
  >
  <Save size={18} />
  Salvar Tema Customizado
+ </button>
+ </motion.div>
+ )}
+
+ {activeTab === 'config' && (
+ <motion.div
+ key="config"
+ initial={{ opacity: 0, y: 10 }}
+ animate={{ opacity: 1, y: 0 }}
+ exit={{ opacity: 0, y: -10 }}
+ className="space-y-6"
+ >
+ <h2 className="text-lg font-semibold text-gray-900">Configurações do Site</h2>
+
+ {/* Social Links */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <div className="flex items-center justify-between mb-4">
+   <h3 className="text-sm font-semibold text-gray-700">Redes Sociais</h3>
+   <button onClick={handleAddSocialLink} className="flex items-center gap-1 text-xs text-theme-primary hover:text-theme-primary-dark font-medium">
+    <Plus size={14} /> Adicionar
+   </button>
+  </div>
+  <div className="space-y-3">
+   {siteConfig.socialLinks.map((link) => (
+    <div key={link.id} className="flex items-center gap-2">
+     <input
+      type="text"
+      value={link.platform}
+      onChange={(e) => handleUpdateSocialLink(link.id, 'platform', e.target.value)}
+      className="w-24 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary"
+      placeholder="Plataforma"
+     />
+     <input
+      type="text"
+      value={link.url}
+      onChange={(e) => handleUpdateSocialLink(link.id, 'url', e.target.value)}
+      className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary font-mono"
+      placeholder="https://..."
+     />
+     <label className="flex items-center gap-1 text-xs text-gray-500">
+      <input
+       type="checkbox"
+       checked={link.enabled}
+       onChange={(e) => handleUpdateSocialLink(link.id, 'enabled', e.target.checked)}
+       className="rounded"
+      />
+     </label>
+     <button onClick={() => handleRemoveSocialLink(link.id)} className="p-1 text-gray-400 hover:text-red-500 transition-colors">
+      <Trash2 size={14} />
+     </button>
+    </div>
+   ))}
+  </div>
+ </div>
+
+ {/* Contact Info */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <h3 className="text-sm font-semibold text-gray-700 mb-4">Informações de Contato</h3>
+  <div className="space-y-3">
+   <div>
+    <label className="block text-xs text-gray-500 mb-1">Telefone</label>
+    <input type="text" value={siteConfig.contactPhone}
+     onChange={(e) => handleSaveConfig({ ...siteConfig, contactPhone: e.target.value })}
+     className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" />
+   </div>
+   <div>
+    <label className="block text-xs text-gray-500 mb-1">WhatsApp URL</label>
+    <input type="text" value={siteConfig.contactWhatsApp}
+     onChange={(e) => handleSaveConfig({ ...siteConfig, contactWhatsApp: e.target.value })}
+     className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary font-mono" />
+   </div>
+   <div>
+    <label className="block text-xs text-gray-500 mb-1">Horário de Funcionamento</label>
+    <input type="text" value={siteConfig.workingHours}
+     onChange={(e) => handleSaveConfig({ ...siteConfig, workingHours: e.target.value })}
+     className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" />
+   </div>
+  </div>
+ </div>
+
+ {/* Emails por Setor */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <h3 className="text-sm font-semibold text-gray-700 mb-4">E-mails por Setor</h3>
+  <div className="space-y-2">
+   {siteConfig.emails.map((item, i) => (
+    <div key={i} className="flex items-center gap-2">
+     <input type="text" value={item.label}
+      onChange={(e) => handleUpdateEmail(i, 'label', e.target.value)}
+      className="w-1/3 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary"
+      placeholder="Setor" />
+     <input type="email" value={item.email}
+      onChange={(e) => handleUpdateEmail(i, 'email', e.target.value)}
+      className="flex-1 px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary font-mono"
+      placeholder="email@aessenai.org.br" />
+    </div>
+   ))}
+  </div>
+ </div>
+
+ <button
+  onClick={() => { SiteConfigManager.resetConfig(); setSiteConfig(DEFAULT_CONFIG); showSaved(); }}
+  className="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-dashed border-gray-300 text-gray-500 rounded-xl hover:border-gray-400 hover:text-gray-700 transition-colors text-sm font-medium"
+ >
+  <RotateCcw size={16} />
+  Restaurar Padrão
  </button>
  </motion.div>
  )}
