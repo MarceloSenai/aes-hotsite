@@ -16,7 +16,7 @@ const atividades = [
 const eventos = [
   { data: '23/08', titulo: 'Encontro de Aposentados', local: 'Sede AES - São Paulo' },
   { data: '15/10', titulo: 'Passeio Cultural', local: 'A definir' },
-  { data: '13/12', titulo: 'Confraternizacao de Final de Ano', local: 'Clube de Campo - Jundiaí' },
+  { data: '13/12', titulo: 'Confraternização de Final de Ano', local: 'Clube de Campo - Jundiaí' },
 ];
 
 export default function AposentadosPage() {

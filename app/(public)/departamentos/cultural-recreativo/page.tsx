@@ -19,7 +19,7 @@ const eventos = [
   { data: '14/06', titulo: 'Festa Junina AES', local: 'Clube de Campo - Jundiaí' },
   { data: '07-11/07', titulo: 'Colônia de Férias Infantil', local: 'Colônia de Férias - Itanhaém' },
   { data: '11/10', titulo: 'Dia das Crianças', local: 'Todos os Núcleos' },
-  { data: '13/12', titulo: 'Confraternizacao de Final de Ano', local: 'Clube de Campo - Jundiaí' },
+  { data: '13/12', titulo: 'Confraternização de Final de Ano', local: 'Clube de Campo - Jundiaí' },
 ];
 
 export default function CulturalRecreativoPage() {

@@ -1,104 +1,38 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
+import { SiteConfigManager, type Evento } from '@/lib/config/site-config';
 
-interface Evento {
-  mes: string;
-  eventos: {
-    titulo: string;
-    data: string;
-    local: string;
-    departamento: string;
-    horario?: string;
-  }[];
-}
+const MESES_ORDEM = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const calendario: Evento[] = [
-  {
-    mes: 'Janeiro',
-    eventos: [
-      { titulo: 'Confraternizacao de Início de Ano', data: '18/01', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo' },
-    ],
-  },
-  {
-    mes: 'Fevereiro',
-    eventos: [
-      { titulo: 'Carnaval no Clube Náutico', data: '14-18/02', local: 'Clube Náutico - Boracéia', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Torneio de Verão', data: '22/02', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Capital', horario: '09:00' },
-    ],
-  },
-  {
-    mes: 'Marco',
-    eventos: [
-      { titulo: 'Dia Internacional da Mulher', data: '08/03', local: 'Sede AES - São Paulo', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Assembleia Geral Ordinária', data: '22/03', local: 'Sede AES - São Paulo', departamento: 'Administração', horario: '10:00' },
-    ],
-  },
-  {
-    mes: 'Abril',
-    eventos: [
-      { titulo: 'Páscoa nos Núcleos', data: '05/04', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Campeonato de Futebol', data: '12/04', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Capital', horario: '08:00' },
-    ],
-  },
-  {
-    mes: 'Maio',
-    eventos: [
-      { titulo: 'Dia das Mães', data: '10/05', local: 'Colônia de Férias - Itanhaém', departamento: 'Cultural e Recreativo' },
-    ],
-  },
-  {
-    mes: 'Junho',
-    eventos: [
-      { titulo: 'Festa Junina AES', data: '14/06', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '14:00' },
-      { titulo: 'Torneio de Inverno', data: '28/06', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Interior' },
-    ],
-  },
-  {
-    mes: 'Julho',
-    eventos: [
-      { titulo: 'Férias de Inverno nos Núcleos', data: '01-31/07', local: 'Todos os Núcleos', departamento: 'Núcleos de Lazer' },
-      { titulo: 'Colônia de Férias Infantil', data: '07-11/07', local: 'Colônia de Férias - Itanhaém', departamento: 'Cultural e Recreativo' },
-    ],
-  },
-  {
-    mes: 'Agosto',
-    eventos: [
-      { titulo: 'Dia dos Pais', data: '09/08', local: 'Clube Náutico - Boracéia', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Encontro de Aposentados', data: '23/08', local: 'Sede AES - São Paulo', departamento: 'Aposentados', horario: '10:00' },
-    ],
-  },
-  {
-    mes: 'Setembro',
-    eventos: [
-      { titulo: 'Semana do Associado', data: '15-19/09', local: 'Sede AES - São Paulo', departamento: 'Administração' },
-    ],
-  },
-  {
-    mes: 'Outubro',
-    eventos: [
-      { titulo: 'Dia das Crianças nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo' },
-      { titulo: 'Campeonato de Pesca', data: '25/10', local: 'Clube Náutico - Boracéia', departamento: 'Esportivo Interior' },
-    ],
-  },
-  {
-    mes: 'Novembro',
-    eventos: [
-      { titulo: 'Black Friday AES - Parcerias', data: '28/11', local: 'Online', departamento: 'Parcerias' },
-    ],
-  },
-  {
-    mes: 'Dezembro',
-    eventos: [
-      { titulo: 'Confraternizacao de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '12:00' },
-      { titulo: 'Reveillon na Colonia', data: '30-31/12', local: 'Colônia de Férias - Itanhaém', departamento: 'Núcleos de Lazer' },
-    ],
-  },
-];
+export default function CalendarioPage() {
+  const [eventos, setEventos] = useState<Evento[]>([]);
 
-export default function CalendárioPage() {
+  useEffect(() => {
+    const load = () => {
+      const config = SiteConfigManager.getConfig();
+      setEventos(config.eventos.filter((e) => e.enabled));
+    };
+    load();
+    const handler = () => load();
+    window.addEventListener('aes-config-change', handler);
+    return () => window.removeEventListener('aes-config-change', handler);
+  }, []);
+
+  const eventosPorMes = useMemo(() => {
+    const mapa: Record<string, Evento[]> = {};
+    eventos.forEach((e) => {
+      if (!mapa[e.mes]) mapa[e.mes] = [];
+      mapa[e.mes].push(e);
+    });
+    return MESES_ORDEM
+      .filter((m) => mapa[m] && mapa[m].length > 0)
+      .map((m) => ({ mes: m, eventos: mapa[m] }));
+  }, [eventos]);
+
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,7 +58,7 @@ export default function CalendárioPage() {
         </motion.div>
 
         <div className="space-y-6">
-          {calendario.map((item, idx) => (
+          {eventosPorMes.map((item, idx) => (
             <motion.div
               key={item.mes}
               initial={{ opacity: 0, y: 20 }}
@@ -137,7 +71,7 @@ export default function CalendárioPage() {
               </div>
               <div className="divide-y divide-gray-100 dark:divide-gray-700">
                 {item.eventos.map((ev) => (
-                  <div key={ev.titulo} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <div key={ev.id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                     <div className="flex items-center gap-3 sm:w-28 shrink-0">
                       <Calendar size={16} style={{ color: 'var(--color-primary)' }} />
                       <span className="font-semibold text-gray-900 dark:text-white text-sm">{ev.data}</span>

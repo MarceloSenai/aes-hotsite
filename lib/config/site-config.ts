@@ -36,6 +36,17 @@ export interface NucleoPricing {
   criançasInfo?: string;
 }
 
+export interface Evento {
+  id: string;
+  titulo: string;
+  data: string;
+  local: string;
+  departamento: string;
+  horario?: string;
+  mes: string;
+  enabled: boolean;
+}
+
 export interface SiteConfig {
   socialLinks: SocialLink[];
   contactPhone: string;
@@ -46,6 +57,7 @@ export interface SiteConfig {
   emails: { label: string; email: string }[];
   carouselSlides: CarouselSlide[];
   nucleoPricing: NucleoPricing[];
+  eventos: Evento[];
 }
 
 const STORAGE_KEY = 'aes-site-config';
@@ -98,9 +110,23 @@ export const DEFAULT_CONFIG: SiteConfig = {
         { categoria: 'Hospedagem', associado: 'R$ 118,00', dependente: 'R$ 146,00', convidado: 'R$ 169,00' },
         { categoria: 'Café da Manhã', associado: 'R$ 25,00', dependente: 'R$ 32,00', convidado: 'R$ 39,00' },
         { categoria: 'Almoço', associado: 'R$ 40,00', dependente: 'R$ 52,00', convidado: 'R$ 64,00' },
+        { categoria: 'Sopa + Massa', associado: 'R$ 19,00', dependente: 'R$ 24,00', convidado: 'R$ 28,00' },
       ],
       criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
     },
+  ],
+  eventos: [
+    { id: 'e1', titulo: 'Confraternização de Início de Ano', data: '18/01', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', mes: 'Janeiro', enabled: true },
+    { id: 'e2', titulo: 'Carnaval no Clube Náutico', data: '14-18/02', local: 'Clube Náutico - Boracéia', departamento: 'Cultural e Recreativo', mes: 'Fevereiro', enabled: true },
+    { id: 'e3', titulo: 'Torneio de Verão', data: '22/02', local: 'Clube de Campo - Jundiaí', departamento: 'Esportivo Capital', horario: '09:00', mes: 'Fevereiro', enabled: true },
+    { id: 'e4', titulo: 'Dia Internacional da Mulher', data: '08/03', local: 'Sede AES - São Paulo', departamento: 'Cultural e Recreativo', mes: 'Março', enabled: true },
+    { id: 'e5', titulo: 'Assembleia Geral Ordinária', data: '22/03', local: 'Sede AES - São Paulo', departamento: 'Administração', horario: '10:00', mes: 'Março', enabled: true },
+    { id: 'e6', titulo: 'Páscoa nos Núcleos', data: '05/04', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo', mes: 'Abril', enabled: true },
+    { id: 'e7', titulo: 'Festa Junina AES', data: '14/06', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '14:00', mes: 'Junho', enabled: true },
+    { id: 'e8', titulo: 'Colônia de Férias Infantil', data: '07-11/07', local: 'Colônia de Férias - Itanhaém', departamento: 'Cultural e Recreativo', mes: 'Julho', enabled: true },
+    { id: 'e9', titulo: 'Encontro de Aposentados', data: '23/08', local: 'Sede AES - São Paulo', departamento: 'Aposentados', horario: '10:00', mes: 'Agosto', enabled: true },
+    { id: 'e10', titulo: 'Dia das Crianças nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo', mes: 'Outubro', enabled: true },
+    { id: 'e11', titulo: 'Confraternização de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '12:00', mes: 'Dezembro', enabled: true },
   ],
 };
 

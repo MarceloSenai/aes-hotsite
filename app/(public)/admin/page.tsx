@@ -11,9 +11,9 @@ import {
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
  Sparkles, Globe, Trash2, Plus, ImageIcon, DollarSign
 } from 'lucide-react';
-import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing } from '@/lib/config/site-config';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -153,6 +153,7 @@ export default function AdminPage() {
  { id: 'config', label: 'Configurações', icon: Globe },
  { id: 'carousel', label: 'Carrossel', icon: ImageIcon },
  { id: 'pricing', label: 'Preços', icon: DollarSign },
+ { id: 'eventos', label: 'Eventos', icon: Calendar },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -237,9 +238,9 @@ export default function AdminPage() {
  </div>
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
  {/* Options panel */}
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing') ? '' : 'xl:col-span-1'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos') ? '' : 'xl:col-span-1'}>
  <AnimatePresence mode="wait">
  {activeTab === 'designs' && (
  <motion.div
@@ -546,6 +547,36 @@ export default function AdminPage() {
     <div className="mb-2"><label className="block text-xs text-gray-500 mb-1">Day Use</label><input type="text" value={nucleo.dayUse || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], dayUse: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
    )}
    <div><label className="block text-xs text-gray-500 mb-1">Info Criancas</label><input type="text" value={nucleo.criançasInfo || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], criançasInfo: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+  </div>
+ ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'eventos' && (
+ <motion.div key="eventos" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <h2 className="text-lg font-semibold text-gray-900">Calendário de Eventos</h2>
+  <button onClick={() => { const ev = { id: `e${Date.now()}`, titulo: 'Novo Evento', data: '01/01', local: 'Local', departamento: 'Cultural e Recreativo', mes: 'Janeiro', enabled: true }; handleSaveConfig({ ...siteConfig, eventos: [...siteConfig.eventos, ev] }); }} className="flex items-center gap-1 text-xs text-theme-primary hover:text-theme-primary-dark font-medium"><Plus size={14} /> Adicionar</button>
+ </div>
+ {siteConfig.eventos.map((ev, idx) => (
+  <div key={ev.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-2">
+   <div className="flex items-center justify-between">
+    <span className="text-sm font-semibold text-gray-700">{ev.titulo || 'Evento'}</span>
+    <div className="flex items-center gap-2">
+     <label className="flex items-center gap-1 text-xs text-gray-500"><input type="checkbox" checked={ev.enabled} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], enabled: e.target.checked }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="rounded" /> Ativo</label>
+     <button onClick={() => handleSaveConfig({ ...siteConfig, eventos: siteConfig.eventos.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+    </div>
+   </div>
+   <div className="grid grid-cols-2 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Título</label><input type="text" value={ev.titulo} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], titulo: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Data</label><input type="text" value={ev.data} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], data: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   </div>
+   <div className="grid grid-cols-3 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Local</label><input type="text" value={ev.local} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], local: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Mês</label><select value={ev.mes} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], mes: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary">{['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'].map(m => <option key={m} value={m}>{m}</option>)}</select></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Horário</label><input type="text" value={ev.horario || ''} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], horario: e.target.value || undefined }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Ex: 14:00" /></div>
+   </div>
+   <div><label className="block text-xs text-gray-500 mb-1">Departamento</label><input type="text" value={ev.departamento} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], departamento: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
   </div>
  ))}
  </motion.div>
