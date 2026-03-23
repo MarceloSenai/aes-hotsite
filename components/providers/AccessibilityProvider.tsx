@@ -145,7 +145,20 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
         btn.onmouseenter = () => btn.style.transform = 'scale(1.1)';
         btn.onmouseleave = () => btn.style.transform = 'scale(1)';
         btn.onclick = () => {
-          window.open('/vlibras.html', 'vlibras', 'width=900,height=700,scrollbars=yes,resizable=yes');
+          // Extract text from current page
+          const main = document.querySelector('main');
+          const pageTitle = document.title;
+          const textContent = (main || document.body).innerText
+            .replace(/\n{3,}/g, '\n\n')
+            .substring(0, 5000);
+          const pageUrl = window.location.pathname;
+
+          // Build dynamic VLibras page with current content
+          const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VLibras - ${pageTitle}</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8fafc}.header{background:#1e3a8a;color:white;padding:16px 24px;text-align:center}.header h1{font-size:16px;font-weight:600}.header p{font-size:12px;opacity:0.8;margin-top:4px}.content{max-width:800px;margin:20px auto;padding:0 24px}.info{background:white;border-radius:12px;padding:20px;border:1px solid #e2e8f0;margin-bottom:12px}.info h2{font-size:15px;color:#1e293b;margin-bottom:8px}.info p,.info div{font-size:14px;color:#334155;line-height:1.7;white-space:pre-wrap}.tip{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;font-size:12px;color:#1e40af}</style></head><body><div class="header"><h1>🤟 VLibras - Tradutor de Libras</h1><p>${pageTitle}</p></div><div class="content"><div class="tip">💡 Clique no ícone azul do VLibras (canto inferior direito) e selecione qualquer texto abaixo para ver a tradução em Libras.</div><div class="info" style="margin-top:12px"><h2>Página: ${pageUrl}</h2><div>${textContent}</div></div></div><div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div><script src="https://vlibras.gov.br/app/vlibras-plugin.js"><\/script><script>new window.VLibras.Widget("https://vlibras.gov.br/app");<\/script></body></html>`;
+
+          const blob = new Blob([html], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+          window.open(url, 'vlibras', 'width=900,height=700,scrollbars=yes,resizable=yes');
         };
         document.body.appendChild(btn);
       } else {
