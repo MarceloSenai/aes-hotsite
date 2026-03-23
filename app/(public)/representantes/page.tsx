@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -10,7 +11,9 @@ import {
  Phone,
  UserCircle,
  Info,
+ Mail,
 } from 'lucide-react';
+import { SiteConfigManager, type Representante } from '@/lib/config/site-config';
 
 /* ------------------------------------------------------------------ */
 /* Animation variants */
@@ -43,27 +46,31 @@ const cardVariants = {
 };
 
 /* ------------------------------------------------------------------ */
-/* Data */
-/* ------------------------------------------------------------------ */
-
-interface Representative {
- name: string;
- unit: string;
-}
-
-const centralReps: Representative[] = [
- { name: 'Anelise Wulk Oliveira', unit: 'EDITORA / ACPGR / GSTI' },
- { name: 'Erika da Graça Paiva Braga', unit: 'GSCF' },
- { name: 'Walter do Nascimento', unit: 'SCL' },
- { name: 'Eduardo Fausto da Silva', unit: 'GSRH' },
- { name: 'Fabiano Ramos', unit: 'GSJ / AAE / DOS / GAS' },
-];
-
-/* ------------------------------------------------------------------ */
 /* Page */
 /* ------------------------------------------------------------------ */
 
 export default function RepresentantesPage() {
+ const [representantes, setRepresentantes] = useState<Representante[]>([]);
+
+ useEffect(() => {
+  const load = () => {
+   const config = SiteConfigManager.getConfig();
+   setRepresentantes(config.representantes);
+  };
+  load();
+  window.addEventListener('aes-config-change', load);
+  return () => window.removeEventListener('aes-config-change', load);
+ }, []);
+
+ // Group representantes by regional
+ const grouped = representantes.reduce<Record<string, Representante[]>>((acc, rep) => {
+  if (!acc[rep.regional]) acc[rep.regional] = [];
+  acc[rep.regional].push(rep);
+  return acc;
+ }, {});
+
+ const regionais = Object.keys(grouped);
+
  return (
  <>
  {/* ── Hero Banner ── */}
@@ -135,29 +142,30 @@ export default function RepresentantesPage() {
  </div>
  </motion.div>
 
- {/* Central Admin Representatives */}
- <motion.div variants={itemVariants}>
+ {/* Grouped by Regional */}
+ {regionais.map((regional) => (
+ <motion.div key={regional} variants={itemVariants}>
  <div className="flex items-center gap-3 mb-6">
  <div className="p-2.5 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl">
- <Building
+ <MapPin
  size={22}
  className="text-theme-primary dark:text-theme-primary"
  />
  </div>
  <div>
  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
- Administração Central
+ {regional}
  </h2>
  <p className="text-sm text-gray-500 dark:text-gray-400">
- Representantes nas gerências e departamentos centrais do SENAI-SP
+ {grouped[regional].length} representante{grouped[regional].length !== 1 ? 's' : ''}
  </p>
  </div>
  </div>
 
  <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
- {centralReps.map((rep) => (
+ {grouped[regional].map((rep) => (
  <motion.div
- key={rep.name}
+ key={rep.id}
  variants={cardVariants}
  className="group p-5 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-theme-primary-light dark:hover:border-theme-primary-dark hover:shadow-lg hover:shadow-theme-glow transition-all duration-300"
  >
@@ -170,57 +178,27 @@ export default function RepresentantesPage() {
  </div>
  <div>
  <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
- {rep.name}
+ {rep.nome}
  </h3>
  <span className="inline-flex items-center mt-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light">
- {rep.unit}
+ {rep.unidade}
  </span>
+ {rep.email && (
+ <a
+ href={`mailto:${rep.email}`}
+ className="flex items-center gap-1.5 mt-2 text-xs text-gray-500 dark:text-gray-400 hover:text-theme-primary dark:hover:text-theme-primary transition-colors"
+ >
+ <Mail size={12} />
+ {rep.email}
+ </a>
+ )}
  </div>
  </div>
  </motion.div>
  ))}
  </div>
  </motion.div>
-
- {/* Regional Representatives */}
- <motion.div variants={itemVariants}>
- <div className="flex items-center gap-3 mb-6">
- <div className="p-2.5 bg-blue-100 dark:bg-blue-900/40 rounded-xl">
- <MapPin size={22} className="text-blue-600 dark:text-blue-400" />
- </div>
- <div>
- <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
- Representantes Regionais
- </h2>
- <p className="text-sm text-gray-500 dark:text-gray-400">
- Presentes em CFPs e CTs em todo o estado de São Paulo
- </p>
- </div>
- </div>
-
- <div className="bg-blue-50 dark:bg-blue-950/20 rounded-2xl border border-blue-100 dark:border-blue-900/40 p-6 sm:p-8">
- <div className="flex items-center gap-3 mb-4">
- <Users
- size={20}
- className="text-blue-600 dark:text-blue-400"
- />
- <h3 className="font-semibold text-gray-900 dark:text-white">
- Rede de Representantes
- </h3>
- </div>
- <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-4">
- A AES conta com representantes distribuídos nos Centros de Formação
- Profissional (CFP) e Centros de Tecnologia (CT) do SENAI em diversas
- cidades do estado de São Paulo. Esses representantes garantem que
- todos os associados, independentemente da sua localização, tenham
- acesso às informações e benefícios da associação.
- </p>
- <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
- Para saber quem é o representante da sua unidade ou obter mais
- informações, entre em contato com a sede da AES.
- </p>
- </div>
- </motion.div>
+ ))}
 
  {/* Contact CTA */}
  <motion.div variants={itemVariants}>

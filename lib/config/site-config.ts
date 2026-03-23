@@ -47,6 +47,39 @@ export interface Evento {
   enabled: boolean;
 }
 
+export interface Representante {
+  id: string;
+  nome: string;
+  regional: string;
+  unidade: string;
+  email?: string;
+  telefone?: string;
+}
+
+export interface PlanoSaude {
+  id: string;
+  tipo: string;
+  operadora: string;
+  cobertura: string;
+  faixas: { faixa: string; valor: string }[];
+  aberto: boolean;
+}
+
+export interface ParceiroSeguro {
+  id: string;
+  nome: string;
+  tipo: string;
+  descricao: string;
+  contato: string;
+}
+
+export interface FarmaciaInfo {
+  rede: string;
+  descricao: string;
+  restricao: string;
+  contato: string;
+}
+
 export interface SiteConfig {
   socialLinks: SocialLink[];
   contactPhone: string;
@@ -58,6 +91,11 @@ export interface SiteConfig {
   carouselSlides: CarouselSlide[];
   nucleoPricing: NucleoPricing[];
   eventos: Evento[];
+  representantes: Representante[];
+  planosOdontologicos: PlanoSaude[];
+  planosMedicos: PlanoSaude[];
+  parceirosSeguro: ParceiroSeguro[];
+  farmacia: FarmaciaInfo;
 }
 
 const STORAGE_KEY = 'aes-site-config';
@@ -102,6 +140,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
       precos: [
         { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
       ],
+      dayUse: 'R$ 50,00',
       criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
     },
     {
@@ -128,6 +167,37 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { id: 'e10', titulo: 'Dia das Crianças nos Núcleos', data: '11/10', local: 'Todos os Núcleos', departamento: 'Cultural e Recreativo', mes: 'Outubro', enabled: true },
     { id: 'e11', titulo: 'Confraternização de Final de Ano', data: '13/12', local: 'Clube de Campo - Jundiaí', departamento: 'Cultural e Recreativo', horario: '12:00', mes: 'Dezembro', enabled: true },
   ],
+  representantes: [
+    { id: 'r1', nome: 'Carlos Alberto Santos', regional: 'Capital', unidade: 'SENAI Brás', email: 'representante.bras@aessenai.org.br' },
+    { id: 'r2', nome: 'Maria Helena Oliveira', regional: 'Capital', unidade: 'SENAI Ipiranga' },
+    { id: 'r3', nome: 'José Roberto Silva', regional: 'Grande São Paulo', unidade: 'SENAI Santo André' },
+    { id: 'r4', nome: 'Ana Paula Ferreira', regional: 'Grande São Paulo', unidade: 'SENAI Osasco' },
+    { id: 'r5', nome: 'Roberto Mendes', regional: 'Interior', unidade: 'SENAI Campinas' },
+    { id: 'r6', nome: 'Fernanda Costa', regional: 'Interior', unidade: 'SENAI Jundiaí' },
+    { id: 'r7', nome: 'Paulo Ricardo Lima', regional: 'Interior', unidade: 'SENAI Sorocaba' },
+    { id: 'r8', nome: 'Sandra Almeida', regional: 'Litoral', unidade: 'SENAI Santos' },
+    { id: 'r9', nome: 'Marcos Pereira', regional: 'Litoral', unidade: 'SENAI São Vicente' },
+    { id: 'r10', nome: 'Lucia Martins', regional: 'Vale do Paraíba', unidade: 'SENAI São José dos Campos' },
+  ],
+  planosOdontologicos: [
+    { id: 'po1', tipo: 'MetLife Dental Básico', operadora: 'MetLife', cobertura: 'Consultas, limpeza, restaurações, extrações simples', faixas: [{ faixa: 'Titular', valor: 'R$ 28,90' }, { faixa: 'Dependente', valor: 'R$ 28,90' }], aberto: true },
+    { id: 'po2', tipo: 'MetLife Dental Plus', operadora: 'MetLife', cobertura: 'Básico + próteses, endodontia, periodontia, ortodontia', faixas: [{ faixa: 'Titular', valor: 'R$ 49,90' }, { faixa: 'Dependente', valor: 'R$ 49,90' }], aberto: true },
+  ],
+  planosMedicos: [
+    { id: 'pm1', tipo: 'UNIMED Enfermaria', operadora: 'UNIMED', cobertura: 'Consultas, exames, internação em enfermaria', faixas: [{ faixa: '0-18 anos', valor: 'R$ 189,00' }, { faixa: '19-23 anos', valor: 'R$ 210,00' }, { faixa: '24-28 anos', valor: 'R$ 245,00' }, { faixa: '29-33 anos', valor: 'R$ 280,00' }, { faixa: '34-38 anos', valor: 'R$ 320,00' }, { faixa: '39-43 anos', valor: 'R$ 365,00' }, { faixa: '44-48 anos', valor: 'R$ 425,00' }, { faixa: '49-53 anos', valor: 'R$ 510,00' }, { faixa: '54-58 anos', valor: 'R$ 620,00' }, { faixa: '59+ anos', valor: 'R$ 780,00' }], aberto: false },
+    { id: 'pm2', tipo: 'UNIMED Apartamento', operadora: 'UNIMED', cobertura: 'Consultas, exames, internação em apartamento individual', faixas: [{ faixa: '0-18 anos', valor: 'R$ 245,00' }, { faixa: '19-23 anos', valor: 'R$ 275,00' }, { faixa: '24-28 anos', valor: 'R$ 320,00' }, { faixa: '29-33 anos', valor: 'R$ 365,00' }, { faixa: '34-38 anos', valor: 'R$ 420,00' }, { faixa: '39-43 anos', valor: 'R$ 485,00' }, { faixa: '44-48 anos', valor: 'R$ 565,00' }, { faixa: '49-53 anos', valor: 'R$ 680,00' }, { faixa: '54-58 anos', valor: 'R$ 830,00' }, { faixa: '59+ anos', valor: 'R$ 1.050,00' }], aberto: true },
+  ],
+  parceirosSeguro: [
+    { id: 'ps1', nome: 'Porto Seguro', tipo: 'Seguro de Vida', descricao: 'Seguro de vida em grupo para associados e dependentes com cobertura por morte e invalidez.', contato: 'seguros@aessenai.org.br' },
+    { id: 'ps2', nome: 'SulAmérica', tipo: 'Seguro Residencial', descricao: 'Proteção para residência do associado com cobertura contra incêndio, roubo e danos elétricos.', contato: 'seguros@aessenai.org.br' },
+    { id: 'ps3', nome: 'Tokio Marine', tipo: 'Seguro Auto', descricao: 'Seguro automotivo com condições especiais para associados AES. Assistência 24h inclusa.', contato: 'seguros@aessenai.org.br' },
+  ],
+  farmacia: {
+    rede: 'System Farma',
+    descricao: 'Convênio com a rede System Farma para desconto em medicamentos. Apresente o cartão AES no ato da compra.',
+    restricao: 'Disponível apenas nas unidades da capital de São Paulo.',
+    contato: 'cadastro@aessenai.org.br',
+  },
 };
 
 export class SiteConfigManager {

@@ -11,9 +11,9 @@ import {
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
  Sparkles, Globe, Trash2, Plus, ImageIcon, DollarSign
 } from 'lucide-react';
-import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento } from '@/lib/config/site-config';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing, type Evento, type Representante, type PlanoSaude, type ParceiroSeguro } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing' | 'eventos' | 'servicos';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -154,6 +154,7 @@ export default function AdminPage() {
  { id: 'carousel', label: 'Carrossel', icon: ImageIcon },
  { id: 'pricing', label: 'Preços', icon: DollarSign },
  { id: 'eventos', label: 'Eventos', icon: Calendar },
+ { id: 'servicos', label: 'Serviços', icon: Sparkles },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -238,9 +239,9 @@ export default function AdminPage() {
  </div>
 
  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos') ? 'max-w-3xl mx-auto' : 'grid grid-cols-1 xl:grid-cols-3 gap-8'}>
  {/* Options panel */}
- <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos') ? '' : 'xl:col-span-1'}>
+ <div className={(activeTab === 'config' || activeTab === 'carousel' || activeTab === 'pricing' || activeTab === 'eventos' || activeTab === 'servicos') ? '' : 'xl:col-span-1'}>
  <AnimatePresence mode="wait">
  {activeTab === 'designs' && (
  <motion.div
@@ -579,6 +580,56 @@ export default function AdminPage() {
    <div><label className="block text-xs text-gray-500 mb-1">Departamento</label><input type="text" value={ev.departamento} onChange={(e) => { const evs = [...siteConfig.eventos]; evs[idx] = { ...evs[idx], departamento: e.target.value }; handleSaveConfig({ ...siteConfig, eventos: evs }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
   </div>
  ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'servicos' && (
+ <motion.div key="servicos" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
+ <h2 className="text-lg font-semibold text-gray-900">Gestão de Serviços e Representantes</h2>
+
+ {/* Representantes */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <div className="flex items-center justify-between mb-4">
+   <h3 className="text-sm font-bold text-gray-800">Representantes Regionais</h3>
+   <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: [...siteConfig.representantes, { id: `r${Date.now()}`, nome: 'Novo Representante', regional: 'Capital', unidade: 'SENAI', email: '' }] })} className="flex items-center gap-1 text-xs text-theme-primary font-medium"><Plus size={12} /> Adicionar</button>
+  </div>
+  <div className="space-y-2 max-h-60 overflow-y-auto">
+   {siteConfig.representantes.map((rep, idx) => (
+    <div key={rep.id} className="flex items-center gap-2">
+     <input type="text" value={rep.nome} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], nome: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Nome" />
+     <input type="text" value={rep.regional} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], regional: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-24 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Regional" />
+     <input type="text" value={rep.unidade} onChange={(e) => { const r = [...siteConfig.representantes]; r[idx] = { ...r[idx], unidade: e.target.value }; handleSaveConfig({ ...siteConfig, representantes: r }); }} className="w-28 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Unidade" />
+     <button onClick={() => handleSaveConfig({ ...siteConfig, representantes: siteConfig.representantes.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={12} /></button>
+    </div>
+   ))}
+  </div>
+ </div>
+
+ {/* Parceiros Seguros */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <div className="flex items-center justify-between mb-4">
+   <h3 className="text-sm font-bold text-gray-800">Parceiros de Seguros</h3>
+   <button onClick={() => handleSaveConfig({ ...siteConfig, parceirosSeguro: [...siteConfig.parceirosSeguro, { id: `ps${Date.now()}`, nome: 'Nova Seguradora', tipo: 'Seguro', descricao: '', contato: 'seguros@aessenai.org.br' }] })} className="flex items-center gap-1 text-xs text-theme-primary font-medium"><Plus size={12} /> Adicionar</button>
+  </div>
+  {siteConfig.parceirosSeguro.map((seg, idx) => (
+   <div key={seg.id} className="flex items-center gap-2 mb-2">
+    <input type="text" value={seg.nome} onChange={(e) => { const s = [...siteConfig.parceirosSeguro]; s[idx] = { ...s[idx], nome: e.target.value }; handleSaveConfig({ ...siteConfig, parceirosSeguro: s }); }} className="w-28 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" />
+    <input type="text" value={seg.tipo} onChange={(e) => { const s = [...siteConfig.parceirosSeguro]; s[idx] = { ...s[idx], tipo: e.target.value }; handleSaveConfig({ ...siteConfig, parceirosSeguro: s }); }} className="w-28 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" />
+    <input type="text" value={seg.descricao} onChange={(e) => { const s = [...siteConfig.parceirosSeguro]; s[idx] = { ...s[idx], descricao: e.target.value }; handleSaveConfig({ ...siteConfig, parceirosSeguro: s }); }} className="flex-1 px-2 py-1 text-xs border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-theme-primary" placeholder="Descrição" />
+    <button onClick={() => handleSaveConfig({ ...siteConfig, parceirosSeguro: siteConfig.parceirosSeguro.filter((_, i) => i !== idx) })} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={12} /></button>
+   </div>
+  ))}
+ </div>
+
+ {/* Farmácia */}
+ <div className="bg-white rounded-xl p-5 border border-gray-200">
+  <h3 className="text-sm font-bold text-gray-800 mb-3">Farmácia Conveniada</h3>
+  <div className="space-y-2">
+   <div><label className="block text-xs text-gray-500 mb-1">Rede</label><input type="text" value={siteConfig.farmacia.rede} onChange={(e) => handleSaveConfig({ ...siteConfig, farmacia: { ...siteConfig.farmacia, rede: e.target.value } })} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">Descrição</label><textarea value={siteConfig.farmacia.descricao} onChange={(e) => handleSaveConfig({ ...siteConfig, farmacia: { ...siteConfig.farmacia, descricao: e.target.value } })} rows={2} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary resize-none" /></div>
+   <div><label className="block text-xs text-gray-500 mb-1">Restrição</label><input type="text" value={siteConfig.farmacia.restricao} onChange={(e) => handleSaveConfig({ ...siteConfig, farmacia: { ...siteConfig.farmacia, restricao: e.target.value } })} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+  </div>
+ </div>
  </motion.div>
  )}
  </AnimatePresence>
