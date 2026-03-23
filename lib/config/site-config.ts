@@ -10,6 +10,32 @@ export interface SocialLink {
   enabled: boolean;
 }
 
+export interface CarouselSlide {
+  id: string;
+  badge: string;
+  badgeColor: string;
+  title: string;
+  description: string;
+  cta: string;
+  href: string;
+  enabled: boolean;
+}
+
+export interface NucleoPreco {
+  categoria: string;
+  associado: string;
+  dependente: string;
+  convidado: string;
+}
+
+export interface NucleoPricing {
+  id: string;
+  nome: string;
+  precos: NucleoPreco[];
+  dayUse?: string;
+  criancasInfo?: string;
+}
+
 export interface SiteConfig {
   socialLinks: SocialLink[];
   contactPhone: string;
@@ -17,10 +43,9 @@ export interface SiteConfig {
   contactEmail: string;
   address: string;
   workingHours: string;
-  emails: {
-    label: string;
-    email: string;
-  }[];
+  emails: { label: string; email: string }[];
+  carouselSlides: CarouselSlide[];
+  nucleoPricing: NucleoPricing[];
 }
 
 const STORAGE_KEY = 'aes-site-config';
@@ -44,6 +69,38 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { label: 'Boletos e Cobranças', email: 'cobranca@aessenai.org.br' },
     { label: 'Contas a Receber', email: 'boletim.aes@aessenai.org.br' },
     { label: 'Contas a Pagar', email: 'financeiro@aessenai.org.br' },
+  ],
+  carouselSlides: [
+    { id: 's1', badge: 'Eventos', badgeColor: '#8B5CF6', title: 'Calendario de Eventos 2026', description: 'Confira a programacao completa de eventos, atividades culturais, esportivas e de lazer.', cta: 'Ver Calendario', href: '/calendario', enabled: true },
+    { id: 's2', badge: 'Comunicado', badgeColor: '#EF4444', title: 'Novas Parcerias Exclusivas', description: 'A AES firmou novas parcerias com universidades e academias. Descontos especiais para associados.', cta: 'Saiba Mais', href: '/parcerias', enabled: true },
+    { id: 's3', badge: 'Oferta', badgeColor: '#10B981', title: 'Reservas nos Nucleos de Lazer', description: 'Aproveite nos 3 nucleos: Clube de Campo, Clube Nautico e Colonia de Ferias.', cta: 'Reservar Agora', href: '/nucleo-de-lazer', enabled: true },
+    { id: 's4', badge: 'Boletim', badgeColor: '#0EA5E9', title: 'Boletim Informativo AES', description: 'Fique por dentro de todas as novidades, comunicados e informacoes da Associacao.', cta: 'Ler Boletim', href: '/boletim', enabled: true },
+  ],
+  nucleoPricing: [
+    {
+      id: 'clube-campo', nome: 'Clube de Campo',
+      precos: [
+        { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
+      ],
+      dayUse: 'R$ 50,00',
+      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+    },
+    {
+      id: 'clube-nautico', nome: 'Clube Nautico',
+      precos: [
+        { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
+      ],
+      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+    },
+    {
+      id: 'colonia-ferias', nome: 'Colonia de Ferias',
+      precos: [
+        { categoria: 'Hospedagem', associado: 'R$ 118,00', dependente: 'R$ 146,00', convidado: 'R$ 169,00' },
+        { categoria: 'Cafe da Manha', associado: 'R$ 25,00', dependente: 'R$ 32,00', convidado: 'R$ 39,00' },
+        { categoria: 'Almoco', associado: 'R$ 40,00', dependente: 'R$ 52,00', convidado: 'R$ 64,00' },
+      ],
+      criancasInfo: 'Criancas ate 6 anos: gratis | 7-12 anos: meia',
+    },
   ],
 };
 

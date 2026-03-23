@@ -9,11 +9,11 @@ import {
  Palette, Layout, Settings, Check, Eye, Save, RotateCcw,
  Monitor, Smartphone, Heart, Shield, TreePalm,
  Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
- Sparkles, Globe, Trash2, Plus
+ Sparkles, Globe, Trash2, Plus, ImageIcon, DollarSign
 } from 'lucide-react';
-import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink } from '@/lib/config/site-config';
+import { SiteConfigManager, DEFAULT_CONFIG, type SiteConfig, type SocialLink, type CarouselSlide, type NucleoPricing } from '@/lib/config/site-config';
 
-type AdminTab = 'designs' | 'themes' | 'colors' | 'config';
+type AdminTab = 'designs' | 'themes' | 'colors' | 'config' | 'carousel' | 'pricing';
 
 export default function AdminPage() {
  const [activeTab, setActiveTab] = useState<AdminTab>('designs');
@@ -151,6 +151,8 @@ export default function AdminPage() {
  { id: 'themes', label: 'Temas de Cores', icon: Palette },
  { id: 'colors', label: 'Customizar Cores', icon: Settings },
  { id: 'config', label: 'Configurações', icon: Globe },
+ { id: 'carousel', label: 'Carrossel', icon: ImageIcon },
+ { id: 'pricing', label: 'Preços', icon: DollarSign },
  ];
 
  const designIds = Object.keys(DESIGN_LAYOUTS) as DesignLayoutId[];
@@ -487,6 +489,65 @@ export default function AdminPage() {
   <RotateCcw size={16} />
   Restaurar Padrão
  </button>
+ </motion.div>
+ )}
+
+ {activeTab === 'carousel' && (
+ <motion.div key="carousel" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-4">
+ <div className="flex items-center justify-between">
+  <h2 className="text-lg font-semibold text-gray-900">Slides do Carrossel</h2>
+  <button onClick={() => { const s = { ...siteConfig, carouselSlides: [...siteConfig.carouselSlides, { id: `s${Date.now()}`, badge: 'Novo', badgeColor: '#10B981', title: 'Novo Slide', description: 'Descricao do slide', cta: 'Saiba Mais', href: '/', enabled: true }] }; handleSaveConfig(s); }} className="flex items-center gap-1 text-xs text-theme-primary hover:text-theme-primary-dark font-medium"><Plus size={14} /> Adicionar</button>
+ </div>
+ {siteConfig.carouselSlides.map((slide, idx) => (
+  <div key={slide.id} className="bg-white rounded-xl p-4 border border-gray-200 space-y-3">
+   <div className="flex items-center justify-between">
+    <span className="text-sm font-semibold text-gray-700">Slide {idx + 1}</span>
+    <div className="flex items-center gap-2">
+     <label className="flex items-center gap-1 text-xs text-gray-500"><input type="checkbox" checked={slide.enabled} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], enabled: e.target.checked }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="rounded" /> Ativo</label>
+     <button onClick={() => { const s = { ...siteConfig, carouselSlides: siteConfig.carouselSlides.filter((_, i) => i !== idx) }; handleSaveConfig(s); }} className="p-1 text-gray-400 hover:text-red-500"><Trash2 size={14} /></button>
+    </div>
+   </div>
+   <div className="grid grid-cols-2 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Titulo</label><input type="text" value={slide.title} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], title: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Badge</label><input type="text" value={slide.badge} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], badge: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   </div>
+   <div><label className="block text-xs text-gray-500 mb-1">Descricao</label><textarea value={slide.description} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], description: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} rows={2} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary resize-none" /></div>
+   <div className="grid grid-cols-3 gap-2">
+    <div><label className="block text-xs text-gray-500 mb-1">Botao CTA</label><input type="text" value={slide.cta} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], cta: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Link</label><input type="text" value={slide.href} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], href: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary font-mono" /></div>
+    <div><label className="block text-xs text-gray-500 mb-1">Cor</label><div className="flex items-center gap-2"><input type="color" value={slide.badgeColor} onChange={(e) => { const s = [...siteConfig.carouselSlides]; s[idx] = { ...s[idx], badgeColor: e.target.value }; handleSaveConfig({ ...siteConfig, carouselSlides: s }); }} className="w-8 h-8 rounded cursor-pointer border border-gray-300" /><span className="text-xs text-gray-400 font-mono">{slide.badgeColor}</span></div></div>
+   </div>
+  </div>
+ ))}
+ </motion.div>
+ )}
+
+ {activeTab === 'pricing' && (
+ <motion.div key="pricing" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6">
+ <h2 className="text-lg font-semibold text-gray-900">Tabelas de Precos - Nucleos de Lazer</h2>
+ {siteConfig.nucleoPricing.map((nucleo, nIdx) => (
+  <div key={nucleo.id} className="bg-white rounded-xl p-5 border border-gray-200">
+   <h3 className="text-sm font-bold text-gray-800 mb-4">{nucleo.nome}</h3>
+   <table className="w-full text-xs mb-3">
+    <thead><tr className="border-b border-gray-100"><th className="text-left py-1.5 text-gray-500 font-medium">Categoria</th><th className="text-left py-1.5 text-gray-500 font-medium">Associado</th><th className="text-left py-1.5 text-gray-500 font-medium">Dependente</th><th className="text-left py-1.5 text-gray-500 font-medium">Convidado</th></tr></thead>
+    <tbody>
+     {nucleo.precos.map((p, pIdx) => (
+      <tr key={pIdx} className="border-b border-gray-50">
+       <td className="py-1.5"><input type="text" value={p.categoria} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], precos: np[nIdx].precos.map((pp, pi) => pi === pIdx ? { ...pp, categoria: e.target.value } : pp) }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-1.5 py-1 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-theme-primary" /></td>
+       <td className="py-1.5"><input type="text" value={p.associado} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], precos: np[nIdx].precos.map((pp, pi) => pi === pIdx ? { ...pp, associado: e.target.value } : pp) }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-1.5 py-1 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-theme-primary" /></td>
+       <td className="py-1.5"><input type="text" value={p.dependente} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], precos: np[nIdx].precos.map((pp, pi) => pi === pIdx ? { ...pp, dependente: e.target.value } : pp) }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-1.5 py-1 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-theme-primary" /></td>
+       <td className="py-1.5"><input type="text" value={p.convidado} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], precos: np[nIdx].precos.map((pp, pi) => pi === pIdx ? { ...pp, convidado: e.target.value } : pp) }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-1.5 py-1 border border-gray-200 rounded text-xs focus:outline-none focus:ring-1 focus:ring-theme-primary" /></td>
+      </tr>
+     ))}
+    </tbody>
+   </table>
+   <button onClick={() => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], precos: [...np[nIdx].precos, { categoria: 'Nova categoria', associado: 'R$ 0,00', dependente: 'R$ 0,00', convidado: 'R$ 0,00' }] }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="text-xs text-theme-primary hover:text-theme-primary-dark font-medium flex items-center gap-1 mb-3"><Plus size={12} /> Adicionar linha</button>
+   {nucleo.dayUse !== undefined && (
+    <div className="mb-2"><label className="block text-xs text-gray-500 mb-1">Day Use</label><input type="text" value={nucleo.dayUse || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], dayUse: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+   )}
+   <div><label className="block text-xs text-gray-500 mb-1">Info Criancas</label><input type="text" value={nucleo.criancasInfo || ''} onChange={(e) => { const np = [...siteConfig.nucleoPricing]; np[nIdx] = { ...np[nIdx], criancasInfo: e.target.value }; handleSaveConfig({ ...siteConfig, nucleoPricing: np }); }} className="w-full px-2 py-1.5 text-xs border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-theme-primary" /></div>
+  </div>
+ ))}
  </motion.div>
  )}
  </AnimatePresence>

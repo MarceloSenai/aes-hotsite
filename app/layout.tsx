@@ -37,6 +37,29 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Prevent FOUC: apply saved theme + dark mode before React hydrates */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{
+var t=localStorage.getItem('aes-theme-config');
+if(t){var c=JSON.parse(t).colors;if(c){var r=document.documentElement.style;
+var n={primary:'--color-primary',primaryDark:'--color-primary-dark',
+primaryLight:'--color-primary-light',secondary:'--color-secondary',
+secondaryDark:'--color-secondary-dark',secondaryLight:'--color-secondary-light',
+accent:'--color-accent',accentDark:'--color-accent-dark',
+accentLight:'--color-accent-light',success:'--color-success',
+warning:'--color-warning',error:'--color-error',info:'--color-info',
+foreground:'--color-foreground',foregroundMuted:'--color-foreground-muted',
+background:'--color-background',surface:'--color-surface',
+border:'--color-border',darkForeground:'--color-dark-foreground',
+darkBackground:'--color-dark-background',darkSurface:'--color-dark-surface',
+darkBorder:'--color-dark-border'};
+for(var k in n){if(c[k])r.setProperty(n[k],c[k])}}}
+var a=localStorage.getItem('aes-accessibility');
+if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('dark')}
+}catch(e){}})();`,
+          }}
+        />
       </head>
       <body className={`${inter.variable} antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-50`}>
         <AccessibilityProvider>

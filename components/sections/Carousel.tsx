@@ -2,103 +2,60 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Megaphone, Gift, Newspaper, Calendar } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-
-interface CarouselSlide {
-  id: number;
-  icon: React.ElementType;
-  badge: string;
-  badgeColor: string;
-  title: string;
-  description: string;
-  cta: string;
-  href: string;
-  gradient: string;
-}
-
-const slides: CarouselSlide[] = [
-  {
-    id: 1,
-    icon: Calendar,
-    badge: 'Eventos',
-    badgeColor: '#8B5CF6',
-    title: 'Calendario de Eventos 2026',
-    description: 'Confira a programacao completa de eventos, atividades culturais, esportivas e de lazer para os associados e dependentes.',
-    cta: 'Ver Calendario',
-    href: '/calendario',
-    gradient: 'linear-gradient(135deg, #8B5CF6, #6D28D9)',
-  },
-  {
-    id: 2,
-    icon: Megaphone,
-    badge: 'Comunicado',
-    badgeColor: '#EF4444',
-    title: 'Novas Parcerias Exclusivas',
-    description: 'A AES firmou novas parcerias com universidades e academias. Descontos especiais para associados e dependentes.',
-    cta: 'Saiba Mais',
-    href: '/parcerias',
-    gradient: 'linear-gradient(135deg, #EF4444, #DC2626)',
-  },
-  {
-    id: 3,
-    icon: Gift,
-    badge: 'Oferta',
-    badgeColor: '#10B981',
-    title: 'Reservas nos Nucleos de Lazer',
-    description: 'Aproveite as ferias nos nossos 3 nucleos de lazer: Clube de Campo, Clube Nautico e Colonia de Ferias em Itanhaem.',
-    cta: 'Reservar Agora',
-    href: '/nucleo-de-lazer',
-    gradient: 'linear-gradient(135deg, #10B981, #059669)',
-  },
-  {
-    id: 4,
-    icon: Newspaper,
-    badge: 'Boletim',
-    badgeColor: '#0EA5E9',
-    title: 'Boletim Informativo AES',
-    description: 'Fique por dentro de todas as novidades, comunicados e informacoes importantes da Associacao.',
-    cta: 'Ler Boletim',
-    href: '/boletim',
-    gradient: 'linear-gradient(135deg, #0EA5E9, #0284C7)',
-  },
-];
+import { SiteConfigManager, type CarouselSlide } from '@/lib/config/site-config';
 
 export default function Carousel() {
+  const [slides, setSlides] = useState<CarouselSlide[]>([]);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  const next = useCallback(() => {
-    setDirection(1);
-    setCurrent((prev) => (prev + 1) % slides.length);
+  // Load slides from config
+  useEffect(() => {
+    const config = SiteConfigManager.getConfig();
+    const active = config.carouselSlides.filter((s) => s.enabled);
+    setSlides(active);
+
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.carouselSlides) {
+        setSlides(detail.carouselSlides.filter((s: CarouselSlide) => s.enabled));
+        setCurrent(0);
+      }
+    };
+    window.addEventListener('aes-config-change', handler);
+    return () => window.removeEventListener('aes-config-change', handler);
   }, []);
 
+  const next = useCallback(() => {
+    if (slides.length === 0) return;
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
   const prev = useCallback(() => {
+    if (slides.length === 0) return;
     setDirection(-1);
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   // Auto-play with pause on hover
   useEffect(() => {
-    if (paused) return;
+    if (paused || slides.length <= 1) return;
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
-  }, [next, paused]);
+  }, [next, paused, slides.length]);
+
+  if (slides.length === 0) return null;
 
   const slide = slides[current];
-  const Icon = slide.icon;
 
   const variants = {
-    enter: (dir: number) => ({
-      x: dir > 0 ? 300 : -300,
-      opacity: 0,
-    }),
+    enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit: (dir: number) => ({
-      x: dir > 0 ? -300 : 300,
-      opacity: 0,
-    }),
+    exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
   };
 
   return (
@@ -106,7 +63,7 @@ export default function Carousel() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
             Destaques e{' '}
             <span className="text-theme-gradient">Novidades</span>
           </h2>
@@ -135,9 +92,9 @@ export default function Carousel() {
               {/* Icon area */}
               <div
                 className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
-                style={{ background: slide.gradient }}
+                style={{ backgroundColor: slide.badgeColor }}
               >
-                <Icon size={40} className="text-white" />
+                <Sparkles size={40} className="text-white" />
               </div>
 
               {/* Content */}
@@ -157,7 +114,7 @@ export default function Carousel() {
                 <Link
                   href={slide.href}
                   className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white text-sm font-semibold transition-all hover:opacity-90 shadow-md"
-                  style={{ background: slide.gradient }}
+                  style={{ backgroundColor: slide.badgeColor }}
                 >
                   {slide.cta}
                   <ChevronRight size={16} />
@@ -166,19 +123,11 @@ export default function Carousel() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Prev / Next buttons */}
-          <button
-            onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-md flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-colors"
-            aria-label="Anterior"
-          >
+          {/* Prev / Next */}
+          <button onClick={prev} className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-md flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-colors" aria-label="Anterior">
             <ChevronLeft size={20} />
           </button>
-          <button
-            onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-md flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-colors"
-            aria-label="Proximo"
-          >
+          <button onClick={next} className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 shadow-md flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-white dark:hover:bg-gray-700 transition-colors" aria-label="Proximo">
             <ChevronRight size={20} />
           </button>
 
@@ -191,13 +140,8 @@ export default function Carousel() {
               {slides.map((s, i) => (
                 <button
                   key={s.id}
-                  onClick={() => {
-                    setDirection(i > current ? 1 : -1);
-                    setCurrent(i);
-                  }}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === current ? 'w-7' : 'w-2 bg-gray-300 dark:bg-gray-600'
-                  }`}
+                  onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
+                  className={`h-2 rounded-full transition-all duration-300 ${i === current ? 'w-7' : 'w-2 bg-gray-300 dark:bg-gray-600'}`}
                   style={i === current ? { backgroundColor: slide.badgeColor } : undefined}
                   aria-label={`Slide ${i + 1}`}
                 />
