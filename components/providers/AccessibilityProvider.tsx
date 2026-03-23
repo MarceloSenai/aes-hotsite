@@ -130,26 +130,27 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
     };
   }, [settings, mounted]);
 
-  // VLibras — use standalone iframe approach (works with SPAs)
+  // VLibras — fixed button that opens vlibras.gov.br translator
   useEffect(() => {
     if (!mounted) return;
-    const VLIBRAS_ID = 'vlibras-iframe-widget';
+    const VLIBRAS_ID = 'vlibras-btn';
 
     if (settings.vlibras) {
       if (!document.getElementById(VLIBRAS_ID)) {
-        // Create a standalone iframe that loads VLibras independently
-        const container = document.createElement('div');
-        container.id = VLIBRAS_ID;
-        container.style.cssText = 'position:fixed;bottom:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9000;';
-        const iframe = document.createElement('iframe');
-        iframe.style.cssText = 'width:100%;height:100%;border:none;pointer-events:auto;';
-        iframe.setAttribute('allow', 'microphone');
-        iframe.srcdoc = `<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:transparent;overflow:hidden}</style></head><body><div vw class="enabled"><div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div></div><script src="https://vlibras.gov.br/app/vlibras-plugin.js"><\/script><script>new window.VLibras.Widget("https://vlibras.gov.br/app");<\/script></body></html>`;
-        container.appendChild(iframe);
-        document.body.appendChild(container);
+        const btn = document.createElement('a');
+        btn.id = VLIBRAS_ID;
+        btn.href = 'https://vlibras.gov.br/app';
+        btn.target = '_blank';
+        btn.rel = 'noopener noreferrer';
+        btn.title = 'Abrir VLibras - Tradutor de Libras';
+        btn.style.cssText = 'position:fixed;bottom:80px;left:16px;z-index:9000;width:56px;height:56px;border-radius:50%;background:#1B72C0;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.25);cursor:pointer;transition:transform 0.2s;text-decoration:none;';
+        btn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="white"/></svg>';
+        btn.onmouseenter = () => btn.style.transform = 'scale(1.1)';
+        btn.onmouseleave = () => btn.style.transform = 'scale(1)';
+        document.body.appendChild(btn);
       } else {
         const el = document.getElementById(VLIBRAS_ID);
-        if (el) el.style.display = '';
+        if (el) el.style.display = 'flex';
       }
     } else {
       const el = document.getElementById(VLIBRAS_ID);
