@@ -130,30 +130,33 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
     };
   }, [settings, mounted]);
 
-  // VLibras widget - toggle visibility (widget loaded in layout.tsx)
+  // VLibras widget
   useEffect(() => {
     if (!mounted) return;
+    const root = document.getElementById('vlibras-root');
+    if (!root) return;
 
-    const toggle = () => {
-      const vw = document.querySelector('[vw]') as HTMLElement;
-      if (!vw) return;
-      if (settings.vlibras) {
-        vw.style.setProperty('display', 'block', 'important');
-        // @ts-expect-error VLibras global
-        if (window.VLibras && !vw.dataset.init) {
+    if (settings.vlibras) {
+      // Show container
+      root.style.display = 'block';
+
+      // Load script if not loaded yet
+      if (!document.getElementById('vlibras-script')) {
+        const script = document.createElement('script');
+        script.id = 'vlibras-script';
+        script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
+        script.onload = () => {
           // @ts-expect-error VLibras global
-          new window.VLibras.Widget('https://vlibras.gov.br/app');
-          vw.dataset.init = '1';
-        }
-      } else {
-        vw.style.setProperty('display', 'none', 'important');
+          if (window.VLibras) {
+            // @ts-expect-error VLibras global
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+          }
+        };
+        document.head.appendChild(script);
       }
-    };
-
-    toggle();
-    // Retry after script may have loaded
-    const t = setTimeout(toggle, 3000);
-    return () => clearTimeout(t);
+    } else {
+      root.style.display = 'none';
+    }
   }, [settings.vlibras, mounted]);
 
   // Setter helpers
