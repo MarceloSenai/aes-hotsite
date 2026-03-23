@@ -135,8 +135,16 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
     if (!mounted) return;
 
     if (settings.vlibras) {
-      // Load VLibras if not already loaded
-      if (!document.getElementById('vlibras-script')) {
+      if (!document.getElementById('vlibras-container')) {
+        // 1. Create container FIRST (must exist before script loads)
+        const div = document.createElement('div');
+        div.id = 'vlibras-container';
+        div.setAttribute('vw', '');
+        div.className = 'enabled';
+        div.innerHTML = `<div vw-access-button class="active"></div><div vw-plugin-wrapper><div class="vw-plugin-top-wrapper"></div></div>`;
+        document.body.appendChild(div);
+
+        // 2. Load script AFTER container exists
         const script = document.createElement('script');
         script.id = 'vlibras-script';
         script.src = 'https://vlibras.gov.br/app/vlibras-plugin.js';
@@ -148,30 +156,21 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
             new window.VLibras.Widget('https://vlibras.gov.br/app');
           }
         };
-        document.head.appendChild(script);
-
-        // Widget container
-        if (!document.getElementById('vlibras-container')) {
-          const div = document.createElement('div');
-          div.id = 'vlibras-container';
-          div.setAttribute('vw', '');
-          div.className = 'enabled';
-          div.innerHTML = `
-            <div vw-access-button class="active"></div>
-            <div vw-plugin-wrapper>
-              <div class="vw-plugin-top-wrapper"></div>
-            </div>
-          `;
-          document.body.appendChild(div);
-        }
+        document.body.appendChild(script);
+      } else {
+        // Show existing widget
+        const container = document.getElementById('vlibras-container');
+        if (container) container.style.display = '';
+        // Also show the access button
+        const btn = document.querySelector('[vw-access-button]') as HTMLElement;
+        if (btn) btn.style.display = '';
       }
-      // Show widget
-      const container = document.getElementById('vlibras-container');
-      if (container) container.style.display = '';
     } else {
       // Hide widget
       const container = document.getElementById('vlibras-container');
       if (container) container.style.display = 'none';
+      const btn = document.querySelector('[vw-access-button]') as HTMLElement;
+      if (btn) btn.style.display = 'none';
     }
   }, [settings.vlibras, mounted]);
 
