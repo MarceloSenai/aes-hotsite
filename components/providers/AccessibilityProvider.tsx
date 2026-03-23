@@ -130,23 +130,23 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
     };
   }, [settings, mounted]);
 
-  // VLibras — fixed button that opens vlibras.gov.br translator
+  // VLibras — button opens local HTML page with VLibras widget as popup
   useEffect(() => {
     if (!mounted) return;
     const VLIBRAS_ID = 'vlibras-btn';
 
     if (settings.vlibras) {
       if (!document.getElementById(VLIBRAS_ID)) {
-        const btn = document.createElement('a');
+        const btn = document.createElement('button');
         btn.id = VLIBRAS_ID;
-        btn.href = 'https://www.vlibras.gov.br/';
-        btn.target = '_blank';
-        btn.rel = 'noopener noreferrer';
         btn.title = 'Abrir VLibras - Tradutor de Libras';
-        btn.style.cssText = 'position:fixed;bottom:80px;left:16px;z-index:9000;width:56px;height:56px;border-radius:50%;background:#1B72C0;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.25);cursor:pointer;transition:transform 0.2s;text-decoration:none;';
-        btn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M17.5 11.5c0 1.1-.4 2.1-1 2.9l3.8 3.8-1.4 1.4-3.8-3.8c-.8.6-1.8 1-2.9 1C9.5 16.8 7 14.3 7 11.5S9.5 6.2 12.2 6.2s5.3 2.5 5.3 5.3zM12.2 8c-2 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5S14.2 8 12.2 8z" fill="white"/><text x="10" y="13" fill="white" font-size="6" font-weight="bold">VL</text></svg>';
+        btn.style.cssText = 'position:fixed;bottom:80px;left:16px;z-index:9000;width:56px;height:56px;border-radius:50%;background:#1B72C0;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.25);cursor:pointer;transition:transform 0.2s;border:none;';
+        btn.innerHTML = '<span style="color:white;font-weight:bold;font-size:11px;line-height:1;text-align:center;">🤟<br>Libras</span>';
         btn.onmouseenter = () => btn.style.transform = 'scale(1.1)';
         btn.onmouseleave = () => btn.style.transform = 'scale(1)';
+        btn.onclick = () => {
+          window.open('/vlibras.html', 'vlibras', 'width=900,height=700,scrollbars=yes,resizable=yes');
+        };
         document.body.appendChild(btn);
       } else {
         const el = document.getElementById(VLIBRAS_ID);
