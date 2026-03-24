@@ -284,8 +284,8 @@ export default function Header() {
             {/* Right */}
             <div className="flex items-center gap-2">
               <Link href="/admin"
-                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-white/50 hover:text-white hover:bg-white/10 rounded-md transition-all">
-                <Shield size={13} />
+                className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-sm text-white/50 hover:text-white hover:bg-white/10 rounded-md transition-all">
+                <Shield size={20} />
               </Link>
               <button onClick={() => setMobileOpen(!mobileOpen)}
                 className="xl:hidden p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
