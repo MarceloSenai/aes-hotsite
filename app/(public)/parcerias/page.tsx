@@ -95,6 +95,7 @@ export default function ParceriasPage() {
         {/* Partners Grid */}
         {parcerias.length > 0 ? (
           <motion.div
+            key={parcerias.length}
             variants={containerVariants}
             initial="hidden"
             animate="visible"
