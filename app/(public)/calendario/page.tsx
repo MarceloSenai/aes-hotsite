@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
 import { eventosService } from '@/lib/supabase/data-service';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface Evento {
   id: string;
@@ -21,11 +22,18 @@ const MESES_ORDEM = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
 
 export default function CalendarioPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const data = await eventosService.getAll();
-      setEventos((data as unknown as Evento[]).filter((e) => e.enabled));
+      try {
+        const data = await eventosService.getAll();
+        setEventos((data as unknown as Evento[]).filter((e) => e.enabled));
+      } catch (error) {
+        console.error('Failed to load eventos:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -65,7 +73,7 @@ export default function CalendarioPage() {
           </p>
         </motion.div>
 
-        <div className="space-y-6">
+        {loading ? <SkeletonGrid count={6} /> : (<div className="space-y-6">
           {eventosPorMes.map((item, idx) => (
             <motion.div
               key={item.mes}
@@ -97,7 +105,7 @@ export default function CalendarioPage() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </div>)}
       </div>
     </section>
   );

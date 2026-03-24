@@ -38,6 +38,7 @@ function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
 
 export default function Carousel() {
   const [slides, setSlides] = useState<CarouselSlide[]>([]);
+  const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -45,9 +46,15 @@ export default function Carousel() {
   // Load slides from Supabase
   useEffect(() => {
     const load = async () => {
-      const data = await carouselService.getAll();
-      const mapped = data.map((row) => mapCarouselSlide(row as unknown as Record<string, unknown>));
-      setSlides(mapped.filter((s) => s.enabled));
+      try {
+        const data = await carouselService.getAll();
+        const mapped = data.map((row) => mapCarouselSlide(row as unknown as Record<string, unknown>));
+        setSlides(mapped.filter((s) => s.enabled));
+      } catch (err) {
+        console.error('Carousel load error:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -70,6 +77,16 @@ export default function Carousel() {
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, [next, paused, slides.length]);
+
+  if (loading) {
+    return (
+      <section className="py-16 sm:py-20 bg-white dark:bg-gray-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[280px] sm:min-h-[260px]" />
+        </div>
+      </section>
+    );
+  }
 
   if (slides.length === 0) return null;
 

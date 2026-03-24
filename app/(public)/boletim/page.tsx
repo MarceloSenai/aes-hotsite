@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
 import { boletinsService, getPublicUrl } from '@/lib/supabase/data-service';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface BoletimEdicao {
   id: string;
@@ -17,11 +18,18 @@ interface BoletimEdicao {
 
 export default function BoletimPage() {
   const [boletins, setBoletins] = useState<BoletimEdicao[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const data = await boletinsService.getAll();
-      setBoletins(data as unknown as BoletimEdicao[]);
+      try {
+        const data = await boletinsService.getAll();
+        setBoletins(data as unknown as BoletimEdicao[]);
+      } catch (error) {
+        console.error('Failed to load boletins:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -76,7 +84,7 @@ export default function BoletimPage() {
           </div>
         </motion.div>
 
-        <div className="space-y-4">
+        {loading ? <SkeletonGrid count={6} /> : (<div className="space-y-4">
           {boletins.map((bol, idx) => (
             <motion.div key={bol.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 + idx * 0.05 }}
@@ -105,7 +113,7 @@ export default function BoletimPage() {
               )}
             </motion.div>
           ))}
-        </div>
+        </div>)}
       </div>
     </section>
   );

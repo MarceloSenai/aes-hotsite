@@ -10,6 +10,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { documentosService, getPublicUrl } from '@/lib/supabase/data-service';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface DocumentoArquivo {
   id: string;
@@ -62,15 +63,22 @@ const defaultIconColor = { bg: 'bg-theme-primary-light dark:bg-theme-primary-20'
 
 export default function DocumentosPage() {
   const [documentos, setDocumentos] = useState<DocumentoArquivo[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const data = await documentosService.getAll();
-      const mapped: DocumentoArquivo[] = (data as unknown as DocumentoArquivo[]).map((row) => ({
-        ...row,
-        fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path) : undefined,
-      }));
-      setDocumentos(mapped);
+      try {
+        const data = await documentosService.getAll();
+        const mapped: DocumentoArquivo[] = (data as unknown as DocumentoArquivo[]).map((row) => ({
+          ...row,
+          fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path) : undefined,
+        }));
+        setDocumentos(mapped);
+      } catch (error) {
+        console.error('Failed to load documentos:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -124,7 +132,7 @@ export default function DocumentosPage() {
       {/* Document Sections */}
       <section className="py-20 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {categoryNames.length > 0 ? (
+          {loading ? <SkeletonGrid count={6} /> : categoryNames.length > 0 ? (
             <motion.div
               variants={containerVariants}
               initial="hidden"

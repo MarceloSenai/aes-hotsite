@@ -11,6 +11,7 @@ import {
   Star,
 } from 'lucide-react';
 import { parceriasService } from '@/lib/supabase/data-service';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface Parceria {
   id: string;
@@ -59,11 +60,18 @@ function getCategoryColor(categoria: string) {
 
 export default function ParceriasPage() {
   const [parcerias, setParcerias] = useState<Parceria[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const load = async () => {
-      const data = await parceriasService.getAll();
-      setParcerias(data as unknown as Parceria[]);
+      try {
+        const data = await parceriasService.getAll();
+        setParcerias(data as unknown as Parceria[]);
+      } catch (error) {
+        console.error('Failed to load parcerias:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     load();
   }, []);
@@ -93,7 +101,7 @@ export default function ParceriasPage() {
         </motion.div>
 
         {/* Partners Grid */}
-        {parcerias.length > 0 ? (
+        {loading ? <SkeletonGrid count={6} /> : parcerias.length > 0 ? (
           <motion.div
             key={parcerias.length}
             variants={containerVariants}
