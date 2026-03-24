@@ -547,17 +547,18 @@ export default function ClubeDeCampoPage() {
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.6, delay: 0.1 }}
- className="bg-gray-100 dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 h-80 flex items-center justify-center"
+ className="rounded-2xl border border-gray-200/80 dark:border-gray-700/60 h-80 overflow-hidden"
  >
- <div className="text-center">
- <MapPin size={48} className="text-theme-primary mx-auto mb-4" />
- <p className="text-gray-600 dark:text-gray-300 font-medium">
- Trav. Deolinda Naville Fontebasso, 1430
- </p>
- <p className="text-gray-500 dark:text-gray-400 text-sm">
- Roseira - Jundiaí/SP - CEP 13218-872
- </p>
- </div>
+ <iframe
+ src="https://www.google.com/maps?q=Clube+de+Campo+AES+SENAI,+Trav.+Deolinda+Naville+Fontebasso+1430,+Jundiai,+SP&output=embed"
+ width="100%"
+ height="100%"
+ style={{ border: 0 }}
+ allowFullScreen
+ loading="lazy"
+ referrerPolicy="no-referrer-when-downgrade"
+ title="Localização do Clube de Campo - Jundiaí/SP"
+ />
  </motion.div>
  </div>
  </section>

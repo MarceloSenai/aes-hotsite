@@ -633,17 +633,18 @@ export default function ColoniaDeFeriasPage() {
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.6, delay: 0.1 }}
- className="bg-gray-100 dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 h-80 flex items-center justify-center"
+ className="rounded-2xl border border-gray-200/80 dark:border-gray-700/60 h-80 overflow-hidden"
  >
- <div className="text-center">
- <MapPin size={48} className="text-theme-primary mx-auto mb-4" />
- <p className="text-gray-600 dark:text-gray-300 font-medium">
- Av. Padre Manoel da Nóbrega, 158
- </p>
- <p className="text-gray-500 dark:text-gray-400 text-sm">
- Cibratel II - Itanhaém/SP - CEP 11740-000
- </p>
- </div>
+ <iframe
+ src="https://www.google.com/maps?q=Colonia+de+Ferias+AES+SENAI,+Av+Padre+Manoel+da+Nobrega+158,+Itanhaem,+SP&output=embed"
+ width="100%"
+ height="100%"
+ style={{ border: 0 }}
+ allowFullScreen
+ loading="lazy"
+ referrerPolicy="no-referrer-when-downgrade"
+ title="Localização da Colônia de Férias - Itanhaém/SP"
+ />
  </motion.div>
  </div>
  </section>
