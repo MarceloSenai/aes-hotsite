@@ -174,12 +174,12 @@ export default function Footer() {
             <p className="text-xs text-gray-600">
               Desenvolvido por{' '}
               <a
-                href="https://quicksolutions-ai.com"
+                href="https://codecycle.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-500 hover:text-theme-primary-light transition-colors"
               >
-                Quick Solutions AI
+                CodeCycle
               </a>
             </p>
           </div>

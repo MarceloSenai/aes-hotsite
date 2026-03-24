@@ -188,6 +188,21 @@ export const nucleoPrecosService = {
   remove: (id: string) => remove('nucleo_precos', id),
 };
 
+// Núcleo Videos
+export const nucleoVideosService = {
+  getAll: (nucleoId?: string) => {
+    const query = supabase.from('nucleo_videos').select('*').order('sort_order');
+    if (nucleoId) query.eq('nucleo_id', nucleoId);
+    return query.then(({ data, error }) => {
+      if (error) { console.error('nucleo_videos:', error); return []; }
+      return data ?? [];
+    });
+  },
+  create: (row: Record<string, unknown>) => create('nucleo_videos', row),
+  update: (id: string, row: Record<string, unknown>) => update('nucleo_videos', id, row),
+  remove: (id: string) => remove('nucleo_videos', id),
+};
+
 export const planoFaixasService = {
   create: (row: Record<string, unknown>) => create('plano_faixas', row),
   update: (id: string, row: Record<string, unknown>) => update('plano_faixas', id, row),

@@ -17,7 +17,8 @@ import {
   carouselService, eventosService, boletinsService, representantesService,
   galeriaService, documentosService, parceriasService, parceirosSeguroService,
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
-  socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl
+  socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl,
+  nucleoVideosService,
 } from '@/lib/supabase/data-service';
 import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/supabase/reservas-service';
 import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/supabase/auth-service';
@@ -28,7 +29,7 @@ type SectionId =
   | 'themes' | 'carousel' | 'boletim' | 'parcerias'
   | 'eventos' | 'representantes' | 'planos' | 'seguros'
   | 'galeria' | 'documentos' | 'precos' | 'config'
-  | 'reservas' | 'associados' | 'acomodacoes';
+  | 'reservas' | 'associados' | 'acomodacoes' | 'videos';
 
 interface NavCategory {
   label: string;
@@ -72,7 +73,7 @@ const NAV_CATEGORIES: NavCategory[] = [
   {
     label: 'Galeria',
     icon: Camera,
-    items: [{ id: 'galeria', label: 'Galeria' }],
+    items: [{ id: 'galeria', label: 'Galeria' }, { id: 'videos', label: 'Vídeos' }],
   },
   {
     label: 'Documentos',
@@ -381,6 +382,7 @@ export default function AdminPage() {
   const [associadosData, setAssociadosData] = useState<Record<string, unknown>[]>([]);
   const [acomodacoesData, setAcomodacoesData] = useState<Record<string, unknown>[]>([]);
   const [novoAssociadoSenha, setNovoAssociadoSenha] = useState('');
+  const [videosData, setVideosData] = useState<Record<string, unknown>[]>([]);
   const [siteConfigData, setSiteConfigData] = useState<Record<string, string> | null>(null);
 
   // Loading states
@@ -545,6 +547,11 @@ export default function AdminPage() {
           setAcomodacoesData(acom as unknown as Record<string, unknown>[]);
           break;
         }
+        case 'videos': {
+          const vids = await nucleoVideosService.getAll();
+          setVideosData(vids as Record<string, unknown>[]);
+          break;
+        }
       }
     } catch (err) {
       console.error(`Error loading ${section}:`, err);
@@ -574,6 +581,7 @@ export default function AdminPage() {
         case 'parcerias': ok = !!(await parceriasService.remove(id)); break;
         case 'seguros': ok = !!(await parceirosSeguroService.remove(id)); break;
         case 'planos': ok = !!(await planosSaudeService.remove(id)); break;
+        case 'videos': ok = !!(await nucleoVideosService.remove(id)); break;
         default: break;
       }
       if (ok) {
@@ -644,6 +652,11 @@ export default function AdminPage() {
           ok = isNew
             ? !!(await planosSaudeService.create(rest))
             : !!(await planosSaudeService.update(id as string, rest));
+          break;
+        case 'videos':
+          ok = isNew
+            ? !!(await nucleoVideosService.create(rest))
+            : !!(await nucleoVideosService.update(id as string, rest));
           break;
         case 'associados': {
           if (isNew) {
@@ -1880,6 +1893,53 @@ export default function AdminPage() {
                 </div>
               )}
 
+              {/* ═══ VÍDEOS SECTION ═══ */}
+              {activeSection === 'videos' && (
+                <div>
+                  <SectionHeader
+                    title="Vídeos dos Núcleos"
+                    onAdd={() => openEditModal('videos', {
+                      nucleo_id: 'clube-campo', titulo: '', youtube_url: '', sort_order: 0,
+                    })}
+                  />
+                  {loading.videos ? <TableSkeleton cols={4} /> : (
+                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-200">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">URL YouTube</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {videosData.map((v) => {
+                            const nucleo = NUCLEOS.find(n => n.id === v.nucleo_id);
+                            return (
+                              <tr key={v.id as string} className="border-b border-gray-50 hover:bg-gray-50">
+                                <td className="px-4 py-3 font-medium text-gray-900">{v.titulo as string}</td>
+                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || v.nucleo_id as string}</td>
+                                <td className="px-4 py-3 text-blue-600 text-xs font-mono truncate max-w-[200px]">
+                                  <a href={v.youtube_url as string} target="_blank" rel="noopener noreferrer">{v.youtube_url as string}</a>
+                                </td>
+                                <td className="px-4 py-3 text-right flex justify-end gap-1">
+                                  <button onClick={() => openEditModal('videos', v)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
+                                  <button onClick={() => handleDelete('videos', v.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={14} /></button>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {videosData.length === 0 && (
+                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum vídeo cadastrado. Adicione URLs do YouTube para cada núcleo.</td></tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
             </motion.div>
           </AnimatePresence>
         </div>
@@ -2095,6 +2155,23 @@ export default function AdminPage() {
                     Aberto para novas adesões
                   </label>
                 </div>
+              </>
+            )}
+
+            {editModalSection === 'videos' && (
+              <>
+                <Field label="Título do Vídeo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-1">Núcleo</label>
+                  <select value={(editingItem.nucleo_id as string) || 'clube-campo'} onChange={(e) => updateEditingField('nucleo_id', e.target.value)}
+                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="clube-campo">Clube de Campo</option>
+                    <option value="clube-nautico">Clube Náutico</option>
+                    <option value="colonia-ferias">Colônia de Férias</option>
+                  </select>
+                </div>
+                <Field label="URL do YouTube" value={(editingItem.youtube_url as string) || ''} onChange={(v) => updateEditingField('youtube_url', v)} />
+                <p className="text-xs text-gray-400">Ex: https://www.youtube.com/watch?v=XXXXX ou https://youtu.be/XXXXX</p>
               </>
             )}
 

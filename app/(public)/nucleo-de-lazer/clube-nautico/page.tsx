@@ -1,7 +1,9 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { nucleoVideosService } from '@/lib/supabase/data-service';
 import {
  Home,
  ChevronRight,
@@ -80,7 +82,18 @@ const itemVariants = {
  },
 };
 
+function getYouTubeId(url: string): string | null {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&\s]+)/);
+  return match ? match[1] : null;
+}
+
 export default function ClubeNauticoPage() {
+ const [videos, setVideos] = useState<{id:string; titulo:string; youtube_url:string}[]>([]);
+
+ useEffect(() => {
+  nucleoVideosService.getAll('clube-nautico').then(d => setVideos(d as any));
+ }, []);
+
  return (
  <>
  {/* Hero Banner */}
@@ -338,12 +351,30 @@ export default function ClubeNauticoPage() {
   Videos do Clube Nautico
  </h2>
  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
-   <div className="text-center text-gray-400">
-    <Play size={48} className="mx-auto mb-2 opacity-50" />
-    <p className="text-sm">Video em breve</p>
-   </div>
-  </div>
+  {videos.length > 0 ? videos.map((v) => {
+    const videoId = getYouTubeId(v.youtube_url);
+    return videoId ? (
+      <div key={v.id} className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+        <iframe
+          className="w-full aspect-video"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={v.titulo}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        <div className="p-3 bg-white dark:bg-gray-800">
+          <p className="text-sm font-medium text-gray-900 dark:text-white">{v.titulo}</p>
+        </div>
+      </div>
+    ) : null;
+  }) : (
+    <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
+      <div className="text-center text-gray-400">
+        <Play size={48} className="mx-auto mb-2 opacity-50" />
+        <p className="text-sm">Vídeos em breve</p>
+      </div>
+    </div>
+  )}
  </div>
  </motion.div>
 
