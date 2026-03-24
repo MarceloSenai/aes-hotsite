@@ -86,13 +86,14 @@ function MegaDropdown({ item, isOpen, onOpen, onClose }: {
   useEffect(() => () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }, []);
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave} onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}>
       <button
         className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
           isOpen ? 'text-white bg-white/15' : 'text-white/85 hover:text-white hover:bg-white/10'
         }`}
         onClick={onOpen}
         aria-expanded={isOpen}
+        aria-haspopup="true"
       >
         {item.label}
         <ChevronDown size={13} className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
@@ -107,7 +108,7 @@ function MegaDropdown({ item, isOpen, onOpen, onClose }: {
             transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="absolute left-1/2 -translate-x-1/2 top-full pt-3 z-50"
           >
-            <div className="min-w-[280px] rounded-xl bg-white dark:bg-gray-800 shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 overflow-hidden p-2">
+            <div role="menu" className="min-w-[280px] rounded-xl bg-white dark:bg-gray-800 shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 overflow-hidden p-2">
               {item.children.map((child) => {
                 const Icon = child.icon;
                 return (

@@ -13,11 +13,12 @@ export interface Associado {
 }
 
 const SESSION_KEY = 'aes-session';
+const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 hours
 
 // ─── Hash & verify ─────────────────────────────────────
 
 export async function hashSenha(senha: string): Promise<string> {
-  return bcrypt.hash(senha, 10);
+  return bcrypt.hash(senha, 12);
 }
 
 export async function verifySenha(senha: string, hash: string): Promise<boolean> {
@@ -48,9 +49,9 @@ export async function login(cpf: string, senha: string): Promise<{ ok: boolean; 
     return { ok: false, error: 'Senha incorreta.' };
   }
 
-  // Save session
+  // Save session with expiration
   const { senha_hash: _, ...associado } = data;
-  localStorage.setItem(SESSION_KEY, JSON.stringify(associado));
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ ...associado, expiresAt: Date.now() + SESSION_TTL }));
 
   return { ok: true, associado: associado as Associado };
 }
@@ -61,7 +62,14 @@ export function getSession(): Associado | null {
   if (typeof window === 'undefined') return null;
   try {
     const saved = localStorage.getItem(SESSION_KEY);
-    if (saved) return JSON.parse(saved) as Associado;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
+        localStorage.removeItem(SESSION_KEY);
+        return null;
+      }
+      return parsed as Associado;
+    }
   } catch { /* ignore */ }
   return null;
 }

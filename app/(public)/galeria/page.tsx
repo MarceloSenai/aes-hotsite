@@ -126,7 +126,7 @@ export default function GaleriaPage() {
               Galeria de Fotos
             </h1>
             <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-              Confira os melhores momentos dos eventos, nucleos de lazer e atividades esportivas da AES SENAI.
+              Confira os melhores momentos dos eventos, núcleos de lazer e atividades esportivas da AES SENAI.
             </p>
           </motion.div>
         </div>

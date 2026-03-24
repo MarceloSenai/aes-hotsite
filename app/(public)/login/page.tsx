@@ -101,7 +101,7 @@ export default function LoginPage() {
               />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Area do Associado
+              Área do Associado
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Acesse sua conta para gerenciar reservas
@@ -195,7 +195,7 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              Nao tem conta?{' '}
+              Não tem conta?{' '}
               <Link
                 href="/contato"
                 className="font-medium transition-colors hover:underline"

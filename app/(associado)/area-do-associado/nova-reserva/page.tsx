@@ -21,7 +21,7 @@ interface StepProps {
   onBack?: () => void;
 }
 
-const STEP_LABELS = ['Nucleo', 'Datas', 'Acomodacao', 'Confirmar'];
+const STEP_LABELS = ['Núcleo', 'Datas', 'Acomodação', 'Confirmar'];
 
 /* ─── Nova Reserva Page ───────────────────────────────── */
 
@@ -89,7 +89,7 @@ export default function NovaReservaPage() {
         setError(result.error || 'Erro ao criar reserva.');
       }
     } catch {
-      setError('Erro de conexao. Tente novamente.');
+      setError('Erro de conexão. Tente novamente.');
     }
     setSubmitting(false);
   }, [selectedAcomodacao, selectedNucleo, checkIn, checkOut, numHospedes, observacoes]);
@@ -124,7 +124,7 @@ export default function NovaReservaPage() {
             Reserva Enviada!
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mb-8">
-            Sua reserva foi registrada com sucesso. Aguarde a aprovacao da administracao.
+            Sua reserva foi registrada com sucesso. Aguarde a aprovação da administração.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
@@ -162,7 +162,7 @@ export default function NovaReservaPage() {
           Nova Reserva
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Reserve sua estadia em um dos nossos nucleos de lazer.
+          Reserve sua estadia em um dos nossos núcleos de lazer.
         </p>
       </div>
 
@@ -275,7 +275,7 @@ export default function NovaReservaPage() {
                 Selecione as Datas
               </h3>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-                Nucleo: {getNucleoInfo(selectedNucleo)?.nome}
+                Núcleo: {getNucleoInfo(selectedNucleo)?.nome}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -319,7 +319,7 @@ export default function NovaReservaPage() {
               {checkIn && checkOut && checkOut > checkIn && (
                 <div className="mt-4 p-3 rounded-xl bg-gray-50 dark:bg-gray-800 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
                   <CalendarDays size={16} />
-                  {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24))} diarias
+                  {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24))} diárias
                 </div>
               )}
             </div>
@@ -330,7 +330,7 @@ export default function NovaReservaPage() {
             <div>
               <div className="mb-4">
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                  Acomodacoes Disponiveis
+                  Acomodações Disponíveis
                 </h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
                   {getNucleoInfo(selectedNucleo)?.nome} | {checkIn && new Date(checkIn + 'T00:00:00').toLocaleDateString('pt-BR')} - {checkOut && new Date(checkOut + 'T00:00:00').toLocaleDateString('pt-BR')}
@@ -344,8 +344,8 @@ export default function NovaReservaPage() {
               ) : acomodacoes.length === 0 ? (
                 <div className="text-center py-16">
                   <Home size={48} className="mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-                  <p className="text-gray-500 font-medium">Nenhuma acomodacao disponivel neste periodo.</p>
-                  <p className="text-sm text-gray-400 mt-1">Tente outras datas ou outro nucleo.</p>
+                  <p className="text-gray-500 font-medium">Nenhuma acomodação disponível neste período.</p>
+                  <p className="text-sm text-gray-400 mt-1">Tente outras datas ou outro núcleo.</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -410,14 +410,14 @@ export default function NovaReservaPage() {
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
                   <MapPin size={18} className="text-gray-400 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Nucleo</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Núcleo</p>
                     <p className="font-medium text-gray-900 dark:text-white">{getNucleoInfo(selectedNucleo)?.nome}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
                   <Home size={18} className="text-gray-400 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Acomodacao</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Acomodação</p>
                     <p className="font-medium text-gray-900 dark:text-white">
                       {selectedAcomodacao.nome} ({selectedAcomodacao.tipo})
                     </p>
@@ -426,7 +426,7 @@ export default function NovaReservaPage() {
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
                   <CalendarDays size={18} className="text-gray-400 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Periodo</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Período</p>
                     <p className="font-medium text-gray-900 dark:text-white">
                       {new Date(checkIn + 'T00:00:00').toLocaleDateString('pt-BR')} - {new Date(checkOut + 'T00:00:00').toLocaleDateString('pt-BR')}
                     </p>
@@ -435,7 +435,7 @@ export default function NovaReservaPage() {
                 <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
                   <Clock size={18} className="text-gray-400 shrink-0" />
                   <div>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Horarios</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Horários</p>
                     <p className="font-medium text-gray-900 dark:text-white">
                       Check-in: 14:00 | Check-out: 12:00
                     </p>
@@ -447,14 +447,14 @@ export default function NovaReservaPage() {
               <div className="mt-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40">
                 <p className="text-sm text-amber-700 dark:text-amber-400 flex items-start gap-2">
                   <Info size={16} className="shrink-0 mt-0.5" />
-                  Politica de cancelamento: Cancelamento gratuito ate 7 dias antes do check-in. Apos esse prazo, sera cobrada 1 diaria como taxa.
+                  Política de cancelamento: Cancelamento gratuito até 7 dias antes do check-in. Após esse prazo, será cobrada 1 diária como taxa.
                 </p>
               </div>
 
               {/* Guests */}
               <div className="mb-4">
                 <label htmlFor="num-hospedes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Numero de Hospedes
+                  Número de Hóspedes
                 </label>
                 <input
                   id="num-hospedes"
@@ -466,20 +466,20 @@ export default function NovaReservaPage() {
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:border-transparent transition-all"
                   style={{ '--tw-ring-color': 'var(--color-primary)' } as React.CSSProperties}
                 />
-                <p className="text-xs text-gray-400 mt-1">Capacidade maxima: {selectedAcomodacao.capacidade} pessoas</p>
+                <p className="text-xs text-gray-400 mt-1">Capacidade máxima: {selectedAcomodacao.capacidade} pessoas</p>
               </div>
 
               {/* Observations */}
               <div>
                 <label htmlFor="observacoes" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-                  Observacoes (opcional)
+                  Observações (opcional)
                 </label>
                 <textarea
                   id="observacoes"
                   rows={3}
                   value={observacoes}
                   onChange={(e) => setObservacoes(e.target.value)}
-                  placeholder="Alguma observacao especial..."
+                  placeholder="Alguma observação especial..."
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-all"
                   style={{ '--tw-ring-color': 'var(--color-primary)' } as React.CSSProperties}
                 />
@@ -511,7 +511,7 @@ export default function NovaReservaPage() {
             className="flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold shadow-lg transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-xl"
             style={{ background: 'linear-gradient(to right, var(--color-primary), var(--color-primary-dark))' }}
           >
-            Proximo
+            Próximo
             <ChevronRight size={16} />
           </button>
         ) : (

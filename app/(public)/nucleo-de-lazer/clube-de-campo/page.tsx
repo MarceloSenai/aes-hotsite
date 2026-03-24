@@ -411,11 +411,11 @@ export default function ClubeDeCampoPage() {
  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800/40">
   <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
    <li>&#8226; Check-in: 14:00 | Check-out: 12:00</li>
-   <li>&#8226; Maximo de hospedes por acomodacao conforme capacidade</li>
-   <li>&#8226; Proibido som alto apos 22:00</li>
-   <li>&#8226; Animais de estimacao apenas em acomodacoes Pet Friendly</li>
-   <li>&#8226; Cancelamento gratuito ate 7 dias antes do check-in</li>
-   <li>&#8226; Documentos de identidade obrigatorios no check-in</li>
+   <li>&#8226; Máximo de hóspedes por acomodação conforme capacidade</li>
+   <li>&#8226; Proibido som alto após 22:00</li>
+   <li>&#8226; Animais de estimação apenas em acomodações Pet Friendly</li>
+   <li>&#8226; Cancelamento gratuito até 7 dias antes do check-in</li>
+   <li>&#8226; Documentos de identidade obrigatórios no check-in</li>
   </ul>
  </div>
  </motion.div>

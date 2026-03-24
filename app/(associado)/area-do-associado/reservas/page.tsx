@@ -31,7 +31,7 @@ type StatusFilter = 'todas' | 'pendente' | 'confirmada' | 'concluida' | 'cancela
 const STATUS_CONFIG: Record<string, { label: string; color: string; bgColor: string; icon: React.ElementType }> = {
   pendente:   { label: 'Pendente',   color: 'text-amber-700 dark:text-amber-400',  bgColor: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800', icon: Clock },
   confirmada: { label: 'Confirmada', color: 'text-emerald-700 dark:text-emerald-400', bgColor: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800', icon: CheckCircle },
-  concluida:  { label: 'Concluida',  color: 'text-blue-700 dark:text-blue-400',    bgColor: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800', icon: CalendarDays },
+  concluida:  { label: 'Concluída',  color: 'text-blue-700 dark:text-blue-400',    bgColor: 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800', icon: CalendarDays },
   cancelada:  { label: 'Cancelada',  color: 'text-red-700 dark:text-red-400',      bgColor: 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800', icon: XCircle },
 };
 
@@ -39,7 +39,7 @@ const FILTER_TABS: { key: StatusFilter; label: string }[] = [
   { key: 'todas', label: 'Todas' },
   { key: 'pendente', label: 'Pendentes' },
   { key: 'confirmada', label: 'Confirmadas' },
-  { key: 'concluida', label: 'Concluidas' },
+  { key: 'concluida', label: 'Concluídas' },
   { key: 'cancelada', label: 'Canceladas' },
 ];
 
@@ -134,14 +134,14 @@ function RatingModal({
           {/* Comment */}
           <div>
             <label htmlFor="comentario" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
-              Comentario (opcional)
+              Comentário (opcional)
             </label>
             <textarea
               id="comentario"
               rows={3}
               value={comentario}
               onChange={(e) => setComentario(e.target.value)}
-              placeholder="Conte-nos sobre sua experiencia..."
+              placeholder="Conte-nos sobre sua experiência..."
               className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent resize-none transition-all duration-200"
               style={{ '--tw-ring-color': 'var(--color-primary)' } as React.CSSProperties}
             />
@@ -168,7 +168,7 @@ function RatingModal({
                   Enviando...
                 </span>
               ) : (
-                'Enviar Avaliacao'
+                'Enviar Avaliação'
               )}
             </button>
           </div>
@@ -249,7 +249,7 @@ export default function ReservasPage() {
           Minhas Reservas
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Acompanhe todas as suas reservas nos nucleos de lazer.
+          Acompanhe todas as suas reservas nos núcleos de lazer.
         </p>
       </div>
 
@@ -300,7 +300,7 @@ export default function ReservasPage() {
           <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
             {filter !== 'todas' ? 'Tente outro filtro ou ' : ''}
             <a href="/area-do-associado/nova-reserva" className="underline" style={{ color: 'var(--color-primary)' }}>
-              faca uma nova reserva
+              faça uma nova reserva
             </a>.
           </p>
         </div>
@@ -345,13 +345,13 @@ export default function ReservasPage() {
                         </span>
                         <span className="flex items-center gap-1">
                           <Users size={14} />
-                          {reserva.num_hospedes} {reserva.num_hospedes === 1 ? 'hospede' : 'hospedes'}
+                          {reserva.num_hospedes} {reserva.num_hospedes === 1 ? 'hóspede' : 'hóspedes'}
                         </span>
                       </div>
                       <div className="mt-2 ml-5 p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40">
                         <p className="text-xs text-amber-700 dark:text-amber-400 flex items-start gap-1.5">
                           <Info size={12} className="shrink-0 mt-0.5" />
-                          Politica de cancelamento: Cancelamento gratuito ate 7 dias antes do check-in. Apos esse prazo, sera cobrada 1 diaria como taxa.
+                          Política de cancelamento: Cancelamento gratuito até 7 dias antes do check-in. Após esse prazo, será cobrada 1 diária como taxa.
                         </p>
                       </div>
                       {hasRating && (

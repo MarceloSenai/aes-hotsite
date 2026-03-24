@@ -246,6 +246,10 @@ function FileUpload({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
+    const MAX_SIZE = bucket === 'aes-galeria' ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+    const ALLOWED = bucket === 'aes-galeria' ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif'] : ['application/pdf', 'image/jpeg', 'image/png'];
+    if (file.size > MAX_SIZE) { alert(`Arquivo muito grande. Máximo: ${MAX_SIZE / 1024 / 1024}MB`); return; }
+    if (!ALLOWED.includes(file.type)) { alert('Tipo de arquivo não permitido.'); return; }
     setUploading(true);
     try {
       const path = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;

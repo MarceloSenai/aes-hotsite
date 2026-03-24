@@ -54,7 +54,7 @@ background:'--color-background',surface:'--color-surface',
 border:'--color-border',darkForeground:'--color-dark-foreground',
 darkBackground:'--color-dark-background',darkSurface:'--color-dark-surface',
 darkBorder:'--color-dark-border'};
-for(var k in n){if(c[k])r.setProperty(n[k],c[k])}}}
+for(var k in n){if(c[k]&&/^#[0-9a-fA-F]{3,8}$/.test(c[k]))r.setProperty(n[k],c[k])}}}
 var a=localStorage.getItem('aes-accessibility');
 if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('dark')}
 }catch(e){}})();`,
@@ -62,11 +62,14 @@ if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('
         />
       </head>
       <body className={`${inter.variable} antialiased bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-50`}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:shadow-lg focus:text-sm focus:font-medium">
+          Pular para o conteúdo principal
+        </a>
         <AccessibilityProvider>
           <ThemeProvider>
             <A11yFilters />
             <Header />
-            <main className="min-h-screen">{children}</main>
+            <main id="main-content" className="min-h-screen">{children}</main>
             <Footer />
             <AccessibilityPanel />
           </ThemeProvider>

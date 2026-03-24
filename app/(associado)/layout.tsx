@@ -120,7 +120,7 @@ export default function AssociadoLayout({ children }: { children: React.ReactNod
             </div>
             <div className="leading-tight">
               <span className="block text-white font-bold text-sm">AES</span>
-              <span className="block text-gray-500 text-[10px]">Area do Associado</span>
+              <span className="block text-gray-500 text-[10px]">Área do Associado</span>
             </div>
           </Link>
           <button

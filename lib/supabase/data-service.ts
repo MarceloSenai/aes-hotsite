@@ -1,40 +1,69 @@
 import { supabase } from './client';
 
+// ─── Table whitelist ──────────────────────────────────────────────
+
+const ALLOWED_TABLES = [
+  'site_config', 'site_emails', 'social_links', 'carousel_slides',
+  'eventos', 'boletins', 'representantes', 'nucleo_pricing', 'nucleo_precos',
+  'planos_saude', 'plano_faixas', 'parceiros_seguro', 'farmacia',
+  'galeria', 'documentos', 'parcerias', 'nucleo_videos',
+  'associados', 'acomodacoes', 'reservas', 'avaliacoes',
+] as const;
+type AllowedTable = typeof ALLOWED_TABLES[number];
+
+function validateTable(table: string): void {
+  if (!ALLOWED_TABLES.includes(table as AllowedTable)) {
+    throw new Error(`Table "${table}" is not allowed`);
+  }
+}
+
 // ─── Generic CRUD helpers ─────────────────────────────────────────
 
 export async function getAll<T>(table: string, orderBy?: string): Promise<T[]> {
+  validateTable(table);
   const query = supabase.from(table).select('*');
   if (orderBy) query.order(orderBy);
   const { data, error } = await query;
-  if (error) { console.error(`getAll ${table}:`, error); return []; }
+  if (error) {
+    console.error(`getAll ${table}:`, error);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('supabase-error', { detail: { table, error: error.message } }));
+    }
+    return [];
+  }
   return (data ?? []) as T[];
 }
 
 export async function getById<T>(table: string, id: string): Promise<T | null> {
+  validateTable(table);
   const { data, error } = await supabase.from(table).select('*').eq('id', id).single();
   if (error) return null;
   return data as T;
 }
 
 export async function create<T>(table: string, row: Partial<T>): Promise<T | null> {
+  validateTable(table);
   const { data, error } = await supabase.from(table).insert(row).select().single();
   if (error) { console.error(`create ${table}:`, error); return null; }
   return data as T;
 }
 
 export async function update<T>(table: string, id: string, row: Partial<T>): Promise<T | null> {
+  validateTable(table);
   const { data, error } = await supabase.from(table).update(row).eq('id', id).select().single();
   if (error) { console.error(`update ${table}:`, error); return null; }
   return data as T;
 }
 
 export async function remove(table: string, id: string): Promise<boolean> {
+  validateTable(table);
   const { error } = await supabase.from(table).delete().eq('id', id);
   if (error) { console.error(`delete ${table}:`, error); return false; }
   return true;
 }
 
 export async function upsert<T>(table: string, row: Partial<T>): Promise<T | null> {
+  validateTable(table);
   const { data, error } = await supabase.from(table).upsert(row).select().single();
   if (error) { console.error(`upsert ${table}:`, error); return null; }
   return data as T;

@@ -69,7 +69,7 @@ export default function DashboardPage() {
           Bem-vindo, {session?.nome.split(' ')[0]}!
         </h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">
-          Gerencie suas reservas nos nucleos de lazer da AES.
+          Gerencie suas reservas nos núcleos de lazer da AES.
         </p>
       </div>
 
@@ -112,7 +112,7 @@ export default function DashboardPage() {
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-blue-50 dark:bg-blue-900/20">
                   <Clock size={20} className="text-blue-500" />
                 </div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Proxima Reserva</span>
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Próxima Reserva</span>
               </div>
               {proximaReserva ? (
                 <div>
@@ -144,7 +144,7 @@ export default function DashboardPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-gray-900 dark:text-white">Nova Reserva</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Reserve em um dos nossos nucleos</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Reserve em um dos nossos núcleos</p>
               </div>
               <ArrowRight size={18} className="text-gray-300 group-hover:text-gray-500 dark:group-hover:text-gray-300 transition-colors shrink-0" />
             </Link>

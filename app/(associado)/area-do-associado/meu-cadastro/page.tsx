@@ -56,7 +56,7 @@ function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label:
       <div className="min-w-0">
         <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">{label}</p>
         <p className="text-sm font-medium text-gray-900 dark:text-white mt-0.5">
-          {value || 'Nao informado'}
+          {value || 'Não informado'}
         </p>
       </div>
     </div>
@@ -123,7 +123,7 @@ export default function MeuCadastroPage() {
         {/* Notice */}
         <div className="mt-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Para atualizar seus dados cadastrais, entre em contato com a administracao da AES
+            Para atualizar seus dados cadastrais, entre em contato com a administração da AES
             pelo telefone{' '}
             <a href="tel:+551133679900" className="font-medium" style={{ color: 'var(--color-primary)' }}>
               (11) 3367-9900

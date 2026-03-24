@@ -336,8 +336,8 @@ export default function AssistenciaMedicaPage() {
   </a>
   <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 text-center">
    <TrendingUp size={24} className="mx-auto mb-2 text-theme-primary" />
-   <h3 className="font-bold text-gray-900 dark:text-white">Politica de Reajuste</h3>
-   <p className="text-xs text-gray-500 mt-1">Reajuste anual conforme ANS e negociacao coletiva</p>
+   <h3 className="font-bold text-gray-900 dark:text-white">Política de Reajuste</h3>
+   <p className="text-xs text-gray-500 mt-1">Reajuste anual conforme ANS e negociação coletiva</p>
   </div>
  </div>
  </motion.div>
