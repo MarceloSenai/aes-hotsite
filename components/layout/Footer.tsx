@@ -25,11 +25,11 @@ const quickLinks = [
 ];
 
 const servicos = [
-  { label: 'Assistência Médica', href: '/servicos#medica', icon: Stethoscope },
-  { label: 'Assistência Odontológica', href: '/servicos#odontologica', icon: Heart },
-  { label: 'Fundo Mútuo', href: '/servicos#fundo-mutuo', icon: Shield },
-  { label: 'Farmácias', href: '/servicos#farmacias', icon: Pill },
-  { label: 'Seguros', href: '/servicos#seguros', icon: Shield },
+  { label: 'Assistência Médica', href: '/servicos/assistencia-medica', icon: Stethoscope },
+  { label: 'Assistência Odontológica', href: '/servicos/assistencia-odontologica', icon: Heart },
+  { label: 'Fundo Mútuo', href: '/servicos/fundo-mutuo', icon: Shield },
+  { label: 'Farmácias', href: '/servicos/farmacias', icon: Pill },
+  { label: 'Seguros', href: '/servicos/seguros', icon: Shield },
 ];
 
 export default function Footer() {

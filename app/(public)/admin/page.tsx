@@ -584,6 +584,7 @@ export default function AdminPage() {
   // ─── Generic CRUD handlers ────────────────────────────────────
 
   const handleDelete = async (section: SectionId, id: string) => {
+    if (!window.confirm('Tem certeza que deseja excluir este item?')) return;
     try {
       let ok = false;
       switch (section) {
@@ -605,6 +606,7 @@ export default function AdminPage() {
       }
     } catch (err) {
       console.error('Delete error:', err);
+      showToast('Erro ao excluir. Tente novamente.');
     }
   };
 

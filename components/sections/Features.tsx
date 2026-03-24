@@ -40,7 +40,7 @@ const services = [
     title: 'Fundo Mútuo (FUMUS)',
     description:
       'Auxílio financeiro solidário em caso de falecimento. Associado: R$ 5.000 | Dependente: R$ 2.500.',
-    link: '/servicos/fumus',
+    link: '/servicos/fundo-mutuo',
     gradient: 'from-amber-500 to-orange-500',
     bgLight: 'bg-amber-50',
     bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
@@ -76,7 +76,7 @@ const services = [
     title: 'Núcleos de Lazer',
     description:
       '3 opções: Clube de Campo (Jundiaí), Clube Náutico (Boracéia) e Colônia de Férias (Itanhaém).',
-    link: '/servicos/nucleos-de-lazer',
+    link: '/nucleo-de-lazer',
     gradient: 'from-teal-500 to-cyan-500',
     bgLight: 'bg-teal-50',
     bgIcon: 'bg-teal-100 dark:bg-teal-900/30',
