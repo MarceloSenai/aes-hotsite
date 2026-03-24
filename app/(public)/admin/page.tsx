@@ -1036,7 +1036,7 @@ export default function AdminPage() {
                     title="Slides do Carrossel"
                     onAdd={() => openEditModal('carousel', {
                       badge: 'Novo', badge_color: '#10B981', title: 'Novo Slide',
-                      description: '', cta: 'Saiba Mais', href: '/', enabled: true, sort_order: carouselData.length,
+                      description: '', cta: 'Saiba Mais', href: '/', enabled: true, sort_order: carouselData.length, image_path: '',
                     })}
                   />
                   {loading.carousel ? <TableSkeleton cols={5} /> : (
@@ -1967,8 +1967,21 @@ export default function AdminPage() {
                 </div>
                 <Field label="Descrição" value={(editingItem.description as string) || ''} onChange={(v) => updateEditingField('description', v)} type="textarea" />
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Botao CTA" value={(editingItem.cta as string) || ''} onChange={(v) => updateEditingField('cta', v)} />
+                  <Field label="Botão CTA" value={(editingItem.cta as string) || ''} onChange={(v) => updateEditingField('cta', v)} />
                   <Field label="Link" value={(editingItem.href as string) || ''} onChange={(v) => updateEditingField('href', v)} placeholder="/" />
+                </div>
+                {/* Imagem do slide */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 mb-2">Imagem do Slide (opcional)</label>
+                  {!!(editingItem.image_path) && (
+                    <div className="mb-2">
+                      <img src={editingItem.image_path as string} alt="" className="w-full h-32 rounded-lg object-cover border border-gray-200" />
+                    </div>
+                  )}
+                  <FileUpload
+                    bucket="aes-galeria"
+                    onUploaded={(url) => updateEditingField('image_path', url)}
+                  />
                 </div>
                 <Field label="Ativo" value={editingItem.enabled as boolean} onChange={(v) => updateEditingField('enabled', v === 'true')} type="checkbox" />
               </>

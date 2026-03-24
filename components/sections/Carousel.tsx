@@ -15,6 +15,7 @@ interface CarouselSlide {
   cta: string;
   href: string;
   enabled: boolean;
+  imagePath?: string;
 }
 
 function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
@@ -27,6 +28,7 @@ function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
     cta: row.cta as string,
     href: row.href as string,
     enabled: row.enabled as boolean,
+    imagePath: (row.image_path as string) || undefined,
   };
 }
 
@@ -106,13 +108,19 @@ export default function Carousel() {
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10"
             >
-              {/* Icon area */}
-              <div
-                className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
-                style={{ backgroundColor: slide.badgeColor }}
-              >
-                <Sparkles size={40} className="text-white" />
-              </div>
+              {/* Image or icon area */}
+              {slide.imagePath ? (
+                <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-lg">
+                  <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-cover" />
+                </div>
+              ) : (
+                <div
+                  className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
+                  style={{ backgroundColor: slide.badgeColor }}
+                >
+                  <Sparkles size={40} className="text-white" />
+                </div>
+              )}
 
               {/* Content */}
               <div className="flex-1 text-center sm:text-left">
