@@ -269,21 +269,27 @@ export class ThemeManager {
         .eq('id', 'main')
         .single();
 
-      if (!error && data?.theme_config) {
+      if (error) {
+        console.warn('[ThemeManager] Supabase fetch error:', error.message);
+      } else if (data?.theme_config) {
         const theme = typeof data.theme_config === 'string'
           ? JSON.parse(data.theme_config)
           : data.theme_config;
+        console.log('[ThemeManager] Theme loaded from Supabase ✓', theme.name);
         // Cache locally for faster subsequent loads
         if (typeof window !== 'undefined') {
           localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
         }
         return theme as ThemeConfig;
+      } else {
+        console.log('[ThemeManager] No theme_config in Supabase, using fallback');
       }
 
       // Fallback to localStorage cache if Supabase is unavailable
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(this.STORAGE_KEY);
         if (stored) {
+          console.log('[ThemeManager] Theme loaded from localStorage (fallback)');
           return JSON.parse(stored);
         }
       }
@@ -310,13 +316,23 @@ export class ThemeManager {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
       }
 
-      // Persist to Supabase (shared across all users)
-      const { error } = await supabase
+      // Persist to Supabase — update only the theme_config column
+      const { error, count } = await supabase
         .from('site_config')
-        .upsert({ id: 'main', theme_config: theme });
+        .update({ theme_config: theme })
+        .eq('id', 'main');
+
+      // If no row exists yet, insert one
+      if (!error && count === 0) {
+        await supabase
+          .from('site_config')
+          .insert({ id: 'main', theme_config: theme });
+      }
 
       if (error) {
         console.error('[ThemeManager] Supabase save error:', error);
+      } else {
+        console.log('[ThemeManager] Theme saved to Supabase ✓');
       }
     } catch (error) {
       console.error('[ThemeManager] Error saving theme:', error);
