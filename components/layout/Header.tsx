@@ -246,10 +246,10 @@ export default function Header() {
       {/* ── Main nav ── */}
       <div className="backdrop-blur-md" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 95%, transparent)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-24">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
-              <div className="relative w-10 h-10 lg:w-11 lg:h-11">
+              <div className="relative w-20 h-20 lg:w-22 lg:h-22">
                 <Image src="/images/aes-logo.png" alt="AES" fill
                   className="object-contain brightness-0 invert group-hover:scale-105 transition-transform duration-200" priority />
               </div>
