@@ -1047,7 +1047,7 @@ export default function AdminPage() {
                     title="Slides do Carrossel"
                     onAdd={() => openEditModal('carousel', {
                       badge: 'Novo', badge_color: '#10B981', title: 'Novo Slide',
-                      description: '', cta: 'Saiba Mais', href: '/', enabled: true, sort_order: carouselData.length, image_path: '',
+                      description: '', cta: 'Saiba Mais', href: '/', enabled: true, sort_order: carouselData.length, image_path: '', display_mode: 'default',
                     })}
                   />
                   {loading.carousel ? <TableSkeleton cols={5} /> : (
@@ -1971,19 +1971,39 @@ export default function AdminPage() {
             {/* CAROUSEL MODAL */}
             {editModalSection === 'carousel' && (
               <>
+                {/* Modo de exibição */}
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Modo de Exibição</label>
+                  <select
+                    value={(editingItem.display_mode as string) || 'default'}
+                    onChange={(e) => updateEditingField('display_mode', e.target.value)}
+                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="default">Padrão (imagem + texto)</option>
+                    <option value="image_only">Somente Imagem (banner)</option>
+                  </select>
+                </div>
+
                 <Field label="Título" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} required />
-                <Field label="Badge" value={(editingItem.badge as string) || ''} onChange={(v) => updateEditingField('badge', v)} />
-                <div className="flex items-center gap-3">
-                  <Field label="Cor do Badge" value={(editingItem.badge_color as string) || '#6366F1'} onChange={(v) => updateEditingField('badge_color', v)} type="color" />
-                </div>
-                <Field label="Descrição" value={(editingItem.description as string) || ''} onChange={(v) => updateEditingField('description', v)} type="textarea" />
-                <div className="grid grid-cols-2 gap-3">
-                  <Field label="Botão CTA" value={(editingItem.cta as string) || ''} onChange={(v) => updateEditingField('cta', v)} />
-                  <Field label="Link" value={(editingItem.href as string) || ''} onChange={(v) => updateEditingField('href', v)} placeholder="/" />
-                </div>
+                <Field label="Link" value={(editingItem.href as string) || ''} onChange={(v) => updateEditingField('href', v)} placeholder="/" />
+
+                {/* Campos visíveis apenas no modo padrão */}
+                {(editingItem.display_mode as string) !== 'image_only' && (
+                  <>
+                    <Field label="Badge" value={(editingItem.badge as string) || ''} onChange={(v) => updateEditingField('badge', v)} />
+                    <div className="flex items-center gap-3">
+                      <Field label="Cor do Badge" value={(editingItem.badge_color as string) || '#6366F1'} onChange={(v) => updateEditingField('badge_color', v)} type="color" />
+                    </div>
+                    <Field label="Descrição" value={(editingItem.description as string) || ''} onChange={(v) => updateEditingField('description', v)} type="textarea" />
+                    <Field label="Botão CTA" value={(editingItem.cta as string) || ''} onChange={(v) => updateEditingField('cta', v)} />
+                  </>
+                )}
+
                 {/* Imagem do slide */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Imagem do Slide (opcional)</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">
+                    Imagem do Slide {(editingItem.display_mode as string) === 'image_only' ? '(obrigatória)' : '(opcional)'}
+                  </label>
                   {!!(editingItem.image_path) && (
                     <div className="mb-2">
                       <img src={editingItem.image_path as string} alt="" className="w-full h-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />

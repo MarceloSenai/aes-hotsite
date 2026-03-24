@@ -35,9 +35,9 @@ const nucleos = [
  description:
  'Chalés à beira da represa com pier de pesca, academia ao ar livre e a tranquilidade do interior paulista.',
  icon: Waves,
- gradient: 'linear-gradient(to bottom right, #3b82f6, #0891b2)',
- bgIcon: 'bg-blue-100 dark:bg-blue-900/40',
- textIcon: 'text-blue-600 dark:text-blue-400',
+ gradient: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
+ bgIcon: 'bg-theme-primary-light dark:bg-theme-primary-20',
+ textIcon: 'text-theme-primary dark:text-theme-primary',
  highlights: ['8 Chalés', 'Pier de Pesca', 'Academia', 'Cozinha Caipira'],
  image: '/images/clube-nautico.jpg',
  },

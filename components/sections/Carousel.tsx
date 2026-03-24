@@ -6,6 +6,8 @@ import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { carouselService } from '@/lib/supabase/data-service';
 
+type DisplayMode = 'default' | 'image_only';
+
 interface CarouselSlide {
   id: string;
   badge: string;
@@ -16,6 +18,7 @@ interface CarouselSlide {
   href: string;
   enabled: boolean;
   imagePath?: string;
+  displayMode: DisplayMode;
 }
 
 function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
@@ -29,6 +32,7 @@ function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
     href: row.href as string,
     enabled: row.enabled as boolean,
     imagePath: (row.image_path as string) || undefined,
+    displayMode: (row.display_mode as DisplayMode) || 'default',
   };
 }
 
@@ -70,6 +74,7 @@ export default function Carousel() {
   if (slides.length === 0) return null;
 
   const slide = slides[current];
+  const isImageOnly = slide.displayMode === 'image_only';
 
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
@@ -106,45 +111,59 @@ export default function Carousel() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10"
+              className={isImageOnly ? '' : 'flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10'}
             >
-              {/* Image or icon area */}
-              {slide.imagePath ? (
-                <div className="flex-shrink-0 w-full sm:w-64 md:w-80 h-48 sm:h-56 md:h-64 rounded-2xl overflow-hidden shadow-lg">
-                  <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-contain" />
-                </div>
-              ) : (
-                <div
-                  className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
-                  style={{ backgroundColor: slide.badgeColor }}
-                >
-                  <Sparkles size={40} className="text-white" />
-                </div>
-              )}
-
-              {/* Content */}
-              <div className="flex-1 text-center sm:text-left">
-                <span
-                  className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white mb-3"
-                  style={{ backgroundColor: slide.badgeColor }}
-                >
-                  {slide.badge}
-                </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                  {slide.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-5 leading-relaxed max-w-lg">
-                  {slide.description}
-                </p>
-                <Link
-                  href={slide.href}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white text-sm font-semibold transition-all hover:opacity-90 shadow-md"
-                  style={{ backgroundColor: slide.badgeColor }}
-                >
-                  {slide.cta}
-                  <ChevronRight size={16} />
+              {isImageOnly ? (
+                /* ── Image-only mode: full-width banner ── */
+                <Link href={slide.href} className="block w-full h-[280px] sm:h-[340px] md:h-[400px]">
+                  <img
+                    src={slide.imagePath}
+                    alt={slide.title}
+                    className="w-full h-full object-cover"
+                  />
                 </Link>
-              </div>
+              ) : (
+                /* ── Default mode: image + text ── */
+                <>
+                  {/* Image or icon area */}
+                  {slide.imagePath ? (
+                    <div className="flex-shrink-0 w-full sm:w-64 md:w-80 h-48 sm:h-56 md:h-64 rounded-2xl overflow-hidden shadow-lg">
+                      <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-contain" />
+                    </div>
+                  ) : (
+                    <div
+                      className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
+                      style={{ backgroundColor: slide.badgeColor }}
+                    >
+                      <Sparkles size={40} className="text-white" />
+                    </div>
+                  )}
+
+                  {/* Content */}
+                  <div className="flex-1 text-center sm:text-left">
+                    <span
+                      className="inline-block px-3 py-1 rounded-full text-xs font-semibold text-white mb-3"
+                      style={{ backgroundColor: slide.badgeColor }}
+                    >
+                      {slide.badge}
+                    </span>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      {slide.title}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 mb-5 leading-relaxed max-w-lg">
+                      {slide.description}
+                    </p>
+                    <Link
+                      href={slide.href}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg text-white text-sm font-semibold transition-all hover:opacity-90 shadow-md"
+                      style={{ backgroundColor: slide.badgeColor }}
+                    >
+                      {slide.cta}
+                      <ChevronRight size={16} />
+                    </Link>
+                  </div>
+                </>
+              )}
             </motion.div>
           </AnimatePresence>
 
