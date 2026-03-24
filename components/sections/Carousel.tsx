@@ -110,8 +110,8 @@ export default function Carousel() {
             >
               {/* Image or icon area */}
               {slide.imagePath ? (
-                <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-lg">
-                  <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-cover" />
+                <div className="flex-shrink-0 w-full sm:w-64 md:w-80 h-48 sm:h-56 md:h-64 rounded-2xl overflow-hidden shadow-lg">
+                  <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-contain" />
                 </div>
               ) : (
                 <div
