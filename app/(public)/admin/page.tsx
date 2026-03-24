@@ -106,11 +106,11 @@ const NAV_CATEGORIES: NavCategory[] = [
 function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
   return (
     <div className="animate-pulse">
-      <div className="h-10 bg-gray-100 rounded-t-lg mb-px" />
+      <div className="h-10 bg-gray-100 dark:bg-gray-700 rounded-t-lg mb-px" />
       {Array.from({ length: rows }).map((_, i) => (
-        <div key={i} className="flex gap-4 p-3 border-b border-gray-50">
+        <div key={i} className="flex gap-4 p-3 border-b border-gray-50 dark:border-gray-700">
           {Array.from({ length: cols }).map((_, j) => (
-            <div key={j} className="h-4 bg-gray-100 rounded flex-1" />
+            <div key={j} className="h-4 bg-gray-100 dark:bg-gray-700 rounded flex-1" />
           ))}
         </div>
       ))}
@@ -138,12 +138,12 @@ function EditModal({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto mx-4"
+        className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto mx-4"
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
-          <button onClick={onClose} className="p-1 hover:bg-gray-100 rounded-lg transition-colors">
-            <X size={18} className="text-gray-500" />
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
+          <button onClick={onClose} className="p-1 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors">
+            <X size={18} className="text-gray-500 dark:text-gray-400" />
           </button>
         </div>
         <div className="p-4 space-y-4">{children}</div>
@@ -162,6 +162,7 @@ function Field({
   placeholder,
   rows,
   options,
+  required,
 }: {
   label: string;
   value: string | number | boolean;
@@ -170,15 +171,23 @@ function Field({
   placeholder?: string;
   rows?: number;
   options?: string[];
+  required?: boolean;
 }) {
+  const labelEl = (
+    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
+      {label}{required && <span className="text-red-500 ml-0.5">*</span>}
+    </label>
+  );
+
   if (type === 'select' && options) {
     return (
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
+        {labelEl}
         <select
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+          required={required}
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
         >
           {options.map((o) => (
             <option key={o} value={o}>{o}</option>
@@ -190,20 +199,21 @@ function Field({
   if (type === 'textarea') {
     return (
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
+        {labelEl}
         <textarea
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
           rows={rows || 3}
           placeholder={placeholder}
-          className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"
+          required={required}
+          className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 resize-none"
         />
       </div>
     );
   }
   if (type === 'checkbox') {
     return (
-      <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+      <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer">
         <input
           type="checkbox"
           checked={Boolean(value)}
@@ -216,13 +226,14 @@ function Field({
   }
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
+      {labelEl}
       <input
         type={type}
         value={String(value ?? '')}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+        required={required}
+        className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
       />
     </div>
   );
@@ -267,7 +278,7 @@ function FileUpload({
   return (
     <div
       className={`border-2 border-dashed rounded-lg p-4 text-center transition-colors cursor-pointer ${
-        dragOver ? 'border-blue-400 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+        dragOver ? 'border-blue-400 bg-blue-50' : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
       }`}
       onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
       onDragLeave={() => setDragOver(false)}
@@ -295,7 +306,7 @@ function FileUpload({
           <span className="text-sm">Enviando...</span>
         </div>
       ) : (
-        <div className="flex flex-col items-center gap-1 text-gray-400">
+        <div className="flex flex-col items-center gap-1 text-gray-400 dark:text-gray-500">
           <Upload size={20} />
           <span className="text-xs">{label}</span>
           <span className="text-[10px]">Arraste ou clique para selecionar</span>
@@ -318,7 +329,7 @@ function SectionHeader({
 }) {
   return (
     <div className="flex items-center justify-between mb-6">
-      <h2 className="text-xl font-bold text-gray-900">{title}</h2>
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h2>
       {onAdd && (
         <button
           onClick={onAdd}
@@ -710,7 +721,7 @@ export default function AdminPage() {
 
   if (isInitLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
       </div>
     );
@@ -722,7 +733,7 @@ export default function AdminPage() {
   // ─── Render ────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />
@@ -790,17 +801,17 @@ export default function AdminPage() {
       </aside>
 
       {/* ─── Main Content ────────────────────────────────────── */}
-      <main className="flex-1 min-w-0">
+      <main className="flex-1 min-w-0 dark:bg-gray-900">
         {/* Top bar */}
-        <div className="sticky top-0 z-30 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 flex items-center justify-between">
+        <div className="sticky top-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors"
             >
               <Menu size={20} />
             </button>
-            <h2 className="text-lg font-semibold text-gray-900 capitalize">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white capitalize">
               {NAV_CATEGORIES.flatMap((c) => c.items).find((i) => i.id === activeSection)?.label || activeSection}
             </h2>
           </div>
@@ -809,21 +820,21 @@ export default function AdminPage() {
               <>
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-2 px-3 py-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors text-sm"
+                  className="flex items-center gap-2 px-3 py-1.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-colors text-sm"
                 >
                   <RotateCcw size={14} />
                   Resetar
                 </button>
-                <div className="flex items-center bg-gray-100 rounded-lg p-0.5">
+                <div className="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg p-0.5">
                   <button
                     onClick={() => setPreviewMode('desktop')}
-                    className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-white shadow text-blue-600' : 'text-gray-400'}`}
+                    className={`p-1.5 rounded-md transition-colors ${previewMode === 'desktop' ? 'bg-white dark:bg-gray-800 shadow text-blue-600' : 'text-gray-400 dark:text-gray-500'}`}
                   >
                     <Monitor size={14} />
                   </button>
                   <button
                     onClick={() => setPreviewMode('mobile')}
-                    className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-white shadow text-blue-600' : 'text-gray-400'}`}
+                    className={`p-1.5 rounded-md transition-colors ${previewMode === 'mobile' ? 'bg-white dark:bg-gray-800 shadow text-blue-600' : 'text-gray-400 dark:text-gray-500'}`}
                   >
                     <Smartphone size={14} />
                   </button>
@@ -847,7 +858,7 @@ export default function AdminPage() {
               {activeSection === 'themes' && (
                 <div>
                   {/* Sub-tabs */}
-                  <div className="flex gap-1 mb-6 bg-gray-100 rounded-lg p-1 w-fit">
+                  <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 rounded-lg p-1 w-fit">
                     {([
                       { id: 'layouts' as const, label: 'Layouts', icon: Layout },
                       { id: 'themes' as const, label: 'Paletas', icon: Palette },
@@ -860,8 +871,8 @@ export default function AdminPage() {
                           onClick={() => setThemeSubTab(tab.id)}
                           className={`flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                             themeSubTab === tab.id
-                              ? 'bg-white shadow text-gray-900'
-                              : 'text-gray-500 hover:text-gray-700'
+                              ? 'bg-white dark:bg-gray-800 shadow text-gray-900 dark:text-white'
+                              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'
                           }`}
                         >
                           <TabIcon size={14} />
@@ -876,7 +887,7 @@ export default function AdminPage() {
                     <div className="xl:col-span-1 space-y-4">
                       {themeSubTab === 'layouts' && (
                         <>
-                          <p className="text-sm text-gray-500 mb-4">Cada layout altera o estilo visual do hero, cards, navegacao e espacamentos do site.</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Cada layout altera o estilo visual do hero, cards, navegacao e espacamentos do site.</p>
                           {designIds.map((id) => {
                             const layout = DESIGN_LAYOUTS[id];
                             const isActive = activeDesign === id;
@@ -887,23 +898,23 @@ export default function AdminPage() {
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
                                 className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-                                  isActive ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
+                                  isActive ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 hover:shadow-sm'
                                 }`}
                               >
                                 <div className="flex items-center justify-between mb-2">
-                                  <h3 className="font-semibold text-gray-900">{layout.name}</h3>
+                                  <h3 className="font-semibold text-gray-900 dark:text-white">{layout.name}</h3>
                                   {isActive && (
                                     <span className="flex items-center gap-1 text-blue-600 text-xs font-medium bg-blue-100 px-2 py-1 rounded-full">
                                       <Check size={12} /> Ativo
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-sm text-gray-600 mb-3">{layout.description}</p>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{layout.description}</p>
                                 <div className="flex gap-2 flex-wrap">
-                                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">Hero: {layout.heroStyle}</span>
-                                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">Cards: {layout.cardStyle}</span>
-                                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">Nav: {layout.navStyle}</span>
-                                  <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">Raio: {layout.borderRadius}</span>
+                                  <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">Hero: {layout.heroStyle}</span>
+                                  <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">Cards: {layout.cardStyle}</span>
+                                  <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">Nav: {layout.navStyle}</span>
+                                  <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">Raio: {layout.borderRadius}</span>
                                 </div>
                               </motion.button>
                             );
@@ -913,7 +924,7 @@ export default function AdminPage() {
 
                       {themeSubTab === 'themes' && (
                         <>
-                          <p className="text-sm text-gray-500 mb-4">Selecione uma paleta de cores pre-definida. O preview ao lado atualiza em tempo real.</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Selecione uma paleta de cores pre-definida. O preview ao lado atualiza em tempo real.</p>
                           {personalities.map((personality) => {
                             const preset = THEME_PRESETS[personality];
                             const isActive = activeTheme?.personality === personality;
@@ -924,11 +935,11 @@ export default function AdminPage() {
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
                                 className={`w-full text-left p-5 rounded-xl border-2 transition-all ${
-                                  isActive ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm'
+                                  isActive ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-gray-300 hover:shadow-sm'
                                 }`}
                               >
                                 <div className="flex items-center justify-between mb-3">
-                                  <h3 className="font-semibold text-gray-900">{preset.name}</h3>
+                                  <h3 className="font-semibold text-gray-900 dark:text-white">{preset.name}</h3>
                                   {isActive && (
                                     <span className="flex items-center gap-1 text-blue-600 text-xs font-medium bg-blue-100 px-2 py-1 rounded-full">
                                       <Check size={12} /> Ativo
@@ -937,7 +948,7 @@ export default function AdminPage() {
                                 </div>
                                 <div className="flex gap-2">
                                   {[preset.colors.primary, preset.colors.secondary, preset.colors.accent, preset.colors.success, preset.colors.info].map((color, i) => (
-                                    <div key={i} className="w-8 h-8 rounded-lg border border-gray-200" style={{ backgroundColor: color }} />
+                                    <div key={i} className="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700" style={{ backgroundColor: color }} />
                                   ))}
                                 </div>
                               </motion.button>
@@ -948,8 +959,8 @@ export default function AdminPage() {
 
                       {themeSubTab === 'colors' && activeTheme && (
                         <div className="space-y-6">
-                          <p className="text-sm text-gray-500">
-                            Tema base: <span className="font-medium text-gray-700">{activeTheme.name}</span>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            Tema base: <span className="font-medium text-gray-700 dark:text-gray-200">{activeTheme.name}</span>
                           </p>
                           {[
                             { label: 'Primaria', keys: ['primary', 'primaryDark', 'primaryLight'] },
@@ -957,12 +968,12 @@ export default function AdminPage() {
                             { label: 'Destaque', keys: ['accent', 'accentDark', 'accentLight'] },
                             { label: 'Semanticas', keys: ['success', 'warning', 'error', 'info'] },
                           ].map((group) => (
-                            <div key={group.label} className="bg-white rounded-xl p-4 border border-gray-200">
-                              <h3 className="text-sm font-semibold text-gray-700 mb-3">{group.label}</h3>
+                            <div key={group.label} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
+                              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-3">{group.label}</h3>
                               <div className={`grid ${group.keys.length === 4 ? 'grid-cols-2' : 'grid-cols-3'} gap-3`}>
                                 {group.keys.map((key) => (
                                   <div key={key}>
-                                    <label className="block text-xs text-gray-500 mb-1 capitalize">
+                                    <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1 capitalize">
                                       {key.replace(/([A-Z])/g, ' $1').trim()}
                                     </label>
                                     <div className="flex items-center gap-2">
@@ -972,7 +983,7 @@ export default function AdminPage() {
                                         onChange={(e) => handleColorChange(key as keyof ThemeConfig['colors'], e.target.value)}
                                         className="w-10 h-10 rounded-lg cursor-pointer border border-gray-300"
                                       />
-                                      <span className="text-xs text-gray-400 font-mono">
+                                      <span className="text-xs text-gray-400 dark:text-gray-500 font-mono">
                                         {activeTheme.colors[key as keyof typeof activeTheme.colors]}
                                       </span>
                                     </div>
@@ -996,27 +1007,27 @@ export default function AdminPage() {
                     <div className="xl:col-span-2">
                       <div className="sticky top-20">
                         <div className="flex items-center justify-between mb-4">
-                          <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                          <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                             <Eye size={18} />
                             Preview em Tempo Real
                           </h2>
-                          <span className="text-xs text-gray-400">
+                          <span className="text-xs text-gray-400 dark:text-gray-500">
                             Layout: {DESIGN_LAYOUTS[activeDesign].name} | Tema: {activeTheme?.name}
                           </span>
                         </div>
                         <div
-                          className={`bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden transition-all duration-500 ${
+                          className={`bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 ${
                             previewMode === 'mobile' ? 'max-w-sm mx-auto' : 'w-full'
                           }`}
                         >
-                          <div className="bg-gray-100 border-b border-gray-200 px-4 py-2 flex items-center gap-2">
+                          <div className="bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 px-4 py-2 flex items-center gap-2">
                             <div className="flex gap-1.5">
                               <div className="w-3 h-3 rounded-full bg-red-400" />
                               <div className="w-3 h-3 rounded-full bg-yellow-400" />
                               <div className="w-3 h-3 rounded-full bg-green-400" />
                             </div>
                             <div className="flex-1 mx-4">
-                              <div className="bg-white rounded-md px-3 py-1 text-xs text-gray-400 text-center">aessenai.org.br</div>
+                              <div className="bg-white dark:bg-gray-800 rounded-md px-3 py-1 text-xs text-gray-400 dark:text-gray-500 text-center">aessenai.org.br</div>
                             </div>
                           </div>
                           <div className="overflow-y-auto max-h-[700px]" style={{ scrollbarWidth: 'thin' }}>
@@ -1040,44 +1051,44 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.carousel ? <TableSkeleton cols={5} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Badge</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Link</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Badge</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Link</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ativo</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {carouselData.map((slide) => (
-                            <tr key={slide.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                            <tr key={slide.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium text-white" style={{ backgroundColor: (slide.badge_color as string) || '#6366F1' }}>
                                   {slide.badge as string}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-gray-900 font-medium">{slide.title as string}</td>
-                              <td className="px-4 py-3 text-gray-500 font-mono text-xs">{slide.href as string}</td>
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{slide.title as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs">{slide.href as string}</td>
                               <td className="px-4 py-3">
-                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${slide.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${slide.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
                                   {slide.enabled ? 'Sim' : 'Nao'}
                                 </span>
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('carousel', slide)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('carousel', slide)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('carousel', slide.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('carousel', slide.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {carouselData.length === 0 && (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum slide cadastrado</td></tr>
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum slide cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1097,46 +1108,46 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.eventos ? <TableSkeleton cols={6} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Local</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Mes</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Data</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Local</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Mes</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ativo</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {eventosData.map((ev) => (
-                            <tr key={ev.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-600 font-mono text-xs">{ev.data as string}</td>
-                              <td className="px-4 py-3 text-gray-900 font-medium">{ev.titulo as string}</td>
-                              <td className="px-4 py-3 text-gray-500">{ev.local as string}</td>
+                            <tr key={ev.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3 text-gray-600 dark:text-gray-400 font-mono text-xs">{ev.data as string}</td>
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{ev.titulo as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{ev.local as string}</td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
                                   {ev.mes as string}
                                 </span>
                               </td>
                               <td className="px-4 py-3">
-                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${ev.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${ev.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
                                   {ev.enabled ? 'Sim' : 'Nao'}
                                 </span>
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('eventos', ev)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('eventos', ev)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('eventos', ev.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('eventos', ev.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {eventosData.length === 0 && (
-                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum evento cadastrado</td></tr>
+                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum evento cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1157,44 +1168,44 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.boletim ? <TableSkeleton cols={5} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">No.</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">PDF</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">No.</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Data</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">PDF</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {boletinsData.map((bol) => (
-                            <tr key={bol.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                            <tr key={bol.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                               <td className="px-4 py-3 font-bold text-blue-600">#{bol.numero as number}</td>
-                              <td className="px-4 py-3 text-gray-900 font-medium">{bol.titulo as string}</td>
-                              <td className="px-4 py-3 text-gray-500">{bol.data as string}</td>
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{bol.titulo as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{bol.data as string}</td>
                               <td className="px-4 py-3">
                                 {bol.pdf_path ? (
                                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-50 text-green-700">
                                     <FileText size={12} /> Enviado
                                   </span>
                                 ) : (
-                                  <span className="text-xs text-gray-400">Sem PDF</span>
+                                  <span className="text-xs text-gray-400 dark:text-gray-500">Sem PDF</span>
                                 )}
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('boletim', bol)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('boletim', bol)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('boletim', bol.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('boletim', bol.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {boletinsData.length === 0 && (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum boletim cadastrado</td></tr>
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum boletim cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1214,38 +1225,38 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.representantes ? <TableSkeleton cols={4} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Cargo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Cargo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {representantesData.map((rep) => (
-                            <tr key={rep.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 font-medium">{rep.nome as string}</td>
-                              <td className="px-4 py-3 text-gray-500">{rep.cargo as string}</td>
+                            <tr key={rep.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{rep.nome as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{rep.cargo as string}</td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700">
                                   {(rep.categoria as string)?.replace(/-/g, ' ')}
                                 </span>
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('representantes', rep)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('representantes', rep)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('representantes', rep.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('representantes', rep.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {representantesData.length === 0 && (
-                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum representante cadastrado</td></tr>
+                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum representante cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1265,46 +1276,46 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.galeria ? <TableSkeleton cols={4} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Foto</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Foto</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {galeriaData.map((foto) => (
-                            <tr key={foto.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                            <tr key={foto.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                               <td className="px-4 py-3">
                                 {foto.image_path ? (
-                                  <img src={foto.image_path as string} alt={foto.titulo as string} className="w-12 h-12 rounded-lg object-cover border border-gray-200" />
+                                  <img src={foto.image_path as string} alt={foto.titulo as string} className="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
                                 ) : (
-                                  <div className="w-12 h-12 rounded-lg bg-gray-100 border border-dashed border-gray-300 flex items-center justify-center">
+                                  <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 border border-dashed border-gray-300 flex items-center justify-center">
                                     <ImageIcon size={16} className="text-gray-300" />
                                   </div>
                                 )}
                               </td>
-                              <td className="px-4 py-3 text-gray-900 font-medium">{foto.titulo as string}</td>
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{foto.titulo as string}</td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700">
                                   {foto.categoria as string}
                                 </span>
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('galeria', foto)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('galeria', foto)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('galeria', foto.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('galeria', foto.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {galeriaData.length === 0 && (
-                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma foto cadastrada</td></tr>
+                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhuma foto cadastrada</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1324,21 +1335,21 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.documentos ? <TableSkeleton cols={5} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Arquivo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Data</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Arquivo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Data</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {documentosData.map((doc) => (
-                            <tr key={doc.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 font-medium">{doc.titulo as string}</td>
+                            <tr key={doc.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{doc.titulo as string}</td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">
                                   {doc.categoria as string}
@@ -1350,24 +1361,24 @@ export default function AdminPage() {
                                     <FileText size={12} /> {doc.file_name as string}
                                   </span>
                                 ) : (
-                                  <span className="text-xs text-gray-400">Sem arquivo</span>
+                                  <span className="text-xs text-gray-400 dark:text-gray-500">Sem arquivo</span>
                                 )}
                               </td>
-                              <td className="px-4 py-3 text-gray-500 text-xs">
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs">
                                 {doc.created_at ? new Date(doc.created_at as string).toLocaleDateString('pt-BR') : '-'}
                               </td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('documentos', doc)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('documentos', doc)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('documentos', doc.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('documentos', doc.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {documentosData.length === 0 && (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum documento cadastrado</td></tr>
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum documento cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1387,38 +1398,38 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.parcerias ? <TableSkeleton cols={4} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Categoria</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Destaque</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Destaque</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {parceriasData.map((parc) => (
-                            <tr key={parc.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 font-medium">{parc.nome as string}</td>
+                            <tr key={parc.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{parc.nome as string}</td>
                               <td className="px-4 py-3">
                                 <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-700">
                                   {parc.categoria as string}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-gray-500 text-xs">{(parc.destaque as string) || '-'}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs">{(parc.destaque as string) || '-'}</td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('parcerias', parc)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                <button onClick={() => openEditModal('parcerias', parc)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('parcerias', parc.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                <button onClick={() => handleDelete('parcerias', parc.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {parceriasData.length === 0 && (
-                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma parceria cadastrada</td></tr>
+                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhuma parceria cadastrada</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1434,29 +1445,29 @@ export default function AdminPage() {
                   {loading.precos ? <TableSkeleton cols={6} /> : (
                     <div className="space-y-6">
                       {precosData.map((nucleo) => (
-                        <div key={nucleo.id as string} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-                          <div className="px-4 py-3 bg-gray-50 border-b border-gray-200">
-                            <h3 className="font-semibold text-gray-900">{nucleo.nome as string || nucleo.nucleo as string}</h3>
+                        <div key={nucleo.id as string} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                          <div className="px-4 py-3 bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <h3 className="font-semibold text-gray-900 dark:text-white">{nucleo.nome as string || nucleo.nucleo as string}</h3>
                           </div>
                           <table className="w-full text-sm">
                             <thead>
-                              <tr className="border-b border-gray-100">
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600">Categoria</th>
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600">Associado</th>
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600">Dependente</th>
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600">Convidado</th>
-                                <th className="text-right px-4 py-2 text-xs font-semibold text-gray-600">Acoes</th>
+                              <tr className="border-b border-gray-100 dark:border-gray-700">
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Associado</th>
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Dependente</th>
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Convidado</th>
+                                <th className="text-right px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                               </tr>
                             </thead>
                             <tbody>
                               {((nucleo.nucleo_precos as Record<string, unknown>[]) || []).map((preco) => (
-                                <tr key={preco.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                  <td className="px-4 py-2 text-gray-900">{preco.categoria as string}</td>
-                                  <td className="px-4 py-2 text-gray-600 font-mono text-xs">{preco.associado as string}</td>
-                                  <td className="px-4 py-2 text-gray-600 font-mono text-xs">{preco.dependente as string}</td>
-                                  <td className="px-4 py-2 text-gray-600 font-mono text-xs">{preco.convidado as string}</td>
+                                <tr key={preco.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                  <td className="px-4 py-2 text-gray-900 dark:text-white">{preco.categoria as string}</td>
+                                  <td className="px-4 py-2 text-gray-600 dark:text-gray-400 font-mono text-xs">{preco.associado as string}</td>
+                                  <td className="px-4 py-2 text-gray-600 dark:text-gray-400 font-mono text-xs">{preco.dependente as string}</td>
+                                  <td className="px-4 py-2 text-gray-600 dark:text-gray-400 font-mono text-xs">{preco.convidado as string}</td>
                                   <td className="px-4 py-2 text-right">
-                                    <button className="p-1 text-gray-400 hover:text-blue-600 rounded">
+                                    <button className="p-1 text-gray-400 dark:text-gray-500 hover:text-blue-600 rounded">
                                       <Edit3 size={12} />
                                     </button>
                                   </td>
@@ -1467,7 +1478,7 @@ export default function AdminPage() {
                         </div>
                       ))}
                       {precosData.length === 0 && (
-                        <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-400 text-sm">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8 text-center text-gray-400 dark:text-gray-500 text-sm">
                           Nenhum núcleo de preço cadastrado
                         </div>
                       )}
@@ -1486,50 +1497,50 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.planos ? <TableSkeleton cols={6} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome do Plano</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Operadora</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Aberto</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Faixas</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome do Plano</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Tipo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Operadora</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Aberto</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Faixas</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ações</th>
                           </tr>
                         </thead>
                         <tbody>
                           {planosData.map((plano) => (
-                            <tr key={plano.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 font-medium">{plano.tipo as string}</td>
+                            <tr key={plano.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{plano.tipo as string}</td>
                               <td className="px-4 py-3">
                                 <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${(plano.tipo_plano as string) === 'medico' ? 'bg-green-50 text-green-700' : 'bg-blue-50 text-blue-700'}`}>
                                   {(plano.tipo_plano as string) === 'medico' ? 'Médico' : 'Odontológico'}
                                 </span>
                               </td>
-                              <td className="px-4 py-3 text-gray-500">{plano.operadora as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{plano.operadora as string}</td>
                               <td className="px-4 py-3">
                                 <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${plano.aberto ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'}`}>
                                   {plano.aberto ? 'Aberto' : 'Fechado'}
                                 </span>
                               </td>
                               <td className="px-4 py-3">
-                                <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400">
                                   {((plano.plano_faixas as unknown[]) || []).length} faixas
                                 </span>
                               </td>
                               <td className="px-4 py-3 text-right flex justify-end gap-1">
-                                <button onClick={() => openEditModal('planos', plano)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar">
+                                <button onClick={() => openEditModal('planos', plano)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Editar">
                                   <Edit3 size={14} />
                                 </button>
-                                <button onClick={() => handleDelete('planos', plano.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir">
+                                <button onClick={() => handleDelete('planos', plano.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Excluir">
                                   <Trash2 size={14} />
                                 </button>
                               </td>
                             </tr>
                           ))}
                           {planosData.length === 0 && (
-                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum plano cadastrado</td></tr>
+                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum plano cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1549,38 +1560,38 @@ export default function AdminPage() {
                       })}
                     />
                     {loading.seguros ? <TableSkeleton cols={4} /> : (
-                      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                         <table className="w-full text-sm">
                           <thead>
-                            <tr className="bg-gray-50 border-b border-gray-200">
-                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
-                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
-                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Descrição</th>
-                              <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                            <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Tipo</th>
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Descrição</th>
+                              <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                             </tr>
                           </thead>
                           <tbody>
                             {segurosData.map((seg) => (
-                              <tr key={seg.id as string} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                                <td className="px-4 py-3 text-gray-900 font-medium">{seg.nome as string}</td>
+                              <tr key={seg.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{seg.nome as string}</td>
                                 <td className="px-4 py-3">
                                   <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700">
                                     {seg.tipo as string}
                                   </span>
                                 </td>
-                                <td className="px-4 py-3 text-gray-500 text-xs max-w-xs truncate">{seg.descricao as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-xs max-w-xs truncate">{seg.descricao as string}</td>
                                 <td className="px-4 py-3 text-right">
-                                  <button onClick={() => openEditModal('seguros', seg)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                  <button onClick={() => openEditModal('seguros', seg)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
                                     <Edit3 size={14} />
                                   </button>
-                                  <button onClick={() => handleDelete('seguros', seg.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                  <button onClick={() => handleDelete('seguros', seg.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
                                     <Trash2 size={14} />
                                   </button>
                                 </td>
                               </tr>
                             ))}
                             {segurosData.length === 0 && (
-                              <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum parceiro de seguro cadastrado</td></tr>
+                              <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum parceiro de seguro cadastrado</td></tr>
                             )}
                           </tbody>
                         </table>
@@ -1590,9 +1601,9 @@ export default function AdminPage() {
 
                   {/* Farmácia */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-900 mb-4">Farmácia Conveniada</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Farmácia Conveniada</h3>
                     {farmaciaData && (
-                      <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
+                      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-3">
                         <Field label="Rede" value={farmaciaData.rede || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, rede: v })} />
                         <Field label="Descrição" value={farmaciaData.descricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, descricao: v })} type="textarea" />
                         <Field label="Restrição" value={farmaciaData.restricao || ''} onChange={(v) => setFarmaciaData({ ...farmaciaData, restricao: v })} />
@@ -1624,7 +1635,7 @@ export default function AdminPage() {
                       {/* Social Links */}
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-base font-semibold text-gray-900">Redes Sociais</h3>
+                          <h3 className="text-base font-semibold text-gray-900 dark:text-white">Redes Sociais</h3>
                           <button
                             onClick={async () => {
                               await socialLinksService.create({ platform: 'Nova Rede', url: 'https://', enabled: true });
@@ -1636,23 +1647,23 @@ export default function AdminPage() {
                             <Plus size={14} /> Adicionar
                           </button>
                         </div>
-                        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                           <table className="w-full text-sm">
                             <thead>
-                              <tr className="bg-gray-50 border-b border-gray-200">
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Plataforma</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">URL</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
-                                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                              <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Plataforma</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">URL</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ativo</th>
+                                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                               </tr>
                             </thead>
                             <tbody>
                               {socialLinksData.map((link) => (
-                                <tr key={link.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                  <td className="px-4 py-3 text-gray-900 font-medium">{link.platform as string}</td>
-                                  <td className="px-4 py-3 text-gray-500 font-mono text-xs max-w-xs truncate">{link.url as string}</td>
+                                <tr key={link.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                  <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{link.platform as string}</td>
+                                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs max-w-xs truncate">{link.url as string}</td>
                                   <td className="px-4 py-3">
-                                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${link.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${link.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400'}`}>
                                       {link.enabled ? 'Sim' : 'Nao'}
                                     </span>
                                   </td>
@@ -1663,7 +1674,7 @@ export default function AdminPage() {
                                         loadSection('config');
                                         showToast('Rede social removida');
                                       }}
-                                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                      className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                     >
                                       <Trash2 size={14} />
                                     </button>
@@ -1678,7 +1689,7 @@ export default function AdminPage() {
                       {/* Emails */}
                       <div>
                         <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-base font-semibold text-gray-900">E-mails por Setor</h3>
+                          <h3 className="text-base font-semibold text-gray-900 dark:text-white">E-mails por Setor</h3>
                           <button
                             onClick={async () => {
                               await siteEmailsService.create({ label: 'Novo Setor', email: 'email@aessenai.org.br', sort_order: emailsData.length });
@@ -1690,20 +1701,20 @@ export default function AdminPage() {
                             <Plus size={14} /> Adicionar
                           </button>
                         </div>
-                        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                           <table className="w-full text-sm">
                             <thead>
-                              <tr className="bg-gray-50 border-b border-gray-200">
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Setor</th>
-                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Email</th>
-                                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Acoes</th>
+                              <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Setor</th>
+                                <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Email</th>
+                                <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                               </tr>
                             </thead>
                             <tbody>
                               {emailsData.map((em) => (
-                                <tr key={em.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                  <td className="px-4 py-3 text-gray-900 font-medium">{em.label as string}</td>
-                                  <td className="px-4 py-3 text-gray-500 font-mono text-xs">{em.email as string}</td>
+                                <tr key={em.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                  <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{em.label as string}</td>
+                                  <td className="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs">{em.email as string}</td>
                                   <td className="px-4 py-3 text-right">
                                     <button
                                       onClick={async () => {
@@ -1711,7 +1722,7 @@ export default function AdminPage() {
                                         loadSection('config');
                                         showToast('Email removido');
                                       }}
-                                      className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                      className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                     >
                                       <Trash2 size={14} />
                                     </button>
@@ -1726,8 +1737,8 @@ export default function AdminPage() {
                       {/* Site Config fields */}
                       {siteConfigData && (
                         <div>
-                          <h3 className="text-base font-semibold text-gray-900 mb-3">Informacoes Gerais</h3>
-                          <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
+                          <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-3">Informacoes Gerais</h3>
+                          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 space-y-3">
                             <Field label="Telefone" value={siteConfigData.phone || ''} onChange={(v) => setSiteConfigData({ ...siteConfigData, phone: v })} />
                             <Field label="WhatsApp URL" value={siteConfigData.whatsapp || ''} onChange={(v) => setSiteConfigData({ ...siteConfigData, whatsapp: v })} />
                             <Field label="Horario de Funcionamento" value={siteConfigData.working_hours || ''} onChange={(v) => setSiteConfigData({ ...siteConfigData, working_hours: v })} />
@@ -1756,17 +1767,17 @@ export default function AdminPage() {
                 <div>
                   <SectionHeader title="Gerenciar Reservas" />
                   {loading.reservas ? <TableSkeleton cols={7} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Associado</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Acomodação</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Check-in</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Check-out</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Status</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Associado</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acomodação</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Check-in</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Check-out</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Status</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ações</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -1777,14 +1788,14 @@ export default function AdminPage() {
                             const status = r.status as string;
                             const statusColors: Record<string, string> = { pendente: 'bg-amber-50 text-amber-700', confirmada: 'bg-emerald-50 text-emerald-700', cancelada: 'bg-red-50 text-red-600', concluida: 'bg-blue-50 text-blue-700' };
                             return (
-                              <tr key={r.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                <td className="px-4 py-3 font-medium text-gray-900">{assoc?.nome || '—'}</td>
-                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || r.nucleo_id as string}</td>
-                                <td className="px-4 py-3 text-gray-500">{acom?.nome || '—'}</td>
-                                <td className="px-4 py-3 text-gray-500">{r.check_in as string}</td>
-                                <td className="px-4 py-3 text-gray-500">{r.check_out as string}</td>
+                              <tr key={r.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{assoc?.nome || '—'}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{nucleo?.nome || r.nucleo_id as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{acom?.nome || '—'}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{r.check_in as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{r.check_out as string}</td>
                                 <td className="px-4 py-3">
-                                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 text-gray-600'}`}>{status}</span>
+                                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'}`}>{status}</span>
                                 </td>
                                 <td className="px-4 py-3 text-right">
                                   {status === 'pendente' && (
@@ -1801,7 +1812,7 @@ export default function AdminPage() {
                             );
                           })}
                           {reservasData.length === 0 && (
-                            <tr><td colSpan={7} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma reserva encontrada</td></tr>
+                            <tr><td colSpan={7} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhuma reserva encontrada</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1818,31 +1829,31 @@ export default function AdminPage() {
                     openEditModal('associados', { cpf: '', nome: '', email: '', telefone: '', tipo: 'titular', ativo: true });
                   }} />
                   {loading.associados ? <TableSkeleton cols={5} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">CPF</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">CPF</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Tipo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ativo</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ações</th>
                           </tr>
                         </thead>
                         <tbody>
                           {associadosData.map((a) => (
-                            <tr key={a.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                              <td className="px-4 py-3 font-medium text-gray-900">{a.nome as string}</td>
-                              <td className="px-4 py-3 text-gray-500 font-mono text-xs">{(a.cpf as string).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</td>
+                            <tr key={a.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{a.nome as string}</td>
+                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs">{(a.cpf as string).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</td>
                               <td className="px-4 py-3"><span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{a.tipo as string}</span></td>
                               <td className="px-4 py-3"><span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${a.ativo ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{a.ativo ? 'Sim' : 'Não'}</span></td>
                               <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('associados', a)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
+                                <button onClick={() => openEditModal('associados', a)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
                               </td>
                             </tr>
                           ))}
                           {associadosData.length === 0 && (
-                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum associado cadastrado</td></tr>
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum associado cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1856,27 +1867,27 @@ export default function AdminPage() {
                 <div>
                   <SectionHeader title="Acomodações" />
                   {loading.acomodacoes ? <TableSkeleton cols={6} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Capacidade</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tags</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Tipo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Capacidade</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Tags</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ativo</th>
                           </tr>
                         </thead>
                         <tbody>
                           {acomodacoesData.map((ac) => {
                             const nucleo = NUCLEOS.find(n => n.id === ac.nucleo_id);
                             return (
-                              <tr key={ac.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                <td className="px-4 py-3 font-medium text-gray-900">{ac.nome as string}</td>
-                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || ac.nucleo_id as string}</td>
-                                <td className="px-4 py-3 text-gray-500 capitalize">{ac.tipo as string}</td>
-                                <td className="px-4 py-3 text-gray-500">{ac.capacidade as number} pessoas</td>
+                              <tr key={ac.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{ac.nome as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{nucleo?.nome || ac.nucleo_id as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400 capitalize">{ac.tipo as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{ac.capacidade as number} pessoas</td>
                                 <td className="px-4 py-3">
                                   <div className="flex gap-1">
                                     {!!ac.pcd && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-blue-50 text-blue-700 rounded">PcD</span>}
@@ -1888,7 +1899,7 @@ export default function AdminPage() {
                             );
                           })}
                           {acomodacoesData.length === 0 && (
-                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma acomodação cadastrada</td></tr>
+                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhuma acomodação cadastrada</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1907,35 +1918,35 @@ export default function AdminPage() {
                     })}
                   />
                   {loading.videos ? <TableSkeleton cols={4} /> : (
-                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="bg-gray-50 border-b border-gray-200">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Título</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">URL YouTube</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">URL YouTube</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Ações</th>
                           </tr>
                         </thead>
                         <tbody>
                           {videosData.map((v) => {
                             const nucleo = NUCLEOS.find(n => n.id === v.nucleo_id);
                             return (
-                              <tr key={v.id as string} className="border-b border-gray-50 hover:bg-gray-50">
-                                <td className="px-4 py-3 font-medium text-gray-900">{v.titulo as string}</td>
-                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || v.nucleo_id as string}</td>
+                              <tr key={v.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">{v.titulo as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{nucleo?.nome || v.nucleo_id as string}</td>
                                 <td className="px-4 py-3 text-blue-600 text-xs font-mono truncate max-w-[200px]">
                                   <a href={v.youtube_url as string} target="_blank" rel="noopener noreferrer">{v.youtube_url as string}</a>
                                 </td>
                                 <td className="px-4 py-3 text-right flex justify-end gap-1">
-                                  <button onClick={() => openEditModal('videos', v)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
-                                  <button onClick={() => handleDelete('videos', v.id as string)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={14} /></button>
+                                  <button onClick={() => openEditModal('videos', v)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
+                                  <button onClick={() => handleDelete('videos', v.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={14} /></button>
                                 </td>
                               </tr>
                             );
                           })}
                           {videosData.length === 0 && (
-                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum vídeo cadastrado. Adicione URLs do YouTube para cada núcleo.</td></tr>
+                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum vídeo cadastrado. Adicione URLs do YouTube para cada núcleo.</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -1960,7 +1971,7 @@ export default function AdminPage() {
             {/* CAROUSEL MODAL */}
             {editModalSection === 'carousel' && (
               <>
-                <Field label="Título" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} />
+                <Field label="Título" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} required />
                 <Field label="Badge" value={(editingItem.badge as string) || ''} onChange={(v) => updateEditingField('badge', v)} />
                 <div className="flex items-center gap-3">
                   <Field label="Cor do Badge" value={(editingItem.badge_color as string) || '#6366F1'} onChange={(v) => updateEditingField('badge_color', v)} type="color" />
@@ -1972,10 +1983,10 @@ export default function AdminPage() {
                 </div>
                 {/* Imagem do slide */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-2">Imagem do Slide (opcional)</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Imagem do Slide (opcional)</label>
                   {!!(editingItem.image_path) && (
                     <div className="mb-2">
-                      <img src={editingItem.image_path as string} alt="" className="w-full h-32 rounded-lg object-cover border border-gray-200" />
+                      <img src={editingItem.image_path as string} alt="" className="w-full h-32 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
                     </div>
                   )}
                   <FileUpload
@@ -1992,9 +2003,9 @@ export default function AdminPage() {
             {/* EVENTOS MODAL */}
             {editModalSection === 'eventos' && (
               <>
-                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} required />
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Data" value={(editingItem.data as string) || ''} onChange={(v) => updateEditingField('data', v)} placeholder="Ex: 18/01" />
+                  <Field label="Data" value={(editingItem.data as string) || ''} onChange={(v) => updateEditingField('data', v)} placeholder="Ex: 18/01" required />
                   <Field label="Horario" value={(editingItem.horario as string) || ''} onChange={(v) => updateEditingField('horario', v)} placeholder="Ex: 14:00" />
                 </div>
                 <Field label="Local" value={(editingItem.local as string) || ''} onChange={(v) => updateEditingField('local', v)} />
@@ -2004,6 +2015,7 @@ export default function AdminPage() {
                   onChange={(v) => updateEditingField('mes', v)}
                   type="select"
                   options={['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']}
+                  required
                 />
                 <Field label="Departamento" value={(editingItem.departamento as string) || ''} onChange={(v) => updateEditingField('departamento', v)} />
                 <Field label="Ativo" value={editingItem.enabled as boolean} onChange={(v) => updateEditingField('enabled', v === 'true')} type="checkbox" />
@@ -2014,13 +2026,13 @@ export default function AdminPage() {
             {editModalSection === 'boletim' && (
               <>
                 <div className="grid grid-cols-2 gap-3">
-                  <Field label="Numero" value={(editingItem.numero as number) || 0} onChange={(v) => updateEditingField('numero', parseInt(v) || 0)} type="number" />
+                  <Field label="Numero" value={(editingItem.numero as number) || 0} onChange={(v) => updateEditingField('numero', parseInt(v) || 0)} type="number" required />
                   <Field label="Data" value={(editingItem.data as string) || ''} onChange={(v) => updateEditingField('data', v)} placeholder="Marco 2026" />
                 </div>
-                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} required />
                 <Field label="Resumo" value={(editingItem.resumo as string) || ''} onChange={(v) => updateEditingField('resumo', v)} type="textarea" />
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-2">PDF do Boletim</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">PDF do Boletim</label>
                   {!!editingItem.pdf_path && (
                     <div className="flex items-center gap-2 mb-2 p-2 bg-green-50 rounded-lg text-xs text-green-700">
                       <FileText size={14} />
@@ -2040,7 +2052,7 @@ export default function AdminPage() {
             {/* REPRESENTANTES MODAL */}
             {editModalSection === 'representantes' && (
               <>
-                <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
+                <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} required />
                 <Field label="Cargo" value={(editingItem.cargo as string) || ''} onChange={(v) => updateEditingField('cargo', v)} />
                 <Field
                   label="Categoria"
@@ -2048,6 +2060,7 @@ export default function AdminPage() {
                   onChange={(v) => updateEditingField('categoria', v)}
                   type="select"
                   options={['conselho-deliberativo','conselho-fiscal','diretoria-executiva','diretores-departamentos','representantes-regionais']}
+                  required
                 />
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Regional" value={(editingItem.regional as string) || ''} onChange={(v) => updateEditingField('regional', v)} />
@@ -2063,7 +2076,7 @@ export default function AdminPage() {
             {/* GALERIA MODAL */}
             {editModalSection === 'galeria' && (
               <>
-                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} required />
                 <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field
                   label="Categoria"
@@ -2071,12 +2084,13 @@ export default function AdminPage() {
                   onChange={(v) => updateEditingField('categoria', v)}
                   type="select"
                   options={['Eventos','Clube de Campo','Clube Náutico','Colônia de Férias','Esportivo','Institucional']}
+                  required
                 />
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-2">Imagem</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Imagem</label>
                   {!!editingItem.image_path && (
                     <div className="mb-2">
-                      <img src={editingItem.image_path as string} alt="" className="w-24 h-24 rounded-lg object-cover border border-gray-200" />
+                      <img src={editingItem.image_path as string} alt="" className="w-24 h-24 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
                     </div>
                   )}
                   <FileUpload
@@ -2092,7 +2106,7 @@ export default function AdminPage() {
             {/* DOCUMENTOS MODAL */}
             {editModalSection === 'documentos' && (
               <>
-                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} required />
                 <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field
                   label="Categoria"
@@ -2100,9 +2114,10 @@ export default function AdminPage() {
                   onChange={(v) => updateEditingField('categoria', v)}
                   type="select"
                   options={['Comunicados','Estatuto e Regulamentos','Relatorios','Formularios']}
+                  required
                 />
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-2">Arquivo</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Arquivo</label>
                   {!!editingItem.file_name && (
                     <div className="flex items-center gap-2 mb-2 p-2 bg-green-50 rounded-lg text-xs text-green-700">
                       <FileText size={14} />
@@ -2125,13 +2140,14 @@ export default function AdminPage() {
             {/* PARCERIAS MODAL */}
             {editModalSection === 'parcerias' && (
               <>
-                <Field label="Nome do Parceiro" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
+                <Field label="Nome do Parceiro" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} required />
                 <Field
                   label="Categoria"
                   value={(editingItem.categoria as string) || 'Outros'}
                   onChange={(v) => updateEditingField('categoria', v)}
                   type="select"
                   options={['Idiomas','Fitness','Hospedagem','Educacao','Eletrodomesticos','Bem-estar','Instituto','Outros']}
+                  required
                 />
                 <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field label="Destaque" value={(editingItem.destaque as string) || ''} onChange={(v) => updateEditingField('destaque', v)} placeholder="Ex: 40% desconto" />
@@ -2146,7 +2162,7 @@ export default function AdminPage() {
             {/* SEGUROS MODAL */}
             {editModalSection === 'seguros' && (
               <>
-                <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
+                <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} required />
                 <Field label="Tipo" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} />
                 <Field label="Descrição" value={(editingItem.descricao as string) || ''} onChange={(v) => updateEditingField('descricao', v)} type="textarea" />
                 <Field label="Contato" value={(editingItem.contato as string) || ''} onChange={(v) => updateEditingField('contato', v)} />
@@ -2155,21 +2171,21 @@ export default function AdminPage() {
 
             {editModalSection === 'planos' && (
               <>
-                <Field label="Nome do Plano" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} />
+                <Field label="Nome do Plano" value={(editingItem.tipo as string) || ''} onChange={(v) => updateEditingField('tipo', v)} required />
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Tipo do Plano</label>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Tipo do Plano</label>
                     <select value={(editingItem.tipo_plano as string) || 'odontologico'} onChange={(e) => updateEditingField('tipo_plano', e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                       <option value="odontologico">Odontológico</option>
                       <option value="medico">Médico</option>
                     </select>
                   </div>
-                  <Field label="Operadora" value={(editingItem.operadora as string) || ''} onChange={(v) => updateEditingField('operadora', v)} />
+                  <Field label="Operadora" value={(editingItem.operadora as string) || ''} onChange={(v) => updateEditingField('operadora', v)} required />
                 </div>
                 <Field label="Cobertura" value={(editingItem.cobertura as string) || ''} onChange={(v) => updateEditingField('cobertura', v)} type="textarea" />
                 <div>
-                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
                     <input type="checkbox" checked={!!editingItem.aberto} onChange={(e) => updateEditingField('aberto', e.target.checked)} className="rounded" />
                     Aberto para novas adesões
                   </label>
@@ -2179,34 +2195,34 @@ export default function AdminPage() {
 
             {editModalSection === 'videos' && (
               <>
-                <Field label="Título do Vídeo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} />
+                <Field label="Título do Vídeo" value={(editingItem.titulo as string) || ''} onChange={(v) => updateEditingField('titulo', v)} required />
                 <div>
-                  <label className="block text-xs font-medium text-gray-600 mb-1">Núcleo</label>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Núcleo</label>
                   <select value={(editingItem.nucleo_id as string) || 'clube-campo'} onChange={(e) => updateEditingField('nucleo_id', e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="clube-campo">Clube de Campo</option>
                     <option value="clube-nautico">Clube Náutico</option>
                     <option value="colonia-ferias">Colônia de Férias</option>
                   </select>
                 </div>
-                <Field label="URL do YouTube" value={(editingItem.youtube_url as string) || ''} onChange={(v) => updateEditingField('youtube_url', v)} />
-                <p className="text-xs text-gray-400">Ex: https://www.youtube.com/watch?v=XXXXX ou https://youtu.be/XXXXX</p>
+                <Field label="URL do YouTube" value={(editingItem.youtube_url as string) || ''} onChange={(v) => updateEditingField('youtube_url', v)} required />
+                <p className="text-xs text-gray-400 dark:text-gray-500">Ex: https://www.youtube.com/watch?v=XXXXX ou https://youtu.be/XXXXX</p>
               </>
             )}
 
             {editModalSection === 'associados' && (
               <>
-                <Field label="Nome completo" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
-                <Field label="CPF (apenas números)" value={(editingItem.cpf as string) || ''} onChange={(v) => updateEditingField('cpf', v.replace(/\D/g, ''))} />
+                <Field label="Nome completo" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} required />
+                <Field label="CPF (apenas números)" value={(editingItem.cpf as string) || ''} onChange={(v) => updateEditingField('cpf', v.replace(/\D/g, ''))} required />
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="E-mail" value={(editingItem.email as string) || ''} onChange={(v) => updateEditingField('email', v)} />
                   <Field label="Telefone" value={(editingItem.telefone as string) || ''} onChange={(v) => updateEditingField('telefone', v)} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Tipo</label>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Tipo</label>
                     <select value={(editingItem.tipo as string) || 'titular'} onChange={(e) => updateEditingField('tipo', e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      className="w-full px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                       <option value="titular">Titular</option>
                       <option value="dependente">Dependente</option>
                       <option value="agregado">Agregado</option>
@@ -2215,7 +2231,7 @@ export default function AdminPage() {
                   <Field label={editingItem.id ? 'Nova senha (deixe vazio para manter)' : 'Senha inicial'} value={novoAssociadoSenha} onChange={setNovoAssociadoSenha} />
                 </div>
                 {editingItem.id && (
-                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200">
                     <input type="checkbox" checked={!!editingItem.ativo} onChange={(e) => updateEditingField('ativo', e.target.checked)} className="rounded" />
                     Associado ativo
                   </label>
@@ -2224,7 +2240,7 @@ export default function AdminPage() {
             )}
 
             {/* Save button */}
-            <div className="flex gap-3 pt-2 border-t border-gray-100">
+            <div className="flex gap-3 pt-2 border-t border-gray-100 dark:border-gray-700">
               <button
                 onClick={handleSaveModal}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
@@ -2234,7 +2250,7 @@ export default function AdminPage() {
               </button>
               <button
                 onClick={() => { setEditModalOpen(false); setEditingItem(null); }}
-                className="px-4 py-2.5 text-gray-600 text-sm font-medium rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2.5 text-gray-600 dark:text-gray-400 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Cancelar
               </button>

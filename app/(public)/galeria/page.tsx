@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Camera,
@@ -188,10 +189,13 @@ export default function GaleriaPage() {
                     <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                       {/* Photo or placeholder gradient */}
                       {photo.imageUrl ? (
-                        <img
+                        <Image
                           src={photo.imageUrl}
                           alt={photo.titulo}
-                          className="absolute inset-0 w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          unoptimized
                         />
                       ) : (
                         <>
@@ -318,10 +322,13 @@ export default function GaleriaPage() {
             >
               {/* Photo or placeholder gradient */}
               {filteredPhotos[selectedIndex].imageUrl ? (
-                <img
+                <Image
                   src={filteredPhotos[selectedIndex].imageUrl}
                   alt={filteredPhotos[selectedIndex].titulo}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                  unoptimized
                 />
               ) : (
                 <>
