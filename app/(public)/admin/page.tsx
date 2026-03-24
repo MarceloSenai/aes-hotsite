@@ -1980,7 +1980,9 @@ export default function AdminPage() {
                   )}
                   <FileUpload
                     bucket="aes-galeria"
-                    onUploaded={(url) => updateEditingField('image_path', url)}
+                    accept="image/*"
+                    label="Upload de imagem do slide"
+                    onUploaded={(url, _fn) => updateEditingField('image_path', url)}
                   />
                 </div>
                 <Field label="Ativo" value={editingItem.enabled as boolean} onChange={(v) => updateEditingField('enabled', v === 'true')} type="checkbox" />
