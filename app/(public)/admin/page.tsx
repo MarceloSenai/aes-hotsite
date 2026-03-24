@@ -19,13 +19,16 @@ import {
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
   socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl
 } from '@/lib/supabase/data-service';
+import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/supabase/reservas-service';
+import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/supabase/auth-service';
 
 // ─── Types ───────────────────────────────────────────────────────
 
 type SectionId =
   | 'themes' | 'carousel' | 'boletim' | 'parcerias'
   | 'eventos' | 'representantes' | 'planos' | 'seguros'
-  | 'galeria' | 'documentos' | 'precos' | 'config';
+  | 'galeria' | 'documentos' | 'precos' | 'config'
+  | 'reservas' | 'associados' | 'acomodacoes';
 
 interface NavCategory {
   label: string;
@@ -80,6 +83,15 @@ const NAV_CATEGORIES: NavCategory[] = [
     label: 'Preços',
     icon: DollarSign,
     items: [{ id: 'precos', label: 'Preços' }],
+  },
+  {
+    label: 'Reservas',
+    icon: Calendar,
+    items: [
+      { id: 'reservas', label: 'Reservas' },
+      { id: 'associados', label: 'Associados' },
+      { id: 'acomodacoes', label: 'Acomodações' },
+    ],
   },
   {
     label: 'Configurações',
@@ -365,6 +377,10 @@ export default function AdminPage() {
   const [farmaciaData, setFarmaciaData] = useState<Record<string, string> | null>(null);
   const [socialLinksData, setSocialLinksData] = useState<Record<string, unknown>[]>([]);
   const [emailsData, setEmailsData] = useState<Record<string, unknown>[]>([]);
+  const [reservasData, setReservasData] = useState<Record<string, unknown>[]>([]);
+  const [associadosData, setAssociadosData] = useState<Record<string, unknown>[]>([]);
+  const [acomodacoesData, setAcomodacoesData] = useState<Record<string, unknown>[]>([]);
+  const [novoAssociadoSenha, setNovoAssociadoSenha] = useState('');
   const [siteConfigData, setSiteConfigData] = useState<Record<string, string> | null>(null);
 
   // Loading states
@@ -514,6 +530,21 @@ export default function AdminPage() {
           setSiteConfigData(cfg);
           break;
         }
+        case 'reservas': {
+          const res = await getTodasReservas();
+          setReservasData(res as unknown as Record<string, unknown>[]);
+          break;
+        }
+        case 'associados': {
+          const assoc = await listarAssociados();
+          setAssociadosData(assoc as unknown as Record<string, unknown>[]);
+          break;
+        }
+        case 'acomodacoes': {
+          const acom = await getAcomodacoes();
+          setAcomodacoesData(acom as unknown as Record<string, unknown>[]);
+          break;
+        }
       }
     } catch (err) {
       console.error(`Error loading ${section}:`, err);
@@ -614,6 +645,32 @@ export default function AdminPage() {
             ? !!(await planosSaudeService.create(rest))
             : !!(await planosSaudeService.update(id as string, rest));
           break;
+        case 'associados': {
+          if (isNew) {
+            const senha = novoAssociadoSenha || 'aes2026';
+            const result = await criarAssociado({
+              cpf: (rest.cpf as string) || '',
+              nome: (rest.nome as string) || '',
+              email: rest.email as string,
+              telefone: rest.telefone as string,
+              senha,
+              tipo: rest.tipo as string,
+            });
+            ok = result.ok;
+            if (!ok) showToast(result.error || 'Erro ao criar associado');
+          } else {
+            const result = await atualizarAssociado(id as string, {
+              nome: rest.nome as string,
+              email: rest.email as string,
+              telefone: rest.telefone as string,
+              tipo: rest.tipo as string,
+              ativo: rest.ativo as boolean,
+              novaSenha: novoAssociadoSenha || undefined,
+            });
+            ok = result.ok;
+          }
+          break;
+        }
       }
 
       if (ok) {
@@ -1676,6 +1733,153 @@ export default function AdminPage() {
                   )}
                 </div>
               )}
+
+              {/* ═══ RESERVAS SECTION ═══ */}
+              {activeSection === 'reservas' && (
+                <div>
+                  <SectionHeader title="Gerenciar Reservas" />
+                  {loading.reservas ? <TableSkeleton cols={7} /> : (
+                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-200">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Associado</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Acomodação</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Check-in</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Check-out</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Status</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {reservasData.map((r) => {
+                            const assoc = r.associado as Record<string, string> | undefined;
+                            const acom = r.acomodacao as Record<string, string> | undefined;
+                            const nucleo = NUCLEOS.find(n => n.id === r.nucleo_id);
+                            const status = r.status as string;
+                            const statusColors: Record<string, string> = { pendente: 'bg-amber-50 text-amber-700', confirmada: 'bg-emerald-50 text-emerald-700', cancelada: 'bg-red-50 text-red-600', concluida: 'bg-blue-50 text-blue-700' };
+                            return (
+                              <tr key={r.id as string} className="border-b border-gray-50 hover:bg-gray-50">
+                                <td className="px-4 py-3 font-medium text-gray-900">{assoc?.nome || '—'}</td>
+                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || r.nucleo_id as string}</td>
+                                <td className="px-4 py-3 text-gray-500">{acom?.nome || '—'}</td>
+                                <td className="px-4 py-3 text-gray-500">{r.check_in as string}</td>
+                                <td className="px-4 py-3 text-gray-500">{r.check_out as string}</td>
+                                <td className="px-4 py-3">
+                                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[status] || 'bg-gray-100 text-gray-600'}`}>{status}</span>
+                                </td>
+                                <td className="px-4 py-3 text-right">
+                                  {status === 'pendente' && (
+                                    <div className="flex justify-end gap-1">
+                                      <button onClick={async () => { await atualizarStatusReserva(r.id as string, 'confirmada'); showToast('Reserva aprovada'); loadSection('reservas'); }} className="px-2 py-1 text-xs font-medium text-white bg-emerald-600 rounded hover:bg-emerald-700">Aprovar</button>
+                                      <button onClick={async () => { await atualizarStatusReserva(r.id as string, 'cancelada'); showToast('Reserva rejeitada'); loadSection('reservas'); }} className="px-2 py-1 text-xs font-medium text-white bg-red-600 rounded hover:bg-red-700">Rejeitar</button>
+                                    </div>
+                                  )}
+                                  {status === 'confirmada' && (
+                                    <button onClick={async () => { await atualizarStatusReserva(r.id as string, 'concluida'); showToast('Reserva concluída'); loadSection('reservas'); }} className="px-2 py-1 text-xs font-medium text-blue-700 bg-blue-50 rounded hover:bg-blue-100">Concluir</button>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                          {reservasData.length === 0 && (
+                            <tr><td colSpan={7} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma reserva encontrada</td></tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ ASSOCIADOS SECTION ═══ */}
+              {activeSection === 'associados' && (
+                <div>
+                  <SectionHeader title="Associados" onAdd={() => {
+                    setNovoAssociadoSenha('');
+                    openEditModal('associados', { cpf: '', nome: '', email: '', telefone: '', tipo: 'titular', ativo: true });
+                  }} />
+                  {loading.associados ? <TableSkeleton cols={5} /> : (
+                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-200">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">CPF</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {associadosData.map((a) => (
+                            <tr key={a.id as string} className="border-b border-gray-50 hover:bg-gray-50">
+                              <td className="px-4 py-3 font-medium text-gray-900">{a.nome as string}</td>
+                              <td className="px-4 py-3 text-gray-500 font-mono text-xs">{(a.cpf as string).replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')}</td>
+                              <td className="px-4 py-3"><span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700">{a.tipo as string}</span></td>
+                              <td className="px-4 py-3"><span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${a.ativo ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{a.ativo ? 'Sim' : 'Não'}</span></td>
+                              <td className="px-4 py-3 text-right">
+                                <button onClick={() => openEditModal('associados', a)} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Edit3 size={14} /></button>
+                              </td>
+                            </tr>
+                          ))}
+                          {associadosData.length === 0 && (
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhum associado cadastrado</td></tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ ACOMODAÇÕES SECTION ═══ */}
+              {activeSection === 'acomodacoes' && (
+                <div>
+                  <SectionHeader title="Acomodações" />
+                  {loading.acomodacoes ? <TableSkeleton cols={6} /> : (
+                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-gray-50 border-b border-gray-200">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Nome</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Núcleo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tipo</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Capacidade</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Tags</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600">Ativo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {acomodacoesData.map((ac) => {
+                            const nucleo = NUCLEOS.find(n => n.id === ac.nucleo_id);
+                            return (
+                              <tr key={ac.id as string} className="border-b border-gray-50 hover:bg-gray-50">
+                                <td className="px-4 py-3 font-medium text-gray-900">{ac.nome as string}</td>
+                                <td className="px-4 py-3 text-gray-500">{nucleo?.nome || ac.nucleo_id as string}</td>
+                                <td className="px-4 py-3 text-gray-500 capitalize">{ac.tipo as string}</td>
+                                <td className="px-4 py-3 text-gray-500">{ac.capacidade as number} pessoas</td>
+                                <td className="px-4 py-3">
+                                  <div className="flex gap-1">
+                                    {!!ac.pcd && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-blue-50 text-blue-700 rounded">PcD</span>}
+                                    {!!ac.pet_friendly && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-green-50 text-green-700 rounded">Pet</span>}
+                                  </div>
+                                </td>
+                                <td className="px-4 py-3"><span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${ac.ativo ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'}`}>{ac.ativo ? 'Sim' : 'Não'}</span></td>
+                              </tr>
+                            );
+                          })}
+                          {acomodacoesData.length === 0 && (
+                            <tr><td colSpan={6} className="px-4 py-8 text-center text-gray-400 text-sm">Nenhuma acomodação cadastrada</td></tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
             </motion.div>
           </AnimatePresence>
         </div>
@@ -1891,6 +2095,35 @@ export default function AdminPage() {
                     Aberto para novas adesões
                   </label>
                 </div>
+              </>
+            )}
+
+            {editModalSection === 'associados' && (
+              <>
+                <Field label="Nome completo" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} />
+                <Field label="CPF (apenas números)" value={(editingItem.cpf as string) || ''} onChange={(v) => updateEditingField('cpf', v.replace(/\D/g, ''))} />
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="E-mail" value={(editingItem.email as string) || ''} onChange={(v) => updateEditingField('email', v)} />
+                  <Field label="Telefone" value={(editingItem.telefone as string) || ''} onChange={(v) => updateEditingField('telefone', v)} />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 mb-1">Tipo</label>
+                    <select value={(editingItem.tipo as string) || 'titular'} onChange={(e) => updateEditingField('tipo', e.target.value)}
+                      className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="titular">Titular</option>
+                      <option value="dependente">Dependente</option>
+                      <option value="agregado">Agregado</option>
+                    </select>
+                  </div>
+                  <Field label={editingItem.id ? 'Nova senha (deixe vazio para manter)' : 'Senha inicial'} value={novoAssociadoSenha} onChange={setNovoAssociadoSenha} />
+                </div>
+                {editingItem.id && (
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input type="checkbox" checked={!!editingItem.ativo} onChange={(e) => updateEditingField('ativo', e.target.checked)} className="rounded" />
+                    Associado ativo
+                  </label>
+                )}
               </>
             )}
 
