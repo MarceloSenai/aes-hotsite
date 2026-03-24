@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Smile, CheckCircle2, XCircle, DollarSign } from 'lucide-react';
+import { ArrowLeft, Smile, CheckCircle2, XCircle, DollarSign, Search, FileText, List } from 'lucide-react';
 import { planosSaudeService } from '@/lib/supabase/data-service';
 
 interface PlanoFaixa {
@@ -169,6 +169,34 @@ export default function AssistenciaOdontologicaPage() {
  </motion.div>
  ))}
  </div>
+
+ {/* Quick Links */}
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.5, delay: 0.4 }}
+ className="mt-10"
+ >
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <a href="https://www.uniodonto.coop.br/encontre-um-dentista/" target="_blank" rel="noopener noreferrer"
+   className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg transition-all text-center group">
+   <Search size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Rede Credenciada</h3>
+   <p className="text-xs text-gray-500 mt-1">Encontrar dentistas credenciados</p>
+  </a>
+  <a href="mailto:boletim.aes@aessenai.org.br?subject=Ficha de Adesão - Plano Odontológico"
+   className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg transition-all text-center group">
+   <FileText size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Ficha de Adesao</h3>
+   <p className="text-xs text-gray-500 mt-1">Solicitar ficha por e-mail</p>
+  </a>
+  <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 text-center">
+   <List size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Tabela de Coparticipacao</h3>
+   <p className="text-xs text-gray-500 mt-1">Valores de coparticipacao conforme procedimento</p>
+  </div>
+ </div>
+ </motion.div>
 
  {/* Empty state */}
  {planos.length === 0 && (

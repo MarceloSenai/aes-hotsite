@@ -98,8 +98,17 @@ export default function AposentadosPage() {
           </div>
         </motion.div>
 
-        {/* Contato */}
+        {/* Regulamentos */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Regulamentos</h2>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Para consultar o regulamento completo do departamento, entre em contato com a diretoria pelo e-mail ou telefone informados abaixo.
+          </p>
+        </motion.div>
+
+        {/* Contato */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.35 }}
           className="rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, #f59e0b, #f97316)' }}>
           <h3 className="font-bold text-lg mb-3">Contato do Departamento</h3>
           <div className="flex flex-col sm:flex-row gap-4">

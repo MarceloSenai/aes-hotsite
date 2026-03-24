@@ -18,6 +18,9 @@ import {
  CheckCircle2,
  XCircle,
  DollarSign,
+ Search,
+ FileText,
+ TrendingUp,
 } from 'lucide-react';
 import { planosSaudeService } from '@/lib/supabase/data-service';
 
@@ -310,6 +313,34 @@ export default function AssistenciaMedicaPage() {
  </div>
  </motion.div>
  )}
+
+ {/* Quick Links */}
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ animate={{ opacity: 1, y: 0 }}
+ transition={{ duration: 0.5, delay: 0.35 }}
+ className="mb-12"
+ >
+ <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <a href="https://portalclientes.unimedfesp.coop.br/guia-medico" target="_blank" rel="noopener noreferrer"
+   className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg transition-all text-center group">
+   <Search size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Guia Medico</h3>
+   <p className="text-xs text-gray-500 mt-1">Consultar rede credenciada UNIMED</p>
+  </a>
+  <a href="mailto:rh@aessenai.org.br?subject=Ficha de Adesão - Plano Médico"
+   className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg transition-all text-center group">
+   <FileText size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Ficha de Adesao</h3>
+   <p className="text-xs text-gray-500 mt-1">Solicitar ficha por e-mail</p>
+  </a>
+  <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 text-center">
+   <TrendingUp size={24} className="mx-auto mb-2 text-theme-primary" />
+   <h3 className="font-bold text-gray-900 dark:text-white">Politica de Reajuste</h3>
+   <p className="text-xs text-gray-500 mt-1">Reajuste anual conforme ANS e negociacao coletiva</p>
+  </div>
+ </div>
+ </motion.div>
 
  {/* Central NAS */}
  <motion.div

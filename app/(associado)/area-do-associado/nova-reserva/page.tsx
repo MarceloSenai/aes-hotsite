@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin, CalendarDays, Home, Users, CheckCircle,
   ChevronLeft, ChevronRight, Loader2, TreePalm,
-  Accessibility, PawPrint, ArrowRight, PartyPopper,
+  Accessibility, PawPrint, ArrowRight, PartyPopper, Info, Clock,
 } from 'lucide-react';
 import { getSession } from '@/lib/supabase/auth-service';
 import {
@@ -432,6 +432,23 @@ export default function NovaReservaPage() {
                     </p>
                   </div>
                 </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 dark:bg-gray-800">
+                  <Clock size={18} className="text-gray-400 shrink-0" />
+                  <div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Horarios</p>
+                    <p className="font-medium text-gray-900 dark:text-white">
+                      Check-in: 14:00 | Check-out: 12:00
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Cancellation Policy */}
+              <div className="mt-4 p-3 rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40">
+                <p className="text-sm text-amber-700 dark:text-amber-400 flex items-start gap-2">
+                  <Info size={16} className="shrink-0 mt-0.5" />
+                  Politica de cancelamento: Cancelamento gratuito ate 7 dias antes do check-in. Apos esse prazo, sera cobrada 1 diaria como taxa.
+                </p>
               </div>
 
               {/* Guests */}

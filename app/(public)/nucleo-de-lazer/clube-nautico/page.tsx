@@ -23,6 +23,8 @@ import {
  Users,
  Fish,
  TreePine,
+ Video,
+ Play,
 } from 'lucide-react';
 
 const accommodations = [
@@ -317,6 +319,53 @@ export default function ClubeNauticoPage() {
  </motion.div>
  );
  })}
+ </motion.div>
+ </div>
+ </section>
+
+ {/* Videos */}
+ <section className="py-16 bg-white dark:bg-gray-950">
+ <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6 }}
+ className="mb-8"
+ >
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+  <Video size={24} style={{ color: 'var(--color-primary)' }} />
+  Videos do Clube Nautico
+ </h2>
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
+   <div className="text-center text-gray-400">
+    <Play size={48} className="mx-auto mb-2 opacity-50" />
+    <p className="text-sm">Video em breve</p>
+   </div>
+  </div>
+ </div>
+ </motion.div>
+
+ {/* Regulamentos */}
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6, delay: 0.1 }}
+ className="mb-8"
+ >
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Regulamentos</h2>
+ <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800/40">
+  <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+   <li>&#8226; Check-in: 14:00 | Check-out: 12:00</li>
+   <li>&#8226; Maximo de hospedes por acomodacao conforme capacidade</li>
+   <li>&#8226; Proibido som alto apos 22:00</li>
+   <li>&#8226; Animais de estimacao apenas em acomodacoes Pet Friendly</li>
+   <li>&#8226; Cancelamento gratuito ate 7 dias antes do check-in</li>
+   <li>&#8226; Documentos de identidade obrigatorios no check-in</li>
+  </ul>
+ </div>
  </motion.div>
  </div>
  </section>

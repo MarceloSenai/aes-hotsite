@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CalendarDays, Users, MapPin, X, Star, Loader2,
-  AlertCircle, CheckCircle, Clock, XCircle, Filter,
+  AlertCircle, CheckCircle, Clock, XCircle, Filter, Info,
 } from 'lucide-react';
 import { getSession } from '@/lib/supabase/auth-service';
 import {
@@ -341,12 +341,18 @@ export default function ReservasPage() {
                       <div className="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
                         <span className="flex items-center gap-1">
                           <CalendarDays size={14} />
-                          {formatDate(reserva.check_in)} - {formatDate(reserva.check_out)}
+                          {formatDate(reserva.check_in)} (14:00) - {formatDate(reserva.check_out)} (12:00)
                         </span>
                         <span className="flex items-center gap-1">
                           <Users size={14} />
                           {reserva.num_hospedes} {reserva.num_hospedes === 1 ? 'hospede' : 'hospedes'}
                         </span>
+                      </div>
+                      <div className="mt-2 ml-5 p-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40">
+                        <p className="text-xs text-amber-700 dark:text-amber-400 flex items-start gap-1.5">
+                          <Info size={12} className="shrink-0 mt-0.5" />
+                          Politica de cancelamento: Cancelamento gratuito ate 7 dias antes do check-in. Apos esse prazo, sera cobrada 1 diaria como taxa.
+                        </p>
                       </div>
                       {hasRating && (
                         <div className="flex items-center gap-1 mt-2 ml-5">
