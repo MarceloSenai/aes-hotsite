@@ -92,7 +92,7 @@ export default function LoginPage() {
           <div className="flex flex-col items-center mb-8">
             <div className="relative w-16 h-16 mb-4">
               <Image
-                src="/images/aes-logo.svg"
+                src="/images/aes-logo.png"
                 alt="AES"
                 fill
                 className="object-contain"

@@ -33,7 +33,7 @@ export default function Hero() {
         >
           <div className="relative w-40 h-40 sm:w-48 sm:h-48 mx-auto">
             <Image
-              src="/images/aes-logo.svg"
+              src="/images/aes-logo.png"
               alt="AES - Associação dos Empregados do SENAI"
               fill
               className="object-contain drop-shadow-lg"

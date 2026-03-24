@@ -2,7 +2,10 @@
  * AES-HOTSITE Theme System
  * Interface Design System - Consistent, scalable theming
  * Persistent theme configuration with admin customization
+ * Themes are stored in Supabase (site_config.theme_config) for shared access
  */
+
+import { supabase } from '@/lib/supabase/client';
 
 export type ThemeMode = 'light' | 'dark' | 'auto';
 export type DesignPersonality = 'modern' | 'classic' | 'minimal' | 'vibrant' | 'professional' | 'educational';
@@ -255,11 +258,29 @@ export class ThemeManager {
   private static readonly DB_TABLE = 'theme_configs'; // Supabase
 
   /**
-   * Get saved theme from localStorage or Supabase
+   * Get saved theme from Supabase (shared), with localStorage as cache
    */
   static async getActiveTheme(): Promise<ThemeConfig | null> {
     try {
-      // Try localStorage first (client-side)
+      // Try Supabase first (shared config for all users)
+      const { data, error } = await supabase
+        .from('site_config')
+        .select('theme_config')
+        .eq('id', 'main')
+        .single();
+
+      if (!error && data?.theme_config) {
+        const theme = typeof data.theme_config === 'string'
+          ? JSON.parse(data.theme_config)
+          : data.theme_config;
+        // Cache locally for faster subsequent loads
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
+        }
+        return theme as ThemeConfig;
+      }
+
+      // Fallback to localStorage cache if Supabase is unavailable
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(this.STORAGE_KEY);
         if (stored) {
@@ -267,31 +288,36 @@ export class ThemeManager {
         }
       }
 
-      // TODO: Fetch from Supabase if needed (server-side)
-      // const { data } = await supabase
-      //   .from(this.DB_TABLE)
-      //   .select('*')
-      //   .eq('isActive', true)
-      //   .single();
-
       return null;
     } catch (error) {
       console.error('[ThemeManager] Error loading theme:', error);
+      // Fallback to localStorage on error
+      if (typeof window !== 'undefined') {
+        const stored = localStorage.getItem(this.STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+      }
       return null;
     }
   }
 
   /**
-   * Save theme configuration
+   * Save theme to Supabase (shared) + localStorage (cache)
    */
   static async saveTheme(theme: ThemeConfig): Promise<void> {
     try {
+      // Save to localStorage immediately (instant feedback)
       if (typeof window !== 'undefined') {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
       }
 
-      // TODO: Persist to Supabase
-      // await supabase.from(this.DB_TABLE).update({ isActive: true }).eq('id', theme.id);
+      // Persist to Supabase (shared across all users)
+      const { error } = await supabase
+        .from('site_config')
+        .upsert({ id: 'main', theme_config: theme });
+
+      if (error) {
+        console.error('[ThemeManager] Supabase save error:', error);
+      }
     } catch (error) {
       console.error('[ThemeManager] Error saving theme:', error);
     }

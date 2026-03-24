@@ -250,7 +250,7 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
               <div className="relative w-10 h-10 lg:w-11 lg:h-11">
-                <Image src="/images/aes-logo.svg" alt="AES" fill
+                <Image src="/images/aes-logo.png" alt="AES" fill
                   className="object-contain brightness-0 invert group-hover:scale-105 transition-transform duration-200" priority />
               </div>
               <div className="hidden sm:block leading-tight">

@@ -112,7 +112,7 @@ export default function AssociadoLayout({ children }: { children: React.ReactNod
           <Link href="/" className="flex items-center gap-3">
             <div className="relative w-9 h-9">
               <Image
-                src="/images/aes-logo.svg"
+                src="/images/aes-logo.png"
                 alt="AES"
                 fill
                 className="object-contain brightness-0 invert"
@@ -197,7 +197,7 @@ export default function AssociadoLayout({ children }: { children: React.ReactNod
           </button>
           <div className="flex items-center gap-2">
             <div className="relative w-7 h-7">
-              <Image src="/images/aes-logo.svg" alt="AES" fill className="object-contain" />
+              <Image src="/images/aes-logo.png" alt="AES" fill className="object-contain" />
             </div>
             <span className="font-bold text-sm text-gray-900 dark:text-white">AES</span>
           </div>

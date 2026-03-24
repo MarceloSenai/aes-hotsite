@@ -2302,7 +2302,7 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
       {design.heroStyle === 'centered' && (
         <div className={`${spacing} px-6 text-center`} style={{ background: `linear-gradient(135deg, ${c.primary}, ${c.primaryDark})` }}>
           <div className="relative w-16 h-16 mx-auto mb-3 bg-white/10 rounded-xl flex items-center justify-center">
-            <Image src="/images/aes-logo.svg" alt="AES" width={40} height={40} className="brightness-0 invert" />
+            <Image src="/images/aes-logo.png" alt="AES" width={40} height={40} className="brightness-0 invert" />
           </div>
           <h1 className="text-white font-bold text-lg mb-2">Associacao dos Empregados do SENAI</h1>
           <p className="text-white/80 text-xs mb-4 max-w-md mx-auto">Qualidade de vida para associados desde 1947</p>
@@ -2325,7 +2325,7 @@ function SitePreview({ theme, designId, isMobile }: { theme: ThemeConfig; design
             {!isMobile && (
               <div className="flex items-center justify-center">
                 <div className="w-32 h-32 rounded-2xl flex items-center justify-center" style={{ backgroundColor: c.primary }}>
-                  <Image src="/images/aes-logo.svg" alt="AES" width={64} height={64} className="brightness-0 invert" />
+                  <Image src="/images/aes-logo.png" alt="AES" width={64} height={64} className="brightness-0 invert" />
                 </div>
               </div>
             )}
