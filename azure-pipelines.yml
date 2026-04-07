@@ -58,8 +58,9 @@ stages:
         cp -R .next/standalone/* package/
         mkdir -p package/.next
         cp -R .next/static package/.next/static
+        cp -R .next/server package/.next/server
+        cp .next/BUILD_ID package/.next/BUILD_ID
         if [ -d public ]; then cp -R public package/public; fi
-        if [ -f package.json ]; then cp package.json package/package.json; fi
       displayName: 'Preparar artefato standalone'
 
     - task: ArchiveFiles@2
@@ -99,7 +100,4 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               runtimeStack: 'NODE|20-lts'
               startUpCommand: 'node server.js'
-              appSettings: |
-                -WEBSITE_NODE_DEFAULT_VERSION 20-lts
-                -SCM_DO_BUILD_DURING_DEPLOYMENT false
-                -NODE_ENV production
+              appSettings: '-NODE_ENV production'
