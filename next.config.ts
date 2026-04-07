@@ -1,11 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: '*.supabase.co' },
-    ],
-  },
+  output: 'standalone',
+  serverExternalPackages: ['tedious'],
   async headers() {
     return [{
       source: '/(.*)',
