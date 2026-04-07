@@ -1,0 +1,109 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  azureSubscription: 'aes-next-connection'
+  appName: 'aes-next-prod'
+  nodeVersion: '20.x'
+  packagePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+stages:
+- stage: Build
+  displayName: 'Build'
+  jobs:
+  - job: Build
+    displayName: 'Build Next.js app'
+    steps:
+    - checkout: self
+      clean: true
+
+    - task: NodeTool@0
+      displayName: 'Instalar Node.js 20 LTS'
+      inputs:
+        versionSpec: '$(nodeVersion)'
+
+    - script: |
+        node --version
+        npm --version
+      displayName: 'Validar versões do Node e npm'
+
+    - task: Cache@2
+      displayName: 'Cache npm'
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(Pipeline.Workspace)/.npm
+
+    - script: |
+        npm ci --cache $(Pipeline.Workspace)/.npm
+      displayName: 'Instalar dependências'
+
+    - script: |
+        npx prisma generate
+      displayName: 'Gerar Prisma Client'
+      condition: succeededOrFailed()
+
+    - script: |
+        npm run build
+      displayName: 'Build Next.js'
+      env:
+        NODE_ENV: production
+        DATABASE_URL: $(DATABASE_URL)
+        NEXTAUTH_SECRET: $(NEXTAUTH_SECRET)
+        NEXTAUTH_URL: $(NEXTAUTH_URL)
+
+    - script: |
+        set -e
+        test -f .next/standalone/server.js
+        mkdir -p package
+        cp -R .next/standalone/* package/
+        cp -R .next/static package/.next/static
+        if [ -d public ]; then cp -R public package/public; fi
+        if [ -f package.json ]; then cp package.json package/package.json; fi
+      displayName: 'Preparar artefato standalone'
+
+    - task: ArchiveFiles@2
+      displayName: 'Compactar artefato'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/package'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: '$(packagePath)'
+        replaceExistingArchive: true
+
+    - publish: '$(packagePath)'
+      artifact: drop
+      displayName: 'Publicar artefato'
+
+- stage: Deploy
+  displayName: 'Deploy'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeployToAppService
+    displayName: 'Deploy para Azure App Service Linux'
+    environment: '$(appName)'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy no App Service'
+            inputs:
+              azureSubscription: '$(azureSubscription)'
+              appType: webAppLinux
+              appName: '$(appName)'
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              runtimeStack: 'NODE|20-lts'
+              startUpCommand: 'node .next/standalone/server.js'
+              appSettings: |
+                -WEBSITE_NODE_DEFAULT_VERSION 20-lts
+                -SCM_DO_BUILD_DURING_DEPLOYMENT false
+                -NODE_ENV production
