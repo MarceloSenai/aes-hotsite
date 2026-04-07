@@ -56,10 +56,7 @@ stages:
         test -f .next/standalone/server.js
         mkdir -p package
         cp -R .next/standalone/* package/
-        mkdir -p package/.next
-        cp -R .next/static package/.next/static
-        cp -R .next/server package/.next/server
-        cp .next/BUILD_ID package/.next/BUILD_ID
+        cp -R .next package/.next
         if [ -d public ]; then cp -R public package/public; fi
       displayName: 'Preparar artefato standalone'
 
