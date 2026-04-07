@@ -56,6 +56,7 @@ stages:
         test -f .next/standalone/server.js
         mkdir -p package
         cp -R .next/standalone/* package/
+        mkdir -p package/.next
         cp -R .next/static package/.next/static
         if [ -d public ]; then cp -R public package/public; fi
         if [ -f package.json ]; then cp package.json package/package.json; fi
