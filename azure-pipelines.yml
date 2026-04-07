@@ -98,7 +98,7 @@ stages:
               appName: '$(appName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               runtimeStack: 'NODE|20-lts'
-              startUpCommand: 'node .next/standalone/server.js'
+              startUpCommand: 'node server.js'
               appSettings: |
                 -WEBSITE_NODE_DEFAULT_VERSION 20-lts
                 -SCM_DO_BUILD_DURING_DEPLOYMENT false
