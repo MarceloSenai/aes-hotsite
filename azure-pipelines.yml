@@ -43,11 +43,6 @@ stages:
       displayName: 'Instalar dependências'
 
     - script: |
-        npx prisma generate
-      displayName: 'Gerar Prisma Client'
-      condition: succeededOrFailed()
-
-    - script: |
         npm run build
       displayName: 'Build Next.js'
       env:
