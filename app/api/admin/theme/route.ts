@@ -17,17 +17,17 @@ export async function GET() {
 
 export async function PUT(req: NextRequest) {
   try {
-    const { theme_config } = await req.json()
+    const body = await req.json()
 
     await prisma.siteConfig.upsert({
       where: { id: 'main' },
       update: {
-        theme_config: JSON.stringify(theme_config),
+        theme_config: JSON.stringify(body),
         updated_at: new Date(),
       },
       create: {
         id: 'main',
-        theme_config: JSON.stringify(theme_config),
+        theme_config: JSON.stringify(body),
       },
     })
 

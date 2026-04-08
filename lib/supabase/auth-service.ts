@@ -1,5 +1,4 @@
-import bcrypt from 'bcryptjs';
-import { supabase } from './client';
+// ─── Auth Service (migrated from Supabase to API routes) ─────────
 
 export interface Associado {
   id: string;
@@ -15,45 +14,30 @@ export interface Associado {
 const SESSION_KEY = 'aes-session';
 const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 hours
 
-// ─── Hash & verify ─────────────────────────────────────
-
-export async function hashSenha(senha: string): Promise<string> {
-  return bcrypt.hash(senha, 12);
-}
-
-export async function verifySenha(senha: string, hash: string): Promise<boolean> {
-  return bcrypt.compare(senha, hash);
-}
-
 // ─── Login ──────────────────────────────────────────────
 
 export async function login(cpf: string, senha: string): Promise<{ ok: boolean; associado?: Associado; error?: string }> {
-  const cpfLimpo = cpf.replace(/\D/g, '');
+  try {
+    const res = await fetch('/api/auth/associado/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cpf, senha }),
+    });
 
-  const { data, error } = await supabase
-    .from('associados')
-    .select('*')
-    .eq('cpf', cpfLimpo)
-    .single();
+    const data = await res.json();
 
-  if (error || !data) {
-    return { ok: false, error: 'CPF não encontrado.' };
+    if (!res.ok || !data.ok) {
+      return { ok: false, error: data.error || 'Erro ao fazer login.' };
+    }
+
+    // Save session with expiration
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ ...data.associado, expiresAt: Date.now() + SESSION_TTL }));
+
+    return { ok: true, associado: data.associado as Associado };
+  } catch (error) {
+    console.error('login error:', error);
+    return { ok: false, error: 'Erro de conexão. Tente novamente.' };
   }
-
-  if (!data.ativo) {
-    return { ok: false, error: 'Conta desativada. Entre em contato com a AES.' };
-  }
-
-  const senhaValida = await verifySenha(senha, data.senha_hash);
-  if (!senhaValida) {
-    return { ok: false, error: 'Senha incorreta.' };
-  }
-
-  // Save session with expiration
-  const { senha_hash: _, ...associado } = data;
-  localStorage.setItem(SESSION_KEY, JSON.stringify({ ...associado, expiresAt: Date.now() + SESSION_TTL }));
-
-  return { ok: true, associado: associado as Associado };
 }
 
 // ─── Session ────────────────────────────────────────────
@@ -92,37 +76,31 @@ export async function criarAssociado(data: {
   senha: string;
   tipo?: string;
 }): Promise<{ ok: boolean; error?: string }> {
-  const cpfLimpo = data.cpf.replace(/\D/g, '');
-  const hash = await hashSenha(data.senha);
+  try {
+    const res = await fetch('/api/auth/associado', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
 
-  const { error } = await supabase.from('associados').insert({
-    cpf: cpfLimpo,
-    nome: data.nome,
-    email: data.email || null,
-    telefone: data.telefone || null,
-    senha_hash: hash,
-    tipo: data.tipo || 'titular',
-    ativo: true,
-  });
-
-  if (error) {
-    if (error.code === '23505') return { ok: false, error: 'CPF já cadastrado.' };
-    return { ok: false, error: error.message };
+    const result = await res.json();
+    if (!res.ok) return { ok: false, error: result.error || 'Erro ao criar associado.' };
+    return { ok: true };
+  } catch {
+    return { ok: false, error: 'Erro de conexão.' };
   }
-
-  return { ok: true };
 }
 
 // ─── Admin: list associados ─────────────────────────────
 
 export async function listarAssociados(): Promise<Associado[]> {
-  const { data, error } = await supabase
-    .from('associados')
-    .select('id, cpf, nome, email, telefone, tipo, ativo, created_at')
-    .order('nome');
-
-  if (error) return [];
-  return (data ?? []) as Associado[];
+  try {
+    const res = await fetch('/api/auth/associado');
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
 }
 
 // ─── Admin: update associado ────────────────────────────
@@ -135,15 +113,17 @@ export async function atualizarAssociado(id: string, updates: {
   ativo?: boolean;
   novaSenha?: string;
 }): Promise<{ ok: boolean; error?: string }> {
-  const payload: Record<string, unknown> = {};
-  if (updates.nome !== undefined) payload.nome = updates.nome;
-  if (updates.email !== undefined) payload.email = updates.email;
-  if (updates.telefone !== undefined) payload.telefone = updates.telefone;
-  if (updates.tipo !== undefined) payload.tipo = updates.tipo;
-  if (updates.ativo !== undefined) payload.ativo = updates.ativo;
-  if (updates.novaSenha) payload.senha_hash = await hashSenha(updates.novaSenha);
+  try {
+    const res = await fetch('/api/auth/associado', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, ...updates }),
+    });
 
-  const { error } = await supabase.from('associados').update(payload).eq('id', id);
-  if (error) return { ok: false, error: error.message };
-  return { ok: true };
+    const result = await res.json();
+    if (!res.ok) return { ok: false, error: result.error || 'Erro ao atualizar.' };
+    return { ok: true };
+  } catch {
+    return { ok: false, error: 'Erro de conexão.' };
+  }
 }

@@ -1,4 +1,4 @@
-import { supabase } from './client';
+// ─── Reservas Service (migrated from Supabase to API routes) ─────
 
 export interface Acomodacao {
   id: string;
@@ -40,11 +40,14 @@ export interface Avaliacao {
 // ─── Acomodações ────────────────────────────────────────
 
 export async function getAcomodacoes(nucleoId?: string): Promise<Acomodacao[]> {
-  let query = supabase.from('acomodacoes').select('*').eq('ativo', true);
-  if (nucleoId) query = query.eq('nucleo_id', nucleoId);
-  const { data, error } = await query.order('nome');
-  if (error) return [];
-  return (data ?? []) as Acomodacao[];
+  try {
+    const url = nucleoId ? `/api/reservas/acomodacoes?nucleo_id=${nucleoId}` : '/api/reservas/acomodacoes';
+    const res = await fetch(url);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
 }
 
 // ─── Disponibilidade ────────────────────────────────────
@@ -54,22 +57,14 @@ export async function verificarDisponibilidade(
   checkIn: string,
   checkOut: string,
 ): Promise<Acomodacao[]> {
-  // Get all active acomodações for this núcleo
-  const todas = await getAcomodacoes(nucleoId);
-
-  // Get reservations that overlap with the requested dates
-  const { data: reservasOcupadas } = await supabase
-    .from('reservas')
-    .select('acomodacao_id')
-    .eq('nucleo_id', nucleoId)
-    .in('status', ['pendente', 'confirmada'])
-    .lt('check_in', checkOut)
-    .gt('check_out', checkIn);
-
-  const idsOcupados = new Set((reservasOcupadas ?? []).map((r: { acomodacao_id: string }) => r.acomodacao_id));
-
-  // Return only available ones
-  return todas.filter((a) => !idsOcupados.has(a.id));
+  try {
+    const params = new URLSearchParams({ nucleo_id: nucleoId, check_in: checkIn, check_out: checkOut });
+    const res = await fetch(`/api/reservas/disponibilidade?${params}`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
 }
 
 // ─── Reservas CRUD ──────────────────────────────────────
@@ -83,56 +78,54 @@ export async function criarReserva(data: {
   num_hospedes: number;
   observacoes?: string;
 }): Promise<{ ok: boolean; reserva?: Reserva; error?: string }> {
-  const { data: reserva, error } = await supabase
-    .from('reservas')
-    .insert({
-      ...data,
-      status: 'pendente',
-    })
-    .select()
-    .single();
-
-  if (error) return { ok: false, error: error.message };
-  return { ok: true, reserva: reserva as Reserva };
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (!res.ok) return { ok: false, error: result.error || 'Erro ao criar reserva.' };
+    return { ok: true, reserva: result as Reserva };
+  } catch {
+    return { ok: false, error: 'Erro de conexão.' };
+  }
 }
 
 export async function getReservasDoAssociado(associadoId: string): Promise<Reserva[]> {
-  const { data, error } = await supabase
-    .from('reservas')
-    .select('*, acomodacoes(*)')
-    .eq('associado_id', associadoId)
-    .order('check_in', { ascending: false });
-
-  if (error) return [];
-  return (data ?? []).map((r: Record<string, unknown>) => ({
-    ...r,
-    acomodacao: r.acomodacoes,
-  })) as Reserva[];
+  try {
+    const res = await fetch(`/api/reservas?associado_id=${associadoId}`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
 }
 
 export async function getTodasReservas(): Promise<Reserva[]> {
-  const { data, error } = await supabase
-    .from('reservas')
-    .select('*, acomodacoes(*), associados(nome, cpf, email)')
-    .order('created_at', { ascending: false });
-
-  if (error) return [];
-  return (data ?? []).map((r: Record<string, unknown>) => ({
-    ...r,
-    acomodacao: r.acomodacoes,
-    associado: r.associados,
-  })) as Reserva[];
+  try {
+    const res = await fetch('/api/reservas?all=true');
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
 }
 
 export async function atualizarStatusReserva(
   reservaId: string,
   status: Reserva['status'],
 ): Promise<boolean> {
-  const { error } = await supabase
-    .from('reservas')
-    .update({ status, updated_at: new Date().toISOString() })
-    .eq('id', reservaId);
-  return !error;
+  try {
+    const res = await fetch('/api/reservas', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: reservaId, status }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function cancelarReserva(reservaId: string): Promise<boolean> {
@@ -146,21 +139,26 @@ export async function avaliarReserva(
   nota: number,
   comentario?: string,
 ): Promise<boolean> {
-  const { error } = await supabase.from('avaliacoes').insert({
-    reserva_id: reservaId,
-    nota,
-    comentario: comentario || null,
-  });
-  return !error;
+  try {
+    const res = await fetch('/api/reservas/avaliacoes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reserva_id: reservaId, nota, comentario: comentario || null }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function getAvaliacao(reservaId: string): Promise<Avaliacao | null> {
-  const { data } = await supabase
-    .from('avaliacoes')
-    .select('*')
-    .eq('reserva_id', reservaId)
-    .single();
-  return data as Avaliacao | null;
+  try {
+    const res = await fetch(`/api/reservas/avaliacoes?reserva_id=${reservaId}`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
 }
 
 // ─── Núcleo helpers ─────────────────────────────────────

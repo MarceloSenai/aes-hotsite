@@ -52,3 +52,23 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Erro interno.' }, { status: 500 })
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const { id, status } = await req.json()
+
+    if (!id || !status) {
+      return NextResponse.json({ error: 'id and status are required' }, { status: 400 })
+    }
+
+    await prisma.reserva.update({
+      where: { id },
+      data: { status, updated_at: new Date() },
+    })
+
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error('PATCH /api/reservas:', error)
+    return NextResponse.json({ ok: false, error: 'Erro interno.' }, { status: 500 })
+  }
+}

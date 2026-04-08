@@ -2,10 +2,8 @@
  * AES-HOTSITE Theme System
  * Interface Design System - Consistent, scalable theming
  * Persistent theme configuration with admin customization
- * Themes are stored in Supabase (site_config.theme_config) for shared access
+ * Themes are stored in Azure SQL (site_config.theme_config) via API routes
  */
-
-import { supabase } from '@/lib/supabase/client';
 
 export type ThemeMode = 'light' | 'dark' | 'auto';
 export type DesignPersonality = 'modern' | 'classic' | 'minimal' | 'vibrant' | 'professional' | 'educational';
@@ -57,7 +55,7 @@ export interface ThemeConfig {
     headingScale: number;
   };
   spacing?: {
-    baseUnit: number; // 4, 8, 16px base
+    baseUnit: number;
   };
   depth?: 'borders-only' | 'elevation' | 'shadow';
   isActive: boolean;
@@ -69,18 +67,17 @@ export interface ThemeConfig {
  */
 
 export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | 'isActive'>> = {
-  // Modern: Bright, energetic, contemporary
   modern: {
     name: 'Moderno',
     personality: 'modern',
     colors: {
-      primary: '#10B981', // Verde vibrante
+      primary: '#10B981',
       primaryDark: '#059669',
       primaryLight: '#A7F3D0',
-      secondary: '#0EA5E9', // Azul claro
+      secondary: '#0EA5E9',
       secondaryDark: '#0284C7',
       secondaryLight: '#BAE6FD',
-      accent: '#F59E0B', // Âmbar
+      accent: '#F59E0B',
       accentDark: '#D97706',
       accentLight: '#FCD34D',
       success: '#10B981',
@@ -99,18 +96,17 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     },
   },
 
-  // Classic: Timeless, professional, formal
   classic: {
     name: 'Clássico',
     personality: 'classic',
     colors: {
-      primary: '#1E40AF', // Azul profundo
+      primary: '#1E40AF',
       primaryDark: '#1E3A8A',
       primaryLight: '#DBEAFE',
-      secondary: '#64748B', // Cinza slate
+      secondary: '#64748B',
       secondaryDark: '#475569',
       secondaryLight: '#CBD5E1',
-      accent: '#DC2626', // Vermelho
+      accent: '#DC2626',
       accentDark: '#B91C1C',
       accentLight: '#FCA5A5',
       success: '#16A34A',
@@ -129,7 +125,6 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     },
   },
 
-  // Minimal: Clean, simple, focused
   minimal: {
     name: 'Minimalista',
     personality: 'minimal',
@@ -140,7 +135,7 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
       secondary: '#6B7280',
       secondaryDark: '#374151',
       secondaryLight: '#D1D5DB',
-      accent: '#2563EB', // Azul destaque
+      accent: '#2563EB',
       accentDark: '#1D4ED8',
       accentLight: '#93C5FD',
       success: '#10B981',
@@ -159,18 +154,17 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     },
   },
 
-  // Vibrant: Bold, colorful, energetic
   vibrant: {
     name: 'Vibrante',
     personality: 'vibrant',
     colors: {
-      primary: '#EC4899', // Rosa
+      primary: '#EC4899',
       primaryDark: '#BE185D',
       primaryLight: '#FBE7F3',
-      secondary: '#8B5CF6', // Roxo
+      secondary: '#8B5CF6',
       secondaryDark: '#6D28D9',
       secondaryLight: '#EDE9FE',
-      accent: '#06B6D4', // Cyan
+      accent: '#06B6D4',
       accentDark: '#0891B2',
       accentLight: '#CFFAFE',
       success: '#14B8A6',
@@ -189,18 +183,17 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     },
   },
 
-  // Professional: Corporate, trustworthy, stable
   professional: {
     name: 'Profissional',
     personality: 'professional',
     colors: {
-      primary: '#1F2937', // Cinza escuro
+      primary: '#1F2937',
       primaryDark: '#111827',
       primaryLight: '#F3F4F6',
-      secondary: '#4F46E5', // Índigo
+      secondary: '#4F46E5',
       secondaryDark: '#4338CA',
       secondaryLight: '#E0E7FF',
-      accent: '#0D9488', // Teal
+      accent: '#0D9488',
       accentDark: '#0F766E',
       accentLight: '#99F6E4',
       success: '#059669',
@@ -219,18 +212,17 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     },
   },
 
-  // Educational: Warm, approachable, informative
   educational: {
     name: 'Educacional',
     personality: 'educational',
     colors: {
-      primary: '#059669', // Verde educacional
+      primary: '#059669',
       primaryDark: '#047857',
       primaryLight: '#D1FAE5',
-      secondary: '#F59E0B', // Âmbar caloroso
+      secondary: '#F59E0B',
       secondaryDark: '#D97706',
       secondaryLight: '#FEF3C7',
-      accent: '#0891B2', // Cyan
+      accent: '#0891B2',
       accentDark: '#0E7490',
       accentLight: '#CFFAFE',
       success: '#10B981',
@@ -255,48 +247,34 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
  */
 export class ThemeManager {
   private static readonly STORAGE_KEY = 'aes-theme-config';
-  private static readonly DB_TABLE = 'theme_configs'; // Supabase
 
   /**
-   * Get saved theme from Supabase (shared), with localStorage as cache
+   * Get saved theme from API (shared), with localStorage as cache
    */
   static async getActiveTheme(): Promise<ThemeConfig | null> {
     try {
-      // Try Supabase first (shared config for all users)
-      const { data, error } = await supabase
-        .from('site_config')
-        .select('theme_config')
-        .eq('id', 'main')
-        .single();
-
-      if (error) {
-        console.warn('[ThemeManager] Supabase fetch error:', error.message);
-      } else if (data?.theme_config) {
-        const theme = typeof data.theme_config === 'string'
-          ? JSON.parse(data.theme_config)
-          : data.theme_config;
-        console.log('[ThemeManager] Theme loaded from Supabase ✓', theme.name);
-        // Cache locally for faster subsequent loads
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
+      const res = await fetch('/api/admin/theme');
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.theme_config) {
+          const theme = typeof data.theme_config === 'string'
+            ? JSON.parse(data.theme_config)
+            : data.theme_config;
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
+          }
+          return theme as ThemeConfig;
         }
-        return theme as ThemeConfig;
-      } else {
-        console.log('[ThemeManager] No theme_config in Supabase, using fallback');
       }
 
-      // Fallback to localStorage cache if Supabase is unavailable
+      // Fallback to localStorage cache
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(this.STORAGE_KEY);
-        if (stored) {
-          console.log('[ThemeManager] Theme loaded from localStorage (fallback)');
-          return JSON.parse(stored);
-        }
+        if (stored) return JSON.parse(stored);
       }
 
       return null;
-    } catch (error) {
-      console.error('[ThemeManager] Error loading theme:', error);
+    } catch {
       // Fallback to localStorage on error
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(this.STORAGE_KEY);
@@ -307,32 +285,22 @@ export class ThemeManager {
   }
 
   /**
-   * Save theme to Supabase (shared) + localStorage (cache)
+   * Save theme to API (shared) + localStorage (cache)
    */
   static async saveTheme(theme: ThemeConfig): Promise<void> {
     try {
-      // Save to localStorage immediately (instant feedback)
       if (typeof window !== 'undefined') {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
       }
 
-      // Persist to Supabase — update only the theme_config column
-      const { error, count } = await supabase
-        .from('site_config')
-        .update({ theme_config: theme })
-        .eq('id', 'main');
+      const res = await fetch('/api/admin/theme', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(theme),
+      });
 
-      // If no row exists yet, insert one
-      if (!error && count === 0) {
-        await supabase
-          .from('site_config')
-          .insert({ id: 'main', theme_config: theme });
-      }
-
-      if (error) {
-        console.error('[ThemeManager] Supabase save error:', error);
-      } else {
-        console.log('[ThemeManager] Theme saved to Supabase ✓');
+      if (!res.ok) {
+        console.error('[ThemeManager] API save error:', res.status);
       }
     } catch (error) {
       console.error('[ThemeManager] Error saving theme:', error);
