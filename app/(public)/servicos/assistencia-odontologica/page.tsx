@@ -43,7 +43,7 @@ export default function AssistenciaOdontologicaPage() {
  useEffect(() => {
   const load = async () => {
    const data = await planosSaudeService.getAll('odontologico');
-   setPlanos(data.map((row) => mapPlanoSaude(row as unknown as Record<string, unknown>)));
+   setPlanos((data as any[]).map((row: any) => mapPlanoSaude(row as Record<string, unknown>)));
   };
   load();
  }, []);

@@ -68,7 +68,7 @@ export default function GaleriaPage() {
     const load = async () => {
       try {
         const data = await galeriaService.getAll();
-        const mapped: GaleriaFoto[] = (data as unknown as GaleriaFoto[]).map((row) => ({
+        const mapped: GaleriaFoto[] = (data as any[]).map((row: any) => ({
           ...row,
           imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path) : undefined,
         }));

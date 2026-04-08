@@ -177,7 +177,7 @@ export const planosSaudeService = {
   getAll: (tipoPlano?: string) => {
     const query = supabase.from('planos_saude').select('*, plano_faixas(*)');
     if (tipoPlano) query.eq('tipo_plano', tipoPlano);
-    return query.then(({ data, error }) => {
+    return query.then(({ data, error }: { data: any; error: any }) => {
       if (error) { console.error('planos_saude:', error); return []; }
       return data ?? [];
     });
@@ -222,7 +222,7 @@ export const nucleoVideosService = {
   getAll: (nucleoId?: string) => {
     const query = supabase.from('nucleo_videos').select('*').order('sort_order');
     if (nucleoId) query.eq('nucleo_id', nucleoId);
-    return query.then(({ data, error }) => {
+    return query.then(({ data, error }: { data: any; error: any }) => {
       if (error) { console.error('nucleo_videos:', error); return []; }
       return data ?? [];
     });

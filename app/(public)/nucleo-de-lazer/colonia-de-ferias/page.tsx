@@ -130,7 +130,7 @@ export default function ColoniaDeFeriasPage() {
  const [videos, setVideos] = useState<{id:string; titulo:string; youtube_url:string}[]>([]);
 
  useEffect(() => {
-  nucleoVideosService.getAll('colonia-ferias').then(d => setVideos(d as unknown as {id:string; titulo:string; youtube_url:string}[]));
+  nucleoVideosService.getAll('colonia-ferias').then((d: any) => setVideos(d as {id:string; titulo:string; youtube_url:string}[]));
  }, []);
 
  return (
