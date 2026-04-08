@@ -27,7 +27,8 @@ No App Service criado, ir em **Settings → Environment variables** e adicionar:
 
 | Nome | Valor |
 |------|-------|
-| `DATABASE_URL` | `sqlserver://aesdb.database.windows.net:1433;database=aes-hotsite;user=usr-aes-admin;password=nihaqhB6mgvC7F7s8r!j;encrypt=true;trustServerCertificate=false` |
+| `DATABASE_URL` | `sqlserver://aesdb.database.windows.net:1433;database=aes-hotsite;user=usr-aes-admin;password=***;encrypt=true;trustServerCertificate=false` |
+| `AZURE_STORAGE_CONNECTION_STRING` | (connection string do Azure Blob Storage `aeshotsitefiles`) |
 | `NEXTAUTH_SECRET` | (gerar um valor aleatório seguro, ex: `openssl rand -base64 32`) |
 | `NEXTAUTH_URL` | `https://aes-hotsite.azurewebsites.net` (ajustar se o nome for diferente) |
 
@@ -37,7 +38,7 @@ Clicar em **Apply**.
 
 No App Service, ir em **Settings → Configuration → General settings**:
 
-- **Startup Command:** `node .next/standalone/server.js`
+- **Startup Command:** `node server.js`
 
 Salvar.
 
@@ -64,6 +65,7 @@ No Azure DevOps:
 | Nome | Valor | Cadeado? |
 |------|-------|----------|
 | `DATABASE_URL` | (mesma connection string da tabela acima) | Sim |
+| `AZURE_STORAGE_CONNECTION_STRING` | (connection string do Blob Storage) | Sim |
 | `NEXTAUTH_SECRET` | (mesmo valor gerado no passo 2) | Sim |
 | `NEXTAUTH_URL` | `https://aes-hotsite.azurewebsites.net` | Nao |
 
