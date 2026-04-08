@@ -43,14 +43,14 @@ export async function getById<T>(table: string, id: string): Promise<T | null> {
 
 export async function create<T>(table: string, row: Partial<T>): Promise<T | null> {
   validateTable(table);
-  const { data, error } = await supabase.from(table).insert(row).select().single();
+  const { data, error } = await supabase.from(table).insert(row as Record<string, unknown>).select().single();
   if (error) { console.error(`create ${table}:`, error); return null; }
   return data as T;
 }
 
 export async function update<T>(table: string, id: string, row: Partial<T>): Promise<T | null> {
   validateTable(table);
-  const { data, error } = await supabase.from(table).update(row).eq('id', id).select().single();
+  const { data, error } = await supabase.from(table).update(row as Record<string, unknown>).eq('id', id).select().single();
   if (error) { console.error(`update ${table}:`, error); return null; }
   return data as T;
 }
@@ -64,7 +64,7 @@ export async function remove(table: string, id: string): Promise<boolean> {
 
 export async function upsert<T>(table: string, row: Partial<T>): Promise<T | null> {
   validateTable(table);
-  const { data, error } = await supabase.from(table).upsert(row).select().single();
+  const { data, error } = await supabase.from(table).upsert(row as Record<string, unknown>).select().single();
   if (error) { console.error(`upsert ${table}:`, error); return null; }
   return data as T;
 }

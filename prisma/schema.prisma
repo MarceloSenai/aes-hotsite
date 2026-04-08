@@ -1,0 +1,379 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+// ============================================================
+// Authentication (NextAuth compatible)
+// ============================================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  role          String    @default("admin")
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.NVarChar(Max)
+  access_token      String? @db.NVarChar(Max)
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.NVarChar(Max)
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============================================================
+// Theme Configuration
+// ============================================================
+
+model ThemeConfig {
+  id          String   @id @default(cuid())
+  name        String
+  personality String
+  colors      String   @db.NVarChar(Max)
+  typography  String?  @db.NVarChar(Max)
+  spacing     String?  @db.NVarChar(Max)
+  depth       String?
+  isActive    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DesignLayout {
+  id        String   @id @default(cuid())
+  layoutId  String   @unique
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================
+// Contact & Newsletter
+// ============================================================
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.NVarChar(Max)
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscription {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  isActive       Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+}
+
+// ============================================================
+// Hotsite Content (migrated from Supabase)
+// ============================================================
+
+model SiteConfig {
+  id               String   @id @default("main")
+  contact_phone    String?  @default("(11) 3367-9900")
+  contact_whatsapp String?  @default("https://wa.me/551133679900")
+  contact_email    String?  @default("gerente@aessenai.org.br")
+  address          String?
+  working_hours    String?  @default("Seg-Sex 7:00 - 16:00")
+  updated_at       DateTime @default(now())
+  theme_config     String?  @db.NVarChar(Max)
+
+  @@map("site_config")
+}
+
+model SiteEmail {
+  id         String @id @default(cuid())
+  label      String
+  email      String
+  sort_order Int    @default(0)
+
+  @@map("site_emails")
+}
+
+model SocialLink {
+  id         String  @id @default(cuid())
+  platform   String
+  url        String
+  enabled    Boolean @default(true)
+  sort_order Int     @default(0)
+
+  @@map("social_links")
+}
+
+model CarouselSlide {
+  id           String  @id @default(cuid())
+  badge        String
+  badge_color  String  @default("#10B981")
+  title        String
+  description  String?
+  cta          String?
+  href         String?
+  enabled      Boolean @default(true)
+  sort_order   Int     @default(0)
+  image_path   String?
+  display_mode String  @default("default")
+
+  @@map("carousel_slides")
+}
+
+model Evento {
+  id           String   @id @default(cuid())
+  titulo       String
+  data         String
+  local        String?
+  departamento String?
+  horario      String?
+  mes          String
+  enabled      Boolean  @default(true)
+  created_at   DateTime @default(now())
+
+  @@map("eventos")
+}
+
+model Boletim {
+  id         String   @id @default(cuid())
+  numero     Int
+  titulo     String
+  data       String
+  resumo     String?
+  pdf_path   String?
+  created_at DateTime @default(now())
+
+  @@map("boletins")
+}
+
+model Representante {
+  id         String  @id @default(cuid())
+  nome       String
+  cargo      String?
+  categoria  String
+  regional   String?
+  unidade    String?
+  email      String?
+  telefone   String?
+  sort_order Int     @default(0)
+
+  @@map("representantes")
+}
+
+model Galeria {
+  id         String   @id @default(cuid())
+  titulo     String
+  descricao  String?
+  categoria  String
+  image_path String?
+  created_at DateTime @default(now())
+
+  @@map("galeria")
+}
+
+model Documento {
+  id         String   @id @default(cuid())
+  titulo     String
+  descricao  String?
+  categoria  String
+  file_path  String?
+  file_name  String?
+  created_at DateTime @default(now())
+
+  @@map("documentos")
+}
+
+model Parceria {
+  id         String  @id @default(cuid())
+  nome       String
+  categoria  String
+  descricao  String?
+  contato    String?
+  site       String?
+  instagram  String?
+  destaque   String?
+  sort_order Int     @default(0)
+
+  @@map("parcerias")
+}
+
+model PlanoSaude {
+  id         String       @id @default(cuid())
+  tipo_plano String
+  tipo       String
+  operadora  String
+  cobertura  String?
+  aberto     Boolean      @default(false)
+  faixas     PlanoFaixa[]
+
+  @@map("planos_saude")
+}
+
+model PlanoFaixa {
+  id         String     @id @default(cuid())
+  plano_id   String
+  faixa      String
+  valor      String
+  sort_order Int        @default(0)
+  plano      PlanoSaude @relation(fields: [plano_id], references: [id], onDelete: Cascade)
+
+  @@map("plano_faixas")
+}
+
+model ParceiroSeguro {
+  id        String  @id @default(cuid())
+  nome      String
+  tipo      String?
+  descricao String?
+  contato   String?
+
+  @@map("parceiros_seguro")
+}
+
+model Farmacia {
+  id        String  @id @default("main")
+  rede      String?
+  descricao String?
+  restricao String?
+  contato   String?
+
+  @@map("farmacia")
+}
+
+model NucleoPricing {
+  id            String        @id
+  nucleo_nome   String
+  day_use       String?
+  criancas_info String?
+  precos        NucleoPreco[]
+
+  @@map("nucleo_pricing")
+}
+
+model NucleoPreco {
+  id          String        @id @default(cuid())
+  nucleo_id   String
+  categoria   String
+  associado   String
+  dependente  String
+  convidado   String
+  sort_order  Int           @default(0)
+  nucleo      NucleoPricing @relation(fields: [nucleo_id], references: [id], onDelete: Cascade)
+
+  @@map("nucleo_precos")
+}
+
+model NucleoVideo {
+  id          String   @id @default(cuid())
+  nucleo_id   String
+  titulo      String
+  youtube_url String
+  sort_order  Int      @default(0)
+  created_at  DateTime @default(now())
+
+  @@map("nucleo_videos")
+}
+
+// ============================================================
+// Associados & Reservas
+// ============================================================
+
+model Associado {
+  id         String    @id @default(cuid())
+  cpf        String    @unique
+  nome       String
+  email      String?
+  telefone   String?
+  senha_hash String
+  tipo       String    @default("titular")
+  ativo      Boolean   @default(true)
+  created_at DateTime  @default(now())
+  reservas   Reserva[]
+
+  @@map("associados")
+}
+
+model Acomodacao {
+  id           String    @id @default(cuid())
+  nucleo_id    String
+  nome         String
+  tipo         String
+  capacidade   Int       @default(4)
+  pcd          Boolean   @default(false)
+  pet_friendly Boolean   @default(false)
+  ativo        Boolean   @default(true)
+  reservas     Reserva[]
+
+  @@map("acomodacoes")
+}
+
+model Reserva {
+  id            String      @id @default(cuid())
+  associado_id  String
+  acomodacao_id String
+  nucleo_id     String
+  check_in      DateTime    @db.Date
+  check_out     DateTime    @db.Date
+  num_hospedes  Int         @default(1)
+  valor_total   Decimal?
+  status        String      @default("pendente")
+  observacoes   String?
+  created_at    DateTime    @default(now())
+  updated_at    DateTime    @default(now())
+  associado     Associado   @relation(fields: [associado_id], references: [id], onDelete: Cascade)
+  acomodacao    Acomodacao  @relation(fields: [acomodacao_id], references: [id], onDelete: Cascade)
+  avaliacoes    Avaliacao[]
+
+  @@map("reservas")
+}
+
+model Avaliacao {
+  id         String   @id @default(cuid())
+  reserva_id String
+  nota       Int?
+  comentario String?
+  created_at DateTime @default(now())
+  reserva    Reserva  @relation(fields: [reserva_id], references: [id], onDelete: Cascade)
+
+  @@map("avaliacoes")
+}
