@@ -1,34 +1,50 @@
+# =============================================================================
+# azure-pipelines.yml — aes-hotsite
+#
+# Pipeline CI/CD para deploy no Azure App Service Linux.
+# Padrao estabelecido no projeto obraxs-hotsite, adaptado para:
+#   - Next.js 16 standalone + Prisma 7 (SQL Server)
+#   - Deploy via Azure App Service (nao Docker)
+#   - Sem testes unitarios por enquanto (apenas lint)
+#
+# Pre-requisitos no Azure DevOps:
+#   1. Variable Group "aes-hotsite-vars" vinculado a este pipeline
+#   2. Service Connection "aes-next-connection" para o App Service
+# =============================================================================
+
 trigger:
-- main
+  branches:
+    include:
+      - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pr: none
 
+# =============================================================================
+# Variaveis globais do pipeline
+# =============================================================================
 variables:
   azureSubscription: 'aes-next-connection'
   appName: 'aes-next-prod'
   nodeVersion: '20.x'
   packagePath: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
 
+# =============================================================================
+# STAGE 1 — CI: Lint + Validacoes
+# Roda em todo push para garantir qualidade antes do build
+# =============================================================================
 stages:
-- stage: Build
-  displayName: 'Build'
+- stage: CI
+  displayName: 'CI — Lint e Validacoes'
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
-  - job: Build
-    displayName: 'Build Next.js app'
+  - job: LintAndValidate
+    displayName: 'Lint + Type Check'
     steps:
-    - checkout: self
-      clean: true
-
     - task: NodeTool@0
-      displayName: 'Instalar Node.js 20 LTS'
+      displayName: 'Configurar Node.js $(nodeVersion)'
       inputs:
         versionSpec: '$(nodeVersion)'
-
-    - script: |
-        node --version
-        npm --version
-      displayName: 'Validar versões do Node e npm'
 
     - task: Cache@2
       displayName: 'Cache npm'
@@ -40,11 +56,50 @@ stages:
 
     - script: |
         npm ci --cache $(Pipeline.Workspace)/.npm
-      displayName: 'Instalar dependências'
+      displayName: 'npm ci'
+
+    - script: npm run lint
+      displayName: 'ESLint'
+
+    - script: npm audit --audit-level=high
+      displayName: 'npm audit — CVEs high/critical'
+
+# =============================================================================
+# STAGE 2 — Build: Prisma Generate + Next.js Build + Artefato
+# Depende do CI para garantir que nao deployamos codigo quebrado
+# =============================================================================
+- stage: Build
+  displayName: 'Build — Next.js'
+  dependsOn: CI
+  pool:
+    vmImage: 'ubuntu-latest'
+  jobs:
+  - job: Build
+    displayName: 'Prisma generate + next build'
+    steps:
+    - checkout: self
+      clean: true
+
+    - task: NodeTool@0
+      displayName: 'Configurar Node.js $(nodeVersion)'
+      inputs:
+        versionSpec: '$(nodeVersion)'
+
+    - task: Cache@2
+      displayName: 'Cache npm'
+      inputs:
+        key: 'npm | "$(Agent.OS)" | package-lock.json'
+        restoreKeys: |
+          npm | "$(Agent.OS)"
+        path: $(Pipeline.Workspace)/.npm
+
+    - script: |
+        npm ci --cache $(Pipeline.Workspace)/.npm
+      displayName: 'npm ci'
 
     - script: |
         npm run build
-      displayName: 'Build Next.js'
+      displayName: 'prisma generate + next build'
       env:
         NODE_ENV: production
         DATABASE_URL: $(DATABASE_URL)
@@ -74,10 +129,15 @@ stages:
       artifact: drop
       displayName: 'Publicar artefato'
 
+# =============================================================================
+# STAGE 3 — Deploy: Azure App Service Linux
+# =============================================================================
 - stage: Deploy
-  displayName: 'Deploy'
+  displayName: 'Deploy — Producao'
   dependsOn: Build
   condition: succeeded()
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
   - deployment: DeployToAppService
     displayName: 'Deploy para Azure App Service Linux'
