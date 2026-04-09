@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
-import { boletinsService, getPublicUrl } from '@/lib/supabase/data-service';
+import { boletinsService, getPublicUrl } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface BoletimEdicao {

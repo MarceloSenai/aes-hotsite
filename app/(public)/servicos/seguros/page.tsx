@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ShieldCheck, Mail } from 'lucide-react';
-import { parceirosSeguroService } from '@/lib/supabase/data-service';
+import { parceirosSeguroService } from '@/lib/services/data-service';
 
 interface ParceiroSeguro {
   id: string;

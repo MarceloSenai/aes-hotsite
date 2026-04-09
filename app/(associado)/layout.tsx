@@ -9,7 +9,7 @@ import {
   LayoutDashboard, CalendarDays, PlusCircle, User,
   LogOut, Menu, X, ChevronRight,
 } from 'lucide-react';
-import { getSession, logout, type Associado } from '@/lib/supabase/auth-service';
+import { getSession, logout, type Associado } from '@/lib/services/auth-service';
 
 /* ─── Nav items ───────────────────────────────────────── */
 

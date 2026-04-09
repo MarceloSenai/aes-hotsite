@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Pill, Percent, CreditCard, MapPin, Mail, AlertTriangle } from 'lucide-react';
-import { farmaciaService } from '@/lib/supabase/data-service';
+import { farmaciaService } from '@/lib/services/data-service';
 
 interface FarmaciaInfo {
   rede: string;

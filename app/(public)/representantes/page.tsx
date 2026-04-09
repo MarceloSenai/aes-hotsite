@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Users, Mail, Building, MapPin, Crown, Eye, Gavel, Briefcase } from 'lucide-react';
-import { representantesService } from '@/lib/supabase/data-service';
+import { representantesService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 type CategoriaRepresentante = 'conselho-deliberativo' | 'conselho-fiscal' | 'diretoria-executiva' | 'diretores-departamentos' | 'representantes-regionais';

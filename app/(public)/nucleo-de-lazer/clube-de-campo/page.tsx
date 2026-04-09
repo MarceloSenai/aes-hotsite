@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { nucleoVideosService } from '@/lib/supabase/data-service';
+import { nucleoVideosService } from '@/lib/services/data-service';
 import {
  Home,
  ChevronRight,

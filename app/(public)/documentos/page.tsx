@@ -9,7 +9,7 @@ import {
   FolderOpen,
   Calendar,
 } from 'lucide-react';
-import { documentosService, getPublicUrl } from '@/lib/supabase/data-service';
+import { documentosService, getPublicUrl } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface DocumentoArquivo {

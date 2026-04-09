@@ -6,11 +6,11 @@ import {
   CalendarDays, Users, MapPin, X, Star, Loader2,
   AlertCircle, CheckCircle, Clock, XCircle, Filter, Info,
 } from 'lucide-react';
-import { getSession } from '@/lib/supabase/auth-service';
+import { getSession } from '@/lib/services/auth-service';
 import {
   getReservasDoAssociado, cancelarReserva, avaliarReserva,
   getAvaliacao, NUCLEOS, type Reserva, type Avaliacao,
-} from '@/lib/supabase/reservas-service';
+} from '@/lib/services/reservas-service';
 
 /* ─── Helpers ─────────────────────────────────────────── */
 

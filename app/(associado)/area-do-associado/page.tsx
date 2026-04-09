@@ -7,8 +7,8 @@ import {
   CalendarDays, PlusCircle, Clock, CheckCircle,
   ArrowRight, Loader2, MapPin,
 } from 'lucide-react';
-import { getSession, type Associado } from '@/lib/supabase/auth-service';
-import { getReservasDoAssociado, NUCLEOS, type Reserva } from '@/lib/supabase/reservas-service';
+import { getSession, type Associado } from '@/lib/services/auth-service';
+import { getReservasDoAssociado, NUCLEOS, type Reserva } from '@/lib/services/reservas-service';
 
 /* ─── Helpers ─────────────────────────────────────────── */
 

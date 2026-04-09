@@ -12,7 +12,7 @@ import {
   ChevronRight,
   ZoomIn,
 } from 'lucide-react';
-import { galeriaService, getPublicUrl } from '@/lib/supabase/data-service';
+import { galeriaService, getPublicUrl } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface GaleriaFoto {

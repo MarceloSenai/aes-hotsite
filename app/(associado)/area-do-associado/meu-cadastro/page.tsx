@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import {
   User, Mail, Phone, CreditCard, Shield, Calendar,
 } from 'lucide-react';
-import { getSession, type Associado } from '@/lib/supabase/auth-service';
+import { getSession, type Associado } from '@/lib/services/auth-service';
 
 /* ─── Helpers ─────────────────────────────────────────── */
 

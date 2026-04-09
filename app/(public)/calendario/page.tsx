@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
-import { eventosService } from '@/lib/supabase/data-service';
+import { eventosService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface Evento {

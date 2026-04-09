@@ -10,7 +10,7 @@ import {
   Globe,
   Star,
 } from 'lucide-react';
-import { parceriasService } from '@/lib/supabase/data-service';
+import { parceriasService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 
 interface Parceria {

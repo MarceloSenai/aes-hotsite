@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Smile, CheckCircle2, XCircle, DollarSign, Search, FileText, List } from 'lucide-react';
-import { planosSaudeService } from '@/lib/supabase/data-service';
+import { planosSaudeService } from '@/lib/services/data-service';
 
 interface PlanoFaixa {
   id: string;

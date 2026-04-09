@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { z } from 'zod'
+
+const createReservaSchema = z.object({
+  associado_id: z.string().min(1),
+  acomodacao_id: z.string().min(1),
+  nucleo_id: z.string().min(1),
+  check_in: z.string().min(1),
+  check_out: z.string().min(1),
+  num_hospedes: z.number().int().min(1).default(1),
+  observacoes: z.string().optional(),
+})
+
+const updateStatusSchema = z.object({
+  id: z.string().min(1, 'ID obrigatório'),
+  status: z.enum(['pendente', 'confirmada', 'cancelada', 'concluida'], { message: 'Status inválido' }),
+})
 
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl
@@ -34,15 +50,22 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
+    const parsed = createReservaSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: parsed.error.issues[0].message }, { status: 400 })
+    }
+
+    const { associado_id, acomodacao_id, nucleo_id, check_in, check_out, num_hospedes, observacoes } = parsed.data
+
     const reserva = await prisma.reserva.create({
       data: {
-        associado_id: body.associado_id,
-        acomodacao_id: body.acomodacao_id,
-        nucleo_id: body.nucleo_id,
-        check_in: new Date(body.check_in),
-        check_out: new Date(body.check_out),
-        num_hospedes: body.num_hospedes || 1,
-        observacoes: body.observacoes || null,
+        associado_id,
+        acomodacao_id,
+        nucleo_id,
+        check_in: new Date(check_in),
+        check_out: new Date(check_out),
+        num_hospedes,
+        observacoes: observacoes || null,
         status: 'pendente',
       },
     })
@@ -55,11 +78,13 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const { id, status } = await req.json()
-
-    if (!id || !status) {
-      return NextResponse.json({ error: 'id and status are required' }, { status: 400 })
+    const body = await req.json()
+    const parsed = updateStatusSchema.safeParse(body)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: parsed.error.issues[0].message }, { status: 400 })
     }
+
+    const { id, status } = parsed.data
 
     await prisma.reserva.update({
       where: { id },

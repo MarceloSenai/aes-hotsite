@@ -8,11 +8,11 @@ import {
   ChevronLeft, ChevronRight, Loader2, TreePalm,
   Accessibility, PawPrint, ArrowRight, PartyPopper, Info, Clock,
 } from 'lucide-react';
-import { getSession } from '@/lib/supabase/auth-service';
+import { getSession } from '@/lib/services/auth-service';
 import {
   verificarDisponibilidade, criarReserva,
   NUCLEOS, type Acomodacao,
-} from '@/lib/supabase/reservas-service';
+} from '@/lib/services/reservas-service';
 
 /* ─── Types ───────────────────────────────────────────── */
 

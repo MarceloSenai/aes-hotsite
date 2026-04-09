@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, LogIn, Loader2, AlertCircle } from 'lucide-react';
-import { login } from '@/lib/supabase/auth-service';
+import { login } from '@/lib/services/auth-service';
 
 /* ─── CPF mask helper ─────────────────────────────────── */
 

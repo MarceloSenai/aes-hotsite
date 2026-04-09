@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight, TreePalm, Waves, Umbrella, MapPin } from 'lucide-react';
-import { nucleoPricingService } from '@/lib/supabase/data-service';
+import { nucleoPricingService } from '@/lib/services/data-service';
 
 const nucleosBase = [
   {

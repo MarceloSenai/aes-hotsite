@@ -22,7 +22,7 @@ import {
  FileText,
  TrendingUp,
 } from 'lucide-react';
-import { planosSaudeService } from '@/lib/supabase/data-service';
+import { planosSaudeService } from '@/lib/services/data-service';
 
 interface PlanoFaixa {
   id: string;

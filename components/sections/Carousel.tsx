@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { carouselService } from '@/lib/supabase/data-service';
+import { carouselService } from '@/lib/services/data-service';
 
 type DisplayMode = 'default' | 'image_only';
 

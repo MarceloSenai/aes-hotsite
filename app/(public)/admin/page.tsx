@@ -19,9 +19,9 @@ import {
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
   socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl,
   nucleoVideosService,
-} from '@/lib/supabase/data-service';
-import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/supabase/reservas-service';
-import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/supabase/auth-service';
+} from '@/lib/services/data-service';
+import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/services/reservas-service';
+import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/services/auth-service';
 
 // ─── Types ───────────────────────────────────────────────────────
 
