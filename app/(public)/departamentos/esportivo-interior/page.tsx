@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, MapPin, Calendar, Users, Mail, Phone, ArrowRight, Trophy } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 
 const atividades = [
   'Eventos esportivos regionais no interior paulista',
@@ -106,8 +107,8 @@ export default function EsportivoInteriorPage() {
           className="rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' }}>
           <h3 className="font-bold text-lg mb-3">Contato do Departamento</h3>
           <div className="flex flex-col sm:flex-row gap-4">
-            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> esportivo.interior@aessenai.org.br</span>
-            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> (11) 3367-9900</span>
+            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> {CONTACT.esportivoInterior}</span>
+            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> {CONTACT.phone}</span>
           </div>
         </motion.div>
       </div>

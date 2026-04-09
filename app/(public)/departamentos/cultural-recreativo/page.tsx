@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Palette, Calendar, Music, Users, Mail, Phone, ArrowRight } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 
 const atividades = [
   'Organização de festas e eventos temáticos',
@@ -110,8 +111,8 @@ export default function CulturalRecreativoPage() {
           className="rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, #8b5cf6, #a855f7)' }}>
           <h3 className="font-bold text-lg mb-3">Contato do Departamento</h3>
           <div className="flex flex-col sm:flex-row gap-4">
-            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> cultural@aessenai.org.br</span>
-            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> (11) 3367-9900</span>
+            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> {CONTACT.cultural}</span>
+            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> {CONTACT.phone}</span>
           </div>
         </motion.div>
       </div>

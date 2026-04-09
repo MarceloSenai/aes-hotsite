@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Trophy, Calendar, Users, Mail, Phone, ArrowRight, Dumbbell } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 
 const atividades = [
   'Campeonatos internos de futebol, vôlei e outras modalidades',
@@ -106,8 +107,8 @@ export default function EsportivoCapitalPage() {
           className="rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, #0ea5e9, #3b82f6)' }}>
           <h3 className="font-bold text-lg mb-3">Contato do Departamento</h3>
           <div className="flex flex-col sm:flex-row gap-4">
-            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> esportivo@aessenai.org.br</span>
-            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> (11) 3367-9900</span>
+            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> {CONTACT.esportivo}</span>
+            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> {CONTACT.phone}</span>
           </div>
         </motion.div>
       </div>

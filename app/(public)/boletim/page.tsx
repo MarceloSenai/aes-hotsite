@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 import { boletinsService, getPublicUrl } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState, EmptyState } from '@/components/ui/DataState';
@@ -80,7 +81,7 @@ export default function BoletimPage() {
               <h3 className="text-xl font-bold mb-2">Receba o Boletim por E-mail</h3>
               <p className="text-white/80 text-sm">Cadastre-se para receber as próximas edições diretamente no seu e-mail.</p>
             </div>
-            <a href="mailto:boletim.aes@aessenai.org.br?subject=Cadastro%20Boletim%20AES"
+            <a href={`mailto:${CONTACT.boletim}?subject=Cadastro%20Boletim%20AES`}
               className="inline-flex items-center gap-2 px-6 py-3 bg-white rounded-xl font-semibold text-sm transition-colors hover:bg-gray-100"
               style={{ color: 'var(--color-primary-dark)' }}>
               <ExternalLink size={16} /> Solicitar Cadastro

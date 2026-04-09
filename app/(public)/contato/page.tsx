@@ -12,37 +12,38 @@ import {
  Facebook,
  Instagram,
 } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 
 const contactInfo = [
  {
  icon: Phone,
  label: 'Telefone',
- value: '(11) 3367-9900',
- href: 'tel:+551133679900',
+ value: CONTACT.phone,
+ href: CONTACT.phoneHref,
  },
  {
  icon: MessageCircle,
  label: 'WhatsApp',
- value: '(11) 3367-9900',
- href: 'https://wa.me/551133679900',
+ value: CONTACT.whatsapp,
+ href: CONTACT.whatsappHref,
  },
  {
  icon: MapPin,
  label: 'Endereço',
- value: 'Rua José Getúlio, 78/90 - Aclimação, São Paulo - SP',
+ value: CONTACT.address,
  href: null,
  },
  {
  icon: Clock,
  label: 'Horário',
- value: 'Segunda a Sexta, 8h às 17h',
+ value: CONTACT.hours,
  href: null,
  },
 ];
 
 const socialLinks = [
- { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/aessenai' },
- { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/aessenai' },
+ { icon: Facebook, label: 'Facebook', href: CONTACT.facebook },
+ { icon: Instagram, label: 'Instagram', href: CONTACT.instagram },
 ];
 
 export default function ContatoPage() {

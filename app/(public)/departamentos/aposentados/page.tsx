@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Users, Calendar, Heart, Coffee, Mail, Phone, ArrowRight } from 'lucide-react';
+import { CONTACT } from '@/lib/config/contact';
 
 const atividades = [
   'Encontros mensais de confraternização',
@@ -112,8 +113,8 @@ export default function AposentadosPage() {
           className="rounded-2xl p-6 text-white" style={{ background: 'linear-gradient(135deg, #f59e0b, #f97316)' }}>
           <h3 className="font-bold text-lg mb-3">Contato do Departamento</h3>
           <div className="flex flex-col sm:flex-row gap-4">
-            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> aposentados@aessenai.org.br</span>
-            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> (11) 3367-9900</span>
+            <span className="flex items-center gap-2 text-sm"><Mail size={16} /> {CONTACT.aposentados}</span>
+            <span className="flex items-center gap-2 text-sm"><Phone size={16} /> {CONTACT.phone}</span>
           </div>
         </motion.div>
       </div>
