@@ -235,10 +235,10 @@ export default function Header() {
               <span className="hidden sm:inline">{a11y.darkMode ? 'Claro' : 'Escuro'}</span>
             </button>
             <span className="w-px h-3 bg-white/20" />
-            <Link href="/area-do-associado"
+            <a href="https://associado.aessenai.org.br" target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-1.5 font-semibold hover:text-white transition-colors">
               <UserCircle size={13} /> Área do Associado
-            </Link>
+            </a>
           </div>
         </div>
       </div>
@@ -319,11 +319,11 @@ export default function Header() {
                 ))}
               </nav>
               <div className="border-t border-gray-100 dark:border-gray-800 px-4 py-4">
-                <Link href="/area-do-associado"
+                <a href="https://associado.aessenai.org.br" target="_blank" rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-medium text-sm text-white"
                   style={{ backgroundColor: 'var(--color-primary)' }}>
                   <UserCircle size={18} /> Área do Associado
-                </Link>
+                </a>
               </div>
             </motion.div>
           </>
