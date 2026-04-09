@@ -46,10 +46,15 @@ export async function middleware(request: NextRequest) {
 
   // Verify JWT
   const token = request.cookies.get(COOKIE_NAME)?.value
+
+  function loginRedirect() {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('redirect', pathname)
+    return NextResponse.redirect(loginUrl)
+  }
+
   if (!token) {
-    if (isProtectedPage) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+    if (isProtectedPage) return loginRedirect()
     return NextResponse.json({ ok: false, error: 'Não autenticado.' }, { status: 401 })
   }
 
@@ -58,9 +63,7 @@ export async function middleware(request: NextRequest) {
     payload = await verifyToken(token)
   } catch {
     // Invalid or expired token
-    if (isProtectedPage) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+    if (isProtectedPage) return loginRedirect()
     return NextResponse.json({ ok: false, error: 'Sessão expirada.' }, { status: 401 })
   }
 

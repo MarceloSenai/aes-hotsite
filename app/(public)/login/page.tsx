@@ -51,7 +51,9 @@ export default function LoginPage() {
     try {
       const result = await login(cpf, senha);
       if (result.ok) {
-        router.push('/area-do-associado');
+        const params = new URLSearchParams(window.location.search);
+        const redirect = params.get('redirect') || '/area-do-associado';
+        router.push(redirect);
       } else {
         setError(result.error || 'Erro ao fazer login.');
       }
