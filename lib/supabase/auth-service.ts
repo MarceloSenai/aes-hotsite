@@ -14,6 +14,22 @@ export interface Associado {
 const SESSION_KEY = 'aes-session';
 const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 hours
 
+// ─── CSRF Helper ───────────────────────────────────────
+
+function getCsrfToken(): string {
+  if (typeof document === 'undefined') return '';
+  const match = document.cookie.match(/aes-csrf=([^;]+)/);
+  return match?.[1] ?? '';
+}
+
+function authHeaders(extra?: Record<string, string>): Record<string, string> {
+  return {
+    'Content-Type': 'application/json',
+    'X-CSRF-Token': getCsrfToken(),
+    ...extra,
+  };
+}
+
 // ─── Login ──────────────────────────────────────────────
 
 export async function login(cpf: string, senha: string): Promise<{ ok: boolean; associado?: Associado; error?: string }> {
@@ -30,7 +46,7 @@ export async function login(cpf: string, senha: string): Promise<{ ok: boolean; 
       return { ok: false, error: data.error || 'Erro ao fazer login.' };
     }
 
-    // Save session with expiration
+    // Save session with expiration (localStorage for client-side state)
     localStorage.setItem(SESSION_KEY, JSON.stringify({ ...data.associado, expiresAt: Date.now() + SESSION_TTL }));
 
     return { ok: true, associado: data.associado as Associado };
@@ -58,8 +74,11 @@ export function getSession(): Associado | null {
   return null;
 }
 
-export function logout(): void {
+export async function logout(): Promise<void> {
   localStorage.removeItem(SESSION_KEY);
+  try {
+    await fetch('/api/auth/associado/logout', { method: 'POST' });
+  } catch { /* best-effort */ }
 }
 
 export function isLoggedIn(): boolean {
@@ -79,7 +98,7 @@ export async function criarAssociado(data: {
   try {
     const res = await fetch('/api/auth/associado', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify(data),
     });
 
@@ -116,7 +135,7 @@ export async function atualizarAssociado(id: string, updates: {
   try {
     const res = await fetch('/api/auth/associado', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify({ id, ...updates }),
     });
 

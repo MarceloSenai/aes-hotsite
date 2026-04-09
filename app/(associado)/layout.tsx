@@ -67,8 +67,8 @@ export default function AssociadoLayout({ children }: { children: React.ReactNod
     setSidebarOpen(false);
   }, [pathname]);
 
-  const handleLogout = useCallback(() => {
-    logout();
+  const handleLogout = useCallback(async () => {
+    await logout();
     router.replace('/login');
   }, [router]);
 
