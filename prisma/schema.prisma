@@ -364,6 +364,9 @@ model Reserva {
   acomodacao    Acomodacao  @relation(fields: [acomodacao_id], references: [id], onDelete: Cascade)
   avaliacoes    Avaliacao[]
 
+  @@index([associado_id])
+  @@index([acomodacao_id])
+  @@index([nucleo_id])
   @@map("reservas")
 }
 
@@ -375,5 +378,6 @@ model Avaliacao {
   created_at DateTime @default(now())
   reserva    Reserva  @relation(fields: [reserva_id], references: [id], onDelete: Cascade)
 
+  @@index([reserva_id])
   @@map("avaliacoes")
 }

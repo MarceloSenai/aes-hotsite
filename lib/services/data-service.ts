@@ -46,10 +46,9 @@ export async function getAll<T>(table: string, _orderBy?: string): Promise<T[]> 
   }
 }
 
-export async function getById<T>(table: string, _id: string): Promise<T | null> {
+export async function getById<T>(table: string, id: string): Promise<T | null> {
   try {
-    const data = await fetchJson<T>(`/api/data/${table}`);
-    return data;
+    return await fetchJson<T>(`/api/data/${table}?id=${encodeURIComponent(id)}`);
   } catch {
     return null;
   }
@@ -97,7 +96,7 @@ export async function uploadFile(bucket: string, path: string, file: File): Prom
   try {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('container', bucket);
+    formData.append('bucket', bucket);
     formData.append('path', path);
     const res = await fetch('/api/upload', { method: 'POST', body: formData });
     if (!res.ok) return null;
@@ -114,7 +113,7 @@ export async function deleteFile(bucket: string, path: string): Promise<boolean>
     const res = await fetch('/api/upload', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ container: bucket, path }),
+      body: JSON.stringify({ bucket, path }),
     });
     return res.ok;
   } catch {

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   try {
     // Rate limiting by IP
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-    const limit = checkRateLimit(ip)
+    const limit = checkRateLimit(`ip:${ip}`)
     if (!limit.allowed) {
       const retryAfter = Math.ceil((limit.resetAt - Date.now()) / 1000)
       return NextResponse.json(
@@ -34,6 +34,16 @@ export async function POST(request: NextRequest) {
     const cpfLimpo = cpf.replace(/\D/g, '')
     if (cpfLimpo.length !== 11) {
       return NextResponse.json({ ok: false, error: GENERIC_ERROR }, { status: 401 })
+    }
+
+    // Rate limiting by CPF (prevents targeted brute force on specific account)
+    const cpfLimit = checkRateLimit(`cpf:${cpfLimpo}`)
+    if (!cpfLimit.allowed) {
+      const retryAfter = Math.ceil((cpfLimit.resetAt - Date.now()) / 1000)
+      return NextResponse.json(
+        { ok: false, error: 'Muitas tentativas. Tente novamente mais tarde.' },
+        { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+      )
     }
 
     const associado = await prisma.associado.findUnique({ where: { cpf: cpfLimpo } })
