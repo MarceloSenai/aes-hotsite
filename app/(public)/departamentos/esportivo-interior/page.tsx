@@ -8,7 +8,7 @@ const atividades = [
   'Eventos esportivos regionais no interior paulista',
   'Torneios intermunicipais entre associados',
   'Esportes ao ar livre nos núcleos de lazer',
-  'Integracao esportiva regional',
+  'Integração esportiva regional',
   'Campeonatos de pesca, vôlei e futebol',
   'Caminhadas e atividades na natureza',
 ];

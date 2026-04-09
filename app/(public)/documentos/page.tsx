@@ -122,7 +122,7 @@ export default function DocumentosPage() {
               Documentos
             </h1>
             <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-              Acesse comunicados, estatutos, relatorios e formularios da AES SENAI.
+              Acesse comunicados, estatutos, relatórios e formulários da AES SENAI.
               Todos os documentos importantes em um so lugar.
             </p>
           </motion.div>

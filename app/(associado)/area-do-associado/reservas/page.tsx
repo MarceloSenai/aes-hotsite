@@ -212,6 +212,9 @@ export default function ReservasPage() {
   }, [loadReservas]);
 
   const handleCancel = useCallback(async (reservaId: string) => {
+    const confirmed = window.confirm('Tem certeza que deseja cancelar esta reserva? Esta ação não pode ser desfeita.');
+    if (!confirmed) return;
+
     setCancellingId(reservaId);
     const ok = await cancelarReserva(reservaId);
     if (ok) {

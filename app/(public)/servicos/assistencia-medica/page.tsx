@@ -331,7 +331,7 @@ export default function AssistenciaMedicaPage() {
   <a href="mailto:rh@aessenai.org.br?subject=Ficha de Adesão - Plano Médico"
    className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg transition-all text-center group">
    <FileText size={24} className="mx-auto mb-2 text-theme-primary" />
-   <h3 className="font-bold text-gray-900 dark:text-white">Ficha de Adesao</h3>
+   <h3 className="font-bold text-gray-900 dark:text-white">Ficha de Adesão</h3>
    <p className="text-xs text-gray-500 mt-1">Solicitar ficha por e-mail</p>
   </a>
   <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 text-center">

@@ -7,7 +7,7 @@ import { ArrowLeft, Palette, Calendar, Music, Users, Mail, Phone, ArrowRight } f
 const atividades = [
   'Organização de festas e eventos temáticos',
   'Passeios culturais, excursões e viagens',
-  'Programacao artística (shows, teatro, cinema)',
+  'Programação artística (shows, teatro, cinema)',
   'Atividades recreativas para toda a família',
   'Coordenação de eventos nos núcleos de lazer',
   'Festas juninas, carnaval e datas comemorativas',

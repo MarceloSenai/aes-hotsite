@@ -10,7 +10,7 @@ const atividades = [
   'Eventos comemorativos (Dia do Aposentado, festas de final de ano)',
   'Orientação sobre direitos e beneficios',
   'Atividades recreativas nos núcleos de lazer',
-  'Integracao com demais departamentos da AES',
+  'Integração com demais departamentos da AES',
 ];
 
 const eventos = [

@@ -121,8 +121,10 @@ export async function deleteFile(bucket: string, path: string): Promise<boolean>
   }
 }
 
+const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_AZURE_STORAGE_URL || 'https://aeshotsitefiles.blob.core.windows.net';
+
 export function getPublicUrl(bucket: string, path: string): string {
-  return `https://aeshotsitefiles.blob.core.windows.net/${bucket}/${path}`;
+  return `${STORAGE_BASE_URL}/${bucket}/${path}`;
 }
 
 // ─── Table-specific typed helpers ─────────────────────────────────

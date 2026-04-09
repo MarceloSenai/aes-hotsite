@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
+import { checkRateLimit } from '@/lib/security/rate-limiter'
 
 const subscribeSchema = z.object({
   email: z.string().email('Email inválido'),
@@ -9,6 +10,12 @@ const subscribeSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    const limit = checkRateLimit(`newsletter:${ip}`)
+    if (!limit.allowed) {
+      return NextResponse.json({ error: 'Muitas tentativas. Tente novamente mais tarde.' }, { status: 429 })
+    }
+
     const body = await request.json()
     const parsed = subscribeSchema.safeParse(body)
     if (!parsed.success) {
