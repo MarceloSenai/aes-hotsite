@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   User, Mail, Phone, CreditCard, Shield, Calendar,
@@ -66,16 +66,9 @@ function InfoRow({ icon: Icon, label, value }: { icon: React.ElementType; label:
 /* ─── Meu Cadastro Page ──────────────────────────────── */
 
 export default function MeuCadastroPage() {
-  const [session, setSession] = useState<Associado | null>(null);
-
-  useEffect(() => {
-    const s = getSession();
-    if (s) setSession(s);
-  }, []);
+  const [session] = useState<Associado | null>(() => getSession());
 
   if (!session) return null;
-
-  const badge = tipoBadgeStyle(session.tipo);
 
   return (
     <div className="max-w-2xl mx-auto">

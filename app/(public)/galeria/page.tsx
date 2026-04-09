@@ -68,9 +68,9 @@ export default function GaleriaPage() {
     const load = async () => {
       try {
         const data = await galeriaService.getAll();
-        const mapped: GaleriaFoto[] = (data as any[]).map((row: any) => ({
+        const mapped = (data as GaleriaFoto[]).map((row) => ({
           ...row,
-          imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path) : undefined,
+          imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path as string) : undefined,
         }));
         setPhotos(mapped);
       } catch (error) {

@@ -41,8 +41,8 @@ const contactInfo = [
 ];
 
 const socialLinks = [
- { icon: Facebook, label: 'Facebook', href: '#' },
- { icon: Instagram, label: 'Instagram', href: '#' },
+ { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/aessenai' },
+ { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/aessenai' },
 ];
 
 export default function ContatoPage() {
@@ -53,6 +53,9 @@ export default function ContatoPage() {
  subject: '',
  message: '',
  });
+ const [submitting, setSubmitting] = useState(false);
+ const [success, setSuccess] = useState(false);
+ const [error, setError] = useState('');
 
  const handleChange = (
  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -60,11 +63,28 @@ export default function ContatoPage() {
  setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
  };
 
- const handleSubmit = (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
  e.preventDefault();
- // Form submission logic
- alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
- setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+ setSubmitting(true);
+ setError('');
+ setSuccess(false);
+ try {
+   const res = await fetch('/api/contact', {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+     body: JSON.stringify(formData),
+   });
+   if (!res.ok) {
+     const data = await res.json();
+     throw new Error(data.error || 'Erro ao enviar mensagem.');
+   }
+   setSuccess(true);
+   setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+ } catch (err) {
+   setError(err instanceof Error ? err.message : 'Erro ao enviar mensagem.');
+ } finally {
+   setSubmitting(false);
+ }
  };
 
  return (
@@ -212,11 +232,22 @@ export default function ContatoPage() {
  />
  </div>
 
+ {success && (
+ <div className="mb-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded-xl text-sm font-medium">
+ Mensagem enviada com sucesso! Entraremos em contato em breve.
+ </div>
+ )}
+ {error && (
+ <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-xl text-sm font-medium">
+ {error}
+ </div>
+ )}
  <button
  type="submit"
- className="w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 gradient-theme-cta text-white rounded-xl font-semibold transition-all shadow-lg shadow-theme-primary hover:shadow-xl hover:shadow-theme-glow duration-300"
+ disabled={submitting}
+ className="w-full inline-flex items-center justify-center gap-2.5 px-8 py-4 gradient-theme-cta text-white rounded-xl font-semibold transition-all shadow-lg shadow-theme-primary hover:shadow-xl hover:shadow-theme-glow duration-300 disabled:opacity-50"
  >
- Enviar Mensagem
+ {submitting ? 'Enviando...' : 'Enviar Mensagem'}
  <Send size={18} />
  </button>
  </form>

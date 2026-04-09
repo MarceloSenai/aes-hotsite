@@ -16,11 +16,6 @@ import {
 
 /* ─── Types ───────────────────────────────────────────── */
 
-interface StepProps {
-  onNext: () => void;
-  onBack?: () => void;
-}
-
 const STEP_LABELS = ['Núcleo', 'Datas', 'Acomodação', 'Confirmar'];
 
 /* ─── Nova Reserva Page ───────────────────────────────── */
@@ -61,7 +56,7 @@ export default function NovaReservaPage() {
 
   useEffect(() => {
     if (step === 2 && checkIn && checkOut) {
-      checkAvailability();
+      checkAvailability(); // eslint-disable-line react-hooks/set-state-in-effect -- async data fetch
     }
   }, [step, checkAvailability, checkIn, checkOut]);
 

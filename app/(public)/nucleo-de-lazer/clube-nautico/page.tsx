@@ -91,7 +91,7 @@ export default function ClubeNauticoPage() {
  const [videos, setVideos] = useState<{id:string; titulo:string; youtube_url:string}[]>([]);
 
  useEffect(() => {
-  nucleoVideosService.getAll('clube-nautico').then((d: any) => setVideos(d as {id:string; titulo:string; youtube_url:string}[]));
+  nucleoVideosService.getAll('clube-nautico').then((d) => setVideos(d as {id:string; titulo:string; youtube_url:string}[]));
  }, []);
 
  return (

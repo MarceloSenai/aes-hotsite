@@ -88,16 +88,15 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
   const [settings, setSettings] = useState<AccessibilitySettings>(DEFAULT_SETTINGS);
   const [mounted, setMounted] = useState(false);
 
-  // Load saved settings
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved) as Partial<AccessibilitySettings>;
-        setSettings((prev) => ({ ...prev, ...parsed }));
+        setSettings((prev) => ({ ...prev, ...parsed })); // eslint-disable-line react-hooks/set-state-in-effect -- localStorage hydration
       }
     } catch { /* ignore */ }
-    setMounted(true);
+    setMounted(true); // eslint-disable-line react-hooks/set-state-in-effect
   }, []);
 
   // Persist settings

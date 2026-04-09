@@ -151,16 +151,16 @@ export default function Features() {
                     {/* Gradient overlay on hover */}
                     <div
                       className={`absolute inset-0 ${service.gradient ? `bg-gradient-to-br ${service.gradient}` : ''} opacity-0 group-hover:opacity-[0.04] dark:group-hover:opacity-[0.08] transition-opacity duration-300`}
-                      {...('gradientStyle' in service ? { style: (service as Record<string, any>).gradientStyle } : {})}
+                      {...('gradientStyle' in service ? { style: (service as Record<string, React.CSSProperties>).gradientStyle } : {})}
                     />
 
                     {/* Icon */}
                     <div className="relative mb-5">
                       <div
                         className={`w-14 h-14 ${service.bgIcon} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
-                        {...('bgIconStyle' in service ? { style: (service as Record<string, any>).bgIconStyle } : {})}
+                        {...('bgIconStyle' in service ? { style: (service as Record<string, React.CSSProperties>).bgIconStyle } : {})}
                       >
-                        <Icon className={service.textIcon} size={28} {...('textIconStyle' in service ? { style: (service as Record<string, any>).textIconStyle } : {})} />
+                        <Icon className={service.textIcon} size={28} {...('textIconStyle' in service ? { style: (service as Record<string, React.CSSProperties>).textIconStyle } : {})} />
                       </div>
                     </div>
 

@@ -122,7 +122,7 @@ export default function AssistenciaMedicaPage() {
  useEffect(() => {
   const load = async () => {
    const data = await planosSaudeService.getAll('medico');
-   setPlanos((data as any[]).map((row: any) => mapPlanoSaude(row as Record<string, unknown>)));
+   setPlanos((data as Record<string, unknown>[]).map((row) => mapPlanoSaude(row)));
   };
   load();
  }, []);

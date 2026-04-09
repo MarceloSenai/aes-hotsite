@@ -48,23 +48,17 @@ function getInitials(nome: string): string {
 export default function AssociadoLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [session, setSession] = useState<Associado | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [session] = useState<Associado | null>(() => getSession());
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const s = getSession();
-    if (!s) {
-      router.replace('/login');
-      return;
-    }
-    setSession(s);
-    setLoading(false);
-  }, [router]);
+    if (!session) router.replace('/login');
+  }, [session, router]);
 
   // Close sidebar on navigation
   useEffect(() => {
-    setSidebarOpen(false);
+    if (sidebarOpen) setSidebarOpen(false); // eslint-disable-line react-hooks/set-state-in-effect -- intentional reset on route change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   const handleLogout = useCallback(async () => {
@@ -72,7 +66,7 @@ export default function AssociadoLayout({ children }: { children: React.ReactNod
     router.replace('/login');
   }, [router]);
 
-  if (loading || !session) {
+  if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
         <div className="flex flex-col items-center gap-3">

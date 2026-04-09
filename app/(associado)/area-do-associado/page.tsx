@@ -27,20 +27,17 @@ function getNucleoNome(nucleoId: string): string {
 /* ─── Dashboard Page ──────────────────────────────────── */
 
 export default function DashboardPage() {
-  const [session, setSession] = useState<Associado | null>(null);
+  const [session] = useState<Associado | null>(() => getSession());
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const s = getSession();
-    if (!s) return;
-    setSession(s);
-
-    getReservasDoAssociado(s.id).then((data) => {
+    if (!session) return;
+    getReservasDoAssociado(session.id).then((data) => {
       setReservas(data);
       setLoading(false);
     });
-  }, []);
+  }, [session]);
 
   const totalReservas = reservas.length;
   const reservasAtivas = reservas.filter((r) => r.status === 'confirmada' || r.status === 'pendente').length;

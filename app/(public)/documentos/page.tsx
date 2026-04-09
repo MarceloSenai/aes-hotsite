@@ -69,9 +69,9 @@ export default function DocumentosPage() {
     const load = async () => {
       try {
         const data = await documentosService.getAll();
-        const mapped: DocumentoArquivo[] = (data as any[]).map((row: any) => ({
+        const mapped = (data as DocumentoArquivo[]).map((row) => ({
           ...row,
-          fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path) : undefined,
+          fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path as string) : undefined,
         }));
         setDocumentos(mapped);
       } catch (error) {

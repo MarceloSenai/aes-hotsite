@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CalendarDays, Users, MapPin, X, Star, Loader2,
-  AlertCircle, CheckCircle, Clock, XCircle, Filter, Info,
+  CheckCircle, Clock, XCircle, Filter, Info,
 } from 'lucide-react';
 import { getSession } from '@/lib/services/auth-service';
 import {
@@ -208,7 +208,7 @@ export default function ReservasPage() {
   }, []);
 
   useEffect(() => {
-    loadReservas();
+    loadReservas(); // eslint-disable-line react-hooks/set-state-in-effect -- async data fetch
   }, [loadReservas]);
 
   const handleCancel = useCallback(async (reservaId: string) => {
