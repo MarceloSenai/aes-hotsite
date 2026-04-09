@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
 import { eventosService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 interface Evento {
   id: string;
@@ -23,20 +24,23 @@ const MESES_ORDEM = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
 export default function CalendarioPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await eventosService.getAll();
-        setEventos((data as unknown as Evento[]).filter((e) => e.enabled));
-      } catch (error) {
-        console.error('Failed to load eventos:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  const load = async () => {
+    setError(false);
+    setLoading(true);
+    try {
+      const data = await eventosService.getAll();
+      setEventos((data as unknown as Evento[]).filter((e) => e.enabled));
+    } catch (err) {
+      console.error('Failed to load eventos:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const eventosPorMes = useMemo(() => {
     const mapa: Record<string, Evento[]> = {};
@@ -73,7 +77,7 @@ export default function CalendarioPage() {
           </p>
         </motion.div>
 
-        {loading ? <SkeletonGrid count={6} /> : (<div className="space-y-6">
+        {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : eventosPorMes.length === 0 ? <EmptyState message="Nenhum evento no calendário." /> : (<div className="space-y-6">
           {eventosPorMes.map((item, idx) => (
             <motion.div
               key={item.mes}

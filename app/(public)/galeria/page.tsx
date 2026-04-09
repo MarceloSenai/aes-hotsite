@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { galeriaService, getPublicUrl } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState } from '@/components/ui/DataState';
 
 interface GaleriaFoto {
   id: string;
@@ -61,26 +62,29 @@ const cardVariants = {
 export default function GaleriaPage() {
   const [photos, setPhotos] = useState<GaleriaFoto[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [activeCategory, setActiveCategory] = useState('todos');
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await galeriaService.getAll();
-        const mapped = (data as GaleriaFoto[]).map((row) => ({
-          ...row,
-          imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path as string) : undefined,
-        }));
-        setPhotos(mapped);
-      } catch (error) {
-        console.error('Failed to load galeria:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  const load = async () => {
+    setError(false);
+    setLoading(true);
+    try {
+      const data = await galeriaService.getAll();
+      const mapped = (data as GaleriaFoto[]).map((row) => ({
+        ...row,
+        imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path as string) : undefined,
+      }));
+      setPhotos(mapped);
+    } catch (err) {
+      console.error('Failed to load galeria:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Build categories from config data
   const categorySet = Array.from(new Set(photos.map((p) => p.categoria)));
@@ -175,7 +179,7 @@ export default function GaleriaPage() {
       {/* Photo Grid */}
       <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? <SkeletonGrid count={6} /> : (<>
+          {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : (<>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory}

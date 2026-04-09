@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Users, Mail, Building, MapPin, Crown, Eye, Gavel, Briefcase } from 'lucide-react';
 import { representantesService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 type CategoriaRepresentante = 'conselho-deliberativo' | 'conselho-fiscal' | 'diretoria-executiva' | 'diretores-departamentos' | 'representantes-regionais';
 
@@ -30,20 +31,23 @@ const CATEGORIAS: { key: CategoriaRepresentante; label: string; icon: React.Elem
 export default function RepresentantesPage() {
   const [reps, setReps] = useState<Representante[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await representantesService.getAll();
-        setReps(data as unknown as Representante[]);
-      } catch (error) {
-        console.error('Failed to load representantes:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  const load = async () => {
+    setError(false);
+    setLoading(true);
+    try {
+      const data = await representantesService.getAll();
+      setReps(data as unknown as Representante[]);
+    } catch (err) {
+      console.error('Failed to load representantes:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const grouped = useMemo(() => {
     const map: Record<string, Representante[]> = {};
@@ -76,7 +80,7 @@ export default function RepresentantesPage() {
       {/* Categories */}
       <section className="py-16 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          {loading ? <SkeletonGrid count={6} /> : CATEGORIAS.map((cat, catIdx) => {
+          {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : reps.length === 0 ? <EmptyState message="Nenhum representante cadastrado." /> : CATEGORIAS.map((cat, catIdx) => {
             const membros = grouped[cat.key] || [];
             const Icon = cat.icon;
             if (membros.length === 0) return null;

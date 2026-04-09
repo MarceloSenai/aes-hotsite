@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Smile, CheckCircle2, XCircle, DollarSign, Search, FileText, List } from 'lucide-react';
 import { planosSaudeService } from '@/lib/services/data-service';
+import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 interface PlanoFaixa {
   id: string;
@@ -39,14 +40,24 @@ function mapPlanoSaude(row: Record<string, unknown>): PlanoSaude {
 
 export default function AssistenciaOdontologicaPage() {
  const [planos, setPlanos] = useState<PlanoSaude[]>([]);
+ const [loading, setLoading] = useState(true);
+ const [error, setError] = useState(false);
 
- useEffect(() => {
-  const load = async () => {
+ const load = async () => {
+  setError(false);
+  setLoading(true);
+  try {
    const data = await planosSaudeService.getAll('odontologico');
    setPlanos((data as Record<string, unknown>[]).map((row) => mapPlanoSaude(row)));
-  };
-  load();
- }, []);
+  } catch (err) {
+   console.error('Failed to load planos odontologicos:', err);
+   setError(true);
+  } finally {
+   setLoading(false);
+  }
+ };
+
+ useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
  return (
  <section className="py-24 gradient-theme-page-light min-h-screen">
@@ -92,7 +103,8 @@ export default function AssistenciaOdontologicaPage() {
  </motion.div>
 
  {/* Plans */}
- <div className="space-y-8">
+ {loading ? null : error ? <ErrorState onRetry={load} /> : planos.length === 0 ? <EmptyState message="Nenhum plano disponível." /> : null}
+ {!loading && !error && planos.length > 0 && (<div className="space-y-8">
  {planos.map((plano, index) => (
  <motion.div
  key={plano.id}
@@ -168,7 +180,7 @@ export default function AssistenciaOdontologicaPage() {
  </div>
  </motion.div>
  ))}
- </div>
+ </div>)}
 
  {/* Quick Links */}
  <motion.div
@@ -198,19 +210,6 @@ export default function AssistenciaOdontologicaPage() {
  </div>
  </motion.div>
 
- {/* Empty state */}
- {planos.length === 0 && (
- <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- className="text-center py-16"
- >
- <Smile className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={48} />
- <p className="text-gray-500 dark:text-gray-400">
- Nenhum plano odontológico cadastrado no momento.
- </p>
- </motion.div>
- )}
  </div>
  </section>
  );

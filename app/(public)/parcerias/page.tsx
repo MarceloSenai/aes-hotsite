@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { parceriasService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState } from '@/components/ui/DataState';
 
 interface Parceria {
   id: string;
@@ -61,20 +62,23 @@ function getCategoryColor(categoria: string) {
 export default function ParceriasPage() {
   const [parcerias, setParcerias] = useState<Parceria[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await parceriasService.getAll();
-        setParcerias(data as unknown as Parceria[]);
-      } catch (error) {
-        console.error('Failed to load parcerias:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
+  const load = async () => {
+    setError(false);
+    setLoading(true);
+    try {
+      const data = await parceriasService.getAll();
+      setParcerias(data as unknown as Parceria[]);
+    } catch (err) {
+      console.error('Failed to load parcerias:', err);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
@@ -101,7 +105,7 @@ export default function ParceriasPage() {
         </motion.div>
 
         {/* Partners Grid */}
-        {loading ? <SkeletonGrid count={6} /> : parcerias.length > 0 ? (
+        {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : parcerias.length > 0 ? (
           <motion.div
             key={parcerias.length}
             variants={containerVariants}

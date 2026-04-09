@@ -23,6 +23,7 @@ import {
  TrendingUp,
 } from 'lucide-react';
 import { planosSaudeService } from '@/lib/services/data-service';
+import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 interface PlanoFaixa {
   id: string;
@@ -118,14 +119,24 @@ const itemVariants = {
 
 export default function AssistenciaMedicaPage() {
  const [planos, setPlanos] = useState<PlanoSaude[]>([]);
+ const [loading, setLoading] = useState(true);
+ const [error, setError] = useState(false);
 
- useEffect(() => {
-  const load = async () => {
+ const load = async () => {
+  setError(false);
+  setLoading(true);
+  try {
    const data = await planosSaudeService.getAll('medico');
    setPlanos((data as Record<string, unknown>[]).map((row) => mapPlanoSaude(row)));
-  };
-  load();
- }, []);
+  } catch (err) {
+   console.error('Failed to load planos medicos:', err);
+   setError(true);
+  } finally {
+   setLoading(false);
+  }
+ };
+
+ useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
  return (
  <section className="py-24 gradient-theme-page-light min-h-screen">
@@ -224,7 +235,8 @@ export default function AssistenciaMedicaPage() {
  </motion.div>
 
  {/* Plans from config */}
- {planos.length > 0 && (
+ {loading ? null : error ? <ErrorState onRetry={load} /> : planos.length === 0 ? <EmptyState message="Nenhum plano disponível." /> : null}
+ {!loading && !error && planos.length > 0 && (
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
