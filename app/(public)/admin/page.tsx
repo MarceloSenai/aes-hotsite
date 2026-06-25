@@ -18,7 +18,7 @@ import {
   galeriaService, documentosService, parceriasService, parceirosSeguroService,
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
   socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl,
-  nucleoVideosService,
+  nucleoVideosService, popupService,
 } from '@/lib/services/data-service';
 import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/services/reservas-service';
 import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/services/auth-service';
@@ -29,7 +29,8 @@ type SectionId =
   | 'themes' | 'carousel' | 'boletim' | 'parcerias'
   | 'eventos' | 'representantes' | 'planos' | 'seguros'
   | 'galeria' | 'documentos' | 'precos' | 'config'
-  | 'reservas' | 'associados' | 'acomodacoes' | 'videos';
+  | 'reservas' | 'associados' | 'acomodacoes' | 'videos'
+  | 'popup';
 
 interface NavCategory {
   label: string;
@@ -50,6 +51,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { id: 'carousel', label: 'Carrossel' },
       { id: 'boletim', label: 'Boletim' },
       { id: 'parcerias', label: 'Parcerias' },
+      { id: 'popup', label: 'Popup' },
     ],
   },
   {
@@ -398,6 +400,7 @@ export default function AdminPage() {
   const [acomodacoesData, setAcomodacoesData] = useState<Record<string, unknown>[]>([]);
   const [novoAssociadoSenha, setNovoAssociadoSenha] = useState('');
   const [videosData, setVideosData] = useState<Record<string, unknown>[]>([]);
+  const [popupData, setPopupData] = useState<Record<string, unknown>[]>([]);
   const [siteConfigData, setSiteConfigData] = useState<Record<string, string> | null>(null);
 
   // Loading states
@@ -567,6 +570,11 @@ export default function AdminPage() {
           setVideosData(vids as Record<string, unknown>[]);
           break;
         }
+        case 'popup': {
+          const popups = await popupService.getAll();
+          setPopupData(popups as unknown as Record<string, unknown>[]);
+          break;
+        }
       }
     } catch (err) {
       console.error(`Error loading ${section}:`, err);
@@ -598,6 +606,7 @@ export default function AdminPage() {
         case 'seguros': ok = !!(await parceirosSeguroService.remove(id)); break;
         case 'planos': ok = !!(await planosSaudeService.remove(id)); break;
         case 'videos': ok = !!(await nucleoVideosService.remove(id)); break;
+        case 'popup': ok = !!(await popupService.remove(id)); break;
         default: break;
       }
       if (ok) {
@@ -675,6 +684,25 @@ export default function AdminPage() {
             ? !!(await nucleoVideosService.create(rest))
             : !!(await nucleoVideosService.update(id as string, rest));
           break;
+        case 'popup': {
+          const payload = {
+            title: (rest.title as string) || null,
+            image_path: (rest.image_path as string) || '',
+            link_url: (rest.link_url as string) || null,
+            start_date: rest.start_date ? new Date(rest.start_date as string).toISOString() : null,
+            end_date: rest.end_date ? new Date(rest.end_date as string).toISOString() : null,
+            enabled: rest.enabled === undefined ? true : !!rest.enabled,
+            sort_order: Number(rest.sort_order) || 0,
+          };
+          if (!payload.image_path) {
+            showToast('Envie uma imagem para o popup');
+            return;
+          }
+          ok = isNew
+            ? !!(await popupService.create(payload))
+            : !!(await popupService.update(id as string, payload));
+          break;
+        }
         case 'associados': {
           if (isNew) {
             const senha = novoAssociadoSenha || 'aes2026';
@@ -1318,6 +1346,74 @@ export default function AdminPage() {
                           ))}
                           {galeriaData.length === 0 && (
                             <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhuma foto cadastrada</td></tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ POPUP SECTION ═══ */}
+              {activeSection === 'popup' && (
+                <div>
+                  <SectionHeader
+                    title="Popup do Site"
+                    addLabel="Novo Popup"
+                    onAdd={() => openEditModal('popup', {
+                      title: '', image_path: '', link_url: '', start_date: '', end_date: '', enabled: true, sort_order: 0,
+                    })}
+                  />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Imagem exibida em modal na primeira visita ao site, dentro do período configurado. Cada visitante vê apenas uma vez.
+                  </p>
+                  {loading.popup ? <TableSkeleton cols={4} /> : (
+                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Imagem</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Título</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Período</th>
+                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Status</th>
+                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {popupData.map((pop) => (
+                            <tr key={pop.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                              <td className="px-4 py-3">
+                                {pop.image_path ? (
+                                  <img src={pop.image_path as string} alt={(pop.title as string) || ''} className="w-12 h-12 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
+                                ) : (
+                                  <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 border border-dashed border-gray-300 flex items-center justify-center">
+                                    <ImageIcon size={16} className="text-gray-300" />
+                                  </div>
+                                )}
+                              </td>
+                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{(pop.title as string) || <span className="text-gray-400">(sem título)</span>}</td>
+                              <td className="px-4 py-3 text-gray-600 dark:text-gray-400 text-xs">
+                                {pop.start_date ? new Date(pop.start_date as string).toLocaleDateString('pt-BR') : '—'}
+                                {' até '}
+                                {pop.end_date ? new Date(pop.end_date as string).toLocaleDateString('pt-BR') : '—'}
+                              </td>
+                              <td className="px-4 py-3">
+                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${pop.enabled ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                                  {pop.enabled ? 'Ativo' : 'Inativo'}
+                                </span>
+                              </td>
+                              <td className="px-4 py-3 text-right">
+                                <button onClick={() => openEditModal('popup', pop)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                  <Edit3 size={14} />
+                                </button>
+                                <button onClick={() => handleDelete('popup', pop.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                  <Trash2 size={14} />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                          {popupData.length === 0 && (
+                            <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum popup cadastrado</td></tr>
                           )}
                         </tbody>
                       </table>
@@ -2122,6 +2218,35 @@ export default function AdminPage() {
                     onUploaded={(url) => updateEditingField('image_path', url)}
                   />
                 </div>
+              </>
+            )}
+
+            {/* POPUP MODAL */}
+            {editModalSection === 'popup' && (
+              <>
+                <Field label="Título (uso interno, opcional)" value={(editingItem.title as string) || ''} onChange={(v) => updateEditingField('title', v)} placeholder="Ex: Campanha de filiação" />
+                <div>
+                  <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-2">Imagem do Popup <span className="text-red-500">*</span></label>
+                  {!!editingItem.image_path && (
+                    <div className="mb-2">
+                      <img src={editingItem.image_path as string} alt="" className="max-w-full max-h-48 rounded-lg object-contain border border-gray-200 dark:border-gray-700" />
+                    </div>
+                  )}
+                  <FileUpload
+                    bucket="aes-galeria"
+                    accept="image/*"
+                    label="Arraste a imagem aqui (JPG, PNG, WebP)"
+                    onUploaded={(url) => updateEditingField('image_path', url)}
+                  />
+                </div>
+                <Field label="Link ao clicar (opcional)" value={(editingItem.link_url as string) || ''} onChange={(v) => updateEditingField('link_url', v)} type="url" placeholder="https://..." />
+                <div className="grid grid-cols-2 gap-3">
+                  <Field label="Aparece a partir de" value={((editingItem.start_date as string) || '').slice(0, 10)} onChange={(v) => updateEditingField('start_date', v)} type="date" />
+                  <Field label="Aparece até" value={((editingItem.end_date as string) || '').slice(0, 10)} onChange={(v) => updateEditingField('end_date', v)} type="date" />
+                </div>
+                <p className="text-xs text-gray-400 dark:text-gray-500">Deixe as datas em branco para sem limite. A data final é inclusiva (o popup aparece durante todo o dia).</p>
+                <Field label="Ordem de exibição" value={(editingItem.sort_order as number) ?? 0} onChange={(v) => updateEditingField('sort_order', v)} type="number" />
+                <Field label="Ativo" value={editingItem.enabled === undefined ? true : !!editingItem.enabled} onChange={(v) => updateEditingField('enabled', v === 'true')} type="checkbox" />
               </>
             )}
 

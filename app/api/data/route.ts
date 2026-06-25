@@ -21,6 +21,7 @@ const TABLE_MODEL_MAP: Record<string, ModelName> = {
   nucleo_pricing: 'nucleoPricing',
   nucleo_precos: 'nucleoPreco',
   nucleo_videos: 'nucleoVideo',
+  popup_modals: 'popupModal',
 }
 
 const INCLUDE_MAP: Record<string, Record<string, boolean>> = {

@@ -277,3 +277,62 @@ export const planoFaixasService = {
   update: (id: string, row: Record<string, unknown>) => update('plano_faixas', id, row),
   remove: (id: string) => remove('plano_faixas', id),
 };
+
+// Popup Modal — usa o endpoint completo de CRUD (/api/data com {table, data})
+export interface PopupRow {
+  id: string;
+  title: string | null;
+  image_path: string;
+  link_url: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  enabled: boolean;
+  sort_order: number;
+  created_at: string;
+}
+
+export const popupService = {
+  getAll: async (): Promise<PopupRow[]> => {
+    try {
+      return await fetchJson<PopupRow[]>('/api/data?table=popup_modals&orderBy=sort_order');
+    } catch (error) {
+      console.error('popup_modals:', error);
+      return [];
+    }
+  },
+  create: async (row: Record<string, unknown>): Promise<PopupRow | null> => {
+    try {
+      return await postJson<PopupRow>('/api/data', { table: 'popup_modals', data: row });
+    } catch (error) {
+      console.error('create popup_modals:', error);
+      return null;
+    }
+  },
+  update: async (id: string, row: Record<string, unknown>): Promise<PopupRow | null> => {
+    try {
+      const res = await fetch('/api/data', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'popup_modals', id, data: row }),
+      });
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
+      return res.json();
+    } catch (error) {
+      console.error('update popup_modals:', error);
+      return null;
+    }
+  },
+  remove: async (id: string): Promise<boolean> => {
+    try {
+      const res = await fetch('/api/data', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'popup_modals', id }),
+      });
+      return res.ok;
+    } catch (error) {
+      console.error('delete popup_modals:', error);
+      return false;
+    }
+  },
+};

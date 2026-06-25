@@ -7,6 +7,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import AccessibilityPanel from '@/components/layout/AccessibilityPanel';
 import A11yFilters from '@/components/layout/A11yFilters';
+import PopupModal from '@/components/PopupModal';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -71,6 +72,7 @@ if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('
             <Header />
             <main id="main-content" className="min-h-screen">{children}</main>
             <Footer />
+            <PopupModal />
             <AccessibilityPanel />
           </ThemeProvider>
         </AccessibilityProvider>

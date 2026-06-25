@@ -171,6 +171,20 @@ model Documento {
   @@map("documentos")
 }
 
+model PopupModal {
+  id         String    @id @default(cuid())
+  title      String?
+  image_path String    @db.NVarChar(Max)
+  link_url   String?   @db.NVarChar(Max)
+  start_date DateTime?
+  end_date   DateTime?
+  enabled    Boolean   @default(true)
+  sort_order Int       @default(0)
+  created_at DateTime  @default(now())
+
+  @@map("popup_modals")
+}
+
 model Parceria {
   id         String  @id @default(cuid())
   nome       String
