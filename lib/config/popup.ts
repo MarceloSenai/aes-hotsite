@@ -24,10 +24,10 @@ export interface PopupConfig {
 }
 
 export const POPUP_CONFIG: PopupConfig = {
-  enabled: false,
-  image: '', // ex: '/popup/aviso.jpg' ou 'https://.../imagem.jpg'
+  enabled: true,
+  image: '/popup/festival-de-inverno.jpeg',
   link: '',
-  startDate: '',
-  endDate: '',
-  version: '1',
+  startDate: '', // sem limite inicial — aparece imediatamente
+  endDate: '2026-07-15', // fim das inscrições do Festival de Inverno
+  version: 'festival-inverno-2026',
 };
