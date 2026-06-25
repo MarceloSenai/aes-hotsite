@@ -19,6 +19,7 @@ interface NavChild {
   label: string;
   icon?: React.ElementType;
   desc?: string;
+  external?: boolean;
 }
 
 interface NavItem {
@@ -35,6 +36,7 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Institucional',
     children: [
       { href: '/sobre/quem-somos', label: 'Quem Somos', icon: Info, desc: 'Nossa história e missão' },
+      { href: '/historia/index.html', label: 'Museu AES', icon: Landmark, desc: 'Conheça a nossa história', external: true },
       { href: '/sobre/administracao', label: 'Administração', icon: Building2, desc: 'Corpo administrativo' },
       { href: '/representantes', label: 'Representantes', icon: Users, desc: 'Conselhos e diretoria' },
       { href: '/associados', label: 'Associados', icon: UserCircle, desc: 'Benefícios e como associar' },
@@ -111,13 +113,9 @@ function MegaDropdown({ item, isOpen, onOpen, onClose }: {
             <div role="menu" className="min-w-[280px] rounded-xl bg-white dark:bg-gray-800 shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 overflow-hidden p-2">
               {item.children.map((child) => {
                 const Icon = child.icon;
-                return (
-                  <Link
-                    key={child.href}
-                    href={child.href}
-                    onClick={onClose}
-                    className="group flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                  >
+                const cls = "group flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors";
+                const inner = (
+                  <>
                     {Icon && (
                       <div className="mt-0.5 w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors"
                         style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, transparent)' }}>
@@ -130,6 +128,15 @@ function MegaDropdown({ item, isOpen, onOpen, onClose }: {
                         <span className="block text-xs text-gray-400 dark:text-gray-500 mt-0.5">{child.desc}</span>
                       )}
                     </div>
+                  </>
+                );
+                return child.external ? (
+                  <a key={child.href} href={child.href} target="_blank" rel="noopener noreferrer" onClick={onClose} className={cls}>
+                    {inner}
+                  </a>
+                ) : (
+                  <Link key={child.href} href={child.href} onClick={onClose} className={cls}>
+                    {inner}
                   </Link>
                 );
               })}
@@ -175,12 +182,12 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
             <div className="pl-3 pb-1 space-y-0.5">
               {item.children.map((child) => {
                 const Icon = child.icon;
-                return (
-                  <Link key={child.href} href={child.href} onClick={onNavigate}
-                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                    {Icon && <Icon size={15} style={{ color: 'var(--color-primary)' }} />}
-                    <span>{child.label}</span>
-                  </Link>
+                const cls = "flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors";
+                const inner = (<>{Icon && <Icon size={15} style={{ color: 'var(--color-primary)' }} />}<span>{child.label}</span></>);
+                return child.external ? (
+                  <a key={child.href} href={child.href} target="_blank" rel="noopener noreferrer" onClick={onNavigate} className={cls}>{inner}</a>
+                ) : (
+                  <Link key={child.href} href={child.href} onClick={onNavigate} className={cls}>{inner}</Link>
                 );
               })}
             </div>
