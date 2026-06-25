@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { CONTACT } from '@/lib/config/contact';
 import {
   Mail,
-  Phone,
   MapPin,
   Clock,
   MessageCircle,
@@ -54,8 +54,7 @@ export default function Footer() {
               Associação dos Empregados do SENAI
             </p>
             <p className="text-gray-400 text-sm leading-relaxed mb-4">
-              Promovendo o bem-estar, a qualidade de vida e os direitos dos
-              empregados do SENAI-SP e seus dependentes.
+              {CONTACT.tagline}
             </p>
             <span
               className="inline-flex items-center gap-1.5 px-3 py-1 border rounded-full text-xs font-semibold tracking-wide mb-5"
@@ -132,14 +131,12 @@ export default function Footer() {
           {/* Column 4: Contato */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-5">Contato</h3>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-center gap-2.5 text-gray-400">
-                <Phone size={16} className="text-theme-primary shrink-0" />
-                <a href="tel:+551133679900" className="hover:text-white transition-colors">(11) 3367-9900</a>
-              </li>
+
+            <p className="text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2.5">Administração Central</p>
+            <ul className="space-y-3 text-sm mb-5">
               <li className="flex items-center gap-2.5 text-gray-400">
                 <MessageCircle size={16} className="text-theme-primary shrink-0" />
-                <a href="https://wa.me/551133679900" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">WhatsApp</a>
+                <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">WhatsApp {CONTACT.whatsapp}</a>
               </li>
               <li className="flex items-start gap-2.5 text-gray-400">
                 <MapPin size={16} className="text-theme-primary shrink-0 mt-0.5" />
@@ -151,15 +148,43 @@ export default function Footer() {
               </li>
             </ul>
 
-            <h4 className="text-sm font-semibold text-white mt-5 mb-2.5">E-mails por Setor</h4>
-            <ul className="space-y-1.5 text-xs">
-              <li className="text-gray-400"><span className="text-gray-500">Gerente:</span>{' '}<a href="mailto:gerente@aessenai.org.br" className="hover:text-white transition-colors">gerente@aessenai.org.br</a></li>
-              <li className="text-gray-400"><span className="text-gray-500">Cadastro / Odonto / TotalPass:</span>{' '}<a href="mailto:cadastro@aessenai.org.br" className="hover:text-white transition-colors">cadastro@aessenai.org.br</a></li>
-              <li className="text-gray-400"><span className="text-gray-500">Planos de Saúde:</span>{' '}<a href="mailto:rh@aessenai.org.br" className="hover:text-white transition-colors">rh@aessenai.org.br</a></li>
-              <li className="text-gray-400"><span className="text-gray-500">Boletos e Cobranças:</span>{' '}<a href="mailto:cobranca@aessenai.org.br" className="hover:text-white transition-colors">cobranca@aessenai.org.br</a></li>
-              <li className="text-gray-400"><span className="text-gray-500">Contas a Receber:</span>{' '}<a href="mailto:boletim.aes@aessenai.org.br" className="hover:text-white transition-colors">boletim.aes@aessenai.org.br</a></li>
-              <li className="text-gray-400"><span className="text-gray-500">Contas a Pagar:</span>{' '}<a href="mailto:financeiro@aessenai.org.br" className="hover:text-white transition-colors">financeiro@aessenai.org.br</a></li>
+            <p className="text-xs font-semibold text-gray-300 uppercase tracking-wide mb-2.5">Contato Núcleos</p>
+            <ul className="space-y-2.5 text-sm">
+              {CONTACT.nucleos.map((nucleo) => (
+                <li key={nucleo.label} className="flex items-start gap-2.5 text-gray-400">
+                  <MessageCircle size={16} className="text-theme-primary shrink-0 mt-0.5" />
+                  <span className="leading-relaxed">
+                    <span className="text-gray-300">{nucleo.label}:</span>{' '}
+                    <a href={nucleo.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                      {nucleo.whatsapp.join(' / ')}
+                    </a>
+                  </span>
+                </li>
+              ))}
             </ul>
+          </div>
+        </div>
+
+        {/* E-mails por unidade */}
+        <div className="border-t border-gray-800 pt-10 mb-12">
+          <h3 className="text-lg font-semibold text-white mb-6">E-mails</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {CONTACT.emailGroups.map((group) => (
+              <div key={group.title}>
+                <h4 className="text-sm font-semibold text-white mb-2.5 flex items-center gap-2">
+                  <Mail size={14} className="text-theme-primary shrink-0" />
+                  {group.title}
+                </h4>
+                <ul className="space-y-2 text-xs">
+                  {group.emails.map((item) => (
+                    <li key={item.role + item.address} className="text-gray-400 leading-relaxed">
+                      <span className="text-gray-500 block">{item.role}</span>
+                      <a href={`mailto:${item.address}`} className="hover:text-white transition-colors break-all">{item.address}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
