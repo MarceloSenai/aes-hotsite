@@ -14,6 +14,7 @@ const ORDER_BY_MAP: Record<string, Record<string, 'asc' | 'desc'>> = {
   documentos: { created_at: 'asc' },
   parcerias: { sort_order: 'asc' },
   nucleo_videos: { sort_order: 'asc' },
+  popup_modals: { sort_order: 'asc' },
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,6 +33,7 @@ function getModel(table: string): any {
     case 'parceiros_seguro': return prisma.parceiroSeguro
     case 'farmacia': return prisma.farmacia
     case 'nucleo_videos': return prisma.nucleoVideo
+    case 'popup_modals': return prisma.popupModal
     default: return null
   }
 }
@@ -75,6 +77,74 @@ export async function GET(
     return NextResponse.json(data)
   } catch (error) {
     console.error(`GET /api/data/${table}:`, error)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
+}
+
+// Cria (ou faz upsert quando vem `id`, ex.: singletons site_config/farmacia)
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ table: string }> }
+) {
+  const { table } = await params
+  const model = getModel(table)
+  if (!model) {
+    return NextResponse.json({ error: `Unknown table: ${table}` }, { status: 404 })
+  }
+  try {
+    const data = await request.json()
+    let result
+    if (data && data.id) {
+      result = await model.upsert({ where: { id: data.id }, update: data, create: data })
+    } else {
+      result = await model.create({ data })
+    }
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error(`POST /api/data/${table}:`, error)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
+}
+
+// Atualiza por id (body: { id, ...campos })
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ table: string }> }
+) {
+  const { table } = await params
+  const model = getModel(table)
+  if (!model) {
+    return NextResponse.json({ error: `Unknown table: ${table}` }, { status: 404 })
+  }
+  try {
+    const body = await request.json()
+    const { id, ...data } = body
+    if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
+    const result = await model.update({ where: { id }, data })
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error(`PATCH /api/data/${table}:`, error)
+    return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+  }
+}
+
+// Remove por id (body: { id })
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ table: string }> }
+) {
+  const { table } = await params
+  const model = getModel(table)
+  if (!model) {
+    return NextResponse.json({ error: `Unknown table: ${table}` }, { status: 404 })
+  }
+  try {
+    const { id } = await request.json()
+    if (!id) return NextResponse.json({ error: 'id required' }, { status: 400 })
+    await model.delete({ where: { id } })
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error(`DELETE /api/data/${table}:`, error)
     return NextResponse.json({ error: 'Internal error' }, { status: 500 })
   }
 }

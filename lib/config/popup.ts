@@ -24,10 +24,11 @@ export interface PopupConfig {
 }
 
 export const POPUP_CONFIG: PopupConfig = {
-  enabled: true,
+  // Desativado: o popup agora é gerenciado pelo /admin (banco de dados).
+  enabled: false,
   image: '/popup/festival-de-inverno.jpeg',
   link: '',
-  startDate: '', // sem limite inicial — aparece imediatamente
-  endDate: '2026-07-15', // fim das inscrições do Festival de Inverno
+  startDate: '',
+  endDate: '2026-07-15',
   version: 'festival-inverno-2026',
 };
