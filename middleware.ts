@@ -13,7 +13,8 @@ const PROTECTED_API_PREFIXES = [
 ]
 
 // Routes that require auth — pages redirect to /login
-const PROTECTED_PAGE_PREFIXES = ['/area-do-associado', '/admin']
+// NOTE: /admin foi liberado sem login a pedido (acesso aberto ao painel de configuração).
+const PROTECTED_PAGE_PREFIXES = ['/area-do-associado']
 
 // Methods that require CSRF validation
 const CSRF_METHODS = new Set(['POST', 'PATCH', 'DELETE', 'PUT'])
@@ -92,6 +93,5 @@ export const config = {
     '/api/admin/:path*',
     '/api/data/:path*',
     '/area-do-associado/:path*',
-    '/admin',
   ],
 }
