@@ -20,6 +20,9 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
   },
+  verification: {
+    google: 'nogtkCfaXjV8YDh_YoJVvKQHI2kIRo0sDPSJOKjfM2Y',
+  },
   openGraph: {
     title: 'AES - Associação dos Empregados do SENAI',
     description: 'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.',
