@@ -3,44 +3,72 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
-import { popupService, type PopupRow } from '@/lib/services/data-service';
+import { popupService } from '@/lib/services/data-service';
+import { POPUP_CONFIG } from '@/lib/config/popup';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
-/** Retorna true se "agora" está dentro do período configurado (datas opcionais). */
-function isWithinPeriod(popup: PopupRow, now: number): boolean {
-  if (popup.start_date) {
-    const start = new Date(popup.start_date).getTime();
+interface Candidate {
+  id: string;
+  image: string;
+  link: string | null;
+  start: string | null;
+  end: string | null;
+}
+
+/** Retorna true se "agora" está dentro do período (datas opcionais; fim inclusivo). */
+function isWithinPeriod(c: Candidate, now: number): boolean {
+  if (c.start) {
+    const start = new Date(c.start).getTime();
     if (!Number.isNaN(start) && now < start) return false;
   }
-  if (popup.end_date) {
-    // end_date é inclusivo do dia inteiro
-    const end = new Date(popup.end_date).getTime() + DAY_MS;
+  if (c.end) {
+    const end = new Date(c.end).getTime() + DAY_MS;
     if (!Number.isNaN(end) && now > end) return false;
   }
   return true;
 }
 
 export default function PopupModal() {
-  const [popup, setPopup] = useState<PopupRow | null>(null);
+  const [popup, setPopup] = useState<Candidate | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
-      const all = await popupService.getAll();
-      if (cancelled || !all.length) return;
+      // 1) Tenta os popups cadastrados no admin (banco). Têm prioridade.
+      const rows = await popupService.getAll();
+      let candidates: Candidate[] = rows
+        .filter((p) => p.enabled && p.image_path)
+        .map((p) => ({
+          id: p.id,
+          image: p.image_path,
+          link: p.link_url,
+          start: p.start_date,
+          end: p.end_date,
+        }));
+
+      // 2) Fallback: configuração no código (modo sem banco).
+      if (candidates.length === 0 && POPUP_CONFIG.enabled && POPUP_CONFIG.image) {
+        candidates = [
+          {
+            id: `config-${POPUP_CONFIG.version}`,
+            image: POPUP_CONFIG.image,
+            link: POPUP_CONFIG.link || null,
+            start: POPUP_CONFIG.startDate || null,
+            end: POPUP_CONFIG.endDate || null,
+          },
+        ];
+      }
+
+      if (cancelled) return;
 
       const now = Date.now();
-      const candidate = all.find(
-        (p) =>
-          p.enabled &&
-          p.image_path &&
-          isWithinPeriod(p, now) &&
-          !localStorage.getItem(`aes-popup-seen-${p.id}`)
+      const chosen = candidates.find(
+        (c) => isWithinPeriod(c, now) && !localStorage.getItem(`aes-popup-seen-${c.id}`)
       );
 
-      if (candidate) setPopup(candidate);
+      if (chosen) setPopup(chosen);
     })();
 
     return () => {
@@ -70,7 +98,7 @@ export default function PopupModal() {
           onClick={handleClose}
           role="dialog"
           aria-modal="true"
-          aria-label={popup.title || 'Aviso'}
+          aria-label="Aviso"
         >
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -88,20 +116,20 @@ export default function PopupModal() {
               <X size={18} />
             </button>
 
-            {popup.link_url ? (
-              <a href={popup.link_url} target="_blank" rel="noopener noreferrer" onClick={handleClose}>
+            {popup.link ? (
+              <a href={popup.link} target="_blank" rel="noopener noreferrer" onClick={handleClose}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={popup.image_path}
-                  alt={popup.title || 'Aviso'}
+                  src={popup.image}
+                  alt="Aviso"
                   className="block w-full h-auto max-h-[90vh] rounded-xl shadow-2xl object-contain"
                 />
               </a>
             ) : (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={popup.image_path}
-                alt={popup.title || 'Aviso'}
+                src={popup.image}
+                alt="Aviso"
                 className="block w-full h-auto max-h-[90vh] rounded-xl shadow-2xl object-contain"
               />
             )}
