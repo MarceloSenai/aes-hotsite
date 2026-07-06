@@ -51,8 +51,7 @@ export const CONTACT = {
     {
       title: 'Clube Náutico',
       emails: [
-        // TODO: confirmar — pedido informou "gerentecolonia@" (igual ao da Colônia)
-        { role: 'Gerente', address: 'gerentecolonia@aessenai.org.br' },
+        { role: 'Gerente', address: 'gerentenautico@aessenai.org.br' },
         { role: 'Secretaria / Reservas', address: 'secretarianautico@aessenai.org.br' },
       ],
     },
