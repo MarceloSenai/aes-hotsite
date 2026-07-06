@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { History, TreePalm, Users, Scale } from 'lucide-react';
 import { type LucideIcon } from 'lucide-react';
+import { getSiteContentMap } from '@/lib/services/data-service';
 
 interface StatItemProps {
   label: string;
@@ -75,35 +76,58 @@ function StatCounter({ label, description, value, suffix, icon: Icon, delay }: S
   );
 }
 
+const DEFAULT_CONTENT = {
+  eyebrow: 'Nossos Números',
+  subtitle: 'Décadas de dedicação ao bem-estar e lazer dos associados e seus dependentes',
+  label1: 'Anos de História',
+  description1: 'Fundada em 1947, promovendo lazer e bem-estar',
+  label2: 'Núcleos de Lazer',
+  description2: 'Clube de Campo, Náutico Boracéia e Colônia Itanhaém',
+  label3: 'Membros na Administração',
+  description3: 'Conselho Deliberativo, Fiscal e Diretoria Executiva',
+  label4: 'Anos de Utilidade Pública',
+  description4: 'Reconhecida desde 1966 pelo poder público',
+};
+
 export default function Stats() {
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+
+  useEffect(() => {
+    getSiteContentMap('stats').then((saved) => {
+      if (Object.keys(saved).length > 0) {
+        setContent((prev) => ({ ...prev, ...saved }));
+      }
+    });
+  }, []);
+
   const stats: StatItemProps[] = [
     {
-      label: 'Anos de História',
-      description: 'Fundada em 1947, promovendo lazer e bem-estar',
+      label: content.label1,
+      description: content.description1,
       value: 78,
       suffix: '+',
       icon: History,
       delay: 0,
     },
     {
-      label: 'Núcleos de Lazer',
-      description: 'Clube de Campo, Náutico Boracéia e Colônia Itanhaém',
+      label: content.label2,
+      description: content.description2,
       value: 3,
       suffix: '',
       icon: TreePalm,
       delay: 0.1,
     },
     {
-      label: 'Membros na Administração',
-      description: 'Conselho Deliberativo, Fiscal e Diretoria Executiva',
+      label: content.label3,
+      description: content.description3,
       value: 18,
       suffix: '',
       icon: Users,
       delay: 0.2,
     },
     {
-      label: 'Anos de Utilidade Pública',
-      description: 'Reconhecida desde 1966 pelo poder público',
+      label: content.label4,
+      description: content.description4,
       value: 60,
       suffix: '+',
       icon: Scale,
@@ -129,7 +153,7 @@ export default function Stats() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 text-sm font-semibold rounded-full mb-4" style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-primary-dark)' }}>
-            Nossos Números
+            {content.eyebrow}
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             AES em{' '}
@@ -138,7 +162,7 @@ export default function Stats() {
             </span>
           </h2>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Décadas de dedicação ao bem-estar e lazer dos associados e seus dependentes
+            {content.subtitle}
           </p>
         </motion.div>
 

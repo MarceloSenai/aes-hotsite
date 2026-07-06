@@ -18,7 +18,7 @@ import {
   galeriaService, documentosService, parceriasService, parceirosSeguroService,
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
   socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl,
-  nucleoVideosService, popupService,
+  nucleoVideosService, popupService, siteContentService, SiteContentRow,
 } from '@/lib/services/data-service';
 import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/services/reservas-service';
 import { listarAssociados, criarAssociado, atualizarAssociado } from '@/lib/services/auth-service';
@@ -30,7 +30,7 @@ type SectionId =
   | 'eventos' | 'representantes' | 'planos' | 'seguros'
   | 'galeria' | 'documentos' | 'precos' | 'config'
   | 'reservas' | 'associados' | 'acomodacoes' | 'videos'
-  | 'popup';
+  | 'popup' | 'textos';
 
 interface NavCategory {
   label: string;
@@ -52,6 +52,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { id: 'boletim', label: 'Boletim' },
       { id: 'parcerias', label: 'Parcerias' },
       { id: 'popup', label: 'Popup' },
+      { id: 'textos', label: 'Textos do Site' },
     ],
   },
   {
@@ -345,6 +346,47 @@ function SectionHeader({
   );
 }
 
+// ─── Texto do Site (campo editável individual) ────────────────────
+
+function TextoField({
+  row,
+  onSave,
+}: {
+  row: SiteContentRow;
+  onSave: (id: string, value: string) => Promise<void>;
+}) {
+  const [value, setValue] = useState(row.value);
+  const [saving, setSaving] = useState(false);
+  const dirty = value !== row.value;
+
+  const handleSave = async () => {
+    setSaving(true);
+    await onSave(row.id, value);
+    setSaving(false);
+  };
+
+  return (
+    <div>
+      <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">{row.label}</label>
+      <div className="flex gap-2 items-start">
+        <textarea
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          rows={value.length > 80 ? 3 : 1}
+          className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleSave}
+          disabled={!dirty || saving}
+          className="px-3 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors shrink-0"
+        >
+          {saving ? <Loader2 size={14} className="animate-spin" /> : 'Salvar'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── Toast Notification ──────────────────────────────────────────
 
 function Toast({ message, visible }: { message: string; visible: boolean }) {
@@ -402,6 +444,7 @@ export default function AdminPage() {
   const [videosData, setVideosData] = useState<Record<string, unknown>[]>([]);
   const [popupData, setPopupData] = useState<Record<string, unknown>[]>([]);
   const [siteConfigData, setSiteConfigData] = useState<Record<string, string> | null>(null);
+  const [textosData, setTextosData] = useState<SiteContentRow[]>([]);
 
   // Loading states
   const [loading, setLoading] = useState<Record<string, boolean>>({});
@@ -575,6 +618,11 @@ export default function AdminPage() {
           setPopupData(popups as unknown as Record<string, unknown>[]);
           break;
         }
+        case 'textos': {
+          const textos = await siteContentService.getAll();
+          setTextosData(textos);
+          break;
+        }
       }
     } catch (err) {
       console.error(`Error loading ${section}:`, err);
@@ -588,6 +636,14 @@ export default function AdminPage() {
       loadSection(activeSection);
     }
   }, [activeSection, loadSection]);
+
+  const handleSaveTexto = async (id: string, value: string) => {
+    const updated = await siteContentService.update(id, { value });
+    if (updated) {
+      setTextosData((prev) => prev.map((t) => (t.id === id ? { ...t, value } : t)));
+      showToast('Texto salvo');
+    }
+  };
 
   // ─── Generic CRUD handlers ────────────────────────────────────
 
@@ -1417,6 +1473,44 @@ export default function AdminPage() {
                           )}
                         </tbody>
                       </table>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ TEXTOS DO SITE SECTION ═══ */}
+              {activeSection === 'textos' && (
+                <div>
+                  <SectionHeader title="Textos do Site" />
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    Edite títulos e descrições exibidos no site. Cada campo é salvo individualmente.
+                  </p>
+                  {loading.textos ? <TableSkeleton cols={2} /> : (
+                    <div className="space-y-8">
+                      {Object.entries(
+                        textosData.reduce((acc, t) => {
+                          (acc[t.section] ||= []).push(t);
+                          return acc;
+                        }, {} as Record<string, SiteContentRow[]>)
+                      ).map(([section, rows]) => (
+                        <div key={section}>
+                          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">
+                            {section}
+                          </h3>
+                          <div className="space-y-4">
+                            {rows
+                              .sort((a, b) => a.sort_order - b.sort_order)
+                              .map((row) => (
+                                <TextoField key={row.id} row={row} onSave={handleSaveTexto} />
+                              ))}
+                          </div>
+                        </div>
+                      ))}
+                      {textosData.length === 0 && (
+                        <p className="text-center text-gray-400 dark:text-gray-500 text-sm py-8">
+                          Nenhum texto cadastrado ainda.
+                        </p>
+                      )}
                     </div>
                   )}
                 </div>

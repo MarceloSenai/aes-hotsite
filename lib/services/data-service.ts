@@ -336,3 +336,31 @@ export const popupService = {
     }
   },
 };
+
+// Site Content (textos editáveis — títulos e descrições, agrupados por seção)
+export interface SiteContentRow {
+  id: string;
+  section: string;
+  key: string;
+  label: string;
+  value: string;
+  sort_order: number;
+}
+
+export const siteContentService = {
+  getAll: () => getAll<SiteContentRow>('site_content'),
+  create: (row: Partial<SiteContentRow>) => create<SiteContentRow>('site_content', row),
+  update: (id: string, row: Partial<SiteContentRow>) => update<SiteContentRow>('site_content', id, row),
+  remove: (id: string) => remove('site_content', id),
+};
+
+// Retorna um mapa { [key]: value } para os textos de uma seção — usado pelos
+// componentes públicos para aplicar o texto salvo, com fallback nos defaults.
+export async function getSiteContentMap(section: string): Promise<Record<string, string>> {
+  const rows = await siteContentService.getAll();
+  const map: Record<string, string> = {};
+  for (const row of rows) {
+    if (row.section === section) map[row.key] = row.value;
+  }
+  return map;
+}

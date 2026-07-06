@@ -92,6 +92,21 @@ model SocialLink {
   @@map("social_links")
 }
 
+// Textos editáveis do site (títulos, descrições) — chave-valor agrupado por seção.
+// Ex.: section="stats", key="eyebrow" -> "Nossos Números"
+model SiteContent {
+  id         String   @id @default(cuid())
+  section    String
+  key        String
+  label      String
+  value      String   @db.NVarChar(Max)
+  sort_order Int      @default(0)
+  updated_at DateTime @default(now())
+
+  @@unique([section, key])
+  @@map("site_content")
+}
+
 model CarouselSlide {
   id           String  @id @default(cuid())
   badge        String

@@ -15,6 +15,7 @@ const ORDER_BY_MAP: Record<string, Record<string, 'asc' | 'desc'>> = {
   parcerias: { sort_order: 'asc' },
   nucleo_videos: { sort_order: 'asc' },
   popup_modals: { sort_order: 'asc' },
+  site_content: { sort_order: 'asc' },
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,6 +35,7 @@ function getModel(table: string): any {
     case 'farmacia': return prisma.farmacia
     case 'nucleo_videos': return prisma.nucleoVideo
     case 'popup_modals': return prisma.popupModal
+    case 'site_content': return prisma.siteContent
     default: return null
   }
 }
