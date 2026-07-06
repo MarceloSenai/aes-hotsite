@@ -32,6 +32,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // Allow public GET on /api/admin/theme (theme must apply to all visitors, not just logged-in admins)
+  if (pathname === '/api/admin/theme' && request.method === 'GET') {
+    return NextResponse.next()
+  }
+
   // Allow public routes: contact, newsletter
   if (pathname === '/api/contact' || pathname === '/api/newsletter') {
     return NextResponse.next()
