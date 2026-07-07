@@ -24,12 +24,12 @@ export default function QuickNavSidebar() {
       {/* Nav rows */}
       <nav className="divide-y divide-gray-100 dark:divide-gray-700/60">
         {quickLinks.map(({ icon: Icon, label, href, external }) => {
-          const cls = 'group flex items-center gap-3 px-5 py-4 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors';
+          const cls = 'group flex items-center gap-2.5 px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors';
           const inner = (
             <>
-              <Icon size={20} style={{ color: SIDEBAR_RED }} className="shrink-0" />
+              <Icon size={17} style={{ color: SIDEBAR_RED }} className="shrink-0" />
               <span className="flex-1">{label}</span>
-              <ChevronRight size={16} className="text-gray-300 dark:text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight size={14} className="text-gray-300 dark:text-gray-500 group-hover:translate-x-0.5 transition-transform" />
             </>
           );
           return external ? (
@@ -41,8 +41,8 @@ export default function QuickNavSidebar() {
       </nav>
 
       {/* Núcleos de lazer video block */}
-      <div className="px-5 py-5 border-t border-gray-100 dark:border-gray-700/60 mt-auto">
-        <p className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-3">
+      <div className="px-4 py-4 border-t border-gray-100 dark:border-gray-700/60 mt-auto">
+        <p className="text-xs font-bold text-gray-800 dark:text-gray-100 mb-2">
           Conheça nossos núcleos de lazer
         </p>
         <Link
@@ -50,10 +50,10 @@ export default function QuickNavSidebar() {
           className="group relative block aspect-video rounded-xl overflow-hidden"
           style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' }}
         >
-          <TreePalm size={64} className="absolute -right-3 -bottom-3 text-white/15 rotate-[-12deg]" />
+          <TreePalm size={48} className="absolute -right-2 -bottom-2 text-white/15 rotate-[-12deg]" />
           <span className="absolute inset-0 flex items-center justify-center">
-            <span className="flex items-center justify-center w-14 h-14 rounded-full bg-black/45 backdrop-blur-sm group-hover:scale-110 group-hover:bg-black/60 transition-all duration-300">
-              <Play size={22} className="text-white translate-x-0.5" fill="currentColor" />
+            <span className="flex items-center justify-center w-11 h-11 rounded-full bg-black/45 backdrop-blur-sm group-hover:scale-110 group-hover:bg-black/60 transition-all duration-300">
+              <Play size={18} className="text-white translate-x-0.5" fill="currentColor" />
             </span>
           </span>
         </Link>

@@ -79,7 +79,7 @@ export default function Carousel() {
   }, [next, paused, slides.length]);
 
   if (loading) {
-    return <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[280px] sm:min-h-[260px] h-full" />;
+    return <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[220px] sm:min-h-[240px] h-full" />;
   }
 
   if (slides.length === 0) return null;
@@ -95,7 +95,7 @@ export default function Carousel() {
 
   return (
         <div
-          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[260px] h-full"
+          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[240px] h-full"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -108,11 +108,11 @@ export default function Carousel() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={isImageOnly ? 'h-full' : 'flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10'}
+              className={isImageOnly ? 'h-full' : 'flex flex-col sm:flex-row items-center gap-5 sm:gap-8 p-6 sm:p-8'}
             >
               {isImageOnly ? (
                 /* ── Image-only mode: full-width banner ── */
-                <Link href={slide.href} className="block w-full h-full min-h-[280px] sm:min-h-[340px] md:min-h-[400px]">
+                <Link href={slide.href} className="block w-full h-full min-h-[220px] sm:min-h-[260px] md:min-h-[300px]">
                   <img
                     src={slide.imagePath}
                     alt={slide.title}
@@ -124,15 +124,15 @@ export default function Carousel() {
                 <>
                   {/* Image or icon area */}
                   {slide.imagePath ? (
-                    <div className="flex-shrink-0 w-full sm:w-64 md:w-80 h-48 sm:h-56 md:h-64 rounded-2xl overflow-hidden shadow-lg">
+                    <div className="flex-shrink-0 w-full sm:w-52 md:w-64 h-40 sm:h-44 md:h-52 rounded-2xl overflow-hidden shadow-lg">
                       <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-contain" />
                     </div>
                   ) : (
                     <div
-                      className="flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-2xl flex items-center justify-center shadow-lg"
+                      className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg"
                       style={{ backgroundColor: slide.badgeColor }}
                     >
-                      <Sparkles size={40} className="text-white" />
+                      <Sparkles size={32} className="text-white" />
                     </div>
                   )}
 
