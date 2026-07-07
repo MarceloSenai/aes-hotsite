@@ -24,12 +24,12 @@ export default function QuickNavSidebar() {
       {/* Nav rows */}
       <nav className="divide-y divide-gray-100 dark:divide-gray-700/60">
         {quickLinks.map(({ icon: Icon, label, href, external }) => {
-          const cls = 'group flex items-center gap-2.5 px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700/40 transition-colors';
+          const cls = 'group flex items-center gap-2.5 px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-200 hover:bg-red-50 dark:hover:bg-red-500/10';
           const inner = (
             <>
-              <Icon size={17} style={{ color: SIDEBAR_RED }} className="shrink-0" />
-              <span className="flex-1">{label}</span>
-              <ChevronRight size={14} className="text-gray-300 dark:text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+              <Icon size={17} style={{ color: SIDEBAR_RED }} className="shrink-0 transition-transform duration-200 group-hover:scale-110" />
+              <span className="flex-1 transition-colors duration-200 group-hover:text-red-600 dark:group-hover:text-red-400">{label}</span>
+              <ChevronRight size={14} className="text-gray-300 dark:text-gray-500 transition-all duration-200 group-hover:translate-x-1 group-hover:text-red-500" />
             </>
           );
           return external ? (
