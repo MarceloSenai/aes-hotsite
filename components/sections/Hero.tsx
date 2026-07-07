@@ -3,14 +3,14 @@ import Carousel from '@/components/sections/Carousel';
 
 export default function Hero() {
   return (
-    <section className="pt-6 pb-6 sm:pt-8 sm:pb-8 bg-white dark:bg-gray-950">
+    <section className="pt-4 pb-4 sm:pt-6 sm:pb-5 bg-white dark:bg-gray-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-5 lg:gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4 lg:gap-5 items-stretch">
           <QuickNavSidebar />
           <Carousel />
         </div>
 
-        <div className="text-center mt-4">
+        <div className="text-center mt-3">
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
             Destaques e <span className="text-theme-gradient">Novidades</span>
           </h2>

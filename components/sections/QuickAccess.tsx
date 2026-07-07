@@ -62,7 +62,7 @@ function PortalButton({ icon: Icon, label, href, color }: { icon: React.ElementT
 
 export default function QuickAccess() {
   return (
-    <section className="pt-6 pb-10 sm:pt-8 sm:pb-14 bg-gray-50 dark:bg-gray-900/50">
+    <section className="pt-3 pb-10 sm:pt-4 sm:pb-14 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Portal grid */}
         <motion.div
