@@ -1,14 +1,13 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
-import { carouselService } from '@/lib/services/data-service';
 
-type DisplayMode = 'default' | 'image_only';
+export type DisplayMode = 'default' | 'image_only';
 
-interface CarouselSlide {
+export interface CarouselSlideData {
   id: string;
   badge: string;
   badgeColor: string;
@@ -16,48 +15,14 @@ interface CarouselSlide {
   description: string;
   cta: string;
   href: string;
-  enabled: boolean;
   imagePath?: string;
   displayMode: DisplayMode;
 }
 
-function mapCarouselSlide(row: Record<string, unknown>): CarouselSlide {
-  return {
-    id: row.id as string,
-    badge: row.badge as string,
-    badgeColor: (row.badge_color as string) ?? '',
-    title: row.title as string,
-    description: row.description as string,
-    cta: row.cta as string,
-    href: row.href as string,
-    enabled: row.enabled as boolean,
-    imagePath: (row.image_path as string) || undefined,
-    displayMode: (row.display_mode as DisplayMode) || 'default',
-  };
-}
-
-export default function Carousel() {
-  const [slides, setSlides] = useState<CarouselSlide[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(0);
   const [paused, setPaused] = useState(false);
-
-  // Load slides from Supabase
-  useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await carouselService.getAll();
-        const mapped = data.map((row) => mapCarouselSlide(row as unknown as Record<string, unknown>));
-        setSlides(mapped.filter((s) => s.enabled));
-      } catch (err) {
-        console.error('Carousel load error:', err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
-  }, []);
 
   const next = useCallback(() => {
     if (slides.length === 0) return;
@@ -77,10 +42,6 @@ export default function Carousel() {
     const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, [next, paused, slides.length]);
-
-  if (loading) {
-    return <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[220px] sm:min-h-[240px] h-full" />;
-  }
 
   if (slides.length === 0) return null;
 
