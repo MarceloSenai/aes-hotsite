@@ -71,9 +71,9 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
     name: 'Moderno',
     personality: 'modern',
     colors: {
-      primary: '#10B981',
-      primaryDark: '#059669',
-      primaryLight: '#A7F3D0',
+      primary: '#E30613',
+      primaryDark: '#B10510',
+      primaryLight: '#FBD0D3',
       secondary: '#0EA5E9',
       secondaryDark: '#0284C7',
       secondaryLight: '#BAE6FD',

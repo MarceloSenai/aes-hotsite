@@ -8,10 +8,10 @@
 /* ============================================ */
 
 :root {
-  /* Default theme (Modern Green) — overridden by ThemeProvider */
-  --color-primary: #10B981;
-  --color-primary-dark: #059669;
-  --color-primary-light: #A7F3D0;
+  /* Default theme (Modern Red) — overridden by ThemeProvider */
+  --color-primary: #E30613;
+  --color-primary-dark: #B10510;
+  --color-primary-light: #FBD0D3;
   --color-secondary: #0EA5E9;
   --color-secondary-dark: #0284C7;
   --color-secondary-light: #BAE6FD;

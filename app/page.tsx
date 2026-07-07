@@ -1,4 +1,4 @@
-import Carousel from '@/components/sections/Carousel';
+import Hero from '@/components/sections/Hero';
 import QuickAccess from '@/components/sections/QuickAccess';
 import Stats from '@/components/sections/Stats';
 // Seções ocultas temporariamente (a pedido):
@@ -9,7 +9,7 @@ import Stats from '@/components/sections/Stats';
 export default function Home() {
   return (
     <>
-      <Carousel />
+      <Hero />
       {/* <Mission /> */}
       {/* <Features /> */}
       <QuickAccess />

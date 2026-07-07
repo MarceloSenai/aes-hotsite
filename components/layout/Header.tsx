@@ -8,9 +8,13 @@ import {
   Menu, X, Mail, Phone, ChevronDown, ChevronRight, MessageCircle,
   UserCircle, Shield, Sun, Moon, TreePalm, Building2, Briefcase,
   Heart, Stethoscope, Pill, Handshake, Calendar, Newspaper, Landmark,
-  FileText, Camera, Users, Info,
+  FileText, Camera, Users, Info, MapPin, Clock, Instagram, Facebook, Contrast,
 } from 'lucide-react';
 import { useAccessibility } from '@/components/providers/AccessibilityProvider';
+import { CONTACT } from '@/lib/config/contact';
+
+/* ─── Brand colors (fixed, per reference design — independent of theme vars) ── */
+const BRAND_RED = '#E30613';
 
 /* ─── Types ─────────────────────────────────────────────── */
 
@@ -220,52 +224,70 @@ export default function Header() {
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   return (
-    <header className={`sticky top-0 z-50 w-full transition-all duration-300 ${scrolled ? 'shadow-xl shadow-black/10' : ''}`}>
-      {/* ── Top bar ── */}
-      <div className="text-white/90 text-xs" style={{ backgroundColor: 'var(--color-primary-dark)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-8">
-          <div className="flex items-center gap-4">
-            <a href="tel:+551133679900" className="hidden sm:flex items-center gap-1.5 hover:text-white transition-colors">
-              <Phone size={12} /> (11) 3367-9900
-            </a>
-            <a href="https://wa.me/551133679900" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <MessageCircle size={12} /> <span className="hidden sm:inline">WhatsApp</span>
-            </a>
-            <a href="mailto:gerente@aessenai.org.br" className="hidden sm:flex items-center gap-1.5 hover:text-white transition-colors">
-              <Mail size={12} /> Email
-            </a>
-          </div>
-          <div className="flex items-center gap-3">
-            <button onClick={() => a11y.setDarkMode(!a11y.darkMode)} className="flex items-center gap-1.5 hover:text-white transition-colors"
-              aria-label={a11y.darkMode ? 'Modo claro' : 'Modo escuro'}>
-              {a11y.darkMode ? <Sun size={13} /> : <Moon size={13} />}
-              <span className="hidden sm:inline">{a11y.darkMode ? 'Claro' : 'Escuro'}</span>
+    <header className="w-full">
+      {/* ── Bar 1: contact + accessibility ── */}
+      <div className="text-white text-xs" style={{ backgroundColor: BRAND_RED }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9">
+          <a href={CONTACT.phoneHref} className="flex items-center gap-1.5 font-medium hover:text-white/85 transition-colors">
+            <Phone size={13} /> {CONTACT.phone}
+          </a>
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => a11y.setHighContrast(!a11y.highContrast)}
+              aria-pressed={a11y.highContrast}
+              aria-label="Alternar alto contraste"
+              className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${a11y.highContrast ? 'bg-black text-white' : 'bg-black/25 hover:bg-black/40'}`}
+            >
+              <Contrast size={13} />
             </button>
-            <span className="w-px h-3 bg-white/20" />
-            <a href="https://associado.aessenai.org.br" target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-1.5 font-semibold hover:text-white transition-colors">
-              <UserCircle size={13} /> Área do Associado
+            <button
+              onClick={() => a11y.setDarkMode(!a11y.darkMode)}
+              aria-pressed={a11y.darkMode}
+              aria-label={a11y.darkMode ? 'Modo claro' : 'Modo escuro'}
+              className="flex items-center justify-center w-6 h-6 rounded-full bg-black/25 hover:bg-black/40 transition-colors"
+            >
+              {a11y.darkMode ? <Sun size={13} /> : <Moon size={13} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bar 2: logo, address, social ── */}
+      <div className="bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-center gap-5">
+            <Link href="/" className="shrink-0">
+              <Image src="/images/aes-footer-logo.png" alt="AES" width={112} height={44} className="object-contain h-10 w-auto sm:h-11" priority />
+            </Link>
+            <div className="hidden md:flex flex-col gap-1.5 text-white/75 text-xs border-l border-white/15 pl-5">
+              <span className="flex items-center gap-1.5"><MapPin size={13} className="shrink-0 text-white/50" /> Rua Correia de Andrade, 232 - Brás - São Paulo/SP 1º Andar - CEP: 03008-020</span>
+              <span className="flex items-center gap-1.5"><Phone size={13} className="shrink-0 text-white/50" /> Tel. 3367-9900</span>
+              <span className="flex items-center gap-1.5"><Clock size={13} className="shrink-0 text-white/50" /> Expediente: 2ª a 6ª Feira, das 07h às 17h</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <MessageCircle size={16} style={{ color: '#22C55E' }} /> WhatsApp
+            </a>
+            <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <Mail size={16} style={{ color: '#EF4444' }} /> E-mail
+            </a>
+            <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <Instagram size={16} style={{ color: '#E4405F' }} /> Instagram
+            </a>
+            <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
+              <Facebook size={16} style={{ color: '#1877F2' }} /> Facebook
             </a>
           </div>
         </div>
       </div>
 
-      {/* ── Main nav ── */}
-      <div className="backdrop-blur-md" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 95%, transparent)' }}>
+      {/* ── Bar 3: main nav ── */}
+      <div className="relative">
+      <div className={`sticky top-0 z-50 backdrop-blur-md transition-shadow duration-300 ${scrolled ? 'shadow-xl shadow-black/10' : ''}`} style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 95%, transparent)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-24">
-            {/* Logo */}
-            <Link href="/" className="flex-shrink-0 flex items-center gap-3 group">
-              <div className="relative w-20 h-20 lg:w-22 lg:h-22">
-                <Image src="/images/aes-logo.png" alt="AES" fill
-                  className="object-contain brightness-0 invert group-hover:scale-105 transition-transform duration-200" priority />
-              </div>
-              <div className="hidden sm:block leading-tight">
-                <span className="block text-white font-bold text-base tracking-tight">AES</span>
-                <span className="block text-white/60 text-[10px] font-medium">Associação dos Empregados do SENAI</span>
-              </div>
-            </Link>
-
+          <div className="flex items-center justify-between h-16">
             {/* Desktop nav */}
             <nav className="hidden xl:flex items-center gap-0.5">
               {NAV_ITEMS.map((item) =>
@@ -290,6 +312,10 @@ export default function Header() {
 
             {/* Right */}
             <div className="flex items-center gap-2">
+              <a href={CONTACT.associadoPortal} target="_blank" rel="noopener noreferrer"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white/85 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200">
+                <UserCircle size={16} /> Área do Associado
+              </a>
               <Link href="/admin"
                 className="hidden lg:flex items-center gap-1.5 px-3 py-2 text-sm text-white/50 hover:text-white hover:bg-white/10 rounded-md transition-all">
                 <Shield size={20} />
@@ -315,7 +341,7 @@ export default function Header() {
         {mobileOpen && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 top-24 bg-black/50 z-40 xl:hidden backdrop-blur-sm" onClick={closeMobile} />
+              className="fixed inset-0 bg-black/50 z-40 xl:hidden backdrop-blur-sm" onClick={closeMobile} />
             <motion.div
               initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
@@ -336,6 +362,7 @@ export default function Header() {
           </>
         )}
       </AnimatePresence>
+      </div>
     </header>
   );
 }

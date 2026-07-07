@@ -79,13 +79,7 @@ export default function Carousel() {
   }, [next, paused, slides.length]);
 
   if (loading) {
-    return (
-      <section className="py-16 sm:py-20 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[280px] sm:min-h-[260px]" />
-        </div>
-      </section>
-    );
+    return <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[280px] sm:min-h-[260px] h-full" />;
   }
 
   if (slides.length === 0) return null;
@@ -100,22 +94,8 @@ export default function Carousel() {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-white dark:bg-gray-950">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-            Destaques e{' '}
-            <span className="text-theme-gradient">Novidades</span>
-          </h2>
-          <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-            Acompanhe as últimas ofertas, notícias e comunicados da AES
-          </p>
-        </div>
-
-        {/* Carousel container */}
         <div
-          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[260px]"
+          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[260px] h-full"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -128,11 +108,11 @@ export default function Carousel() {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={isImageOnly ? '' : 'flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10'}
+              className={isImageOnly ? 'h-full' : 'flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-8 sm:p-10'}
             >
               {isImageOnly ? (
                 /* ── Image-only mode: full-width banner ── */
-                <Link href={slide.href} className="block w-full h-[280px] sm:h-[340px] md:h-[400px]">
+                <Link href={slide.href} className="block w-full h-full min-h-[280px] sm:min-h-[340px] md:min-h-[400px]">
                   <img
                     src={slide.imagePath}
                     alt={slide.title}
@@ -210,7 +190,5 @@ export default function Carousel() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
   );
 }
