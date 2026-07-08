@@ -1,6 +1,20 @@
 import Carousel, { type CarouselSlideData, type DisplayMode } from '@/components/sections/Carousel';
 
-async function fetchCarouselSlides(): Promise<any[]> {
+interface CarouselRow {
+  id: string;
+  badge: string;
+  badge_color: string;
+  title: string;
+  description: string | null;
+  cta: string | null;
+  href: string | null;
+  enabled: boolean;
+  sort_order: number;
+  image_path: string | null;
+  display_mode: string;
+}
+
+async function fetchCarouselSlides(): Promise<CarouselRow[]> {
   try {
     // Try direct Prisma first (faster in dev/same-region)
     const { prisma } = await import('@/lib/prisma');
@@ -9,12 +23,12 @@ async function fetchCarouselSlides(): Promise<any[]> {
         where: { enabled: true },
         orderBy: { sort_order: 'asc' },
       }),
-      new Promise((_, reject) =>
+      new Promise<CarouselRow[]>((_, reject) =>
         setTimeout(() => reject(new Error('Prisma timeout')), 5000)
       ),
     ]);
-    console.log('[CarouselSection] Prisma fetch succeeded, rows:', (rows as any[])?.length);
-    return rows as any[];
+    console.log('[CarouselSection] Prisma fetch succeeded, rows:', (rows as CarouselRow[])?.length);
+    return rows as CarouselRow[];
   } catch (error) {
     console.warn('[CarouselSection] Prisma fetch failed, trying API fallback:',
       error instanceof Error ? error.message : String(error));
@@ -26,8 +40,8 @@ async function fetchCarouselSlides(): Promise<any[]> {
         { cache: 'revalidate', next: { revalidate: 300 } }
       );
       if (!response.ok) throw new Error(`API returned ${response.status}`);
-      const rows = await response.json();
-      const filtered = (rows as any[]).filter((r) => r.enabled);
+      const rows: CarouselRow[] = await response.json();
+      const filtered = rows.filter((r) => r.enabled);
       filtered.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
       console.log('[CarouselSection] API fetch succeeded, rows:', filtered.length);
       return filtered;
