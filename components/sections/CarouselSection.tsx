@@ -35,15 +35,29 @@ async function fetchCarouselSlides(): Promise<CarouselRow[]> {
 
     // Fallback to API route (works from any region)
     try {
-      const response = await fetch(
-        `${process.env.NEXTAUTH_URL || 'https://aes-next-prod-d0adesfndvcvh0hs.brazilsouth-01.azurewebsites.net'}/api/data/carousel_slides`,
-        { next: { revalidate: 300 } }
-      );
-      if (!response.ok) throw new Error(`API returned ${response.status}`);
+      const baseUrl = process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : process.env.NEXTAUTH_URL
+          ? process.env.NEXTAUTH_URL
+          : 'https://aes-next-prod-d0adesfndvcvh0hs.brazilsouth-01.azurewebsites.net';
+
+      const apiUrl = `${baseUrl}/api/data/carousel_slides`;
+      console.log('[CarouselSection] API fallback URL:', apiUrl);
+
+      const response = await fetch(apiUrl, {
+        next: { revalidate: 300 },
+      });
+
+      if (!response.ok) {
+        throw new Error(`API returned ${response.status} ${response.statusText}`);
+      }
+
       const rows: CarouselRow[] = await response.json();
+      console.log('[CarouselSection] API raw response rows:', rows?.length);
+
       const filtered = rows.filter((r) => r.enabled);
       filtered.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
-      console.log('[CarouselSection] API fetch succeeded, rows:', filtered.length);
+      console.log('[CarouselSection] API fetch succeeded, filtered rows:', filtered.length);
       return filtered;
     } catch (apiError) {
       console.error('[CarouselSection] API fallback also failed:',
