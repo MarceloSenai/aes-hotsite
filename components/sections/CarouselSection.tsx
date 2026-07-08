@@ -37,7 +37,7 @@ async function fetchCarouselSlides(): Promise<CarouselRow[]> {
     try {
       const response = await fetch(
         `${process.env.NEXTAUTH_URL || 'https://aes-next-prod-d0adesfndvcvh0hs.brazilsouth-01.azurewebsites.net'}/api/data/carousel_slides`,
-        { cache: 'revalidate', next: { revalidate: 300 } }
+        { next: { revalidate: 300 } }
       );
       if (!response.ok) throw new Error(`API returned ${response.status}`);
       const rows: CarouselRow[] = await response.json();
