@@ -1,23 +1,46 @@
-import { prisma } from '@/lib/prisma';
 import Carousel, { type CarouselSlideData, type DisplayMode } from '@/components/sections/Carousel';
 
-export default async function CarouselSection() {
-  let rows: Awaited<ReturnType<typeof prisma.carouselSlide.findMany>> = [];
+async function fetchCarouselSlides(): Promise<any[]> {
   try {
-    rows = await prisma.carouselSlide.findMany({
-      where: { enabled: true },
-      orderBy: { sort_order: 'asc' },
-    });
+    // Try direct Prisma first (faster in dev/same-region)
+    const { prisma } = await import('@/lib/prisma');
+    const rows = await Promise.race([
+      prisma.carouselSlide.findMany({
+        where: { enabled: true },
+        orderBy: { sort_order: 'asc' },
+      }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Prisma timeout')), 5000)
+      ),
+    ]);
+    console.log('[CarouselSection] Prisma fetch succeeded, rows:', (rows as any[])?.length);
+    return rows as any[];
   } catch (error) {
-    console.error('[CarouselSection] Database error:', {
-      message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-    });
-  }
+    console.warn('[CarouselSection] Prisma fetch failed, trying API fallback:',
+      error instanceof Error ? error.message : String(error));
 
-  if (!rows || rows.length === 0) {
-    console.warn('[CarouselSection] No enabled slides found (rows=' + rows?.length + ')');
+    // Fallback to API route (works from any region)
+    try {
+      const response = await fetch(
+        `${process.env.NEXTAUTH_URL || 'https://aes-next-prod-d0adesfndvcvh0hs.brazilsouth-01.azurewebsites.net'}/api/data/carousel_slides`,
+        { cache: 'revalidate', next: { revalidate: 300 } }
+      );
+      if (!response.ok) throw new Error(`API returned ${response.status}`);
+      const rows = await response.json();
+      const filtered = (rows as any[]).filter((r) => r.enabled);
+      filtered.sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
+      console.log('[CarouselSection] API fetch succeeded, rows:', filtered.length);
+      return filtered;
+    } catch (apiError) {
+      console.error('[CarouselSection] API fallback also failed:',
+        apiError instanceof Error ? apiError.message : String(apiError));
+      return [];
+    }
   }
+}
+
+export default async function CarouselSection() {
+  const rows = await fetchCarouselSlides();
 
   const slides: CarouselSlideData[] = (rows || []).map((row) => ({
     id: row.id,
