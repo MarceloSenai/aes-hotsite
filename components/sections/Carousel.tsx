@@ -43,7 +43,13 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
     return () => clearInterval(timer);
   }, [next, paused, slides.length]);
 
-  if (slides.length === 0) return null;
+  if (slides.length === 0) {
+    return (
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] flex items-center justify-center text-gray-400">
+        <p className="text-sm">Nenhum slide disponível</p>
+      </div>
+    );
+  }
 
   const slide = slides[current];
   const isImageOnly = slide.displayMode === 'image_only';

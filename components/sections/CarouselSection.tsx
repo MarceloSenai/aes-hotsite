@@ -9,10 +9,17 @@ export default async function CarouselSection() {
       orderBy: { sort_order: 'asc' },
     });
   } catch (error) {
-    console.error('CarouselSection load error:', error);
+    console.error('[CarouselSection] Database error:', {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
   }
 
-  const slides: CarouselSlideData[] = rows.map((row) => ({
+  if (!rows || rows.length === 0) {
+    console.warn('[CarouselSection] No enabled slides found (rows=' + rows?.length + ')');
+  }
+
+  const slides: CarouselSlideData[] = (rows || []).map((row) => ({
     id: row.id,
     badge: row.badge,
     badgeColor: row.badge_color,
