@@ -3,7 +3,20 @@ import QuickNavSidebar from '@/components/sections/QuickNavSidebar';
 import CarouselSection from '@/components/sections/CarouselSection';
 
 function CarouselSkeleton() {
-  return <div className="animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800 min-h-[220px] sm:min-h-[240px] h-full" />;
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] h-full flex flex-col items-center justify-center gap-3">
+      <div className="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-800" />
+      <div className="relative flex flex-col items-center gap-3">
+        <div
+          className="w-9 h-9 rounded-full border-[3px] border-gray-300 dark:border-gray-600 animate-spin"
+          style={{ borderTopColor: 'var(--color-primary)' }}
+        />
+        <span className="text-sm font-medium text-gray-400 dark:text-gray-500">
+          Carregando destaques...
+        </span>
+      </div>
+    </div>
+  );
 }
 
 export default function Hero() {
