@@ -46,13 +46,13 @@ function PortalButton({ icon: Icon, label, href, color }: { icon: React.ElementT
     <Link href={href} aria-label={label}>
       <motion.div
         variants={itemVariants}
-        className="group flex flex-col items-center gap-2 p-3 sm:p-4 rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+        className="group flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
       >
         <div
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
           style={{ backgroundColor: `${color}18` }}
         >
-          <Icon size={20} style={{ color }} className="sm:w-6 sm:h-6" />
+          <Icon size={18} style={{ color }} className="sm:w-5 sm:h-5" />
         </div>
         <span className="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">{label}</span>
       </motion.div>
@@ -70,7 +70,7 @@ export default function QuickAccess() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 gap-2.5 sm:gap-3"
+          className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-2 sm:gap-2.5"
         >
           {portalLinks.map((btn) => (
             <PortalButton key={btn.label} {...btn} />

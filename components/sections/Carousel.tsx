@@ -56,7 +56,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
 
   return (
         <div
-          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[240px] h-full"
+          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] h-full"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -69,11 +69,11 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
               animate="center"
               exit="exit"
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className={isImageOnly ? 'h-full' : 'flex flex-col sm:flex-row items-center gap-5 sm:gap-8 p-6 sm:p-8'}
+              className={isImageOnly ? 'h-full' : 'flex flex-col sm:flex-row items-center gap-4 sm:gap-6 p-5 sm:p-6'}
             >
               {isImageOnly ? (
                 /* ── Image-only mode: full-width banner ── */
-                <Link href={slide.href} className="block w-full h-full min-h-[220px] sm:min-h-[260px] md:min-h-[300px]">
+                <Link href={slide.href} className="block w-full h-full min-h-[280px] sm:min-h-[320px] md:min-h-[360px]">
                   <img
                     src={slide.imagePath}
                     alt={slide.title}
@@ -85,8 +85,8 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
                 <>
                   {/* Image or icon area */}
                   {slide.imagePath ? (
-                    <div className="flex-shrink-0 w-full sm:w-52 md:w-64 h-40 sm:h-44 md:h-52 rounded-2xl overflow-hidden shadow-lg">
-                      <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-contain" />
+                    <div className="flex-shrink-0 w-full sm:w-48 md:w-56 h-48 sm:h-56 md:h-64 rounded-2xl overflow-hidden shadow-lg">
+                      <img src={slide.imagePath} alt={slide.title} className="w-full h-full object-cover" />
                     </div>
                   ) : (
                     <div
