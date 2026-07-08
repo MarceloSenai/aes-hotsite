@@ -8,7 +8,7 @@ import {
   Menu, X, Mail, Phone, ChevronDown, ChevronRight, MessageCircle,
   UserCircle, Shield, Sun, Moon, TreePalm, Building2, Briefcase,
   Heart, Stethoscope, Pill, Handshake, Calendar, Newspaper, Landmark,
-  FileText, Camera, Users, Info, MapPin, Clock, Instagram, Facebook, Hands,
+  FileText, Camera, Users, Info, MapPin, Clock, Instagram, Facebook,
 } from 'lucide-react';
 import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { CONTACT } from '@/lib/config/contact';
@@ -238,7 +238,7 @@ export default function Header() {
               aria-label="Acessibilidade e inclusão"
               className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${a11y.highContrast ? 'bg-black text-white' : 'bg-black/25 hover:bg-black/40'}`}
             >
-              <Hands size={13} />
+              <Handshake size={13} />
             </button>
             <button
               onClick={() => a11y.setDarkMode(!a11y.darkMode)}
