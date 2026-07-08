@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Accessibility,
+  Handshake,
   X,
   Sun,
   Moon,
@@ -300,7 +300,7 @@ export default function AccessibilityPanel() {
         }`}
         style={{ backgroundColor: 'var(--color-primary)' }}
       >
-        <Accessibility size={28} />
+        <Handshake size={28} />
         {hasChanges && (
           <span className="absolute -top-0.5 -right-0.5 h-3.5 w-3.5 rounded-full bg-amber-500 border-2 border-white" />
         )}
@@ -340,7 +340,7 @@ export default function AccessibilityPanel() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
-                  <Accessibility size={22} className="text-white" />
+                  <Handshake size={22} className="text-white" />
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-white">Acessibilidade</h2>
