@@ -230,7 +230,7 @@ export default function AdministracaoPage() {
  />
  </div>
 
- <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+ <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
@@ -262,7 +262,7 @@ export default function AdministracaoPage() {
 
  {/* ── Content ── */}
  <section className="bg-white dark:bg-gray-950 py-16 sm:py-24">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  variants={containerVariants}
  initial="hidden"

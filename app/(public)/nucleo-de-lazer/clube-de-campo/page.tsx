@@ -135,7 +135,7 @@ export default function ClubeDeCampoPage() {
  />
  </div>
 
- <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+ <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
  {/* Breadcrumbs */}
  <motion.nav
  initial={{ opacity: 0, y: -10 }}
@@ -187,7 +187,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Location Card */}
  <section className="py-12 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -241,7 +241,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Accommodations */}
  <section className="py-16 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -310,7 +310,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Facilities Grid */}
  <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -359,7 +359,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Videos */}
  <section className="py-16 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -424,7 +424,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Pricing Table */}
  <section className="py-16 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -483,7 +483,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Important Info */}
  <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -526,7 +526,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Map Placeholder */}
  <section className="py-16 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -565,7 +565,7 @@ export default function ClubeDeCampoPage() {
 
  {/* Contact CTA */}
  <section className="py-16 gradient-theme-cta">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}

@@ -52,7 +52,7 @@ export default function BoletimPage() {
 
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
             <ArrowLeft size={18} /> Voltar para Home

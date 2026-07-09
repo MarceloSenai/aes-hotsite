@@ -126,7 +126,7 @@ export default function GaleriaPage() {
         <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -148,7 +148,7 @@ export default function GaleriaPage() {
       {/* Filter Bar */}
       {categories.length > 1 && (
         <section className="sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200 dark:border-gray-700">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
               <Filter size={18} className="text-gray-400 flex-shrink-0 mr-1" />
               {categories.map((cat) => (
@@ -178,7 +178,7 @@ export default function GaleriaPage() {
 
       {/* Photo Grid */}
       <section className="py-12 bg-gray-50 dark:bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
           {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : (<>
           <AnimatePresence mode="wait">
             <motion.div

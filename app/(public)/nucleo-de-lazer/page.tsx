@@ -96,7 +96,7 @@ export default function NúcleosDeLazerPage() {
  />
  </div>
 
- <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+ <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
  {/* Breadcrumbs */}
  <motion.nav
  initial={{ opacity: 0, y: -10 }}
@@ -145,7 +145,7 @@ export default function NúcleosDeLazerPage() {
 
  {/* Cards Grid */}
  <section className="py-20 bg-white dark:bg-gray-950">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  variants={containerVariants}
  initial="hidden"
@@ -215,7 +215,7 @@ export default function NúcleosDeLazerPage() {
 
  {/* Info Section */}
  <section className="py-16 bg-gray-50 dark:bg-gray-900/50">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}

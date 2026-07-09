@@ -227,7 +227,7 @@ export default function Header() {
     <header className="w-full">
       {/* ── Bar 1: contact + accessibility ── */}
       <div className="text-white text-xs" style={{ backgroundColor: BRAND_RED }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9">
           <a href={CONTACT.phoneHref} className="flex items-center gap-1.5 font-medium hover:text-white/85 transition-colors">
             <Phone size={13} /> {CONTACT.phone}
           </a>
@@ -254,7 +254,7 @@ export default function Header() {
 
       {/* ── Bar 2: logo, address, social ── */}
       <div className="bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center gap-5">
             <Link href="/" className="shrink-0">
               <Image src="/images/aes-footer-logo.png" alt="AES" width={112} height={44} className="object-contain h-10 w-auto sm:h-11" priority />
@@ -286,7 +286,7 @@ export default function Header() {
       {/* ── Bar 3: main nav ── */}
       <div className="relative">
       <div className={`sticky top-0 z-50 backdrop-blur-md transition-shadow duration-300 ${scrolled ? 'shadow-xl shadow-black/10' : ''}`} style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 95%, transparent)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Desktop nav */}
             <nav className="hidden xl:flex items-center gap-0.5">

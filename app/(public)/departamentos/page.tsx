@@ -117,7 +117,7 @@ export default function DepartamentosPage() {
  <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
  <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
 
- <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+ <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
@@ -139,7 +139,7 @@ export default function DepartamentosPage() {
 
  {/* Departments Grid */}
  <section className="py-20 bg-white dark:bg-gray-900">
- <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}

@@ -143,7 +143,7 @@ export default function Stats() {
         <div className="absolute bottom-0 right-1/4 w-72 h-72 rounded-full blur-3xl" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary-light) 20%, transparent)' }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

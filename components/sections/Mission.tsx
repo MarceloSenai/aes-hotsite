@@ -47,7 +47,7 @@ export default function Mission() {
         <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full opacity-40 dark:opacity-20" style={{ backgroundColor: 'var(--color-primary-light)' }} />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

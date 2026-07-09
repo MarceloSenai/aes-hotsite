@@ -64,7 +64,7 @@ export default function RepresentantesPage() {
       {/* Hero */}
       <section className="relative overflow-hidden py-20" style={{ background: 'linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary))' }}>
         <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
               Gestão 2026-2030
@@ -79,7 +79,7 @@ export default function RepresentantesPage() {
 
       {/* Categories */}
       <section className="py-16 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : reps.length === 0 ? <EmptyState message="Nenhum representante cadastrado." /> : CATEGORIAS.map((cat, catIdx) => {
             const membros = grouped[cat.key] || [];
             const Icon = cat.icon;
