@@ -691,6 +691,10 @@ export default function AdminPage() {
       let ok = false;
       switch (section) {
         case 'carousel':
+          if (rest.display_mode === 'image_only' && !rest.image_path) {
+            showToast('Envie uma imagem para o slide no modo "Somente Imagem"');
+            return;
+          }
           ok = isNew
             ? !!(await carouselService.create(rest))
             : !!(await carouselService.update(id as string, rest));

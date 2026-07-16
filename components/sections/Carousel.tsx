@@ -52,7 +52,10 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
   }
 
   const slide = slides[current];
-  const isImageOnly = slide.displayMode === 'image_only';
+  // Só trata como banner "somente imagem" se de fato houver imagem. Sem esse
+  // guard, um slide image_only salvo sem upload renderiza <img> sem src (banner
+  // quebrado); aqui ele cai no layout padrão, que ao menos mostra o título.
+  const isImageOnly = slide.displayMode === 'image_only' && !!slide.imagePath;
 
   const variants = {
     enter: (dir: number) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
