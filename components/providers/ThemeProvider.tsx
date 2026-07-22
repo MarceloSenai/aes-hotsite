@@ -90,7 +90,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
   const setTheme = useCallback((newTheme: ThemeConfig) => {
     setThemeState(newTheme);
     applyCSSVariables(newTheme);
-    ThemeManager.saveTheme(newTheme);
+    // saveTheme agora propaga falha de gravação; aqui é fire-and-forget, então
+    // o catch é obrigatório para não virar unhandled rejection.
+    ThemeManager.saveTheme(newTheme).catch((error) => {
+      console.error('[ThemeProvider] falha ao salvar tema:', error);
+    });
     window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: newTheme } }));
   }, []);
 

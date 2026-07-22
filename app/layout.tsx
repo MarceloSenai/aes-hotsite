@@ -9,6 +9,7 @@ import AccessibilityPanel from '@/components/layout/AccessibilityPanel';
 import A11yFilters from '@/components/layout/A11yFilters';
 import ThemeToggleFab from '@/components/layout/ThemeToggleFab';
 import PopupModal from '@/components/PopupModal';
+import { MotionConfig } from 'framer-motion';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -70,17 +71,27 @@ if(a){var s=JSON.parse(a);if(s.darkMode)document.documentElement.classList.add('
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[10000] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-lg focus:shadow-lg focus:text-sm focus:font-medium">
           Pular para o conteúdo principal
         </a>
-        <AccessibilityProvider>
-          <ThemeProvider>
-            <A11yFilters />
-            <Header />
-            <main id="main-content" className="min-h-screen">{children}</main>
-            <Footer />
-            <PopupModal />
-            <ThemeToggleFab />
-            <AccessibilityPanel />
-          </ThemeProvider>
-        </AccessibilityProvider>
+        {/* Em produção respeita o prefers-reduced-motion do sistema ("user").
+            Em dev usa "never" para que quem desenvolve com movimento reduzido
+            ligado no SO consiga ver e calibrar as animações.
+
+            Cuidado: isso significa que o caminho de movimento reduzido não é
+            exercitado por padrão em dev. Para testá-lo, use o toggle do painel
+            de acessibilidade do próprio site — ele é independente do SO e
+            continua valendo aqui. */}
+        <MotionConfig reducedMotion={process.env.NODE_ENV === 'production' ? 'user' : 'never'}>
+          <AccessibilityProvider>
+            <ThemeProvider>
+              <A11yFilters />
+              <Header />
+              <main id="main-content" className="min-h-screen">{children}</main>
+              <Footer />
+              <PopupModal />
+              <ThemeToggleFab />
+              <AccessibilityPanel />
+            </ThemeProvider>
+          </AccessibilityProvider>
+        </MotionConfig>
 {/* VLibras injected by AccessibilityProvider */}
       </body>
     </html>

@@ -29,8 +29,10 @@ export type Nucleo = {
 /**
  * O primeiro item é renderizado como card de destaque. A ordem importa.
  * São exatamente 5 itens (1 destaque + 4 cards claros): o grid usa
- * md:grid-cols-4 com o destaque em md:row-span-2, formando um bento de
- * 2 linhas. Um sexto benefício cairia sozinho numa terceira linha.
+ * md:grid-cols-4 com o destaque em md:row-span-2, formando um bento de 2 linhas.
+ * A terceira linha é o card da parceria TotalPass, esticado na largura toda
+ * (md:col-span-4, ParceriaDestaque — não um benefício, ver TotalPassCard.tsx).
+ * Um sexto benefício quebraria as 2 linhas.
  */
 /**
  * Descrições copiadas de app/(public)/servicos/page.tsx:14-65.
@@ -134,6 +136,8 @@ export type ParceriaDestaque = {
   logoHeight: number;
   headline: string;
   description: string;
+  /** Versão curta para o card do bento (a `description` era da faixa larga). */
+  resumo: string;
   chips: string[];
   adesaoHref: string;
   adesaoLabel: string;
@@ -169,6 +173,8 @@ export const totalpass: ParceriaDestaque = {
   headline: 'O Brasil inteiro é a sua academia.',
   description:
     'Com a TotalPass, você treina em mais de 35 mil academias em 1.900 cidades — Smart Fit, Bio Ritmo e estúdios com mais de 250 modalidades. E ainda leva psicólogo online e meditação junto.',
+  resumo:
+    'Rede de mais de 35 mil academias — Smart Fit, Bio Ritmo e estúdios com +250 modalidades — e ainda saúde mental online.',
   chips: ['+35 mil academias', '1.900 cidades', '+250 modalidades', 'Psicólogos online'],
   adesaoHref: 'mailto:cadastro@aessenai.org.br?subject=TotalPass%20-%20quero%20aderir',
   adesaoLabel: 'Quero aderir',

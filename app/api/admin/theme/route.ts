@@ -15,9 +15,30 @@ export async function GET() {
   }
 }
 
+// Este endpoint é público (ver middleware.ts). Como não há autenticação, a
+// validação abaixo é a única barreira contra gravação de lixo arbitrário.
+const MAX_PAYLOAD_BYTES = 20_000
+
 export async function PUT(req: NextRequest) {
   try {
-    const body = await req.json()
+    const raw = await req.text()
+
+    if (raw.length > MAX_PAYLOAD_BYTES) {
+      return NextResponse.json({ error: 'Payload muito grande' }, { status: 413 })
+    }
+
+    let body: unknown
+    try {
+      body = JSON.parse(raw)
+    } catch {
+      return NextResponse.json({ error: 'JSON inválido' }, { status: 400 })
+    }
+
+    // Forma mínima de um ThemeConfig: precisa ter um objeto `colors`.
+    const colors = (body as { colors?: unknown } | null)?.colors
+    if (typeof body !== 'object' || body === null || typeof colors !== 'object' || colors === null) {
+      return NextResponse.json({ error: 'Formato de tema inválido' }, { status: 400 })
+    }
 
     await prisma.siteConfig.upsert({
       where: { id: 'main' },

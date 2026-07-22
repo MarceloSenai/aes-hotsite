@@ -12,9 +12,6 @@ import {
 } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
 
-/* ─── Brand colors (fixed, per reference design — independent of theme vars) ── */
-const BRAND_RED = '#E30613';
-
 /* ─── Types ─────────────────────────────────────────────── */
 
 interface NavChild {
@@ -202,7 +199,6 @@ function MobileNavItem({ item, onNavigate }: { item: NavItem; onNavigate: () => 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [scrolled, setScrolled] = useState(false);
 
   // Fechamento do mega-menu centralizado (um timeout só) — evita que o timeout
   // pendente de um item derrube o dropdown recém-aberto de outro (bug do hover
@@ -219,12 +215,6 @@ export default function Header() {
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
@@ -233,21 +223,28 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      {/* ── Bar 1: logo, address, social ── */}
-      <div style={{ backgroundColor: BRAND_RED }}>
-        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="flex items-center gap-5">
-            <Link href="/" className="shrink-0">
-              <Image src="/images/aes-logo-white.svg" alt="AES" width={150} height={58} className="object-contain h-11 w-auto sm:h-12" priority />
-            </Link>
-            <div className="hidden md:flex flex-col gap-1.5 text-white/75 text-xs border-l border-white/15 pl-5">
-              <span className="flex items-center gap-1.5"><MapPin size={13} className="shrink-0 text-white/50" /> Rua Correia de Andrade, 232 - Brás - São Paulo/SP 1º Andar - CEP: 03008-020</span>
-              <span className="flex items-center gap-1.5"><Phone size={13} className="shrink-0 text-white/50" /> Tel. 3367-9900</span>
-              <span className="flex items-center gap-1.5"><Clock size={13} className="shrink-0 text-white/50" /> Expediente: 2ª a 6ª Feira, das 07h às 17h</span>
-            </div>
+      {/* ── Bar 1: logo, address, social ──
+          Tudo numa linha só. Em 1920px o layout antigo (endereço empilhado em
+          3 linhas à esquerda + grid 2×2 de contatos à direita, com
+          justify-between) deixava ~1000px de vazio no meio e ~92px de altura.
+          Aqui o endereço é flex-1 e ocupa esse meio, os contatos viram fileira,
+          e a faixa cai para ~60px (logo h-11 = 44px + py-2). A altura passa a
+          ser regida pelo logo, não mais pelas 3 linhas de endereço.
+          Os ícones já separam visualmente os itens,
+          então não há divisores — que quebrariam no wrap. */}
+      <div style={{ backgroundColor: 'var(--color-brand-surface)' }}>
+        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-8">
+          <Link href="/" className="shrink-0">
+            <Image src="/images/aes-logo-white.svg" alt="AES" width={150} height={58} className="object-contain h-10 w-auto sm:h-11" priority />
+          </Link>
+
+          <div className="hidden md:flex flex-1 flex-wrap items-center gap-x-6 gap-y-1 text-white/75 text-xs border-l border-white/15 pl-5 lg:pl-8">
+            <span className="flex items-center gap-1.5"><MapPin size={13} className="shrink-0 text-white/50" /> Rua Correia de Andrade, 232 - Brás - São Paulo/SP 1º Andar - CEP: 03008-020</span>
+            <span className="flex items-center gap-1.5"><Phone size={13} className="shrink-0 text-white/50" /> Tel. 3367-9900</span>
+            <span className="flex items-center gap-1.5"><Clock size={13} className="shrink-0 text-white/50" /> Expediente: 2ª a 6ª Feira, das 07h às 17h</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm shrink-0">
             <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
               <MessageCircle size={16} className="text-white" /> WhatsApp
             </a>
@@ -266,7 +263,15 @@ export default function Header() {
 
       {/* ── Bar 3: main nav ── */}
       <div className="relative">
-      <div className={`sticky top-0 z-50 backdrop-blur-md transition-shadow duration-300 ${scrolled ? 'shadow-xl shadow-black/10' : ''}`} style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 95%, transparent)' }}>
+      {/* Fundo 100% opaco, igual ao da Bar 1. Com alpha < 1 (o antigo
+          color-mix 95% + backdrop-blur) os 5% restantes compõem com o body
+          (branco no claro, gray-950 no escuro), então as duas faixas
+          declaravam a mesma cor e renderizavam tons diferentes — emendava.
+
+          Sem sombra: a faixa tem que emendar sem costura com o banner logo
+          abaixo, e qualquer sombra desenha justamente a linha de separação
+          que ela deveria disfarçar. */}
+      <div className="sticky top-0 z-50" style={{ backgroundColor: 'var(--color-brand-surface)' }}>
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Desktop nav */}

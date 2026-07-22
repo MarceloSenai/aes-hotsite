@@ -288,22 +288,23 @@ export class ThemeManager {
    * Save theme to API (shared) + localStorage (cache)
    */
   static async saveTheme(theme: ThemeConfig): Promise<void> {
-    try {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
-      }
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(theme));
+    }
 
-      const res = await fetch('/api/admin/theme', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(theme),
-      });
+    const res = await fetch('/api/admin/theme', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(theme),
+    });
 
-      if (!res.ok) {
-        console.error('[ThemeManager] API save error:', res.status);
-      }
-    } catch (error) {
-      console.error('[ThemeManager] Error saving theme:', error);
+    // Precisa propagar. Engolir o erro aqui fazia a UI mostrar "salvo" enquanto
+    // o banco não recebia nada — e no reload getActiveTheme() lia o valor antigo
+    // do banco e ainda sobrescrevia o cache do localStorage, dando a impressão
+    // de que a cor "voltava sozinha".
+    if (!res.ok) {
+      const detail = await res.text().catch(() => '');
+      throw new Error(`Falha ao salvar tema: HTTP ${res.status} ${detail}`.trim());
     }
   }
 

@@ -1,6 +1,7 @@
 import Hero from '@/components/sections/Hero';
 import QuickAccess from '@/components/sections/QuickAccess';
 import AssociadoDestaques from '@/components/sections/AssociadoDestaques';
+import NucleosDestaque from '@/components/sections/NucleosDestaque';
 
 // Renderiza a home em tempo de requisição (no App Service), NÃO no `next build`.
 // O carrossel (Hero > CarouselSection) lê os slides do banco; se a home fosse
@@ -16,6 +17,7 @@ export default function Home() {
       <Hero />
       <QuickAccess />
       <AssociadoDestaques />
+      <NucleosDestaque />
     </>
   );
 }

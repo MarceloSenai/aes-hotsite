@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 import { beneficios } from './destaques/data';
 import { groupVariants, itemVariants } from './destaques/motion';
 import { BeneficioDestaque, BeneficioCard } from './destaques/BeneficioCards';
-import TotalPassFaixa from './destaques/TotalPassFaixa';
+import TotalPassCard from './destaques/TotalPassCard';
 
 function CabecalhoColuna({
   eyebrow,
@@ -74,8 +74,8 @@ export default function AssociadoDestaques() {
             {demais.map((item, i) => (
               <BeneficioCard key={item.href} item={item} index={i + 1} />
             ))}
+            <TotalPassCard />
           </div>
-          <TotalPassFaixa />
         </motion.div>
       </div>
     </section>

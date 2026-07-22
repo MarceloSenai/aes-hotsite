@@ -43,11 +43,16 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div>
             <div className="mb-4">
+              {/* width/height são as dimensões reais do arquivo (858x277), só
+                  para o Next calcular o aspect ratio; o tamanho exibido vem do
+                  CSS. Antes estava 160x60 (ratio 2.67 contra 3.10 do arquivo),
+                  o que espremia o logo na horizontal. */}
               <Image
                 src="/images/aes-footer-logo.png"
                 alt="AES - Associação dos Empregados do SENAI"
-                width={160}
-                height={60}
+                width={858}
+                height={277}
+                className="h-15 w-auto"
               />
             </div>
             <p className="text-white font-semibold text-sm mb-1">

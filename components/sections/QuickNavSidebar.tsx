@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import { Users, UserPlus, IdCard, ChevronRight, Play, TreePalm } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
 
-const SIDEBAR_RED = '#E30613';
-
 const quickLinks = [
   { icon: Users, label: 'Quem Somos', href: '/sobre/quem-somos' },
   { icon: UserPlus, label: 'Associe-se', href: '/associe-se' },
@@ -27,7 +25,7 @@ export default function QuickNavSidebar() {
           const cls = 'group flex items-center gap-2.5 px-4 py-3 text-sm font-semibold text-gray-800 dark:text-gray-100 transition-colors duration-200 hover:bg-red-50 dark:hover:bg-red-500/10';
           const inner = (
             <>
-              <Icon size={17} style={{ color: SIDEBAR_RED }} className="shrink-0 transition-transform duration-200 group-hover:scale-110" />
+              <Icon size={17} style={{ color: 'var(--color-primary)' }} className="shrink-0 transition-transform duration-200 group-hover:scale-110" />
               <span className="flex-1 transition-colors duration-200 group-hover:text-red-600 dark:group-hover:text-red-400">{label}</span>
               <ChevronRight size={14} className="text-gray-300 dark:text-gray-500 transition-all duration-200 group-hover:translate-x-1 group-hover:text-red-500" />
             </>

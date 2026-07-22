@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# skills / agentes (tooling vendorizado — não faz parte do código do site)
+/.claude/skills/
+/.agents/
+/skills-lock.json
+
+# mockups locais (SiteMockup é um repo git aninhado, não um submódulo registrado)
+/SiteMockup/

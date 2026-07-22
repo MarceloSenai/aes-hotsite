@@ -32,8 +32,19 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Allow public GET on /api/admin/theme (theme must apply to all visitors, not just logged-in admins)
-  if (pathname === '/api/admin/theme' && request.method === 'GET') {
+  // Allow public GET on /api/admin/theme (theme must apply to all visitors, not just logged-in admins).
+  //
+  // PUT também é público, e isso é deliberado: o painel /admin foi liberado sem
+  // login (ver nota em PROTECTED_PAGE_PREFIXES), então exigir sessão só na
+  // gravação fazia todo save do tema falhar com 401 — silenciosamente, porque a
+  // UI mostrava "salvo" mesmo assim.
+  //
+  // TRADEOFF ACEITO: qualquer visitante que descubra a URL pode trocar as cores
+  // do site. O dano se limita à aparência (o handler só grava theme_config, com
+  // validação de forma e tamanho) e é revertido pelo próprio painel. Se o /admin
+  // voltar a exigir login, remova PUT daqui e passe a mandar o header
+  // x-csrf-token em ThemeManager.saveTheme.
+  if (pathname === '/api/admin/theme' && (request.method === 'GET' || request.method === 'PUT')) {
     return NextResponse.next()
   }
 

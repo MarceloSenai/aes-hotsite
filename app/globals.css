@@ -35,6 +35,24 @@
   /* Design layout defaults */
   --design-radius: 12px;
   --design-spacing: 1;
+
+  /* Superfície de marca: as faixas do header e o topo do hero têm que ser
+     exatamente a mesma cor para emendarem sem costura. Vive numa variável (e
+     não como var(--color-primary) direto) porque o header é pintado por style
+     inline, que não aceita seletor — a variante escura precisa morar aqui. */
+  --color-brand-surface: var(--color-primary);
+
+  /* Fundo tingido da seção de núcleos, que separa o bloco de lazer do cinza da
+     seção de benefícios logo acima. Deriva de --color-primary para acompanhar
+     o tema dinâmico do admin em vez de fixar uma cor. */
+  --color-surface-tint: color-mix(in srgb, var(--color-primary) 5%, white);
+}
+
+/* :root.dark (e não .dark) para vencer o :root acima por especificidade, em vez
+   de depender da ordem das regras. */
+:root.dark {
+  --color-brand-surface: color-mix(in srgb, var(--color-primary) 50%, var(--color-dark-background));
+  --color-surface-tint: color-mix(in srgb, var(--color-primary) 8%, var(--color-dark-background));
 }
 
 /* ============================================ */
@@ -79,9 +97,26 @@
 .border-theme-border { border-color: var(--color-border) !important; }
 
 /* Gradient helpers */
+/* O gradiente ARRANCA em --color-brand-surface, a mesma cor das faixas do
+   header. É isso que faz o menu se fundir com o banner: mudar um sem o outro
+   reabre a emenda, por isso os dois leem a mesma variável. */
 .gradient-theme-hero {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)) !important;
+  background: linear-gradient(135deg, var(--color-brand-surface), var(--color-primary-dark)) !important;
 }
+
+/* No modo escuro a faixa precisa escurecer junto com a página: o vermelho puro
+   contra o gray-950 do body fica agressivo e "flutuando". Mistura com o tom de
+   fundo escuro em vez de um valor fixo, para acompanhar qualquer tema. */
+.dark .gradient-theme-hero {
+  background: linear-gradient(
+    135deg,
+    var(--color-brand-surface),
+    color-mix(in srgb, var(--color-primary-dark) 38%, var(--color-dark-background))
+  ) !important;
+}
+
+/* O fundo reativo da hero (rede de partículas) é desenhado em canvas por
+   HeroConstellation.tsx — linha dinâmica entre pontos não existe em CSS. */
 .gradient-theme-hero-light {
   background: linear-gradient(135deg, var(--color-primary-light), var(--color-surface)) !important;
 }
@@ -107,6 +142,18 @@
   box-shadow: 0 10px 15px -3px color-mix(in srgb, var(--color-primary) 20%, transparent),
               0 4px 6px -4px color-mix(in srgb, var(--color-primary) 15%, transparent);
 }
+
+/* Elevação dos cards de núcleo: repouso neutro e discreto, hover alto e tingido
+   de primary. Mais fundo que o shadow-theme-glow, que é feito para botões. */
+.shadow-card-soft {
+  box-shadow: 0 10px 30px -12px color-mix(in srgb, #111827 22%, transparent);
+}
+.hover\:shadow-card-elegant:hover {
+  box-shadow: 0 30px 60px -25px color-mix(in srgb, var(--color-primary) 35%, transparent);
+}
+
+/* Fundo tingido de seção (ver --color-surface-tint) */
+.bg-surface-tint { background-color: var(--color-surface-tint) !important; }
 
 /* Primary with opacity */
 .bg-theme-primary-5 { background-color: color-mix(in srgb, var(--color-primary) 5%, transparent) !important; }

@@ -31,9 +31,6 @@ export function BeneficioDestaque({ item, total }: { item: Beneficio; total: num
             <Star size={11} className="fill-current" />
             MAIS PROCURADO
           </span>
-          <span aria-hidden className="text-[11px] tracking-[0.18em] text-white/55">
-            BENEFÍCIO 01 / {String(total).padStart(2, '0')}
-          </span>
         </div>
 
         <div className="relative mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-primary)]">
@@ -93,9 +90,6 @@ export function BeneficioCard({ item, index }: { item: Beneficio; index: number 
               className="text-[var(--color-primary)] transition-colors duration-200 group-hover:text-white"
             />
           </div>
-          <span aria-hidden className="text-[11px] text-gray-300 dark:text-gray-500">
-            {String(index + 1).padStart(2, '0')}
-          </span>
         </div>
 
         <h3 className="mt-4 text-base font-bold text-gray-900 dark:text-white">{item.title}</h3>

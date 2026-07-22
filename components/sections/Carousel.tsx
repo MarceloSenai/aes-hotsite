@@ -45,7 +45,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
 
   if (slides.length === 0) {
     return (
-      <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[260px] flex items-center justify-center text-gray-400">
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[300px] sm:min-h-[380px] lg:min-h-[440px] flex items-center justify-center text-gray-400">
         <p className="text-sm">Nenhum slide disponível</p>
       </div>
     );
@@ -63,9 +63,17 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
     exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
   };
 
+  // A moldura (borda + fundo cinza) só serve ao modo default, onde há texto
+  // sobre superfície clara. No banner a imagem já cobre tudo via object-cover,
+  // então borda e fundo só desenham um contorno claro em volta do banner sobre
+  // o vermelho do hero — o "branco nas bordas".
   return (
         <div
-          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[260px] h-full"
+          className={`relative overflow-hidden min-h-[300px] sm:min-h-[380px] lg:min-h-[440px] h-full shadow-2xl shadow-black/20 ${
+            isImageOnly
+              ? 'rounded-xl'
+              : 'rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900'
+          }`}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -82,7 +90,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
             >
               {isImageOnly ? (
                 /* ── Image-only mode: full-width banner ── */
-                <Link href={slide.href} className="block w-full h-full min-h-[220px] sm:min-h-[260px] md:min-h-[300px]">
+                <Link href={slide.href} className="block w-full h-full min-h-[300px] sm:min-h-[380px] lg:min-h-[440px]">
                   <img
                     src={slide.imagePath}
                     alt={slide.title}

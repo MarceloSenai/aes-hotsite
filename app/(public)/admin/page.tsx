@@ -483,8 +483,16 @@ export default function AdminPage() {
   const handleSelectTheme = async (personality: DesignPersonality) => {
     const preset = THEME_PRESETS[personality];
     const newTheme: ThemeConfig = { id: `${personality}-${Date.now()}`, isActive: true, ...preset };
+    // Só reflete na tela depois de gravar. Aplicar antes fazia o painel mostrar
+    // um tema que o banco não tinha, e que sumia no reload.
+    try {
+      await ThemeManager.saveTheme(newTheme);
+    } catch (error) {
+      console.error('[admin] falha ao salvar tema:', error);
+      showToast('Falha ao salvar. Nada foi gravado.');
+      return;
+    }
     setActiveTheme(newTheme);
-    await ThemeManager.saveTheme(newTheme);
     applyTheme(newTheme);
     window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: newTheme } }));
     showToast('Tema aplicado');
@@ -509,7 +517,13 @@ export default function AdminPage() {
       id: `custom-${Date.now()}`,
       name: `Customizado ${new Date().toLocaleDateString('pt-BR')}`,
     };
-    await ThemeManager.saveTheme(custom);
+    try {
+      await ThemeManager.saveTheme(custom);
+    } catch (error) {
+      console.error('[admin] falha ao salvar tema customizado:', error);
+      showToast('Falha ao salvar. Suas cores continuam aqui, mas não foram gravadas.');
+      return;
+    }
     applyTheme(custom);
     window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: custom } }));
     showToast('Tema customizado salvo');
@@ -517,9 +531,15 @@ export default function AdminPage() {
 
   const handleReset = async () => {
     const defaultTheme: ThemeConfig = { id: 'modern-default', isActive: true, ...THEME_PRESETS.modern };
+    try {
+      await ThemeManager.saveTheme(defaultTheme);
+    } catch (error) {
+      console.error('[admin] falha ao resetar tema:', error);
+      showToast('Falha ao resetar. Nada foi gravado.');
+      return;
+    }
     setActiveTheme(defaultTheme);
     setActiveDesign('moderno');
-    await ThemeManager.saveTheme(defaultTheme);
     DesignManager.saveLayout('moderno');
     applyTheme(defaultTheme);
     window.dispatchEvent(new CustomEvent('aes-theme-change', { detail: { theme: defaultTheme, design: 'moderno' } }));
