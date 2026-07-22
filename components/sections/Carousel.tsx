@@ -45,7 +45,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
 
   if (slides.length === 0) {
     return (
-      <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] flex items-center justify-center text-gray-400">
+      <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[260px] flex items-center justify-center text-gray-400">
         <p className="text-sm">Nenhum slide disponível</p>
       </div>
     );
@@ -65,7 +65,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
 
   return (
         <div
-          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] h-full"
+          className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[260px] h-full"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
@@ -82,7 +82,7 @@ export default function Carousel({ slides }: { slides: CarouselSlideData[] }) {
             >
               {isImageOnly ? (
                 /* ── Image-only mode: full-width banner ── */
-                <Link href={slide.href} className="block w-full h-full min-h-[280px] sm:min-h-[320px] md:min-h-[360px]">
+                <Link href={slide.href} className="block w-full h-full min-h-[220px] sm:min-h-[260px] md:min-h-[300px]">
                   <img
                     src={slide.imagePath}
                     alt={slide.title}

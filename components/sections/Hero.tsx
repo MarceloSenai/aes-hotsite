@@ -4,7 +4,7 @@ import CarouselSection from '@/components/sections/CarouselSection';
 
 function CarouselSkeleton() {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[280px] sm:min-h-[320px] h-full flex flex-col items-center justify-center gap-3">
+    <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 dark:border-gray-700/60 bg-gray-50 dark:bg-gray-900 min-h-[220px] sm:min-h-[260px] h-full flex flex-col items-center justify-center gap-3">
       <div className="absolute inset-0 animate-pulse bg-gray-200 dark:bg-gray-800" />
       <div className="relative flex flex-col items-center gap-3">
         <div
@@ -21,7 +21,7 @@ function CarouselSkeleton() {
 
 export default function Hero() {
   return (
-    <section className="pt-4 pb-4 sm:pt-6 sm:pb-5 bg-white dark:bg-gray-950">
+    <section className="pt-4 pb-2 sm:pt-5 sm:pb-3 bg-white dark:bg-gray-950">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-4 lg:gap-5 items-stretch">
           <QuickNavSidebar />
@@ -32,11 +32,8 @@ export default function Hero() {
 
         <div className="text-center mt-3">
           <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
-            Destaques e <span className="text-theme-gradient">Novidades</span>
+            Sua associação, <span className="text-theme-gradient">conectando você aos seus serviços</span>
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-            Acompanhe as últimas ofertas, notícias e comunicados da AES
-          </p>
         </div>
       </div>
     </section>

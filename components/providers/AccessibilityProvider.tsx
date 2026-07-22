@@ -186,7 +186,15 @@ export default function AccessibilityProvider({ children }: { children: ReactNod
     setMonochrome: (v) => update({ monochrome: v }),
     setHighContrast: (v) => update({ highContrast: v }),
     setVlibras: (v) => update({ vlibras: v }),
-    setDarkMode: (v) => update({ darkMode: v }),
+    setDarkMode: (v) => {
+      // Dispara a transição suave de cores (~450ms) só no momento da troca.
+      if (typeof document !== 'undefined') {
+        const el = document.documentElement;
+        el.classList.add('theme-anim');
+        window.setTimeout(() => el.classList.remove('theme-anim'), 450);
+      }
+      update({ darkMode: v });
+    },
     setReducedMotion: (v) => update({ reducedMotion: v }),
     setLineSpacing: (v) => update({ lineSpacing: v }),
     resetAll: () => {

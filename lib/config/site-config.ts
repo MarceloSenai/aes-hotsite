@@ -276,7 +276,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { id: 'p7', nome: 'UNIP', categoria: 'Educação', descricao: 'Universidade Paulista - Av. Paulista, 900.', site: 'unip.br' },
     { id: 'p8', nome: 'OMEC/UMC', categoria: 'Educação', descricao: 'Universidade de Mogi das Cruzes.', contato: '(11) 4798-7000', site: 'umc.br' },
     { id: 'p9', nome: 'UNIVAP', categoria: 'Educação', descricao: 'Universidade do Vale do Paraíba - São José dos Campos.', contato: '(12) 3947-1000', site: 'univap.br' },
-    { id: 'p10', nome: 'Totalpass', categoria: 'Bem-estar', descricao: 'Acesso a academias (Smart Fit, Bio Ritmo) e serviços de saúde mental.' },
+    { id: 'p10', nome: 'TotalPass', categoria: 'Bem-estar', descricao: 'Mais de 35 mil academias em 1.900 cidades, incluindo Smart Fit e Bio Ritmo, com mais de 250 modalidades, psicólogos online e meditação.', site: 'totalpass.com/br' },
   ],
 };
 

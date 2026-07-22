@@ -341,6 +341,28 @@ export default function ContatoPage() {
  </div>
  </motion.div>
  </div>
+
+ {/* E-mails por unidade (migrados do rodapé) */}
+ <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-8">
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">E-mails por unidade</h2>
+ <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+ {CONTACT.emailGroups.map((group) => (
+ <div key={group.title}>
+ <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2.5 flex items-center gap-2">
+ <Mail size={14} className="text-theme-primary shrink-0" /> {group.title}
+ </h3>
+ <ul className="space-y-2 text-xs">
+ {group.emails.map((item) => (
+ <li key={item.role + item.address} className="text-gray-500 dark:text-gray-400 leading-relaxed">
+ <span className="block">{item.role}</span>
+ <a href={`mailto:${item.address}`} className="hover:text-theme-primary transition-colors break-all text-gray-700 dark:text-gray-300">{item.address}</a>
+ </li>
+ ))}
+ </ul>
+ </div>
+ ))}
+ </div>
+ </div>
  </div>
  </section>
  );

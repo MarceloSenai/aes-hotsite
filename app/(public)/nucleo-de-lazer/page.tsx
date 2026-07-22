@@ -26,7 +26,7 @@ const nucleos = [
  bgIcon: 'bg-theme-primary-light dark:bg-theme-primary-20',
  textIcon: 'text-theme-primary dark:text-theme-primary',
  highlights: ['12 Chalés', 'Piscinas', 'Saunas', 'Campo de Futebol'],
- image: '/images/clube-campo.jpg',
+ image: '/images/nucleos/clube-de-campo.webp',
  },
  {
  title: 'Clube Náutico',
@@ -39,7 +39,7 @@ const nucleos = [
  bgIcon: 'bg-theme-primary-light dark:bg-theme-primary-20',
  textIcon: 'text-theme-primary dark:text-theme-primary',
  highlights: ['8 Chalés', 'Pier de Pesca', 'Academia', 'Cozinha Caipira'],
- image: '/images/clube-nautico.jpg',
+ image: '/images/nucleos/clube-nautico.webp',
  },
  {
  title: 'Colônia de Férias',
@@ -52,7 +52,7 @@ const nucleos = [
  bgIcon: 'bg-amber-100 dark:bg-amber-900/40',
  textIcon: 'text-amber-600 dark:text-amber-400',
  highlights: ['48 Apartamentos', 'Restaurante', 'Cinema', 'Piscina'],
- image: '/images/colonia-ferias.jpg',
+ image: '/images/nucleos/colonia-de-ferias.webp',
  },
 ];
 

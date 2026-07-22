@@ -1,10 +1,6 @@
 import Hero from '@/components/sections/Hero';
 import QuickAccess from '@/components/sections/QuickAccess';
-import Stats from '@/components/sections/Stats';
-// Seções ocultas temporariamente (a pedido):
-// import Mission from '@/components/sections/Mission';     // "Nossa Essência / Missão, Visão, Valores"
-// import Features from '@/components/sections/Features';   // "Nossos Serviços / Benefícios"
-// import Solutions from '@/components/sections/Solutions'; // "Núcleos de Lazer"
+import AssociadoDestaques from '@/components/sections/AssociadoDestaques';
 
 // Renderiza a home em tempo de requisição (no App Service), NÃO no `next build`.
 // O carrossel (Hero > CarouselSection) lê os slides do banco; se a home fosse
@@ -18,11 +14,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      {/* <Mission /> */}
-      {/* <Features /> */}
       <QuickAccess />
-      {/* <Solutions /> */}
-      <Stats />
+      <AssociadoDestaques />
     </>
   );
 }

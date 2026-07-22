@@ -111,17 +111,17 @@ export default function QuemSomosPage() {
  </section>
 
  {/* ── Content ── */}
- <section className="bg-white dark:bg-gray-950 py-16 sm:py-24">
+ <section className="bg-white dark:bg-gray-950 py-12 sm:py-16">
  <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  variants={containerVariants}
  initial="hidden"
  whileInView="visible"
  viewport={{ once: true, amount: 0.15 }}
- className="space-y-16"
+ className="space-y-10"
  >
  {/* Milestones */}
- <motion.div variants={itemVariants} className="grid sm:grid-cols-2 gap-6">
+ <motion.div variants={itemVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
  {milestones.map((m) => {
  const Icon = m.icon;
  return (
@@ -143,23 +143,20 @@ export default function QuemSomosPage() {
  </div>
  );
  })}
- </motion.div>
-
- {/* Mission */}
- <motion.div variants={itemVariants}>
- <div className="flex items-center gap-3 mb-4">
- <div className="p-2.5 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl">
- <Target size={22} className="text-theme-primary dark:text-theme-primary" />
+ {/* Missão — 3º bloco, ao lado de fundação e utilidade pública */}
+ <div className="flex gap-4 p-6 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark">
+ <div className="shrink-0 p-3 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl h-fit">
+ <Target size={24} className="text-theme-primary dark:text-theme-primary" />
  </div>
- <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+ <div>
+ <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
  Nossa Missão
- </h2>
+ </h3>
+ <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">
+ &ldquo;Proporcionar qualidade de vida aos seus associados, dependentes e agregados, promovendo a integração social, a solidariedade e a cidadania, construindo a consciência coletiva.&rdquo;
+ </p>
  </div>
- <blockquote className="border-l-4 border-theme-primary pl-6 py-2 text-gray-700 dark:text-gray-300 text-lg leading-relaxed italic bg-theme-primary-5 dark:bg-theme-primary-10 rounded-r-xl pr-6">
- &ldquo;Proporcionar qualidade de vida aos seus associados, dependentes e
- agregados, promovendo a integração social, a solidariedade e a cidadania,
- construindo a consciência coletiva.&rdquo;
- </blockquote>
+ </div>
  </motion.div>
 
  {/* Organizational Structure */}

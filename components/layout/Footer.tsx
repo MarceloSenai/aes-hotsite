@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CONTACT } from '@/lib/config/contact';
 import {
-  Mail,
   MapPin,
   Clock,
   MessageCircle,
@@ -13,6 +12,7 @@ import {
   Facebook,
   Instagram,
   Linkedin,
+  ChevronRight,
 } from 'lucide-react';
 
 const quickLinks = [
@@ -37,9 +37,9 @@ export default function Footer() {
 
   return (
     <footer className="bg-black text-gray-100">
-      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-10">
         {/* Main Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Column 1: Brand */}
           <div>
             <div className="mb-4">
@@ -165,27 +165,12 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* E-mails por unidade */}
-        <div className="border-t border-gray-800 pt-10 mb-12">
-          <h3 className="text-lg font-semibold text-white mb-6">E-mails</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {CONTACT.emailGroups.map((group) => (
-              <div key={group.title}>
-                <h4 className="text-sm font-semibold text-white mb-2.5 flex items-center gap-2">
-                  <Mail size={14} className="text-theme-primary shrink-0" />
-                  {group.title}
-                </h4>
-                <ul className="space-y-2 text-xs">
-                  {group.emails.map((item) => (
-                    <li key={item.role + item.address} className="text-gray-400 leading-relaxed">
-                      <span className="text-gray-500 block">{item.role}</span>
-                      <a href={`mailto:${item.address}`} className="hover:text-white transition-colors break-all">{item.address}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+        {/* E-mails completos migraram para a página de Contato */}
+        <div className="border-t border-gray-800 pt-8 mb-8">
+          <Link href="/contato" className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'var(--color-primary-light)' }}>
+            Ver todos os e-mails e fale conosco
+            <ChevronRight size={15} />
+          </Link>
         </div>
 
         {/* Bottom Bar */}

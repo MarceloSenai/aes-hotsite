@@ -139,9 +139,10 @@ export default function AssistenciaMedicaPage() {
  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
  return (
- <section className="py-24 gradient-theme-page-light min-h-screen">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
- {/* Back */}
+ <>
+ {/* Faixa vermelha (hero) — reduz o "branco" no topo */}
+ <section className="relative overflow-hidden text-white" style={{ background: 'linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark))' }}>
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
  <motion.div
  initial={{ opacity: 0, x: -20 }}
  animate={{ opacity: 1, x: 0 }}
@@ -149,39 +150,38 @@ export default function AssistenciaMedicaPage() {
  >
  <Link
  href="/servicos"
- className="inline-flex items-center gap-2 text-theme-primary dark:text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8"
+ className="inline-flex items-center gap-2 text-white/80 hover:text-white font-medium hover:gap-3 transition-all duration-300 mb-6"
  >
  <ArrowLeft size={18} />
  Voltar para Serviços
  </Link>
  </motion.div>
 
- {/* Header */}
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  animate={{ opacity: 1, y: 0 }}
  transition={{ duration: 0.6 }}
- className="mb-12"
  >
- <div className="flex items-center gap-4 mb-6">
- <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-2xl flex items-center justify-center">
- <HeartPulse className="text-rose-600 dark:text-rose-400" size={32} />
+ <div className="flex items-center gap-4 mb-4">
+ <div className="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center">
+ <HeartPulse className="text-white" size={32} />
  </div>
- <div>
- <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
- Assistência{' '}
- <span className="text-theme-gradient">
- Médica
- </span>
+ <h1 className="text-3xl sm:text-4xl font-bold text-white">
+ Assistência Médica
  </h1>
  </div>
- </div>
- <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
+ <p className="text-lg text-white/85 max-w-3xl">
  A AES oferece aos seus associados e dependentes o plano de saúde UNIMED FESP
  (Carteira 970 - UNIMED Paulistana), com acesso a uma ampla rede nacional de
  hospitais e clínicas credenciados.
  </p>
  </motion.div>
+ </div>
+ </section>
+
+ {/* Conteúdo */}
+ <section className="py-16 gradient-theme-page-light min-h-screen">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
 
  {/* Partner Badge */}
  <motion.div
@@ -450,5 +450,6 @@ export default function AssistenciaMedicaPage() {
  </motion.div>
  </div>
  </section>
+ </>
  );
 }

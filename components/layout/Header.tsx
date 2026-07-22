@@ -5,12 +5,11 @@ import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Menu, X, Mail, Phone, ChevronDown, ChevronRight, MessageCircle,
-  UserCircle, Shield, Sun, Moon, TreePalm, Building2, Briefcase,
-  Heart, Stethoscope, Pill, Handshake, Calendar, Newspaper, Landmark,
+  Menu, X, Mail, Phone, ChevronDown, MessageCircle,
+  UserCircle, Shield, TreePalm, Building2, Briefcase,
+  Heart, Stethoscope, Pill, Calendar, Newspaper, Landmark,
   FileText, Camera, Users, Info, MapPin, Clock, Instagram, Facebook,
 } from 'lucide-react';
-import { useAccessibility } from '@/components/providers/AccessibilityProvider';
 import { CONTACT } from '@/lib/config/contact';
 
 /* ─── Brand colors (fixed, per reference design — independent of theme vars) ── */
@@ -78,6 +77,7 @@ const NAV_ITEMS: NavItem[] = [
       { href: '/galeria', label: 'Galeria de Fotos', icon: Camera, desc: 'Eventos e núcleos' },
     ],
   },
+  { href: '/contato', label: 'Contato' },
   { href: '/associe-se', label: 'Associe-se' },
 ];
 
@@ -86,13 +86,8 @@ const NAV_ITEMS: NavItem[] = [
 function MegaDropdown({ item, isOpen, onOpen, onClose }: {
   item: NavItem; isOpen: boolean; onOpen: () => void; onClose: () => void;
 }) {
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const handleEnter = () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); onOpen(); };
-  const handleLeave = () => { timeoutRef.current = setTimeout(onClose, 180); };
-  useEffect(() => () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }, []);
-
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave} onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}>
+    <div className="relative" onMouseEnter={onOpen} onMouseLeave={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}>
       <button
         className={`flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
           isOpen ? 'text-white bg-white/15' : 'text-white/85 hover:text-white hover:bg-white/10'
@@ -208,7 +203,20 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const a11y = useAccessibility();
+
+  // Fechamento do mega-menu centralizado (um timeout só) — evita que o timeout
+  // pendente de um item derrube o dropdown recém-aberto de outro (bug do hover
+  // que "não resetava" ao sair e voltar).
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openMenu = useCallback((href: string) => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current); closeTimer.current = null; }
+    setOpenDropdown(href);
+  }, []);
+  const scheduleClose = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 180);
+  }, []);
+  useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -225,39 +233,12 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      {/* ── Bar 1: contact + accessibility ── */}
-      <div className="text-white text-xs" style={{ backgroundColor: BRAND_RED }}>
-        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9">
-          <a href={CONTACT.phoneHref} className="flex items-center gap-1.5 font-medium hover:text-white/85 transition-colors">
-            <Phone size={13} /> {CONTACT.phone}
-          </a>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => a11y.setHighContrast(!a11y.highContrast)}
-              aria-pressed={a11y.highContrast}
-              aria-label="Acessibilidade e inclusão"
-              className={`flex items-center justify-center w-6 h-6 rounded-full transition-colors ${a11y.highContrast ? 'bg-black text-white' : 'bg-black/25 hover:bg-black/40'}`}
-            >
-              <Handshake size={13} />
-            </button>
-            <button
-              onClick={() => a11y.setDarkMode(!a11y.darkMode)}
-              aria-pressed={a11y.darkMode}
-              aria-label={a11y.darkMode ? 'Modo claro' : 'Modo escuro'}
-              className="flex items-center justify-center w-6 h-6 rounded-full bg-black/25 hover:bg-black/40 transition-colors"
-            >
-              {a11y.darkMode ? <Sun size={13} /> : <Moon size={13} />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Bar 2: logo, address, social ── */}
-      <div className="bg-black">
+      {/* ── Bar 1: logo, address, social ── */}
+      <div style={{ backgroundColor: BRAND_RED }}>
         <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div className="flex items-center gap-5">
             <Link href="/" className="shrink-0">
-              <Image src="/images/aes-footer-logo.png" alt="AES" width={112} height={44} className="object-contain h-10 w-auto sm:h-11" priority />
+              <Image src="/images/aes-logo-white.svg" alt="AES" width={150} height={58} className="object-contain h-11 w-auto sm:h-12" priority />
             </Link>
             <div className="hidden md:flex flex-col gap-1.5 text-white/75 text-xs border-l border-white/15 pl-5">
               <span className="flex items-center gap-1.5"><MapPin size={13} className="shrink-0 text-white/50" /> Rua Correia de Andrade, 232 - Brás - São Paulo/SP 1º Andar - CEP: 03008-020</span>
@@ -268,16 +249,16 @@ export default function Header() {
 
           <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
             <a href={CONTACT.whatsappHref} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-              <MessageCircle size={16} style={{ color: '#22C55E' }} /> WhatsApp
+              <MessageCircle size={16} className="text-white" /> WhatsApp
             </a>
             <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-              <Mail size={16} style={{ color: '#EF4444' }} /> E-mail
+              <Mail size={16} className="text-white" /> E-mail
             </a>
             <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-              <Instagram size={16} style={{ color: '#E4405F' }} /> Instagram
+              <Instagram size={16} className="text-white" /> Instagram
             </a>
             <a href={CONTACT.facebook} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/90 hover:text-white transition-colors">
-              <Facebook size={16} style={{ color: '#1877F2' }} /> Facebook
+              <Facebook size={16} className="text-white" /> Facebook
             </a>
           </div>
         </div>
@@ -294,8 +275,8 @@ export default function Header() {
                 item.children ? (
                   <MegaDropdown key={item.href} item={item}
                     isOpen={openDropdown === item.href}
-                    onOpen={() => setOpenDropdown(item.href)}
-                    onClose={() => setOpenDropdown(null)} />
+                    onOpen={() => openMenu(item.href)}
+                    onClose={scheduleClose} />
                 ) : item.label === 'Associe-se' ? (
                   <Link key={item.href} href={item.href}
                     className="ml-2 px-4 py-2 text-sm font-semibold text-white bg-white/15 hover:bg-white/25 rounded-lg transition-all duration-200 border border-white/20">

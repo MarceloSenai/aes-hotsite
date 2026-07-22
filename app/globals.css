@@ -230,3 +230,18 @@ html.a11y-line-spacing span,
 html.a11y-line-spacing td {
   line-height: 2 !important;
 }
+
+/* ============================================ */
+/* Transição suave ao alternar tema             */
+/* ============================================ */
+/* A classe .theme-anim é adicionada ao <html> por ~450ms apenas no momento da
+   troca de tema (AccessibilityProvider.setDarkMode). Fora desse instante ela
+   não existe, então as transições de hover dos componentes (Tailwind) ficam
+   intactas. Respeita reduced-motion (preferência do SO e o modo do painel). */
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-anim:not(.a11y-reduced-motion) *,
+  html.theme-anim:not(.a11y-reduced-motion) *::before,
+  html.theme-anim:not(.a11y-reduced-motion) *::after {
+    transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, fill 0.4s ease !important;
+  }
+}
