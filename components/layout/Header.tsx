@@ -38,7 +38,7 @@ const NAV_ITEMS: NavItem[] = [
       { href: '/sobre/quem-somos', label: 'Quem Somos', icon: Info, desc: 'Nossa história e missão' },
       { href: '/historia/index.html', label: 'Museu AES', icon: Landmark, desc: 'Conheça a nossa história', external: true },
       { href: '/sobre/administracao', label: 'Administração', icon: Building2, desc: 'Corpo administrativo' },
-      { href: '/representantes', label: 'Representantes', icon: Users, desc: 'Conselhos e diretoria' },
+      { href: '/representantes', label: 'Representantes', icon: Users, desc: 'Representantes regionais' },
       { href: '/associados', label: 'Associados', icon: UserCircle, desc: 'Benefícios e como associar' },
     ],
   },

@@ -12,7 +12,7 @@ import { CONTACT } from '@/lib/config/contact';
 const stats = [
   { value: '78+', label: 'Anos de História' },
   { value: '3', label: 'Núcleos de Lazer' },
-  { value: '60+', label: 'Anos de Utilidade Pública' },
+  { value: '20+', label: 'Benefícios Disponíveis' },
 ];
 
 // Entrada escalonada, consistente com o resto da home (QuickAccess/AssociadoDestaques).
