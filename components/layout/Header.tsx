@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, Mail, Phone, ChevronDown, MessageCircle,
@@ -83,6 +83,24 @@ const NAV_ITEMS: NavItem[] = [
 function MegaDropdown({ item, isOpen, onOpen, onClose }: {
   item: NavItem; isOpen: boolean; onOpen: () => void; onClose: () => void;
 }) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [shift, setShift] = useState(0);
+
+  // O painel nasce centralizado sob o botão (left-1/2 -translate-x-1/2), mas para
+  // itens perto da borda — caso do "Institucional", primeiro do menu — isso empurra
+  // um painel de 280px+ para fora da viewport. Mede a posição real ao abrir e só
+  // desvia quando há overflow de fato, preservando a centralização nos demais itens.
+  useLayoutEffect(() => {
+    if (!isOpen || !panelRef.current) return;
+    const { left, right } = panelRef.current.getBoundingClientRect();
+    const margin = 16;
+    const overflowLeft = margin - left;
+    const overflowRight = right - (window.innerWidth - margin);
+    if (overflowLeft > 0) setShift(overflowLeft);
+    else if (overflowRight > 0) setShift(-overflowRight);
+    else setShift(0);
+  }, [isOpen]);
+
   return (
     <div className="relative" onMouseEnter={onOpen} onMouseLeave={onClose} onKeyDown={(e) => { if (e.key === 'Escape') onClose(); }}>
       <button
@@ -104,9 +122,10 @@ function MegaDropdown({ item, isOpen, onOpen, onClose }: {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.97 }}
             transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            style={{ x: shift }}
             className="absolute left-1/2 -translate-x-1/2 top-full pt-3 z-50"
           >
-            <div role="menu" className="min-w-[280px] rounded-xl bg-white dark:bg-gray-800 shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 overflow-hidden p-2">
+            <div ref={panelRef} role="menu" className="min-w-[280px] rounded-xl bg-white dark:bg-gray-800 shadow-2xl shadow-black/15 ring-1 ring-black/5 dark:ring-white/10 overflow-hidden p-2">
               {item.children.map((child) => {
                 const Icon = child.icon;
                 const cls = "group flex items-start gap-3 px-3 py-2.5 rounded-lg text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors";
