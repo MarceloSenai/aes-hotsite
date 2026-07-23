@@ -11,7 +11,7 @@ export default function AssociadoDestaques() {
   const [destaque, ...demais] = beneficios;
 
   return (
-    <section className="bg-gray-50 py-14 sm:py-20 dark:bg-gray-900/50">
+    <section className="bg-gray-50 py-14 sm:py-5 dark:bg-gray-900/50">
       <div className="mx-auto max-w-[1920px] px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={groupVariants}

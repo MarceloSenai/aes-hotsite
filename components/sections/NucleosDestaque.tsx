@@ -8,7 +8,7 @@ import CabecalhoColuna from './destaques/CabecalhoColuna';
 
 export default function NucleosDestaque() {
   return (
-    <section className="bg-surface-tint relative overflow-hidden py-10 sm:py-14">
+    <section className="bg-surface-tint relative overflow-hidden py-5 sm:py-5">
       <div
         aria-hidden="true"
         className="bg-theme-primary-10 pointer-events-none absolute -top-32 -left-24 h-80 w-80 rounded-full blur-3xl"

@@ -17,9 +17,9 @@ export default function ThemeToggleFab() {
       onClick={() => setDarkMode(!darkMode)}
       aria-label={darkMode ? 'Ativar modo claro' : 'Ativar modo escuro'}
       aria-pressed={darkMode}
-      className="fixed right-5 bottom-[84px] z-[9999] flex h-12 w-12 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10"
+      className="fixed right-4 bottom-[84px] z-[9999] flex h-14 w-14 items-center justify-center rounded-full bg-white text-gray-700 shadow-lg ring-1 ring-black/5 transition-all duration-300 hover:scale-110 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-gray-800 dark:text-gray-100 dark:ring-white/10"
     >
-      {darkMode ? <Sun size={22} /> : <Moon size={22} />}
+      {darkMode ? <Sun size={24} /> : <Moon size={24} />}
     </button>
   );
 }
