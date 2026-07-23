@@ -299,7 +299,11 @@ export default function Header() {
             {/* Right */}
             <div className="flex items-center gap-2">
               <a href={CONTACT.associadoPortal} target="_blank" rel="noopener noreferrer"
-                className="hidden xl:flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-white/85 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200">
+                className="hidden xl:flex items-center gap-1.5 rounded-lg bg-white px-3.5 py-2 text-sm font-semibold ring-1 ring-white/70 transition-all duration-200 hover:-translate-y-0.5"
+                style={{
+                  color: 'var(--color-primary)',
+                  boxShadow: '0 6px 18px -6px rgba(0,0,0,0.4), 0 0 16px -3px rgba(255,255,255,0.5)',
+                }}>
                 <UserCircle size={16} /> Área do Associado
               </a>
               <Link href="/admin"

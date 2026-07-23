@@ -12,7 +12,6 @@ import {
   Facebook,
   Instagram,
   Linkedin,
-  ChevronRight,
 } from 'lucide-react';
 
 const quickLinks = [
@@ -168,14 +167,6 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-        </div>
-
-        {/* E-mails completos migraram para a página de Contato */}
-        <div className="border-t border-gray-800 pt-8 mb-8">
-          <Link href="/contato" className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-white" style={{ color: 'var(--color-primary-light)' }}>
-            Ver todos os e-mails e fale conosco
-            <ChevronRight size={15} />
-          </Link>
         </div>
 
         {/* Bottom Bar */}

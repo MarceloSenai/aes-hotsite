@@ -30,7 +30,7 @@ function CabecalhoColuna({
         </motion.span>
         <motion.h2
           variants={itemVariants}
-          className="text-2xl font-bold text-gray-900 dark:text-white"
+          className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-white"
         >
           {titulo}
         </motion.h2>
@@ -65,7 +65,7 @@ export default function AssociadoDestaques() {
         >
           <CabecalhoColuna
             eyebrow="Benefícios"
-            titulo="Serviços ao associado"
+            titulo="Vantagens que transformam o seu dia a dia"
             verHref="/servicos"
             verLabel="Ver todos"
           />

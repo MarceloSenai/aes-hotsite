@@ -7,8 +7,8 @@ export const CONTACT = {
   whatsapp: '(11) 3367-9900',
   whatsappHref: 'https://wa.me/551133679900',
   email: 'gerente@aessenai.org.br',
-  address: 'Rua José Getúlio, 78/90 - Aclimação, São Paulo - SP',
-  hours: 'Segunda a Sexta, 8h às 17h',
+  address: 'Rua Correia de Andrade, 232 - Brás, São Paulo - SP, CEP 03008-020',
+  hours: 'Segunda a Sexta, 7h às 17h',
 
   // WhatsApp dos Núcleos
   nucleos: [
