@@ -1,8 +1,9 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { beneficios } from './destaques/data';
 import { groupVariants, itemVariants } from './destaques/motion';
 import { BeneficioDestaque, BeneficioCard } from './destaques/BeneficioCards';
@@ -11,29 +12,40 @@ import TotalPassCard from './destaques/TotalPassCard';
 function CabecalhoColuna({
   eyebrow,
   titulo,
+  subtitulo,
   verHref,
   verLabel,
 }: {
   eyebrow: string;
-  titulo: string;
+  titulo: ReactNode;
+  subtitulo?: string;
   verHref: string;
   verLabel: string;
 }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-      <div>
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <div className="max-w-2xl">
         <motion.span
           variants={itemVariants}
-          className="mb-3 inline-block rounded-full bg-[var(--color-primary-light)] px-3 py-1 text-xs font-semibold text-[var(--color-primary-dark)] dark:bg-[color-mix(in_srgb,var(--color-primary)_20%,transparent)] dark:text-[var(--color-primary-light)]"
+          className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-[var(--color-primary-light)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[var(--color-primary-dark)] dark:bg-[color-mix(in_srgb,var(--color-primary)_20%,transparent)] dark:text-[var(--color-primary-light)]"
         >
+          <Sparkles size={13} aria-hidden="true" />
           {eyebrow}
         </motion.span>
         <motion.h2
           variants={itemVariants}
-          className="text-2xl font-bold text-gray-900 sm:text-3xl dark:text-white"
+          className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl dark:text-white"
         >
           {titulo}
         </motion.h2>
+        {subtitulo && (
+          <motion.p
+            variants={itemVariants}
+            className="mt-4 text-base text-gray-600 sm:text-lg dark:text-gray-300"
+          >
+            {subtitulo}
+          </motion.p>
+        )}
       </div>
       <motion.div variants={itemVariants}>
         <Link
@@ -64,8 +76,17 @@ export default function AssociadoDestaques() {
           viewport={{ once: true, margin: '-40px' }}
         >
           <CabecalhoColuna
-            eyebrow="Benefícios"
-            titulo="Vantagens que transformam o seu dia a dia"
+            eyebrow="Benefícios exclusivos"
+            titulo={
+              <>
+                Vantagens que{' '}
+                <span className="text-[var(--color-primary)] dark:text-[var(--color-primary-light)]">
+                  transformam
+                </span>{' '}
+                o dia a dia da sua família.
+              </>
+            }
+            subtitulo="Ser AES é ter acesso a um ecossistema completo de saúde, proteção e economia — para você e todos que você ama."
             verHref="/servicos"
             verLabel="Ver todos"
           />
