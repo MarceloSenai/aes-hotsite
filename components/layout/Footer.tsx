@@ -21,6 +21,7 @@ const quickLinks = [
   { label: 'Associados', href: '/associados' },
   { label: 'Galeria', href: '/galeria' },
   { label: 'Parcerias', href: '/parcerias' },
+  { label: 'Contato', href: '/contato' },
 ];
 
 const servicos = [
