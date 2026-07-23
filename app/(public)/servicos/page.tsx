@@ -1,17 +1,35 @@
 'use client';
 
+import type { ElementType } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
  ArrowRight,
+ ExternalLink,
  HeartPulse,
  Smile,
  Shield,
  Pill,
  ShieldCheck,
+ Dumbbell,
 } from 'lucide-react';
+import { totalpass } from '@/components/sections/destaques/data';
 
-const services = [
+type Service = {
+ icon: ElementType;
+ title: string;
+ description: string;
+ link: string;
+ gradient: string;
+ bgIcon: string;
+ textIcon: string;
+ /** Parceria de terceiro: abre em nova aba em vez de navegar para uma página interna. */
+ external?: boolean;
+ badge?: string;
+ ctaLabel?: string;
+};
+
+const services: Service[] = [
  {
  icon: HeartPulse,
  title: 'Assistência Médica',
@@ -61,6 +79,18 @@ const services = [
  gradient: 'linear-gradient(to bottom right, #8b5cf6, #a855f7)',
  bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
  textIcon: 'text-violet-600 dark:text-violet-400',
+ },
+ {
+ icon: Dumbbell,
+ title: totalpass.nome,
+ description: totalpass.resumo,
+ link: totalpass.siteHref,
+ external: true,
+ badge: 'Parceria',
+ ctaLabel: totalpass.siteLabel,
+ gradient: 'linear-gradient(to bottom right, #26d07c, #10b981)',
+ bgIcon: 'bg-emerald-100 dark:bg-emerald-900/30',
+ textIcon: 'text-emerald-600 dark:text-emerald-400',
  },
 ];
 
@@ -118,13 +148,7 @@ export default function ServicosPage() {
  >
  {services.map((service) => {
  const Icon = service.icon;
- return (
- <motion.div
- key={service.title}
- variants={cardVariants}
- className="group relative"
- >
- <Link href={service.link} className="block h-full">
+ const cardContent = (
  <div className="relative h-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 transition-all duration-300 hover:shadow-xl hover:shadow-theme-glow hover:border-theme-primary-light dark:hover:border-theme-primary-dark hover:-translate-y-1">
  <div
  className="absolute inset-0 opacity-0 group-hover:opacity-[0.04] dark:group-hover:opacity-[0.08] transition-opacity duration-300"
@@ -140,23 +164,59 @@ export default function ServicosPage() {
  </div>
 
  <div className="relative">
- <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+ <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
  {service.title}
+ {service.badge && (
+ <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold tracking-wide bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400">
+ {service.badge.toUpperCase()}
+ </span>
+ )}
  </h3>
  <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
  {service.description}
  </p>
 
  <span className="inline-flex items-center gap-2 text-theme-primary dark:text-theme-primary font-semibold text-sm group-hover:gap-3 transition-all duration-300">
- Saiba mais
- <ArrowRight
+ {service.ctaLabel ?? 'Saiba mais'}
+ {service.external ? (
+ <ExternalLink
  size={16}
+ aria-hidden="true"
  className="group-hover:translate-x-1 transition-transform duration-300"
  />
+ ) : (
+ <ArrowRight
+ size={16}
+ aria-hidden="true"
+ className="group-hover:translate-x-1 transition-transform duration-300"
+ />
+ )}
  </span>
  </div>
  </div>
+ );
+
+ return (
+ <motion.div
+ key={service.title}
+ variants={cardVariants}
+ className="group relative"
+ >
+ {service.external ? (
+ <a
+ href={service.link}
+ target="_blank"
+ rel="noopener noreferrer"
+ aria-label={`${service.title} (abre em nova aba)`}
+ className="block h-full"
+ >
+ {cardContent}
+ </a>
+ ) : (
+ <Link href={service.link} className="block h-full">
+ {cardContent}
  </Link>
+ )}
  </motion.div>
  );
  })}
