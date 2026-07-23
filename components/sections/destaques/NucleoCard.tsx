@@ -11,21 +11,21 @@ export default function NucleoCard({ item }: { item: Nucleo }) {
   return (
     <motion.article
       variants={itemVariants}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-gray-200/80 bg-white shadow-card-soft transition-[transform,box-shadow] duration-[350ms] hover:-translate-y-1.5 hover:shadow-card-elegant dark:border-gray-700/60 dark:bg-gray-800"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200/80 bg-white shadow-card-soft transition-[transform,box-shadow] duration-[350ms] hover:-translate-y-1.5 hover:shadow-card-elegant dark:border-gray-700/60 dark:bg-gray-800"
     >
       <Link
         href={item.href}
-        className="flex flex-1 flex-col rounded-3xl focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-gray-800"
+        className="flex flex-1 flex-col rounded-2xl focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-gray-800"
       >
-        {/* A foto já vem recortada em 4:5, então `sizes` corresponde à caixa
-            renderizada. Se fosse o 16:9 recortado por object-cover, o browser
-            baixaria uma versão estreita demais e a foto subiria ~1,5x. */}
-        <div className="relative aspect-[4/5] overflow-hidden">
+        {/* Foto pré-recortada em 4:3 (877x658), igual à caixa: o object-cover só
+            escala, não corta. Os 877px de origem cobrem os ~602px do card em
+            max-w-[1920px] sem upscale. Ver public/images/nucleos/CREDITOS.md. */}
+        <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src={item.image}
             alt={item.alt}
             fill
-            sizes="(min-width: 1400px) 429px, (min-width: 768px) 31vw, 100vw"
+            sizes="(min-width: 1920px) 602px, (min-width: 768px) 31vw, 100vw"
             className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />

@@ -21,7 +21,7 @@ export type Nucleo = {
   description: string;
   chips: string[];
   href: string;
-  /** 526x658 (4:5), recortado à mão do original 16:9 — ver CREDITOS.md. */
+  /** 877x658 (4:3), recortado do original 16:9 — ver CREDITOS.md. */
   image: string;
   alt: string;
 };
@@ -102,7 +102,7 @@ export const nucleos: Nucleo[] = [
       'Chalés, apartamentos, piscinas, saunas e muito mais em meio à natureza.',
     chips: ['12 Chalés', 'Piscinas', 'Saunas'],
     href: '/nucleo-de-lazer/clube-de-campo',
-    image: '/images/nucleos/portrait/clube-de-campo.webp',
+    image: '/images/nucleos/card/clube-de-campo.webp',
     alt: 'Área verde com quiosques do Clube de Campo da AES em Jundiaí',
   },
   {
@@ -112,7 +112,7 @@ export const nucleos: Nucleo[] = [
       'Chalés à beira da represa com pier de pesca, academia ao ar livre e a tranquilidade do interior paulista.',
     chips: ['8 Chalés', 'Pier de Pesca', 'Academia'],
     href: '/nucleo-de-lazer/clube-nautico',
-    image: '/images/nucleos/portrait/clube-nautico.webp',
+    image: '/images/nucleos/card/clube-nautico.webp',
     alt: 'Pier de pesca do Clube Náutico da AES na represa de Boracéia',
   },
   {
@@ -122,7 +122,7 @@ export const nucleos: Nucleo[] = [
       'Apartamentos completos na praia com restaurante, cinema, piscina e toda infraestrutura para suas férias.',
     chips: ['48 Apartamentos', 'Restaurante', 'Cinema'],
     href: '/nucleo-de-lazer/colonia-de-ferias',
-    image: '/images/nucleos/portrait/colonia-de-ferias.webp',
+    image: '/images/nucleos/card/colonia-de-ferias.webp',
     alt: 'Praia do litoral sul paulista, onde fica a Colônia de Férias da AES em Itanhaém',
   },
 ];

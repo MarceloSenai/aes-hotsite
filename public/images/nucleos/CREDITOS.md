@@ -14,11 +14,11 @@ da Colônia retornam 404. Substituir assim que a AES fornecer fotos reais.
 
 | Arquivo | Formato | Situação |
 |---|---|---|
-| `portrait/<slug>.webp` | 526x658 (4:5) | **O que aparece no site**: seção de núcleos da home (`NucleosDestaque` → `destaques/NucleoCard`) |
+| `card/<slug>.webp` | 877x658 (4:3) | **O que aparece no site**: seção de núcleos da home (`NucleosDestaque` → `destaques/NucleoCard`) |
 | `<slug>.webp` | 1170x658 (16:9) | Original, fonte do recorte. Referenciado pelo array local de `/nucleo-de-lazer`, mas aquele card não renderiza foto — o campo está lá sem uso |
 
-O retrato é **recortado à mão** do 16:9, com offset horizontal escolhido por
-foto para não perder o assunto:
+O recorte 4:3 sai do 16:9 mantendo a altura inteira (658px) e cortando só a
+largura, com offset horizontal escolhido por foto para não perder o assunto:
 
 | Arquivo | Offset X | O que o recorte preserva |
 |---|---|---|
@@ -26,26 +26,26 @@ foto para não perder o assunto:
 | `clube-nautico.webp` | 120 | A diagonal do píer entrando pelo canto inferior |
 | `colonia-de-ferias.webp` | 170 | O coqueiral à esquerda e a curva da arrebentação |
 
-**Ao trocar uma foto real, regere o retrato** — trocar só o 16:9 não muda nada
-no site, porque quem é renderizado é o arquivo em `portrait/`. O recorte é
-`extract` de 526x658 a partir do offset, sem redimensionar (`sharp`, webp
-quality 85).
+**Ao trocar uma foto real, regere o recorte** — trocar só o 16:9 não muda nada
+no site, porque quem é renderizado é o arquivo em `card/`. O recorte é `extract`
+de 877x658 a partir do offset, sem redimensionar (`sharp`, webp quality 85).
 
-Por que pré-recortado e não `object-cover` no CSS: com a fonte em 16:9, cobrir
-uma caixa 4:5 exige uma imagem ~2,2x mais larga que a caixa. O `sizes` do
-`next/image` pede a largura da *caixa*, o browser baixa uma versão estreita
-demais, e a foto sobe ~1,5x — borrada, apesar de haver pixels de sobra.
+Por que pré-recortado em 4:3 e não `object-cover` sobre o 16:9: quando a caixa
+(4:3) e a fonte (16:9) têm proporções diferentes, o cover precisa escalar a
+imagem além da largura da caixa, mas o `sizes` do `next/image` pede só a largura
+da *caixa* — o browser baixa uma versão estreita demais e a foto sobe de escala,
+borrada. Com o arquivo já em 4:3, `sizes` = largura da caixa e não há upscale.
 
-**Os 526px de largura são um teto.** É o máximo que dá pra extrair em 4:5 de uma
-fonte 1170x658, e é por isso que a seção de núcleos usa `max-w-[1400px]` em vez
-do `max-w-[1920px]` das outras: a 1920 os cards passariam de 600px e a foto
-voltaria a subir de escala. Se um dia chegarem fotos maiores, esse limite cai.
+**A largura do recorte 4:3 vai a 877px** (altura 658 × 4/3), contra os 526px do
+antigo 4:5. Por isso a seção agora usa `max-w-[1920px]` como as outras: os cards
+chegam a ~602px e os 877px cobrem essa largura com folga.
 
-## Ao escolher a foto, pense em retrato
+## Ao escolher a foto, pense em paisagem 4:3
 
-O card mostra a foto inteira em 4:5, sem corte adicional: o que estiver no
-arquivo em `portrait/` é o que aparece. O terço inferior fica sob um gradiente
-preto que carrega o nome do núcleo, então evite pôr o assunto ali embaixo.
+O card mostra a foto inteira em 4:3, sem corte adicional: o que estiver no
+arquivo em `card/` é o que aparece. O terço inferior fica sob um gradiente preto
+que carrega o nome do núcleo, então evite pôr o assunto ali embaixo.
 
-Se a foto nova vier em 16:9, ela precisa de um assunto que sobreviva a perder
-~55% da largura — e vale reescolher o offset em vez de recortar pelo centro.
+Vindo de um 16:9, o recorte 4:3 perde só ~25% da largura — bem menos agressivo
+que o antigo 4:5. Ainda assim, reescolha o offset em vez de cortar pelo centro
+se o assunto estiver muito para um lado.
