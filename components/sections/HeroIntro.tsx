@@ -51,20 +51,6 @@ export default function HeroIntro() {
       </motion.p>
 
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-        <a
-          href={CONTACT.associadoPortal}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3.5 font-semibold transition-transform duration-200 hover:-translate-y-0.5"
-          style={{
-            color: 'var(--color-primary)',
-            boxShadow:
-              '0 0 0 2px rgba(255,255,255,0.7), 0 14px 32px -10px rgba(0,0,0,0.45), 0 0 26px -2px rgba(255,255,255,0.55)',
-          }}
-        >
-          <UserCircle size={19} className="transition-transform duration-200 group-hover:scale-110" />
-          Área do associado
-        </a>
         <Link
           href="/servicos"
           className="group inline-flex items-center justify-center gap-2 border-2 border-white/70 text-white px-6 py-3.5 rounded-xl font-semibold transition-all duration-200 hover:bg-white hover:border-white hover:text-theme-primary"
