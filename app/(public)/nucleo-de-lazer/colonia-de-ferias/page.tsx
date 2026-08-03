@@ -136,7 +136,7 @@ export default function ColoniaDeFeriasPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative bg-gradient-to-br from-amber-500 via-orange-500 to-rose-600 dark:from-amber-900 dark:via-orange-900 dark:to-rose-900 overflow-hidden">
+ <section className="relative overflow-hidden" style={{ background: "#10a2d2" }}>
  <div className="absolute inset-0 overflow-hidden pointer-events-none">
  <motion.div
  className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"

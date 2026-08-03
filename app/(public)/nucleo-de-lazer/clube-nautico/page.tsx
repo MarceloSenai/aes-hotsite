@@ -97,7 +97,7 @@ export default function ClubeNauticoPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative bg-gradient-to-br from-blue-600 via-cyan-600 to-teal-700 dark:from-blue-900 dark:via-cyan-900 dark:to-teal-900 overflow-hidden">
+ <section className="relative overflow-hidden" style={{ background: "#001f55" }}>
  <div className="absolute inset-0 overflow-hidden pointer-events-none">
  <motion.div
  className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"

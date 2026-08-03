@@ -125,7 +125,7 @@ export default function ClubeDeCampoPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark), var(--color-primary-dark))" }}>
+ <section className="relative overflow-hidden" style={{ background: "#1e5a3b" }}>
  <div className="absolute inset-0 overflow-hidden pointer-events-none">
  <motion.div
  className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"
