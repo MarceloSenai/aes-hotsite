@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Scripts de seed CommonJS (.cjs) usam require() por design;
+    // não faz sentido aplicar regras TS/E SM a eles.
+    "scripts/**/*.cjs",
   ]),
 ]);
 
