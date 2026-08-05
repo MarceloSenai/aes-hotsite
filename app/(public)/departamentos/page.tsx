@@ -8,13 +8,31 @@ import {
  MapPin,
  ArrowRight,
 } from 'lucide-react';
+import { useDiretores } from '@/lib/hooks/use-diretores';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState } from '@/components/ui/DataState';
 
-const departments = [
+interface DepartmentCard {
+ icon: typeof Users;
+ title: string;
+ /** Cargo do diretor na tabela `representantes` (categoria diretores-departamentos). */
+ cargo: string;
+ href: string;
+ description: string;
+ highlights: string[];
+ gradient: string;
+ bgIcon: string;
+ textIcon: string;
+ borderHover: string;
+ shadowHover: string;
+}
+
+const departments: DepartmentCard[] = [
  {
  icon: Users,
  title: 'Aposentados',
- director: 'Dulceni Maria Paglione de Oliveira',
- role: 'Diretora',
+ cargo: 'Departamento de Aposentados',
+ href: '/departamentos/aposentados',
  description:
  'Departamento dedicado ao suporte e integração dos associados aposentados, promovendo atividades de convivência, bem-estar e valorização dos membros que contribuíram para a história do SENAI.',
  highlights: [
@@ -32,8 +50,8 @@ const departments = [
  {
  icon: Palette,
  title: 'Cultural e Recreativo',
- director: 'Alessandra Angelim da Silva',
- role: 'Diretora',
+ cargo: 'Departamento Cultural e Recreativo',
+ href: '/departamentos/cultural-recreativo',
  description:
  'Promove atividades culturais, artísticas e recreativas para os associados e famíliares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
  highlights: [
@@ -51,8 +69,8 @@ const departments = [
  {
  icon: Trophy,
  title: 'Esportivo Capital',
- director: 'Rubens da Silva Moreira',
- role: 'Diretor',
+ cargo: 'Departamento Esportivo - Capital',
+ href: '/departamentos/esportivo-capital',
  description:
  'Coordena as atividades esportivas na região da capital paulista, organizando campeonatos, torneios e eventos esportivos para associados de todas as idades.',
  highlights: [
@@ -70,8 +88,8 @@ const departments = [
  {
  icon: MapPin,
  title: 'Esportivo Interior',
- director: 'Edison Simon',
- role: 'Diretor',
+ cargo: 'Departamento Esportivo - Interior',
+ href: '/departamentos/esportivo-interior',
  description:
  'Responsável pelas atividades esportivas nas cidades do interior de São Paulo, garantindo que associados de todas as regiões tenham acesso à prática esportiva e integração.',
  highlights: [
@@ -109,6 +127,8 @@ const cardVariants = {
 };
 
 export default function DepartamentosPage() {
+ const { porCargo, loading, error, reload } = useDiretores();
+
  return (
  <div className="min-h-screen">
  {/* Hero Section */}
@@ -161,6 +181,11 @@ export default function DepartamentosPage() {
  </p>
  </motion.div>
 
+ {loading ? (
+ <SkeletonGrid count={4} />
+ ) : error ? (
+ <ErrorState onRetry={reload} />
+ ) : (
  <motion.div
  variants={containerVariants}
  initial="hidden"
@@ -170,6 +195,7 @@ export default function DepartamentosPage() {
  >
  {departments.map((dept) => {
  const Icon = dept.icon;
+ const diretor = porCargo[dept.cargo]?.nome;
  return (
  <motion.div
  key={dept.title}
@@ -197,12 +223,14 @@ export default function DepartamentosPage() {
  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
  {dept.title}
  </h3>
+ {diretor && (
  <p className="text-sm text-gray-500 dark:text-gray-400">
- {dept.role}:{' '}
+ Diretor(a):{' '}
  <span className="font-semibold text-gray-700 dark:text-gray-300">
- {dept.director}
+ {diretor}
  </span>
  </p>
+ )}
  </div>
  </div>
 
@@ -232,6 +260,7 @@ export default function DepartamentosPage() {
  );
  })}
  </motion.div>
+ )}
  </div>
  </section>
  </div>

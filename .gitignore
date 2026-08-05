@@ -47,3 +47,4 @@ next-env.d.ts
 
 # mockups locais (SiteMockup é um repo git aninhado, não um submódulo registrado)
 /SiteMockup/
+.zcode/

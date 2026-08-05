@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Users, Calendar, Heart, Coffee, Mail, Phone, ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
+import { useDiretores } from '@/lib/hooks/use-diretores';
+
+const CARGO_DIRETOR = 'Departamento de Aposentados';
 
 const atividades = [
   'Encontros mensais de confraternização',
@@ -21,6 +24,9 @@ const eventos = [
 ];
 
 export default function AposentadosPage() {
+  const { porCargo } = useDiretores();
+  const diretor = porCargo[CARGO_DIRETOR]?.nome;
+
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,7 +43,7 @@ export default function AposentadosPage() {
             </div>
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Aposentados</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Diretora: <span className="font-semibold text-gray-700 dark:text-gray-300">Dulceni Maria Paglione de Oliveira</span></p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Diretora: <span className="font-semibold text-gray-700 dark:text-gray-300">{diretor ?? '—'}</span></p>
             </div>
           </div>
         </motion.div>

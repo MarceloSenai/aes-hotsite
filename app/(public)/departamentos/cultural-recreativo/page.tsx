@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Palette, Calendar, Music, Users, Mail, Phone, ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
+import { useDiretores } from '@/lib/hooks/use-diretores';
+
+const CARGO_DIRETOR = 'Departamento Cultural e Recreativo';
 
 const atividades = [
   'Organização de festas e eventos temáticos',
@@ -24,6 +27,9 @@ const eventos = [
 ];
 
 export default function CulturalRecreativoPage() {
+  const { porCargo } = useDiretores();
+  const diretor = porCargo[CARGO_DIRETOR]?.nome;
+
   return (
     <section className="py-24 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +46,7 @@ export default function CulturalRecreativoPage() {
             </div>
             <div>
               <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Cultural e Recreativo</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Diretora: <span className="font-semibold text-gray-700 dark:text-gray-300">Alessandra Angelim da Silva</span></p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Diretora: <span className="font-semibold text-gray-700 dark:text-gray-300">{diretor ?? '—'}</span></p>
             </div>
           </div>
         </motion.div>

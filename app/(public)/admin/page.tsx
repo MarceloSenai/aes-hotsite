@@ -11,7 +11,7 @@ import {
   Phone, MapPin, Users, Calendar, ArrowRight, ExternalLink,
   Sparkles, Trash2, Plus, ImageIcon, DollarSign,
   Menu, X, Upload, FileText, Camera, ChevronRight,
-  Edit3, Loader2
+  Edit3, Loader2, LogOut
 } from 'lucide-react';
 import {
   carouselService, eventosService, boletinsService, representantesService,
@@ -102,6 +102,15 @@ const NAV_CATEGORIES: NavCategory[] = [
     icon: Settings,
     items: [{ id: 'config', label: 'Configurações' }],
   },
+];
+
+// Abas da seção Representantes (slug da categoria -> label amigável).
+const REP_TABS: { slug: string; label: string }[] = [
+  { slug: 'conselho-deliberativo', label: 'Conselho Deliberativo' },
+  { slug: 'conselho-fiscal', label: 'Conselho Fiscal' },
+  { slug: 'diretoria-executiva', label: 'Diretoria Executiva' },
+  { slug: 'diretores-departamentos', label: 'Diretores de Departamentos' },
+  { slug: 'representantes-regionais', label: 'Representantes Regionais' },
 ];
 
 // ─── Loading Skeleton ────────────────────────────────────────────
@@ -428,6 +437,7 @@ export default function AdminPage() {
   const [eventosData, setEventosData] = useState<Record<string, unknown>[]>([]);
   const [boletinsData, setBoletinsData] = useState<Record<string, unknown>[]>([]);
   const [representantesData, setRepresentantesData] = useState<Record<string, unknown>[]>([]);
+  const [repTab, setRepTab] = useState<string>('conselho-deliberativo');
   const [galeriaData, setGaleriaData] = useState<Record<string, unknown>[]>([]);
   const [documentosData, setDocumentosData] = useState<Record<string, unknown>[]>([]);
   const [parceriasData, setParceriasData] = useState<Record<string, unknown>[]>([]);
@@ -905,8 +915,18 @@ export default function AdminPage() {
         </nav>
 
         {/* Sidebar footer */}
-        <div className="px-4 py-3 border-t border-gray-800 text-[10px] text-gray-500">
-          AES Hotsite Admin v2.0
+        <div className="px-3 py-3 border-t border-gray-800 space-y-2">
+          <button
+            onClick={async () => {
+              await fetch('/api/auth/admin/logout', { method: 'POST' }).catch(() => {});
+              window.location.href = '/admin/login';
+            }}
+            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
+          >
+            <LogOut size={14} />
+            Sair
+          </button>
+          <div className="px-3 text-[10px] text-gray-500">AES Hotsite Admin v2.0</div>
         </div>
       </aside>
 
@@ -1330,48 +1350,85 @@ export default function AdminPage() {
                   <SectionHeader
                     title="Representantes"
                     onAdd={() => openEditModal('representantes', {
-                      nome: '', cargo: '', categoria: 'conselho-deliberativo',
-                      regional: '', unidade: '', email: '', telefone: '', sort_order: representantesData.length,
+                      nome: '', cargo: '', categoria: repTab,
+                      regional: '', unidade: '', email: '', telefone: '',
+                      sort_order: representantesData.filter((r) => r.categoria === repTab).length,
                     })}
                   />
-                  {loading.representantes ? <TableSkeleton cols={4} /> : (
-                    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Cargo</th>
-                            <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
-                            <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {representantesData.map((rep) => (
-                            <tr key={rep.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                              <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{rep.nome as string}</td>
-                              <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{rep.cargo as string}</td>
-                              <td className="px-4 py-3">
-                                <span className="inline-flex px-2 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700">
-                                  {(rep.categoria as string)?.replace(/-/g, ' ')}
-                                </span>
-                              </td>
-                              <td className="px-4 py-3 text-right">
-                                <button onClick={() => openEditModal('representantes', rep)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-                                  <Edit3 size={14} />
-                                </button>
-                                <button onClick={() => handleDelete('representantes', rep.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
-                                  <Trash2 size={14} />
-                                </button>
-                              </td>
+
+                  {/* Abas por categoria */}
+                  <div className="flex flex-wrap gap-1 mb-4 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">
+                    {REP_TABS.map((tab) => {
+                      const count = representantesData.filter((r) => r.categoria === tab.slug).length;
+                      const active = repTab === tab.slug;
+                      return (
+                        <button
+                          key={tab.slug}
+                          onClick={() => setRepTab(tab.slug)}
+                          className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                            active
+                              ? 'bg-white dark:bg-gray-700 shadow text-blue-600 dark:text-blue-400'
+                              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                          }`}
+                        >
+                          {tab.label} <span className="opacity-60">({count})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {loading.representantes ? <TableSkeleton cols={4} /> : (() => {
+                    const repsFiltrados = representantesData
+                      .filter((r) => r.categoria === repTab)
+                      .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0));
+                    const isRegional = repTab === 'representantes-regionais';
+                    return (
+                      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                              <th className="text-left px-3 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400 w-10">#</th>
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Nome</th>
+                              <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Cargo</th>
+                              {isRegional && (
+                                <>
+                                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Regional</th>
+                                  <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Unidade</th>
+                                </>
+                              )}
+                              <th className="text-right px-4 py-3 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                             </tr>
-                          ))}
-                          {representantesData.length === 0 && (
-                            <tr><td colSpan={4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum representante cadastrado</td></tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+                          </thead>
+                          <tbody>
+                            {repsFiltrados.map((rep, idx) => (
+                              <tr key={rep.id as string} className="border-b border-gray-50 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td className="px-3 py-3 text-gray-400 dark:text-gray-500 text-xs">{idx + 1}</td>
+                                <td className="px-4 py-3 text-gray-900 dark:text-white font-medium">{rep.nome as string}</td>
+                                <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{(rep.cargo as string) || '—'}</td>
+                                {isRegional && (
+                                  <>
+                                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{(rep.regional as string) || '—'}</td>
+                                    <td className="px-4 py-3 text-gray-500 dark:text-gray-400">{(rep.unidade as string) || '—'}</td>
+                                  </>
+                                )}
+                                <td className="px-4 py-3 text-right">
+                                  <button onClick={() => openEditModal('representantes', rep)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+                                    <Edit3 size={14} />
+                                  </button>
+                                  <button onClick={() => handleDelete('representantes', rep.id as string)} className="p-1.5 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors ml-1">
+                                    <Trash2 size={14} />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                            {repsFiltrados.length === 0 && (
+                              <tr><td colSpan={isRegional ? 6 : 4} className="px-4 py-8 text-center text-gray-400 dark:text-gray-500 text-sm">Nenhum registro nesta categoria</td></tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    );
+                  })()}
                 </div>
               )}
 
@@ -2290,14 +2347,23 @@ export default function AdminPage() {
               <>
                 <Field label="Nome" value={(editingItem.nome as string) || ''} onChange={(v) => updateEditingField('nome', v)} required />
                 <Field label="Cargo" value={(editingItem.cargo as string) || ''} onChange={(v) => updateEditingField('cargo', v)} />
-                <Field
-                  label="Categoria"
-                  value={(editingItem.categoria as string) || 'conselho-deliberativo'}
-                  onChange={(v) => updateEditingField('categoria', v)}
-                  type="select"
-                  options={['conselho-deliberativo','conselho-fiscal','diretoria-executiva','diretores-departamentos','representantes-regionais']}
-                  required
-                />
+                {/* Categoria: ao criar vem da aba ativa (não editável aqui);
+                    ao editar, mostra como somente leitura para evitar troca acidental. */}
+                {editingItem.id ? (
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Categoria</label>
+                    <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                      {REP_TABS.find((t) => t.slug === (editingItem.categoria as string))?.label || (editingItem.categoria as string)}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Categoria</label>
+                    <div className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+                      {REP_TABS.find((t) => t.slug === repTab)?.label || repTab} (definida pela aba ativa)
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-2 gap-3">
                   <Field label="Regional" value={(editingItem.regional as string) || ''} onChange={(v) => updateEditingField('regional', v)} />
                   <Field label="Unidade" value={(editingItem.unidade as string) || ''} onChange={(v) => updateEditingField('unidade', v)} />
@@ -2306,6 +2372,12 @@ export default function AdminPage() {
                   <Field label="Email" value={(editingItem.email as string) || ''} onChange={(v) => updateEditingField('email', v)} type="email" />
                   <Field label="Telefone" value={(editingItem.telefone as string) || ''} onChange={(v) => updateEditingField('telefone', v)} />
                 </div>
+                <Field
+                  label="Ordem (sort_order)"
+                  value={String((editingItem.sort_order as number | string) ?? 0)}
+                  onChange={(v) => updateEditingField('sort_order', Number(v) || 0)}
+                  type="number"
+                />
               </>
             )}
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -10,6 +11,9 @@ import {
  Building2,
  UserCircle,
 } from 'lucide-react';
+import { representantesService } from '@/lib/services/data-service';
+import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 /* ------------------------------------------------------------------ */
 /* Animation variants */
@@ -59,64 +63,63 @@ interface Council {
  members: Member[];
 }
 
-const councils: Council[] = [
+type CategoriaAdmin =
+ | 'conselho-deliberativo'
+ | 'conselho-fiscal'
+ | 'diretoria-executiva'
+ | 'diretores-departamentos';
+
+interface RepresentanteAdmin {
+ id: string;
+ nome: string;
+ cargo?: string;
+ categoria: string;
+ sort_order: number;
+}
+
+/**
+ * Configuração visual de cada conselho (título, ícone e cores). Os membros
+ * vêm da tabela `representantes` no banco, filtrados por categoria.
+ */
+const COUNCIL_CONFIG: {
+ categoria: CategoriaAdmin;
+ title: string;
+ icon: typeof Users;
+ color: string;
+ bgColor: string;
+ borderColor: string;
+}[] = [
  {
- title: 'Conselho Deliberativo',
- icon: Users,
- color: 'text-theme-primary dark:text-theme-primary',
- bgColor: 'bg-theme-primary-5 dark:bg-theme-primary-10',
- borderColor: 'border-theme-light dark:border-theme-primary-dark',
- members: [
- { name: 'Marcio Vieira Marinho', role: 'Presidente' },
- { name: 'Fernando Manoel Gonçalves', role: 'Vice Presidente' },
- { name: 'Ygor Ferreira Fabre', role: 'Secretário' },
- { name: 'Carlos Alberto Lopes Fagundes', role: 'Membro' },
- { name: 'Danilo Kazuhire Shimoda', role: 'Membro' },
- { name: 'João Domingos Chiari Sanchez', role: 'Membro' },
- { name: 'José Luis Leme Cândido Teixeira', role: 'Membro' },
- { name: 'Josivaldo Ferreira dos Santos', role: 'Membro' },
- { name: 'Ronaldo Sotrate Junior', role: 'Membro' },
- { name: 'Thiago de Souza Santos', role: 'Membro' },
- { name: 'Valdeir Doniz', role: 'Membro' },
- ],
+  categoria: 'conselho-deliberativo',
+  title: 'Conselho Deliberativo',
+  icon: Users,
+  color: 'text-theme-primary dark:text-theme-primary',
+  bgColor: 'bg-theme-primary-5 dark:bg-theme-primary-10',
+  borderColor: 'border-theme-light dark:border-theme-primary-dark',
  },
  {
- title: 'Conselho Fiscal',
- icon: ShieldCheck,
- color: 'text-blue-600 dark:text-blue-400',
- bgColor: 'bg-blue-50 dark:bg-blue-950/30',
- borderColor: 'border-blue-100 dark:border-blue-900/40',
- members: [
- { name: 'Fúlvia Alves da Silva', role: 'Presidente' },
- { name: 'Adriano César Cardoso', role: 'Secretário' },
- { name: 'Caiza Carla Herbella', role: 'Membro' },
- { name: 'José Antonio Espelho', role: 'Membro' },
- ],
+  categoria: 'conselho-fiscal',
+  title: 'Conselho Fiscal',
+  icon: ShieldCheck,
+  color: 'text-blue-600 dark:text-blue-400',
+  bgColor: 'bg-blue-50 dark:bg-blue-950/30',
+  borderColor: 'border-blue-100 dark:border-blue-900/40',
  },
  {
- title: 'Diretoria Executiva',
- icon: Briefcase,
- color: 'text-theme-primary dark:text-theme-primary',
- bgColor: 'bg-theme-primary-5 dark:bg-theme-primary-10',
- borderColor: 'border-theme-light dark:border-theme-primary-dark',
- members: [
- { name: 'Marcel Adriano Pereira Porto', role: 'Presidente' },
- { name: 'Ademir Redondo', role: '1. Vice Presidente' },
- { name: 'Everson de Aro Capobianco', role: '2. Vice Presidente' },
- { name: 'Maria Eugênia Cioffi', role: '1. Secretária' },
- { name: 'Selma Maria Rossi Ganzarolli', role: '2. Secretária' },
- { name: 'José Heroíno de Sousa', role: '1. Tesoureiro' },
- { name: 'Denise Riguero Gallego', role: '2. Tesoureiro' },
- { name: 'José Marlito Benício Ricarte', role: '3. Tesoureiro' },
- ],
+  categoria: 'diretoria-executiva',
+  title: 'Diretoria Executiva',
+  icon: Briefcase,
+  color: 'text-theme-primary dark:text-theme-primary',
+  bgColor: 'bg-theme-primary-5 dark:bg-theme-primary-10',
+  borderColor: 'border-theme-light dark:border-theme-primary-dark',
  },
 ];
 
-const departmentDirectors: Member[] = [
- { name: 'Dulceni Maria Paglione de Oliveira', role: 'Aposentados' },
- { name: 'Alessandra Angelim da Silva', role: 'Cultural/Recreativo' },
- { name: 'Rubens da Silva Moreira', role: 'Esportivo Capital' },
- { name: 'Edison Simon', role: 'Esportivo Interior' },
+const CATEGORIAS_ADMIN: CategoriaAdmin[] = [
+ 'conselho-deliberativo',
+ 'conselho-fiscal',
+ 'diretoria-executiva',
+ 'diretores-departamentos',
 ];
 
 /* ------------------------------------------------------------------ */
@@ -213,10 +216,142 @@ function MemberTable({ council }: { council: Council }) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Department directors table */
+/* ------------------------------------------------------------------ */
+
+function DepartmentDirectorsTable({ directors }: { directors: Member[] }) {
+ if (directors.length === 0) return null;
+
+ return (
+ <motion.div variants={itemVariants}>
+ <div className="rounded-2xl border border-amber-100 dark:border-amber-900/40 overflow-hidden">
+ <div className="bg-amber-50 dark:bg-amber-950/30 px-6 py-4 flex items-center gap-3">
+ <div className="p-2 bg-white/60 dark:bg-white/10 rounded-lg">
+ <Building2
+ size={22}
+ className="text-amber-600 dark:text-amber-400"
+ />
+ </div>
+ <div>
+ <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+ Diretores de Departamentos
+ </h3>
+ <p className="text-xs text-gray-500 dark:text-gray-400">
+ {directors.length} diretores
+ </p>
+ </div>
+ </div>
+
+ <div className="bg-white dark:bg-gray-900">
+ <table className="w-full">
+ <thead>
+ <tr className="border-b border-gray-100 dark:border-gray-800">
+ <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-6 py-3">
+ Nome
+ </th>
+ <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-6 py-3">
+ Departamento
+ </th>
+ </tr>
+ </thead>
+ <motion.tbody
+ variants={containerVariants}
+ initial="hidden"
+ whileInView="visible"
+ viewport={{ once: true }}
+ >
+ {directors.map((dir, idx) => (
+ <motion.tr
+ key={dir.name}
+ variants={rowVariants}
+ className={`border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors ${
+ idx === directors.length - 1
+ ? 'border-b-0'
+ : ''
+ }`}
+ >
+ <td className="px-6 py-3.5">
+ <div className="flex items-center gap-3">
+ <div className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-full">
+ <UserCircle
+ size={18}
+ className="text-gray-400 dark:text-gray-500"
+ />
+ </div>
+ <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+ {dir.name}
+ </span>
+ </div>
+ </td>
+ <td className="px-6 py-3.5">
+ <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+ {dir.role}
+ </span>
+ </td>
+ </motion.tr>
+ ))}
+ </motion.tbody>
+ </table>
+ </div>
+ </div>
+ </motion.div>
+ );
+}
+
+/* ------------------------------------------------------------------ */
 /* Page */
 /* ------------------------------------------------------------------ */
 
 export default function AdministracaoPage() {
+ const [reps, setReps] = useState<RepresentanteAdmin[]>([]);
+ const [loading, setLoading] = useState(true);
+ const [error, setError] = useState(false);
+
+ const load = async () => {
+ setError(false);
+ setLoading(true);
+ try {
+ const data = await representantesService.getAll();
+ const admin = (data as unknown as RepresentanteAdmin[]).filter((r) =>
+ (CATEGORIAS_ADMIN as string[]).includes(r.categoria),
+ );
+ setReps(admin);
+ } catch (err) {
+ console.error('Failed to load administracao:', err);
+ setError(true);
+ } finally {
+ setLoading(false);
+ }
+ };
+
+ useEffect(() => {
+ load();
+ }, []);
+
+ // Agrupa representantes por categoria, montando os conselhos e os diretores.
+ const { councils, directors } = useMemo(() => {
+ const byCategoria = (cat: CategoriaAdmin) =>
+ reps
+ .filter((r) => r.categoria === cat)
+ .map((r) => ({ name: r.nome, role: r.cargo || '—' }));
+
+ const builtCouncils: Council[] = COUNCIL_CONFIG.map((cfg) => ({
+ title: cfg.title,
+ icon: cfg.icon,
+ color: cfg.color,
+ bgColor: cfg.bgColor,
+ borderColor: cfg.borderColor,
+ members: byCategoria(cfg.categoria),
+ }));
+
+ return {
+ councils: builtCouncils,
+ directors: byCategoria('diretores-departamentos'),
+ };
+ }, [reps]);
+
+ const totalMembros = councils.reduce((acc, c) => acc + c.members.length, 0);
+
  return (
  <>
  {/* ── Hero Banner ── */}
@@ -253,8 +388,8 @@ export default function AdministracaoPage() {
  Administração
  </h1>
  <p className="text-lg text-white/80 max-w-2xl">
- Corpo diretivo composto por 18 membros eleitos, organizados em
- Conselho Deliberativo, Conselho Fiscal e Diretoria Executiva.
+   Corpo diretivo composto por {totalMembros || '—'} membros, organizados em
+   Conselho Deliberativo, Conselho Fiscal e Diretoria Executiva.
  </p>
  </motion.div>
  </div>
@@ -263,6 +398,13 @@ export default function AdministracaoPage() {
  {/* ── Content ── */}
  <section className="bg-white dark:bg-gray-950 py-16 sm:py-24">
  <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ {loading ? (
+ <SkeletonGrid count={4} />
+ ) : error ? (
+ <ErrorState onRetry={load} />
+ ) : totalMembros === 0 && directors.length === 0 ? (
+ <EmptyState message="Nenhum membro da administração cadastrado." />
+ ) : (
  <motion.div
  variants={containerVariants}
  initial="hidden"
@@ -271,84 +413,16 @@ export default function AdministracaoPage() {
  className="space-y-10"
  >
  {/* Council tables */}
- {councils.map((council) => (
+ {councils
+ .filter((c) => c.members.length > 0)
+ .map((council) => (
  <MemberTable key={council.title} council={council} />
  ))}
 
  {/* Department Directors */}
- <motion.div variants={itemVariants}>
- <div className="rounded-2xl border border-amber-100 dark:border-amber-900/40 overflow-hidden">
- <div className="bg-amber-50 dark:bg-amber-950/30 px-6 py-4 flex items-center gap-3">
- <div className="p-2 bg-white/60 dark:bg-white/10 rounded-lg">
- <Building2
- size={22}
- className="text-amber-600 dark:text-amber-400"
- />
- </div>
- <div>
- <h3 className="text-lg font-bold text-gray-900 dark:text-white">
- Diretores de Departamentos
- </h3>
- <p className="text-xs text-gray-500 dark:text-gray-400">
- {departmentDirectors.length} diretores
- </p>
- </div>
- </div>
-
- <div className="bg-white dark:bg-gray-900">
- <table className="w-full">
- <thead>
- <tr className="border-b border-gray-100 dark:border-gray-800">
- <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-6 py-3">
- Nome
- </th>
- <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-6 py-3">
- Departamento
- </th>
- </tr>
- </thead>
- <motion.tbody
- variants={containerVariants}
- initial="hidden"
- whileInView="visible"
- viewport={{ once: true }}
- >
- {departmentDirectors.map((dir, idx) => (
- <motion.tr
- key={dir.name}
- variants={rowVariants}
- className={`border-b border-gray-50 dark:border-gray-800/50 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors ${
- idx === departmentDirectors.length - 1
- ? 'border-b-0'
- : ''
- }`}
- >
- <td className="px-6 py-3.5">
- <div className="flex items-center gap-3">
- <div className="p-1.5 bg-gray-100 dark:bg-gray-800 rounded-full">
- <UserCircle
- size={18}
- className="text-gray-400 dark:text-gray-500"
- />
- </div>
- <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
- {dir.name}
- </span>
- </div>
- </td>
- <td className="px-6 py-3.5">
- <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
- {dir.role}
- </span>
- </td>
- </motion.tr>
- ))}
- </motion.tbody>
- </table>
- </div>
- </div>
+ <DepartmentDirectorsTable directors={directors} />
  </motion.div>
- </motion.div>
+ )}
  </div>
  </section>
  </>

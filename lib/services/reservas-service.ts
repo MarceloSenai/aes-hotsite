@@ -1,5 +1,15 @@
 // ─── Reservas Service (migrated from Supabase to API routes) ─────
 
+/** Read the CSRF token from the aes-csrf cookie for state-changing requests. */
+function csrfHeaders(): Record<string, string> {
+  const base: Record<string, string> = { 'Content-Type': 'application/json' }
+  if (typeof document !== 'undefined') {
+    const match = document.cookie.match(/aes-csrf=([^;]+)/)
+    if (match) base['x-csrf-token'] = decodeURIComponent(match[1])
+  }
+  return base
+}
+
 export interface Acomodacao {
   id: string;
   nucleo_id: string;
@@ -81,7 +91,7 @@ export async function criarReserva(data: {
   try {
     const res = await fetch('/api/reservas', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders(),
       body: JSON.stringify(data),
     });
     const result = await res.json();
@@ -119,7 +129,7 @@ export async function atualizarStatusReserva(
   try {
     const res = await fetch('/api/reservas', {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders(),
       body: JSON.stringify({ id: reservaId, status }),
     });
     return res.ok;
@@ -142,7 +152,7 @@ export async function avaliarReserva(
   try {
     const res = await fetch('/api/reservas/avaliacoes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders(),
       body: JSON.stringify({ reserva_id: reservaId, nota, comentario: comentario || null }),
     });
     return res.ok;

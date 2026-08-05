@@ -248,6 +248,13 @@ export const THEME_PRESETS: Record<DesignPersonality, Omit<ThemeConfig, 'id' | '
 export class ThemeManager {
   private static readonly STORAGE_KEY = 'aes-theme-config';
 
+  /** Read the CSRF token cookie (set on admin/associado login) for write requests. */
+  private static csrfToken(): string {
+    if (typeof document === 'undefined') return ''
+    const match = document.cookie.match(/aes-csrf=([^;]+)/)
+    return match ? decodeURIComponent(match[1]) : ''
+  }
+
   /**
    * Get saved theme from API (shared), with localStorage as cache
    */
@@ -294,7 +301,10 @@ export class ThemeManager {
 
     const res = await fetch('/api/admin/theme', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-csrf-token': ThemeManager.csrfToken(),
+      },
       body: JSON.stringify(theme),
     });
 

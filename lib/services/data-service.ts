@@ -6,10 +6,22 @@ async function fetchJson<T>(url: string): Promise<T> {
   return res.json();
 }
 
+/** Read the CSRF token from the aes-csrf cookie (set on login). */
+function csrfTokenOnly(): string {
+  if (typeof document === 'undefined') return ''
+  const match = document.cookie.match(/aes-csrf=([^;]+)/)
+  return match ? decodeURIComponent(match[1]) : ''
+}
+
+/** Headers for state-changing requests: CSRF token (cookie aes-csrf) is required by middleware. */
+function csrfHeaders(): Record<string, string> {
+  return { 'Content-Type': 'application/json', 'x-csrf-token': csrfTokenOnly() }
+}
+
 async function postJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: csrfHeaders(),
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -19,7 +31,7 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
 async function patchJson<T>(url: string, body: unknown): Promise<T> {
   const res = await fetch(url, {
     method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
+    headers: csrfHeaders(),
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -29,7 +41,7 @@ async function patchJson<T>(url: string, body: unknown): Promise<T> {
 async function deleteJson(url: string, id: string): Promise<boolean> {
   const res = await fetch(url, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+    headers: csrfHeaders(),
     body: JSON.stringify({ id }),
   });
   return res.ok;
@@ -98,7 +110,11 @@ export async function uploadFile(bucket: string, path: string, file: File): Prom
     formData.append('file', file);
     formData.append('bucket', bucket);
     formData.append('path', path);
-    const res = await fetch('/api/upload', { method: 'POST', body: formData });
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'x-csrf-token': csrfTokenOnly() },
+      body: formData,
+    });
     if (!res.ok) return null;
     const { url } = await res.json();
     return url;
@@ -112,7 +128,7 @@ export async function deleteFile(bucket: string, path: string): Promise<boolean>
   try {
     const res = await fetch('/api/upload', {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: csrfHeaders(),
       body: JSON.stringify({ bucket, path }),
     });
     return res.ok;
@@ -312,7 +328,7 @@ export const popupService = {
     try {
       const res = await fetch('/api/data', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: csrfHeaders(),
         body: JSON.stringify({ table: 'popup_modals', id, data: row }),
       });
       if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -326,7 +342,7 @@ export const popupService = {
     try {
       const res = await fetch('/api/data', {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
+        headers: csrfHeaders(),
         body: JSON.stringify({ table: 'popup_modals', id }),
       });
       return res.ok;

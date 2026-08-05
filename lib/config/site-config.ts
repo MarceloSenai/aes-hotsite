@@ -222,22 +222,8 @@ export const DEFAULT_CONFIG: SiteConfig = {
     { id: 'b4', numero: 45, titulo: 'Boletim AES - Dezembro 2025', data: 'Dezembro 2025', resumo: 'Encerramento do ano, festa de confraternização e prestação de contas anual.' },
   ],
   representantes: [
-    // Conselho Deliberativo
-    { id: 'cd1', nome: 'Luiz Marcelo de Oliveira Silva', cargo: 'Presidente', categoria: 'conselho-deliberativo' },
-    { id: 'cd2', nome: 'Membro Conselho 1', cargo: 'Conselheiro', categoria: 'conselho-deliberativo' },
-    { id: 'cd3', nome: 'Membro Conselho 2', cargo: 'Conselheiro', categoria: 'conselho-deliberativo' },
-    // Conselho Fiscal
-    { id: 'cf1', nome: 'Membro Fiscal 1', cargo: 'Titular', categoria: 'conselho-fiscal' },
-    { id: 'cf2', nome: 'Membro Fiscal 2', cargo: 'Titular', categoria: 'conselho-fiscal' },
-    { id: 'cf3', nome: 'Membro Fiscal 3', cargo: 'Suplente', categoria: 'conselho-fiscal' },
-    // Diretoria Executiva
-    { id: 'de1', nome: 'Luiz Marcelo de Oliveira Silva', cargo: 'Gerente', categoria: 'diretoria-executiva', email: 'gerente@aessenai.org.br' },
-    // Diretores de Departamentos
-    { id: 'dd1', nome: 'Dulceni Maria Paglione de Oliveira', cargo: 'Diretora - Aposentados', categoria: 'diretores-departamentos' },
-    { id: 'dd2', nome: 'Alessandra Angelim da Silva', cargo: 'Diretora - Cultural e Recreativo', categoria: 'diretores-departamentos' },
-    { id: 'dd3', nome: 'Rubens da Silva Moreira', cargo: 'Diretor - Esportivo Capital', categoria: 'diretores-departamentos' },
-    { id: 'dd4', nome: 'Edison Simon', cargo: 'Diretor - Esportivo Interior', categoria: 'diretores-departamentos' },
-    // Representantes Regionais
+    // Representantes regionais — placeholder. Os representantes reais (todas as
+    // categorias) são lidos da tabela `representantes` via /api/data/representantes.
     { id: 'r1', nome: 'Carlos Alberto Santos', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Capital', unidade: 'SENAI Brás', email: 'representante.bras@aessenai.org.br' },
     { id: 'r2', nome: 'Maria Helena Oliveira', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Capital', unidade: 'SENAI Ipiranga' },
     { id: 'r3', nome: 'José Roberto Silva', cargo: 'Representante', categoria: 'representantes-regionais', regional: 'Grande São Paulo', unidade: 'SENAI Santo André' },
