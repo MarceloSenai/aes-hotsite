@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -13,9 +14,22 @@ import {
   Landmark,
   Camera,
 } from 'lucide-react';
+import NucleosModal from './NucleosModal';
 
-const portalLinks = [
-  { icon: TreePalm, label: 'Núcleos de Lazer', href: '/nucleo-de-lazer', color: '#10B981' },
+/**
+ * `href` navega; `action: 'nucleos'` abre o modal de escolha do núcleo — não
+ * existe mais uma página índice `/nucleo-de-lazer` para onde apontar.
+ */
+type PortalLink = {
+  icon: React.ElementType;
+  label: string;
+  color: string;
+  href?: string;
+  action?: 'nucleos';
+};
+
+const portalLinks: PortalLink[] = [
+  { icon: TreePalm, label: 'Núcleos de Lazer', action: 'nucleos', color: '#10B981' },
   { icon: Building2, label: 'Departamentos', href: '/departamentos', color: '#8B5CF6' },
   { icon: Briefcase, label: 'Serviços', href: '/servicos', color: '#0EA5E9' },
   { icon: Handshake, label: 'Parcerias', href: '/parcerias', color: '#F59E0B' },
@@ -41,26 +55,26 @@ const itemVariants = {
   },
 };
 
-function PortalButton({ icon: Icon, label, href, color }: { icon: React.ElementType; label: string; href: string; color: string }) {
+const TILE_CLASS =
+  'group flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300';
+
+function PortalTile({ icon: Icon, label, color }: { icon: React.ElementType; label: string; color: string }) {
   return (
-    <Link href={href} aria-label={label}>
-      <motion.div
-        variants={itemVariants}
-        className="group flex flex-col items-center gap-1.5 p-2 sm:p-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+    <motion.div variants={itemVariants} className={TILE_CLASS}>
+      <div
+        className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
+        style={{ backgroundColor: `${color}18` }}
       >
-        <div
-          className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110 duration-300"
-          style={{ backgroundColor: `${color}18` }}
-        >
-          <Icon size={18} style={{ color }} className="sm:w-5 sm:h-5" />
-        </div>
-        <span className="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">{label}</span>
-      </motion.div>
-    </Link>
+        <Icon size={18} style={{ color }} className="sm:w-5 sm:h-5" />
+      </div>
+      <span className="text-xs font-medium text-gray-700 dark:text-gray-300 text-center leading-tight">{label}</span>
+    </motion.div>
   );
 }
 
 export default function QuickAccess() {
+  const [nucleosOpen, setNucleosOpen] = useState(false);
+
   return (
     <section className="pt-1 pb-8 sm:pt-2 sm:pb-5 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,11 +86,28 @@ export default function QuickAccess() {
           viewport={{ once: true, margin: '-50px' }}
           className="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-9 gap-2 sm:gap-2.5"
         >
-          {portalLinks.map((btn) => (
-            <PortalButton key={btn.label} {...btn} />
-          ))}
+          {portalLinks.map(({ icon, label, href, action, color }) =>
+            action === 'nucleos' ? (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setNucleosOpen(true)}
+                aria-haspopup="dialog"
+                aria-expanded={nucleosOpen}
+                className="text-left focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none rounded-xl"
+              >
+                <PortalTile icon={icon} label={label} color={color} />
+              </button>
+            ) : (
+              <Link key={label} href={href!} aria-label={label}>
+                <PortalTile icon={icon} label={label} color={color} />
+              </Link>
+            )
+          )}
         </motion.div>
       </div>
+
+      <NucleosModal open={nucleosOpen} onClose={() => setNucleosOpen(false)} />
     </section>
   );
 }

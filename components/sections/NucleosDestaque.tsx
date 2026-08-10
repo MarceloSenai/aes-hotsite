@@ -39,8 +39,6 @@ export default function NucleosDestaque() {
               </>
             }
             subtitulo="Espaços exclusivos para associados, com acomodações confortáveis, áreas de lazer e contato com a natureza."
-            verHref="/nucleo-de-lazer"
-            verLabel="Ver os núcleos"
           />
 
           <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">

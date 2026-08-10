@@ -38,12 +38,15 @@ const NAV_ITEMS: NavItem[] = [
       { href: '/sobre/quem-somos', label: 'Quem Somos', icon: Info, desc: 'Nossa história e missão' },
       { href: '/historia/index.html', label: 'Museu AES', icon: Landmark, desc: 'Conheça a nossa história', external: true },
       { href: '/sobre/administracao', label: 'Administração', icon: Building2, desc: 'Corpo administrativo' },
-      { href: '/representantes', label: 'Representantes', icon: Users, desc: 'Representantes regionais' },
+      { href: '/departamentos', label: 'Departamentos', icon: Users, desc: 'Áreas de atuação da AES' },
+      { href: '/representantes', label: 'Embaixadores', icon: Users, desc: 'Representantes Locais' },
       { href: '/associados', label: 'Associados', icon: UserCircle, desc: 'Benefícios e como associar' },
     ],
   },
   {
-    href: '/nucleo-de-lazer',
+    // Item só de menu suspenso: não navega (MegaDropdown renderiza um botão), e
+    // a antiga página índice /nucleo-de-lazer foi removida.
+    href: '#lazer',
     label: 'Lazer',
     children: [
       { href: '/nucleo-de-lazer/clube-de-campo', label: 'Clube de Campo', icon: TreePalm, desc: 'Jundiaí/SP' },

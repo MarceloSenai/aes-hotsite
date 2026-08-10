@@ -2,18 +2,23 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, UserCircle } from 'lucide-react';
-import { CONTACT } from '@/lib/config/contact';
+import { ArrowRight } from 'lucide-react';
+import { anosDeHistoria } from '@/lib/config/instituicao';
 
-// Valores reais do repositório (ver Stats.tsx / sobre/quem-somos):
-// fundada em 1947, utilidade pública desde 1966, 3 núcleos de lazer.
+// Valores reais do repositório (ver sobre/quem-somos): fundada em 21/11/1947,
+// utilidade pública desde 1966, 3 núcleos de lazer.
 // Não há contagem real de "associados ativos" nem de "benefícios" em lugar nenhum
 // do projeto — os valores antigos (15.000+, 50+) eram placeholders inventados.
-const stats = [
-  { value: '78+', label: 'Anos de História' },
-  { value: '3', label: 'Núcleos de Lazer' },
-  { value: '20+', label: 'Benefícios Disponíveis' },
-];
+// Os anos de história são contados a partir da data de fundação (dentro do
+// componente, não no módulo: no servidor o módulo é avaliado uma vez só e o
+// número congelaria até o próximo deploy).
+function getStats() {
+  return [
+    { value: `${anosDeHistoria()}+`, label: 'Anos de História' },
+    { value: '3', label: 'Núcleos de Lazer' },
+    { value: '20+', label: 'Benefícios Disponíveis' },
+  ];
+}
 
 // Entrada escalonada, consistente com o resto da home (QuickAccess/AssociadoDestaques).
 const groupVariants = {
@@ -27,6 +32,8 @@ const itemVariants = {
 };
 
 export default function HeroIntro() {
+  const stats = getStats();
+
   return (
     <motion.div
       variants={groupVariants}

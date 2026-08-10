@@ -61,6 +61,7 @@ const LINHAS: Linha[] = [
   { nome: 'Marcel Adriano Pereira Porto', cargo: '1° Tesoureiro', categoria: 'diretoria-executiva', sort_order: 5 },
   { nome: 'Denise Riguero Gallego', cargo: '2° Tesoureiro', categoria: 'diretoria-executiva', sort_order: 6 },
   { nome: 'Jose Marlito Benicio Ricarte', cargo: '3° Tesoureiro', categoria: 'diretoria-executiva', sort_order: 7 },
+  { nome: 'Neiva Damaceno', cargo: 'Gerente', categoria: 'diretoria-executiva', sort_order: 8 },
 
   // ── Diretores de Departamentos ──
   { nome: 'Andreia Costa Moreira De Souza', cargo: 'Departamento de Aposentados', categoria: 'diretores-departamentos', sort_order: 0 },

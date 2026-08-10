@@ -126,10 +126,6 @@ export default function ClubeNauticoPage() {
  Início
  </Link>
  <ChevronRight size={14} className="opacity-50" />
- <Link href="/nucleo-de-lazer" className="hover:text-white transition-colors">
- Núcleos de Lazer
- </Link>
- <ChevronRight size={14} className="opacity-50" />
  <span className="text-white font-medium">Clube Náutico</span>
  </motion.nav>
 

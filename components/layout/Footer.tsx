@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CONTACT } from '@/lib/config/contact';
@@ -160,8 +161,16 @@ export default function Footer() {
                   <MessageCircle size={16} className="text-theme-primary shrink-0 mt-0.5" />
                   <span className="leading-relaxed">
                     <span className="text-gray-300">{nucleo.label}:</span>{' '}
+                    {/* Cada número num span `whitespace-nowrap`: a linha pode
+                        quebrar entre um telefone e outro (nos espaços em volta
+                        da barra), mas nunca no meio de um número. */}
                     <a href={nucleo.whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
-                      {nucleo.whatsapp.join(' / ')}
+                      {nucleo.whatsapp.map((numero, i) => (
+                        <Fragment key={numero}>
+                          {i > 0 && ' / '}
+                          <span className="whitespace-nowrap">{numero}</span>
+                        </Fragment>
+                      ))}
                     </a>
                   </span>
                 </li>

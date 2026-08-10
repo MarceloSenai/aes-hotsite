@@ -10,6 +10,9 @@ import { itemVariants } from './motion';
  * Cabeçalho padrão das seções da home (eyebrow + título + subtítulo + link
  * "ver todos"). Compartilhado entre Benefícios e Núcleos de Lazer para que os
  * dois mantenham exatamente o mesmo estilo visual.
+ *
+ * O link "ver todos" é opcional: a seção de Núcleos não tem mais uma página
+ * índice para onde apontar (ver NucleosModal).
  */
 export default function CabecalhoColuna({
   eyebrow,
@@ -21,8 +24,8 @@ export default function CabecalhoColuna({
   eyebrow: string;
   titulo: ReactNode;
   subtitulo?: string;
-  verHref: string;
-  verLabel: string;
+  verHref?: string;
+  verLabel?: string;
 }) {
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
@@ -49,6 +52,7 @@ export default function CabecalhoColuna({
           </motion.p>
         )}
       </div>
+      {verHref && verLabel && (
       <motion.div variants={itemVariants}>
         <Link
           href={verHref}
@@ -61,6 +65,7 @@ export default function CabecalhoColuna({
           />
         </Link>
       </motion.div>
+      )}
     </div>
   );
 }

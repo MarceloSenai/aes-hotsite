@@ -51,8 +51,8 @@ export const beneficios: Beneficio[] = [
     icon: Stethoscope,
     title: 'Assistência Médica',
     description:
-      'Plano de saúde UNIMED FESP com cobertura completa: consultas, exames, urgências, emergências e maternidade.',
-    chips: ['Rede UNIMED FESP', 'Urgência 24h', 'Maternidade'],
+      'Planos de saúde com assistência completa: consultas, exames, urgências, emergências e maternidade',
+    chips: ['Rede Especializada', 'Urgências', 'Maternidade'],
     href: '/servicos/assistencia-medica',
   },
   {
@@ -67,7 +67,7 @@ export const beneficios: Beneficio[] = [
     icon: Shield,
     title: 'Fundo Mútuo',
     description:
-      'FUMUS e FUMUA: auxílio financeiro solidário e reembolso parcial de ambulância para associados e dependentes.',
+      'FUMUA e FUMUS: Auxílio financeiro para reembolso parcial de despesas com serviços de ambulância e funeral',
     chips: ['FUMUS', 'FUMUA', 'Reembolso parcial de ambulância'],
     href: '/servicos/fundo-mutuo',
   },
@@ -76,7 +76,7 @@ export const beneficios: Beneficio[] = [
     title: 'Farmácias',
     description:
       'Rede conveniada de farmácias com descontos exclusivos para associados AES.',
-    chips: ['Descontos exclusivos', 'Rede ampla', 'Desconto em folha'],
+    chips: ['Descontos exclusivos', 'Rede ampla', 'Facilidade de pagamento'],
     href: '/servicos/farmacias',
   },
   {
@@ -100,7 +100,8 @@ export const nucleos: Nucleo[] = [
     location: 'Jundiaí/SP',
     description:
       'Chalés, apartamentos, piscinas, saunas e muito mais em meio à natureza.',
-    chips: ['12 Chalés', 'Piscinas', 'Saunas'],
+    // 14 chalés = 12 Standard + 2 Acessíveis (ver clube-de-campo/page.tsx:38,43).
+    chips: ['14 Chalés', '10 Apartamentos', 'Piscinas'],
     href: '/nucleo-de-lazer/clube-de-campo',
     image: '/images/nucleos/card/clube-de-campo.webp',
     alt: 'Área verde com quiosques do Clube de Campo da AES em Jundiaí',
@@ -110,7 +111,7 @@ export const nucleos: Nucleo[] = [
     location: 'Boracéia/SP',
     description:
       'Chalés à beira da represa com pier de pesca, academia ao ar livre e a tranquilidade do interior paulista.',
-    chips: ['8 Chalés', 'Pier de Pesca', 'Academia'],
+    chips: ['8 Chalés', 'Pier de Pesca', 'Cozinha Caipira'],
     href: '/nucleo-de-lazer/clube-nautico',
     image: '/images/nucleos/card/clube-nautico.webp',
     alt: 'Pier de pesca do Clube Náutico da AES na represa de Boracéia',
@@ -120,7 +121,7 @@ export const nucleos: Nucleo[] = [
     location: 'Itanhaém/SP',
     description:
       'Apartamentos completos na praia com restaurante, cinema, piscina e toda infraestrutura para suas férias.',
-    chips: ['48 Apartamentos', 'Restaurante', 'Cinema'],
+    chips: ['48 Apartamentos', 'Restaurante', 'SPA'],
     href: '/nucleo-de-lazer/colonia-de-ferias',
     image: '/images/nucleos/card/colonia-de-ferias.webp',
     alt: 'Praia do litoral sul paulista, onde fica a Colônia de Férias da AES em Itanhaém',

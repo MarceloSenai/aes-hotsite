@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import type { Beneficio } from './data';
 import { itemVariants } from './motion';
 
@@ -26,14 +26,7 @@ export function BeneficioDestaque({ item, total }: { item: Beneficio; total: num
           }}
         />
 
-        <div className="relative flex flex-wrap items-center gap-3">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-primary)] px-2.5 py-1 text-[11px] font-semibold tracking-wide text-white">
-            <Star size={11} className="fill-current" />
-            MAIS PROCURADO
-          </span>
-        </div>
-
-        <div className="relative mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-primary)]">
+        <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--color-primary)]">
           <Icon size={26} className="text-white" />
         </div>
 

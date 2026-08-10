@@ -8,6 +8,8 @@ import {
  Calendar,
  Award,
  Target,
+ Eye,
+ Heart,
  Users,
  Landmark,
  MapPin,
@@ -52,13 +54,38 @@ const milestones = [
  icon: Calendar,
  title: 'Fundada em 21 de novembro de 1947',
  description:
- 'A AES nasceu com o objetivo de representar e apoiar os empregados do SENAI no estado de São Paulo.',
+ 'A AES nasceu com o propósito de representar e assistir seus associados, fomentando o associativismo e zelando pelo bem-estar coletivo.',
  },
  {
  icon: Award,
  title: 'Utilidade Pública desde 1966',
  description:
  'Declarada de utilidade pública pelo Decreto Estadual n. 9376, de 7 de junho de 1966, reconhecendo sua relevância social.',
+ },
+];
+
+/**
+ * Missão, Visão e Valores. A missão é o texto aprovado pela associação; visão e
+ * valores vêm do conteúdo institucional já existente no projeto
+ * (components/sections/Mission.tsx).
+ */
+const pilares = [
+ {
+ icon: Target,
+ title: 'Missão',
+ description: 'Promover a união e o bem-estar dos associados',
+ },
+ {
+ icon: Eye,
+ title: 'Visão',
+ description:
+ 'Ser referência como associação de empregados, promovendo o bem-estar e a qualidade de vida através de serviços de excelência.',
+ },
+ {
+ icon: Heart,
+ title: 'Valores',
+ description:
+ 'Solidariedade, Cidadania, Integração Social, Transparência, Compromisso com o associado.',
  },
 ];
 
@@ -92,20 +119,17 @@ export default function QuemSomosPage() {
  Home
  </Link>
  <ChevronRight size={14} />
- <Link href="/sobre" className="hover:text-white transition-colors">
- Sobre a AES
- </Link>
- <ChevronRight size={14} />
  <span className="text-white font-medium">Quem Somos</span>
  </nav>
 
  <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
  Quem Somos
  </h1>
- <p className="text-lg text-white/80 max-w-2xl">
- Desde 1947 promovendo qualidade de vida, integração social e
- cidadania para os empregados do SENAI-SP.
- </p>
+ <blockquote className="text-lg text-white/80 max-w-2xl italic">
+ &ldquo;Unir-se é um bom começo, manter a união é um progresso, e
+ trabalhar em conjunto é a vitória.&rdquo;{' '}
+ <cite className="not-italic text-white/60">(Henry Ford)</cite>
+ </blockquote>
  </motion.div>
  </div>
  </section>
@@ -121,7 +145,7 @@ export default function QuemSomosPage() {
  className="space-y-10"
  >
  {/* Milestones */}
- <motion.div variants={itemVariants} className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+ <motion.div variants={itemVariants} className="grid gap-6 sm:grid-cols-2">
  {milestones.map((m) => {
  const Icon = m.icon;
  return (
@@ -143,19 +167,40 @@ export default function QuemSomosPage() {
  </div>
  );
  })}
- {/* Missão — 3º bloco, ao lado de fundação e utilidade pública */}
- <div className="flex gap-4 p-6 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark">
+ </motion.div>
+
+ {/* Missão, Visão e Valores */}
+ <motion.div variants={itemVariants}>
+ <div className="flex items-center gap-3 mb-4">
+ <div className="p-2.5 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl">
+ <Target size={22} className="text-theme-primary dark:text-theme-primary" />
+ </div>
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+ Missão, Visão e Valores
+ </h2>
+ </div>
+ <div className="grid gap-6 sm:grid-cols-3">
+ {pilares.map((pilar) => {
+ const Icon = pilar.icon;
+ return (
+ <div
+ key={pilar.title}
+ className="flex gap-4 p-6 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark"
+ >
  <div className="shrink-0 p-3 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl h-fit">
- <Target size={24} className="text-theme-primary dark:text-theme-primary" />
+ <Icon size={24} className="text-theme-primary dark:text-theme-primary" />
  </div>
  <div>
  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
- Nossa Missão
+ {pilar.title}
  </h3>
- <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic">
- &ldquo;Proporcionar qualidade de vida aos seus associados, dependentes e agregados, promovendo a integração social, a solidariedade e a cidadania, construindo a consciência coletiva.&rdquo;
+ <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+ {pilar.description}
  </p>
  </div>
+ </div>
+ );
+ })}
  </div>
  </motion.div>
 
@@ -170,8 +215,9 @@ export default function QuemSomosPage() {
  </h2>
  </div>
  <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
- A AES é administrada por um corpo diretivo composto por 18 membros
- eleitos, organizados em três instâncias:
+ São órgão da AES a Assembleia Geral e o Corpo Administrativo composto
+ por dezoito associados eleitos, distribuídos nos Conselhos Deliberativo
+ e Fiscal e na Diretoria Executiva.
  </p>
  <div className="grid sm:grid-cols-3 gap-4">
  {[

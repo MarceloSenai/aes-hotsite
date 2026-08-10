@@ -377,10 +377,6 @@ export default function AdministracaoPage() {
  Home
  </Link>
  <ChevronRight size={14} />
- <Link href="/sobre" className="hover:text-white transition-colors">
- Sobre a AES
- </Link>
- <ChevronRight size={14} />
  <span className="text-white font-medium">Administração</span>
  </nav>
 
@@ -388,16 +384,19 @@ export default function AdministracaoPage() {
  Administração
  </h1>
  <p className="text-lg text-white/80 max-w-2xl">
-   Corpo diretivo composto por {totalMembros || '—'} membros, organizados em
-   Conselho Deliberativo, Conselho Fiscal e Diretoria Executiva.
+   Corpo diretivo distribuído em Conselho Deliberativo, Conselho Fiscal e
+   Diretoria Executiva.
  </p>
  </motion.div>
  </div>
  </section>
 
- {/* ── Content ── */}
+ {/* ── Content ──
+     Largura contida (max-w-4xl) em vez dos 1920px do resto do site: são
+     listas de nome + cargo, e esticadas na tela toda deixavam metros de
+     vazio entre as duas colunas. */}
  <section className="bg-white dark:bg-gray-950 py-16 sm:py-24">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
  {loading ? (
  <SkeletonGrid count={4} />
  ) : error ? (
