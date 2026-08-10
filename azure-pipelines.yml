@@ -8,7 +8,7 @@
 #   - Sem testes unitarios por enquanto (apenas lint)
 #
 # Pre-requisitos no Azure DevOps:
-#   1. Variable Group "aes-hotsite-vars" vinculado a este pipeline
+#   1. Variable Group "aes-next-vars" (referenciado no job de Deploy)
 #   2. Service Connection "aes-next-connection" para o App Service
 # =============================================================================
 
@@ -142,6 +142,12 @@ stages:
   - deployment: DeployToAppService
     displayName: 'Deploy para Azure App Service Linux'
     environment: '$(appName)'
+    # Grupo de variaveis restrito a este job: e daqui que sai
+    # ADMIN_PASSWORD_HASH, aplicada como app setting logo abaixo.
+    # Deliberadamente NAO esta no nivel do pipeline — os stages de CI e Build
+    # nao dependem do grupo hoje, e amplia-lo mudaria o comportamento deles.
+    variables:
+    - group: aes-next-vars
     strategy:
       runOnce:
         deploy:
@@ -158,4 +164,8 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               runtimeStack: 'NODE|20-lts'
               startUpCommand: 'node server.js'
-              appSettings: '-NODE_ENV production'
+              # ADMIN_PASSWORD_HASH vem do variable group aes-next-vars (secret).
+              # Sem ela, /api/auth/admin/login responde 500 e o painel /admin
+              # fica inacessivel. Aplicar aqui garante que a configuracao seja
+              # reposta a cada deploy, em vez de viver so no portal.
+              appSettings: '-NODE_ENV production -ADMIN_PASSWORD_HASH $(ADMIN_PASSWORD_HASH)'
