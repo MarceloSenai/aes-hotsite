@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+// Depois de qualquer escrita, o blob de cache é regravado a partir do banco —
+// é assim que a administração de destaques invalida o cache lido pela home.
+import { revalidateCachesForTable as revalidateCaches } from '@/lib/services/highlights-cache'
 
 type ModelName = keyof typeof prisma & string
 
@@ -110,6 +113,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const result = await model.create({ data })
+    await revalidateCaches(table)
     return NextResponse.json(result)
   } catch (error) {
     console.error(`POST /api/data [${table}]:`, error)
@@ -128,6 +132,7 @@ export async function PUT(req: NextRequest) {
 
   try {
     const result = await model.update({ where: { id }, data })
+    await revalidateCaches(table)
     return NextResponse.json(result)
   } catch (error) {
     console.error(`PUT /api/data [${table}]:`, error)
@@ -146,6 +151,7 @@ export async function DELETE(req: NextRequest) {
 
   try {
     await model.delete({ where: { id } })
+    await revalidateCaches(table)
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error(`DELETE /api/data [${table}]:`, error)
@@ -170,6 +176,7 @@ export async function PATCH(req: NextRequest) {
       update: data,
       create: data,
     })
+    await revalidateCaches(table)
     return NextResponse.json(result)
   } catch (error) {
     console.error(`PATCH /api/data [${table}]:`, error)

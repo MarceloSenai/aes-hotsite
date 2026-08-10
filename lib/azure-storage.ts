@@ -1,6 +1,8 @@
 import { BlobServiceClient } from '@azure/storage-blob'
 
-const ALLOWED_CONTAINERS = ['aes-boletins', 'aes-galeria', 'aes-documentos']
+// `aes-public` é o container de acesso público (anonymous read) usado como
+// cache de leitura do site — ver lib/services/highlights-cache.ts.
+const ALLOWED_CONTAINERS = ['aes-boletins', 'aes-galeria', 'aes-documentos', 'aes-public']
 
 function getClient() {
   const connStr = process.env.AZURE_STORAGE_CONNECTION_STRING
@@ -24,6 +26,7 @@ export async function uploadBlob(
   blobPath: string,
   buffer: Buffer,
   contentType: string,
+  cacheControl?: string,
 ): Promise<string> {
   if (!ALLOWED_CONTAINERS.includes(container)) {
     throw new Error(`Container "${container}" is not allowed`)
@@ -34,7 +37,10 @@ export async function uploadBlob(
   const blockBlobClient = containerClient.getBlockBlobClient(blobPath)
 
   await blockBlobClient.uploadData(buffer, {
-    blobHTTPHeaders: { blobContentType: contentType },
+    blobHTTPHeaders: {
+      blobContentType: contentType,
+      ...(cacheControl ? { blobCacheControl: cacheControl } : {}),
+    },
   })
 
   return getBlobUrl(container, blobPath)
