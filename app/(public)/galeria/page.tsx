@@ -12,7 +12,7 @@ import {
   ChevronRight,
   ZoomIn,
 } from 'lucide-react';
-import { galeriaService, getPublicUrl } from '@/lib/services/data-service';
+import { galeriaService, getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState } from '@/components/ui/DataState';
 
@@ -73,7 +73,7 @@ export default function GaleriaPage() {
       const data = await galeriaService.getAll();
       const mapped = (data as GaleriaFoto[]).map((row) => ({
         ...row,
-        imageUrl: row.image_path ? getPublicUrl('aes-galeria', row.image_path as string) : undefined,
+        imageUrl: row.image_path ? getPublicUrl(PUBLIC_BUCKET, row.image_path as string) : undefined,
       }));
       setPhotos(mapped);
     } catch (err) {

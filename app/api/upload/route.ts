@@ -8,7 +8,12 @@ const ALLOWED_TYPES = new Set([
   'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 ])
 const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
-const ALLOWED_BUCKETS = new Set(['aes-galeria', 'aes-documentos', 'aes-boletins', 'aes-uploads'])
+// `aes-public` é para onde o painel envia hoje: é o único container da conta
+// com leitura anônima, e todo arquivo aqui é servido direto ao visitante.
+// Os três antigos seguem permitidos porque ainda podem guardar arquivos, mas
+// nenhuma tela da aplicação aponta mais para eles. `aes-uploads` saiu da lista:
+// não existe na conta de storage.
+const ALLOWED_BUCKETS = new Set(['aes-public', 'aes-galeria', 'aes-documentos', 'aes-boletins'])
 
 export async function POST(req: NextRequest) {
   try {

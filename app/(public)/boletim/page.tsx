@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
-import { boletinsService, getPublicUrl } from '@/lib/services/data-service';
+import { boletinsService, getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
@@ -41,7 +41,7 @@ export default function BoletimPage() {
 
   const handleDownload = (bol: BoletimEdicao) => {
     if (bol.pdf_path) {
-      const url = getPublicUrl('aes-boletins', bol.pdf_path);
+      const url = getPublicUrl(PUBLIC_BUCKET, bol.pdf_path);
       const link = document.createElement('a');
       link.href = url;
       link.download = `${bol.titulo}.pdf`;

@@ -277,8 +277,14 @@ function FileUpload({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = async (file: File) => {
-    const MAX_SIZE = bucket === 'aes-galeria' ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
-    const ALLOWED = bucket === 'aes-galeria' ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif'] : ['application/pdf', 'image/jpeg', 'image/png'];
+    // Antes isto era decidido pelo nome do container ('aes-galeria'). Como todos
+    // passaram a subir para o mesmo container público, a regra agora vem do
+    // `accept` — que é o que de fato descreve o tipo esperado em cada campo.
+    const somenteImagem = accept.startsWith('image/');
+    const MAX_SIZE = somenteImagem ? 5 * 1024 * 1024 : 10 * 1024 * 1024;
+    const ALLOWED = somenteImagem
+      ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+      : ['application/pdf', 'image/jpeg', 'image/png'];
     if (file.size > MAX_SIZE) { alert(`Arquivo muito grande. Máximo: ${MAX_SIZE / 1024 / 1024}MB`); return; }
     if (!ALLOWED.includes(file.type)) { alert('Tipo de arquivo não permitido.'); return; }
     setUploading(true);
@@ -2291,7 +2297,8 @@ export default function AdminPage() {
                     </div>
                   )}
                   <FileUpload
-                    bucket="aes-galeria"
+                    bucket={PUBLIC_BUCKET}
+                    prefix="carrossel/"
                     accept="image/*"
                     label="Upload de imagem do slide"
                     onUploaded={(url, _fn) => updateEditingField('image_path', url)}
@@ -2341,10 +2348,11 @@ export default function AdminPage() {
                     </div>
                   )}
                   <FileUpload
-                    bucket="aes-boletins"
+                    bucket={PUBLIC_BUCKET}
+                    prefix="boletins/"
                     accept=".pdf"
                     label="Arraste o PDF do boletim aqui"
-                    onUploaded={(url) => updateEditingField('pdf_path', url)}
+                    onUploaded={(_url, _fn, path) => updateEditingField('pdf_path', path)}
                   />
                 </div>
               </>
@@ -2410,10 +2418,11 @@ export default function AdminPage() {
                     </div>
                   )}
                   <FileUpload
-                    bucket="aes-galeria"
+                    bucket={PUBLIC_BUCKET}
+                    prefix="galeria/"
                     accept="image/*"
                     label="Arraste a imagem aqui (JPG, PNG, WebP)"
-                    onUploaded={(url) => updateEditingField('image_path', url)}
+                    onUploaded={(_url, _fn, path) => updateEditingField('image_path', path)}
                   />
                 </div>
               </>
@@ -2431,7 +2440,8 @@ export default function AdminPage() {
                     </div>
                   )}
                   <FileUpload
-                    bucket="aes-galeria"
+                    bucket={PUBLIC_BUCKET}
+                    prefix="popup/"
                     accept="image/*"
                     label="Arraste a imagem aqui (JPG, PNG, WebP)"
                     onUploaded={(url) => updateEditingField('image_path', url)}
