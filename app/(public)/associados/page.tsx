@@ -16,6 +16,13 @@ import {
  ArrowRight,
  CheckCircle2,
 } from 'lucide-react';
+import { getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
+
+/**
+ * Estatuto Social hospedado no nosso Storage, não no site legado — este último
+ * sai do ar no cutover. O mesmo arquivo é listado em /documentos.
+ */
+const ESTATUTO_URL = getPublicUrl(PUBLIC_BUCKET, 'documentos/estatuto-setembro-2024.pdf');
 
 const benefits = [
  {
@@ -173,7 +180,16 @@ export default function AssociadosPage() {
  </h3>
  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
  Funcionários ativos, aposentados e ex-empregados do SENAI do Estado de
- São Paulo podem se associar.
+ São Paulo podem se associar. Confira{' '}
+ <a
+ href={ESTATUTO_URL}
+ target="_blank"
+ rel="noopener noreferrer"
+ className="font-medium text-theme-primary underline underline-offset-2 hover:no-underline"
+ >
+ nosso estatuto
+ </a>{' '}
+ para outras condições.
  </p>
  </div>
  </div>

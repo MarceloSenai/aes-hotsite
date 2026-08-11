@@ -17,7 +17,7 @@ import {
   carouselService, eventosService, boletinsService, representantesService,
   galeriaService, documentosService, parceriasService, parceirosSeguroService,
   farmaciaService, nucleoPricingService, siteConfigService, siteEmailsService,
-  socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl,
+  socialLinksService, planosSaudeService, uploadFile, deleteFile, getPublicUrl, PUBLIC_BUCKET,
   nucleoVideosService, popupService, siteContentService, SiteContentRow,
 } from '@/lib/services/data-service';
 import { getTodasReservas, atualizarStatusReserva, getAcomodacoes, NUCLEOS } from '@/lib/services/reservas-service';
@@ -258,11 +258,19 @@ function FileUpload({
   accept,
   label,
   onUploaded,
+  prefix = '',
 }: {
   bucket: string;
   accept: string;
   label: string;
-  onUploaded: (url: string, fileName: string) => void;
+  /**
+   * `url` é a URL absoluta do blob; `path` é o caminho relativo ao container.
+   * Quem grava em coluna lida com `getPublicUrl()` deve salvar o `path` — salvar
+   * a URL absoluta faz a página concatenar o domínio duas vezes.
+   */
+  onUploaded: (url: string, fileName: string, path: string) => void;
+  /** Pasta dentro do container, ex.: "documentos/". Mantém o container público organizado por tipo. */
+  prefix?: string;
 }) {
   const [uploading, setUploading] = useState(false);
   const [dragOver, setDragOver] = useState(false);
@@ -275,10 +283,10 @@ function FileUpload({
     if (!ALLOWED.includes(file.type)) { alert('Tipo de arquivo não permitido.'); return; }
     setUploading(true);
     try {
-      const path = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
+      const path = `${prefix}${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
       const url = await uploadFile(bucket, path, file);
       if (url) {
-        onUploaded(url, file.name);
+        onUploaded(url, file.name, path);
       }
     } catch (err) {
       console.error('Upload error:', err);
@@ -2462,11 +2470,12 @@ export default function AdminPage() {
                     </div>
                   )}
                   <FileUpload
-                    bucket="aes-documentos"
+                    bucket={PUBLIC_BUCKET}
+                    prefix="documentos/"
                     accept=".pdf,.doc,.docx,.xls,.xlsx"
                     label="Arraste o arquivo aqui"
-                    onUploaded={(url, fileName) => {
-                      updateEditingField('file_path', url);
+                    onUploaded={(_url, fileName, path) => {
+                      updateEditingField('file_path', path);
                       updateEditingField('file_name', fileName);
                     }}
                   />

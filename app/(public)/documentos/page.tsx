@@ -9,7 +9,7 @@ import {
   FolderOpen,
   Calendar,
 } from 'lucide-react';
-import { documentosService, getPublicUrl } from '@/lib/services/data-service';
+import { documentosService, getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState } from '@/components/ui/DataState';
 
@@ -74,7 +74,7 @@ export default function DocumentosPage() {
       const data = await documentosService.getAll();
       const mapped = (data as DocumentoArquivo[]).map((row) => ({
         ...row,
-        fileUrl: row.file_path ? getPublicUrl('aes-documentos', row.file_path as string) : undefined,
+        fileUrl: row.file_path ? getPublicUrl(PUBLIC_BUCKET, row.file_path as string) : undefined,
       }));
       setDocumentos(mapped);
     } catch (err) {

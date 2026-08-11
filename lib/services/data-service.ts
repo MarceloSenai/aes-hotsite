@@ -139,6 +139,14 @@ export async function deleteFile(bucket: string, path: string): Promise<boolean>
 
 const STORAGE_BASE_URL = process.env.NEXT_PUBLIC_AZURE_STORAGE_URL || 'https://aeshotsitefiles.blob.core.windows.net';
 
+/**
+ * Único container com leitura anônima habilitada. Os containers `aes-documentos`,
+ * `aes-boletins` e `aes-galeria` estão como `private`: uma URL direta para eles
+ * responde 404 ao visitante, mesmo com o arquivo lá dentro. Tudo que precisa ser
+ * baixado pelo público vai para cá, sob um prefixo por tipo.
+ */
+export const PUBLIC_BUCKET = 'aes-public';
+
 export function getPublicUrl(bucket: string, path: string): string {
   return `${STORAGE_BASE_URL}/${bucket}/${path}`;
 }
