@@ -1,23 +1,33 @@
 'use client';
 
+import { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
  Users,
  Palette,
  Trophy,
- MapPin,
  ArrowRight,
 } from 'lucide-react';
 import { useDiretores } from '@/lib/hooks/use-diretores';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState } from '@/components/ui/DataState';
+import EsportivoModal from '@/components/departamentos/EsportivoModal';
 
 interface DepartmentCard {
  icon: typeof Users;
  title: string;
- /** Cargo do diretor na tabela `representantes` (categoria diretores-departamentos). */
- cargo: string;
- href: string;
+ /**
+  * Diretores do departamento. Os nomes vêm da tabela `representantes`
+  * (categoria diretores-departamentos), casados pelo `cargo`. O Esportivo tem
+  * dois — Capital e Interior —, e aí o `rotulo` distingue cada um no card.
+  */
+ diretores: { cargo: string; rotulo?: string }[];
+ /**
+  * Para onde o card leva ao ser clicado. O Esportivo não tem rota própria:
+  * abre um modal para o visitante escolher entre Capital e Interior.
+  */
+ destino: { tipo: 'rota'; href: string } | { tipo: 'escolha-esportivo' };
  description: string;
  highlights: string[];
  gradient: string;
@@ -27,12 +37,18 @@ interface DepartmentCard {
  shadowHover: string;
 }
 
+/** Destinos do modal do Esportivo (item 27). */
+export const ESPORTIVO_OPCOES = [
+ { rotulo: 'Capital', cargo: 'Departamento Esportivo - Capital', href: '/departamentos/esportivo-capital' },
+ { rotulo: 'Interior', cargo: 'Departamento Esportivo - Interior', href: '/departamentos/esportivo-interior' },
+];
+
 const departments: DepartmentCard[] = [
  {
  icon: Users,
  title: 'Aposentados',
- cargo: 'Departamento de Aposentados',
- href: '/departamentos/aposentados',
+ diretores: [{ cargo: 'Departamento de Aposentados' }],
+ destino: { tipo: 'rota', href: '/departamentos/aposentados' },
  description:
  'Departamento dedicado a despertar e manter o espírito associativo entre seus associados aposentados, promovendo atividades de convivência, bem-estar e de valorização daqueles que contribuíram para construir a história do SENAI e da Associação.',
  highlights: [
@@ -50,8 +66,8 @@ const departments: DepartmentCard[] = [
  {
  icon: Palette,
  title: 'Cultural e Recreativo',
- cargo: 'Departamento Cultural e Recreativo',
- href: '/departamentos/cultural-recreativo',
+ diretores: [{ cargo: 'Departamento Cultural e Recreativo' }],
+ destino: { tipo: 'rota', href: '/departamentos/cultural-recreativo' },
  description:
  'Planeja, organiza e promove atividades voltadas ao lazer, cultura e bem-estar dos associados e de seus familiares, a partir da implementação de atividades que possam fortalecer o relacionamento e o espírito de integração entre eles.',
  highlights: [
@@ -67,42 +83,28 @@ const departments: DepartmentCard[] = [
  shadowHover: 'hover:shadow-violet-500/5',
  },
  {
+ // Capital e Interior eram dois cards. Viraram um só: o departamento é um,
+ // com duas diretorias regionais — a escolha entre elas acontece no clique.
  icon: Trophy,
- title: 'Esportivo Capital',
- cargo: 'Departamento Esportivo - Capital',
- href: '/departamentos/esportivo-capital',
+ title: 'Esportivo',
+ diretores: ESPORTIVO_OPCOES.map(({ cargo, rotulo }) => ({ cargo, rotulo })),
+ destino: { tipo: 'escolha-esportivo' },
  description:
- 'Coordena as atividades esportivas na região da capital paulista, organizando campeonatos, torneios e eventos esportivos para associados de todas as idades.',
+ 'Organiza e coordena eventos, cujo foco principal é a celebração, a socialização, a integração e o bem-estar dos associados, envolvendo múltiplos esportes:',
  highlights: [
- 'Campeonatos internos',
- 'Torneios esportivos',
- 'Atividades em grupo',
- 'Promoção da saúde',
+ 'Basquete',
+ 'FARAES',
+ 'Futsal',
+ 'Futebol Society',
+ 'Natação',
+ 'Tênis de Mesa',
+ 'Voleibol',
  ],
  gradient: 'linear-gradient(to bottom right, #0ea5e9, #3b82f6)',
  bgIcon: 'bg-sky-100 dark:bg-sky-900/30',
  textIcon: 'text-sky-600 dark:text-sky-400',
  borderHover: 'hover:border-sky-200 dark:hover:border-sky-700/60',
  shadowHover: 'hover:shadow-sky-500/5',
- },
- {
- icon: MapPin,
- title: 'Esportivo Interior',
- cargo: 'Departamento Esportivo - Interior',
- href: '/departamentos/esportivo-interior',
- description:
- 'Responsável pelas atividades esportivas nas cidades do interior de São Paulo, garantindo que associados de todas as regiões tenham acesso à prática esportiva e integração.',
- highlights: [
- 'Eventos regionais',
- 'Torneios intermunicipais',
- 'Esportes ao ar livre',
- 'Integração regional',
- ],
- gradient: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))',
- bgIcon: 'bg-theme-primary-light dark:bg-theme-primary-20',
- textIcon: 'text-theme-primary dark:text-theme-primary',
- borderHover: 'hover:border-theme-primary-light dark:hover:border-theme-primary-dark',
- shadowHover: 'hover:shadow-theme-glow',
  },
 ];
 
@@ -128,6 +130,7 @@ const cardVariants = {
 
 export default function DepartamentosPage() {
  const { porCargo, loading, error, reload } = useDiretores();
+ const [esportivoAberto, setEsportivoAberto] = useState(false);
 
  return (
  <div className="min-h-screen">
@@ -193,16 +196,17 @@ export default function DepartamentosPage() {
  >
  {departments.map((dept) => {
  const Icon = dept.icon;
- const diretor = porCargo[dept.cargo]?.nome;
- return (
- <motion.div
- key={dept.title}
- variants={cardVariants}
- className="group"
- >
- <div
- className={`relative h-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 transition-all duration-300 hover:shadow-xl ${dept.shadowHover} ${dept.borderHover} hover:-translate-y-1`}
- >
+ const diretores = dept.diretores
+ .map((d) => ({ rotulo: d.rotulo, nome: porCargo[d.cargo]?.nome }))
+ .filter((d) => d.nome);
+
+ // O card inteiro é clicável (item 27). Link e button sao ramos separados
+ // de proposito: como componente dinamico, o TypeScript nao consegue
+ // conciliar `href` obrigatorio do Link com as props do button.
+ const classeCard = `relative block h-full w-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 text-left transition-all duration-300 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-gray-900 ${dept.shadowHover} ${dept.borderHover} hover:-translate-y-1`;
+
+ const conteudo = (
+ <>
  {/* Gradient overlay on hover */}
  <div
  className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] dark:group-hover:opacity-[0.06] transition-opacity duration-300"
@@ -221,14 +225,14 @@ export default function DepartamentosPage() {
  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
  {dept.title}
  </h3>
- {diretor && (
- <p className="text-sm text-gray-500 dark:text-gray-400">
- Diretor(a):{' '}
+ {diretores.map((d) => (
+ <p key={d.nome} className="text-sm text-gray-500 dark:text-gray-400">
+ {d.rotulo ? `${d.rotulo} — Diretor(a): ` : 'Diretor(a): '}
  <span className="font-semibold text-gray-700 dark:text-gray-300">
- {diretor}
+ {d.nome}
  </span>
  </p>
- )}
+ ))}
  </div>
  </div>
 
@@ -253,7 +257,31 @@ export default function DepartamentosPage() {
  ))}
  </div>
  </div>
- </div>
+ </>
+ );
+
+ return (
+ <motion.div key={dept.title} variants={cardVariants} className="group">
+ {dept.destino.tipo === 'rota' ? (
+ <Link
+ href={dept.destino.href}
+ aria-label={`${dept.title} — ver detalhes`}
+ className={classeCard}
+ >
+ {conteudo}
+ </Link>
+ ) : (
+ <button
+ type="button"
+ onClick={() => setEsportivoAberto(true)}
+ aria-haspopup="dialog"
+ aria-expanded={esportivoAberto}
+ aria-label={`${dept.title} — escolher regional`}
+ className={classeCard}
+ >
+ {conteudo}
+ </button>
+ )}
  </motion.div>
  );
  })}
@@ -261,6 +289,16 @@ export default function DepartamentosPage() {
  )}
  </div>
  </section>
+
+ <EsportivoModal
+ open={esportivoAberto}
+ onClose={() => setEsportivoAberto(false)}
+ opcoes={ESPORTIVO_OPCOES.map((o) => ({
+ rotulo: o.rotulo,
+ href: o.href,
+ diretor: porCargo[o.cargo]?.nome,
+ }))}
+ />
  </div>
  );
 }

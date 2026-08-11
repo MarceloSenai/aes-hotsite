@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { representantesService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
 import { ErrorState, EmptyState } from '@/components/ui/DataState';
@@ -48,15 +48,27 @@ export default function RepresentantesPage() {
 
   useEffect(() => { load(); }, []);
 
-  // Agrupa os representantes por regional (Capital, Interior, Litoral, ...).
-  const subGroups = useMemo(() => {
-    const map: Record<string, Representante[]> = {};
+  /**
+   * Uma linha por CFP, com os embaixadores daquele CFP.
+   *
+   * O CFP fica gravado no campo `regional` ("CFP 101"); `unidade` está vazio em
+   * todos os registros. Hoje são 91 CFPs — 81 com um embaixador e 10 com dois —,
+   * o que a tabela de duas colunas de nome acomoda; um terceiro nome, se
+   * aparecer, entra na mesma célula em vez de ser descartado.
+   */
+  const linhas = useMemo(() => {
+    const map = new Map<string, string[]>();
     reps.forEach((r) => {
-      const reg = r.regional || 'Outros';
-      if (!map[reg]) map[reg] = [];
-      map[reg].push(r);
+      const cfp = r.regional?.trim() || 'Sem CFP';
+      if (!map.has(cfp)) map.set(cfp, []);
+      map.get(cfp)!.push(r.nome);
     });
-    return map;
+
+    const numero = (cfp: string) => Number(cfp.match(/\d+/)?.[0] ?? Number.MAX_SAFE_INTEGER);
+
+    return [...map.entries()]
+      .map(([cfp, nomes]) => ({ cfp, nomes: [...nomes].sort((a, b) => a.localeCompare(b, 'pt-BR')) }))
+      .sort((a, b) => numero(a.cfp) - numero(b.cfp) || a.cfp.localeCompare(b.cfp, 'pt-BR'));
   }, [reps]);
 
   return (
@@ -94,35 +106,47 @@ export default function RepresentantesPage() {
                   <MapPin size={24} style={{ color: ACCENT }} />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Representantes Regionais</h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">Representantes nas unidades do SENAI</p>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Embaixadores por CFP</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Um representante em cada núcleo da AES</p>
                 </div>
               </div>
 
-              {/* Sub-grupos por regional */}
-              <div className="space-y-6">
-                {Object.entries(subGroups).map(([regional, members]) => (
-                  <div key={regional}>
-                    <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <MapPin size={14} style={{ color: ACCENT }} />
-                      {regional}
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {members.map((m) => (
-                        <div key={m.id} className="bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200/60 dark:border-gray-700/40 p-4 flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full flex items-center justify-center text-white font-bold text-xs" style={{ backgroundColor: ACCENT }}>
-                            {m.nome.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-gray-900 dark:text-white text-sm truncate">{m.nome}</p>
-                            {m.unidade && <p className="text-xs text-gray-500 dark:text-gray-400">{m.unidade}</p>}
-                          </div>
-                          {m.email && <a href={`mailto:${m.email}`} className="shrink-0" style={{ color: ACCENT }}><Mail size={14} /></a>}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+              {/* Tabela CFP | Embaixador | Embaixador — overflow-x próprio para
+                  a página não rolar de lado em tela estreita. */}
+              <div className="overflow-x-auto rounded-xl border border-gray-200/70 dark:border-gray-700/50">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200/70 dark:border-gray-700/50">
+                      <th scope="col" className="text-left font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-xs px-5 py-3 whitespace-nowrap w-32">
+                        CFP
+                      </th>
+                      <th scope="col" className="text-left font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-xs px-5 py-3">
+                        Embaixador
+                      </th>
+                      <th scope="col" className="text-left font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-xs px-5 py-3">
+                        Embaixador
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white dark:bg-gray-900">
+                    {linhas.map(({ cfp, nomes }) => (
+                      <tr
+                        key={cfp}
+                        className="border-b border-gray-100 dark:border-gray-800/70 last:border-b-0 hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition-colors"
+                      >
+                        <th scope="row" className="px-5 py-3 text-left font-semibold whitespace-nowrap" style={{ color: ACCENT }}>
+                          {cfp}
+                        </th>
+                        <td className="px-5 py-3 text-gray-800 dark:text-gray-200">{nomes[0]}</td>
+                        <td className="px-5 py-3 text-gray-800 dark:text-gray-200">
+                          {nomes.length > 1 ? nomes.slice(1).join(' · ') : (
+                            <span className="text-gray-300 dark:text-gray-600" aria-label="sem segundo embaixador">—</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </motion.div>
           )}
