@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,6 +9,11 @@ import { Eye, EyeOff, Lock, Loader2, AlertCircle, ShieldCheck } from 'lucide-rea
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  // O valor enviado é lido do próprio input, não do estado: gerenciadores de
+  // senha e o autofill do navegador escrevem direto no DOM sem disparar o
+  // onChange do React, então o estado ficava vazio enquanto o campo exibia a
+  // senha inteira — e o login respondia 401 com a senha correta na tela.
+  const senhaRef = useRef<HTMLInputElement>(null);
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,7 +24,9 @@ export default function AdminLoginPage() {
       e.preventDefault();
       setError('');
 
-      if (!senha.trim()) {
+      const valor = senhaRef.current?.value ?? senha;
+
+      if (!valor.trim()) {
         setError('Informe a senha de administrador.');
         return;
       }
@@ -29,7 +36,7 @@ export default function AdminLoginPage() {
         const res = await fetch('/api/auth/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ senha }),
+          body: JSON.stringify({ senha: valor }),
         });
 
         if (res.status === 429) {
@@ -129,6 +136,7 @@ export default function AdminLoginPage() {
                 />
                 <input
                   id="senha"
+                  ref={senhaRef}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Digite a senha de administrador"
                   value={senha}
