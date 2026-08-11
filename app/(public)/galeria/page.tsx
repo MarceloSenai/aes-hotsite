@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
   Camera,
   Image as ImageIcon,
@@ -121,29 +122,11 @@ export default function GaleriaPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark), var(--color-primary-dark))" }}>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
-
-        <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
-              Nossos Momentos
-            </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Galeria de Fotos
-            </h1>
-            <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-              Confira os melhores momentos dos eventos, núcleos de lazer e atividades esportivas da AES SENAI.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHeader
+ icone={Camera}
+ titulo="Galeria de Fotos"
+ subtitulo="Os melhores momentos dos eventos, dos núcleos de lazer e das confraternizações da AES."
+ />
 
       {/* Filter Bar */}
       {categories.length > 1 && (

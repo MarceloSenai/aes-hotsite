@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { ArrowLeft, Users, Calendar, Heart, Coffee, Mail, Phone, ArrowRight } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
 import { useDiretores } from '@/lib/hooks/use-diretores';
@@ -28,7 +29,14 @@ export default function AposentadosPage() {
   const diretor = porCargo[CARGO_DIRETOR]?.nome;
 
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Users}
+ titulo="Aposentados"
+ subtitulo="Departamento dedicado a despertar e manter o espírito associativo entre os associados aposentados."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/departamentos" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -36,19 +44,7 @@ export default function AposentadosPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-amber-100 dark:bg-amber-900/30 rounded-2xl flex items-center justify-center">
-              <Users size={32} className="text-amber-600 dark:text-amber-400" />
-            </div>
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Aposentados</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Diretora: <span className="font-semibold text-gray-700 dark:text-gray-300">{diretor ?? '—'}</span></p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* O que e */}
+                {/* O que e */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
@@ -125,5 +121,6 @@ export default function AposentadosPage() {
         </motion.div>
       </div>
     </section>
+ </>
   );
 }

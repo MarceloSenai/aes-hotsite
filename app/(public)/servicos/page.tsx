@@ -3,15 +3,17 @@
 import type { ElementType } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
  ArrowRight,
+ Briefcase,
+ Dumbbell,
  ExternalLink,
  HeartPulse,
- Smile,
- Shield,
  Pill,
+ Shield,
  ShieldCheck,
- Dumbbell,
+ Smile,
 } from 'lucide-react';
 import { totalpass } from '@/components/sections/destaques/data';
 
@@ -116,30 +118,17 @@ const cardVariants = {
 
 export default function ServicosPage() {
  return (
- <section className="py-24 gradient-theme-page-light min-h-screen">
+ <>
+ <PageHeader
+ icone={Briefcase}
+ titulo="Nossos Serviços"
+ subtitulo="Serviços exclusivos para associados, dependentes e agregados: saúde, proteção financeira e economia no dia a dia."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
  <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  {/* Header */}
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- className="text-center mb-16"
- >
- <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
- Benefícios
- </span>
- <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
- Nossos{' '}
- <span className="text-theme-gradient">
- Serviços
- </span>
- </h1>
- <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
- Benefícios exclusivos para associados, dependentes e agregados
- </p>
- </motion.div>
-
- {/* Services Grid */}
+  {/* Services Grid */}
  <motion.div
  variants={containerVariants}
  initial="hidden"
@@ -223,5 +212,6 @@ export default function ServicosPage() {
  </motion.div>
  </div>
  </section>
+ </>
  );
 }

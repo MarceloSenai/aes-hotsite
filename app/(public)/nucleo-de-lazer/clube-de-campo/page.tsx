@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { nucleoVideosService } from '@/lib/services/data-service';
 import {
- Home,
- ChevronRight,
  MapPin,
  Phone,
  Mail,
@@ -20,8 +18,6 @@ import {
  Dumbbell,
  Baby,
  ThermometerSun,
- Tv,
- Refrigerator,
  Clock,
  Zap,
  Users,
@@ -125,61 +121,13 @@ export default function ClubeDeCampoPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative overflow-hidden" style={{ background: "#1e5a3b" }}>
- <div className="absolute inset-0 overflow-hidden pointer-events-none">
- <motion.div
- className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"
- animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
- transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
- style={{ top: '-20%', right: '-10%' }}
+ <PageHeader
+ icone={TreePine}
+ titulo="Clube de Campo"
+ subtitulo="Chalés e apartamentos em meio à natureza, com piscinas, saunas, churrasqueiras e toda a infraestrutura para o seu lazer."
+ selo={{ icone: MapPin, texto: "Jundiaí/SP" }}
+ fundo={{ imagem: "/images/nucleos/clube-de-campo.webp", alt: "Área verde do Clube de Campo da AES em Jundiaí" }}
  />
- </div>
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
- {/* Breadcrumbs */}
- <motion.nav
- initial={{ opacity: 0, y: -10 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.5 }}
- className="flex items-center gap-2 text-white/80 text-sm mb-8 flex-wrap"
- >
- <Link href="/" className="flex items-center gap-1 hover:text-white transition-colors">
- <Home size={14} />
- Início
- </Link>
- <ChevronRight size={14} className="opacity-50" />
- <span className="text-white font-medium">Clube de Campo</span>
- </motion.nav>
-
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- className="max-w-3xl"
- >
- <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-white/80 text-sm font-medium mb-6">
- <TreePine size={16} />
- Jundiaí/SP
- </span>
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
- Clube de Campo
- </h1>
- <p className="text-lg sm:text-xl text-white/80 leading-relaxed">
- Chalés e apartamentos em meio à natureza com piscinas, saunas, churrasqueiras e
- toda a infraestrutura para o seu lazer.
- </p>
- </motion.div>
- </div>
-
- <div className="absolute bottom-0 left-0 right-0">
- <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
- <path
- d="M0 60V30C240 0 480 0 720 30C960 60 1200 60 1440 30V60H0Z"
- className="fill-white dark:fill-gray-950"
- />
- </svg>
- </div>
- </section>
 
  {/* Location Card */}
  <section className="py-12 bg-white dark:bg-gray-950">

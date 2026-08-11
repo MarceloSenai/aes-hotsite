@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { ArrowLeft, Calendar, MapPin, Clock, Users } from 'lucide-react';
 import { eventosService } from '@/lib/services/data-service';
 import { SkeletonGrid } from '@/components/ui/Skeleton';
@@ -54,7 +55,14 @@ export default function CalendarioPage() {
   }, [eventos]);
 
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Calendar}
+ titulo="Calendário de Eventos"
+ subtitulo="Confira a programação de eventos, atividades culturais e torneios esportivos da AES ao longo do ano."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -63,21 +71,7 @@ export default function CalendarioPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-light)' }}>
-              <Calendar size={32} style={{ color: 'var(--color-primary)' }} />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Calendário de <span className="text-theme-gradient">Eventos 2026</span>
-            </h1>
-          </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Confira a programação completa de eventos, atividades culturais, esportivas e de lazer da AES.
-          </p>
-        </motion.div>
-
-        {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : eventosPorMes.length === 0 ? <EmptyState message="Nenhum evento no calendário." /> : (<div className="space-y-6">
+                {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : eventosPorMes.length === 0 ? <EmptyState message="Nenhum evento no calendário." /> : (<div className="space-y-6">
           {eventosPorMes.map((item, idx) => (
             <motion.div
               key={item.mes}
@@ -112,5 +106,6 @@ export default function CalendarioPage() {
         </div>)}
       </div>
     </section>
+ </>
   );
 }

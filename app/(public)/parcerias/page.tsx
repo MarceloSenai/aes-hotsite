@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
   Handshake,
   ExternalLink,
@@ -81,30 +82,17 @@ export default function ParceriasPage() {
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Handshake}
+ titulo="Nossas Parcerias"
+ subtitulo="Convênios e parcerias exclusivas, com desconto e condições especiais para os associados da AES."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
-            Convênios
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Nossas{' '}
-            <span className="text-theme-gradient">
-              Parcerias
-            </span>
-          </h1>
-          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Convênios e parcerias exclusivas para associados AES
-          </p>
-        </motion.div>
-
-        {/* Partners Grid */}
+                {/* Partners Grid */}
         {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : parcerias.length > 0 ? (
           <motion.div
             key={parcerias.length}
@@ -209,5 +197,6 @@ export default function ParceriasPage() {
         )}
       </div>
     </section>
+ </>
   );
 }

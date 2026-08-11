@@ -1,9 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
- ArrowLeft,
  Shield,
  Heart,
  Users,
@@ -33,30 +32,11 @@ export default function FundoMútuoPage() {
  return (
  <>
  {/* Faixa vermelha (hero) */}
- <section className="relative overflow-hidden text-white" style={{ background: 'linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark))' }}>
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
- <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
- <Link href="/servicos" className="inline-flex items-center gap-2 text-white/80 hover:text-white font-medium hover:gap-3 transition-all duration-300 mb-6">
- <ArrowLeft size={18} />
- Voltar para Serviços
- </Link>
- </motion.div>
- <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
- <div className="flex items-center gap-4 mb-4">
- <div className="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center">
- <Shield className="text-white" size={32} />
- </div>
- <h1 className="text-3xl sm:text-4xl font-bold text-white">
- Fundo Mútuo
- </h1>
- </div>
- <p className="text-lg text-white/85 max-w-3xl">
- A AES disponibiliza dois fundos mútuos para proteger seus associados e
- dependentes em momentos de necessidade.
- </p>
- </motion.div>
- </div>
- </section>
+ <PageHeader
+ icone={Shield}
+ titulo="Fundo Mútuo"
+ subtitulo="FUMUA e FUMUS: auxílio financeiro para reembolso parcial de despesas com serviços de ambulância e funeral."
+ />
 
  {/* Conteúdo */}
  <section className="py-16 gradient-theme-page-light min-h-screen">

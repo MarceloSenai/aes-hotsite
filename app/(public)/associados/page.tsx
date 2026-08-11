@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
  HeartPulse,
  Smile,
@@ -130,27 +131,11 @@ export default function AssociadosPage() {
  return (
  <div className="min-h-screen">
  {/* Hero Section */}
- <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark), var(--color-primary-dark))" }}>
- <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
- <div className="absolute top-0 right-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
- <div className="absolute bottom-0 left-0 w-96 h-96 bg-theme-primary-20 rounded-full blur-3xl" />
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- >
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
- Associados
- </h1>
- <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
- Conheça os benefícios exclusivos para associados da AES SENAI e saiba como fazer parte
- desta comunidade que valoriza o bem-estar de seus membros e famíliares.
- </p>
- </motion.div>
- </div>
- </section>
+ <PageHeader
+ icone={UserPlus}
+ titulo="Associados"
+ subtitulo="Conheça os serviços exclusivos para associados da AES e saiba como fazer parte desta comunidade."
+ />
 
  {/* How to become a member */}
  <section className="py-20 bg-white dark:bg-gray-900">

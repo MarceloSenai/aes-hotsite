@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Pill, Percent, CreditCard, MapPin, Mail, AlertTriangle } from 'lucide-react';
+import PageHeader from '@/components/layout/PageHeader';
+import { Pill, Percent, CreditCard, MapPin, Mail, AlertTriangle } from 'lucide-react';
 import { farmaciaService } from '@/lib/services/data-service';
 
 interface FarmaciaInfo {
@@ -45,31 +45,11 @@ export default function FarmaciasPage() {
  return (
  <>
  {/* Faixa vermelha (hero) */}
- <section className="relative overflow-hidden text-white" style={{ background: 'linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark))' }}>
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
- <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
- <Link href="/servicos" className="inline-flex items-center gap-2 text-white/80 hover:text-white font-medium hover:gap-3 transition-all duration-300 mb-6">
- <ArrowLeft size={18} />
- Voltar para Serviços
- </Link>
- </motion.div>
- <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
- <div className="flex items-center gap-4 mb-4">
- <div className="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center">
- <Pill className="text-white" size={32} />
- </div>
- <h1 className="text-3xl sm:text-4xl font-bold text-white">
- Farmácias Conveniadas
- </h1>
- </div>
- <p className="text-lg text-white/85 max-w-3xl">
- A AES mantém convênios com redes de farmácias para oferecer descontos
- exclusivos em medicamentos e produtos de saúde para seus associados e
- dependentes.
- </p>
- </motion.div>
- </div>
- </section>
+ <PageHeader
+ icone={Pill}
+ titulo="Farmácias Conveniadas"
+ subtitulo="A AES mantém convênios com redes de farmácias para oferecer descontos exclusivos e facilidade de pagamento."
+ />
 
  {/* Conteúdo */}
  <section className="py-16 gradient-theme-page-light min-h-screen">

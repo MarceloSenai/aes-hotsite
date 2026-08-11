@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { ArrowLeft, Newspaper, Calendar, Download, ExternalLink } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
 import { boletinsService, getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
@@ -51,7 +52,14 @@ export default function BoletimPage() {
   };
 
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Newspaper}
+ titulo="Boletim Informativo"
+ subtitulo="Acompanhe as edições do Boletim Informativo da AES, com notícias, eventos e novidades para os associados."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -59,21 +67,7 @@ export default function BoletimPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-sky-100 dark:bg-sky-900/30 rounded-2xl flex items-center justify-center">
-              <Newspaper size={32} className="text-sky-600 dark:text-sky-400" />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              Boletim <span className="text-theme-gradient">Informativo</span>
-            </h1>
-          </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Acompanhe as edições do Boletim Informativo da AES com notícias, comunicados e informações relevantes para os associados.
-          </p>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="rounded-2xl p-6 sm:p-8 mb-10 text-white"
           style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))' }}>
           <div className="flex flex-col sm:flex-row items-center gap-6">
@@ -121,5 +115,6 @@ export default function BoletimPage() {
         </div>)}
       </div>
     </section>
+ </>
   );
 }

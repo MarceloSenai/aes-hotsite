@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
  Send,
  Phone,
@@ -89,30 +90,17 @@ export default function ContatoPage() {
  };
 
  return (
- <section className="py-24 gradient-theme-page-light min-h-screen">
+ <>
+ <PageHeader
+ icone={Mail}
+ titulo="Fale Conosco"
+ subtitulo="Estamos aqui para ajudar. Fale com a administração central ou diretamente com cada núcleo de lazer."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
  <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  {/* Header */}
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- className="text-center mb-16"
- >
- <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
- Contato
- </span>
- <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
- Fale{' '}
- <span className="text-theme-gradient">
- Conosco
- </span>
- </h1>
- <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
- Estamos aqui para ajudar. Entre em contato conosco
- </p>
- </motion.div>
-
- <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+  <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
  {/* Contact Form */}
  <motion.div
  initial={{ opacity: 0, x: -20 }}
@@ -365,5 +353,6 @@ export default function ContatoPage() {
  </div>
  </div>
  </section>
+ </>
  );
 }

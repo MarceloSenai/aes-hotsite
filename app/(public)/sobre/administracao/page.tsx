@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
- ChevronRight,
  Users,
  ShieldCheck,
  Briefcase,
@@ -355,41 +354,11 @@ export default function AdministracaoPage() {
  return (
  <>
  {/* ── Hero Banner ── */}
- <section className="relative overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark))" }}>
- <div className="absolute inset-0 overflow-hidden pointer-events-none">
- <motion.div
- className="absolute w-[400px] h-[400px] bg-theme-primary-20 rounded-full blur-[100px]"
- animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
- transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
- style={{ top: '-10%', right: '-5%' }}
+ <PageHeader
+ icone={Users}
+ titulo="Administração"
+ subtitulo="Corpo diretivo distribuído em Conselho Deliberativo, Conselho Fiscal e Diretoria Executiva."
  />
- </div>
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- >
- {/* Breadcrumb */}
- <nav className="flex items-center gap-2 text-white/60 text-sm mb-6">
- <Link href="/" className="hover:text-white transition-colors">
- Home
- </Link>
- <ChevronRight size={14} />
- <span className="text-white font-medium">Administração</span>
- </nav>
-
- <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
- Administração
- </h1>
- <p className="text-lg text-white/80 max-w-2xl">
-   Corpo diretivo distribuído em Conselho Deliberativo, Conselho Fiscal e
-   Diretoria Executiva.
- </p>
- </motion.div>
- </div>
- </section>
 
  {/* ── Content ──
      Largura contida (max-w-4xl) em vez dos 1920px do resto do site: são

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
   ArrowLeft,
   Landmark,
@@ -30,7 +31,14 @@ const faqs = [
 
 export default function IndusprevPage() {
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Landmark}
+ titulo="INDUSPREV"
+ subtitulo="Previdência complementar para empregados do SENAI-SP: planeje hoje a tranquilidade do seu futuro."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -39,21 +47,7 @@ export default function IndusprevPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl flex items-center justify-center">
-              <Landmark size={32} className="text-indigo-600 dark:text-indigo-400" />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              <span className="text-theme-gradient">INDUSPREV</span>
-            </h1>
-          </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Previdência Complementar para empregados do SENAI-SP. Planeje seu futuro com segurança e tranquilidade.
-          </p>
-        </motion.div>
-
-        {/* Benefits */}
+                {/* Benefits */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
           {beneficios.map((b, i) => {
             const Icon = b.icon;
@@ -119,5 +113,6 @@ export default function IndusprevPage() {
         </motion.div>
       </div>
     </section>
+ </>
   );
 }

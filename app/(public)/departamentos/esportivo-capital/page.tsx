@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { ArrowLeft, Trophy, Calendar, Users, Mail, Phone, ArrowRight, Dumbbell } from 'lucide-react';
 import { CONTACT } from '@/lib/config/contact';
 import { useDiretores } from '@/lib/hooks/use-diretores';
@@ -28,7 +29,14 @@ export default function EsportivoCapitalPage() {
   const diretor = porCargo[CARGO_DIRETOR]?.nome;
 
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={Trophy}
+ titulo="Esportivo Capital"
+ subtitulo="Eventos e torneios esportivos da AES na capital paulista, com foco na integração e no bem-estar dos associados."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/departamentos" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -36,19 +44,7 @@ export default function EsportivoCapitalPage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 bg-sky-100 dark:bg-sky-900/30 rounded-2xl flex items-center justify-center">
-              <Trophy size={32} className="text-sky-600 dark:text-sky-400" />
-            </div>
-            <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Esportivo Capital</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">Diretor: <span className="font-semibold text-gray-700 dark:text-gray-300">{diretor ?? '—'}</span></p>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 sm:p-8 mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
             <Dumbbell size={20} className="text-sky-500" /> O que é o Departamento
@@ -119,5 +115,6 @@ export default function EsportivoCapitalPage() {
         </motion.div>
       </div>
     </section>
+ </>
   );
 }

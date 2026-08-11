@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
  ChevronRight,
  Building2,
@@ -97,42 +98,11 @@ export default function QuemSomosPage() {
  return (
  <>
  {/* ── Hero Banner ── */}
- <section className="relative overflow-hidden" style={{ background: "linear-gradient(to bottom right, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark))" }}>
- <div className="absolute inset-0 overflow-hidden pointer-events-none">
- <motion.div
- className="absolute w-[400px] h-[400px] bg-theme-primary-20 rounded-full blur-[100px]"
- animate={{ x: [0, 40, 0], y: [0, 30, 0] }}
- transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
- style={{ top: '-10%', right: '-5%' }}
+ <PageHeader
+ icone={Landmark}
+ titulo="Quem Somos"
+ subtitulo="“Unir-se é um bom começo, manter a união é um progresso, e trabalhar em conjunto é a vitória.” (Henry Ford)"
  />
- </div>
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- >
- {/* Breadcrumb */}
- <nav className="flex items-center gap-2 text-white/60 text-sm mb-6">
- <Link href="/" className="hover:text-white transition-colors">
- Home
- </Link>
- <ChevronRight size={14} />
- <span className="text-white font-medium">Quem Somos</span>
- </nav>
-
- <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
- Quem Somos
- </h1>
- <blockquote className="text-lg text-white/80 max-w-2xl italic">
- &ldquo;Unir-se é um bom começo, manter a união é um progresso, e
- trabalhar em conjunto é a vitória.&rdquo;{' '}
- <cite className="not-italic text-white/60">(Henry Ford)</cite>
- </blockquote>
- </motion.div>
- </div>
- </section>
 
  {/* ── Content ── */}
  <section className="bg-white dark:bg-gray-950 py-12 sm:py-16">

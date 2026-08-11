@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import {
   ArrowLeft,
   UserPlus,
@@ -38,7 +39,14 @@ const passos = [
 
 export default function AssocieSeSeePage() {
   return (
-    <section className="py-24 gradient-theme-page-light min-h-screen">
+    <>
+ <PageHeader
+ icone={UserPlus}
+ titulo="Associe-se"
+ subtitulo="Faça parte da AES e tenha acesso a assistência médica e odontológica, fundo mútuo, farmácias, seguros e os núcleos de lazer."
+ />
+
+ <section className="py-16 gradient-theme-page-light min-h-screen">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }}>
           <Link href="/" className="inline-flex items-center gap-2 text-theme-primary font-medium hover:gap-3 transition-all duration-300 mb-8">
@@ -46,21 +54,7 @@ export default function AssocieSeSeePage() {
           </Link>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-10">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'var(--color-primary-light)' }}>
-              <UserPlus size={32} style={{ color: 'var(--color-primary)' }} />
-            </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
-              <span className="text-theme-gradient">Associe-se</span>
-            </h1>
-          </div>
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl">
-            Faça parte da AES e tenha acesso a todos os benefícios para você e sua família.
-          </p>
-        </motion.div>
-
-        {/* Beneficios */}
+                {/* Beneficios */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
           className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
           {beneficios.map((b) => {
@@ -145,5 +139,6 @@ export default function AssocieSeSeePage() {
         </motion.div>
       </div>
     </section>
+ </>
   );
 }

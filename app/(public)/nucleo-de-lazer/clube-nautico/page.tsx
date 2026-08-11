@@ -1,17 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { nucleoVideosService } from '@/lib/services/data-service';
 import {
- Home,
- ChevronRight,
  MapPin,
  Phone,
  Mail,
  Waves,
- Bed,
  UtensilsCrossed,
  Flame,
  Dumbbell,
@@ -20,8 +17,6 @@ import {
  PawPrint,
  DollarSign,
  CheckCircle2,
- Clock,
- Zap,
  Users,
  Fish,
  TreePine,
@@ -97,67 +92,13 @@ export default function ClubeNauticoPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative overflow-hidden" style={{ background: "#001f55" }}>
- <div className="absolute inset-0 overflow-hidden pointer-events-none">
- <motion.div
- className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"
- animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
- transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
- style={{ top: '-20%', right: '-10%' }}
+ <PageHeader
+ icone={Waves}
+ titulo="Clube Náutico"
+ subtitulo="Chalés à beira da represa, com pier de pesca, cozinha caipira e a tranquilidade do interior paulista."
+ selo={{ icone: MapPin, texto: "Boracéia/SP" }}
+ fundo={{ imagem: "/images/nucleos/clube-nautico.webp", alt: "Pier de pesca do Clube Náutico da AES na represa de Boracéia" }}
  />
- <motion.div
- className="absolute w-[400px] h-[400px] bg-cyan-300/10 rounded-full blur-[80px]"
- animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
- transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
- style={{ bottom: '-10%', left: '-5%' }}
- />
- </div>
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
- {/* Breadcrumbs */}
- <motion.nav
- initial={{ opacity: 0, y: -10 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.5 }}
- className="flex items-center gap-2 text-blue-100 text-sm mb-8 flex-wrap"
- >
- <Link href="/" className="flex items-center gap-1 hover:text-white transition-colors">
- <Home size={14} />
- Início
- </Link>
- <ChevronRight size={14} className="opacity-50" />
- <span className="text-white font-medium">Clube Náutico</span>
- </motion.nav>
-
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- className="max-w-3xl"
- >
- <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-blue-100 text-sm font-medium mb-6">
- <Waves size={16} />
- Boracéia/SP
- </span>
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
- Clube Náutico
- </h1>
- <p className="text-lg sm:text-xl text-blue-100 leading-relaxed">
- Chalés à beira da represa com pier de pesca, academia ao ar livre
- e toda a tranquilidade do interior paulista.
- </p>
- </motion.div>
- </div>
-
- <div className="absolute bottom-0 left-0 right-0">
- <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
- <path
- d="M0 60V30C240 0 480 0 720 30C960 60 1200 60 1440 30V60H0Z"
- className="fill-white dark:fill-gray-950"
- />
- </svg>
- </div>
- </section>
 
  {/* Location Card */}
  <section className="py-12 bg-white dark:bg-gray-950">

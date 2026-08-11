@@ -1,12 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
+import PageHeader from '@/components/layout/PageHeader';
 import { nucleoVideosService } from '@/lib/services/data-service';
 import {
- Home,
- ChevronRight,
  MapPin,
  Phone,
  Mail,
@@ -18,11 +16,9 @@ import {
  Car,
  Flame,
  Baby,
- Tv,
  Wind,
  Accessibility,
  PawPrint,
- DollarSign,
  CheckCircle2,
  Clock,
  Zap,
@@ -136,67 +132,13 @@ export default function ColoniaDeFeriasPage() {
  return (
  <>
  {/* Hero Banner */}
- <section className="relative overflow-hidden" style={{ background: "#10a2d2" }}>
- <div className="absolute inset-0 overflow-hidden pointer-events-none">
- <motion.div
- className="absolute w-[500px] h-[500px] bg-white/10 rounded-full blur-[100px]"
- animate={{ x: [0, 50, 0], y: [0, 30, 0] }}
- transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
- style={{ top: '-20%', right: '-10%' }}
+ <PageHeader
+ icone={Umbrella}
+ titulo="Colônia de Férias"
+ subtitulo="Apartamentos completos na praia, com restaurante, SPA, piscina e toda a infraestrutura para as férias da família."
+ selo={{ icone: MapPin, texto: "Itanhaém/SP" }}
+ fundo={{ imagem: "/images/nucleos/colonia-de-ferias.webp", alt: "Praia do litoral sul paulista, onde fica a Colônia de Férias da AES" }}
  />
- <motion.div
- className="absolute w-[400px] h-[400px] bg-orange-300/10 rounded-full blur-[80px]"
- animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
- transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
- style={{ bottom: '-10%', left: '-5%' }}
- />
- </div>
-
- <div className="relative max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
- {/* Breadcrumbs */}
- <motion.nav
- initial={{ opacity: 0, y: -10 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.5 }}
- className="flex items-center gap-2 text-amber-100 text-sm mb-8 flex-wrap"
- >
- <Link href="/" className="flex items-center gap-1 hover:text-white transition-colors">
- <Home size={14} />
- Início
- </Link>
- <ChevronRight size={14} className="opacity-50" />
- <span className="text-white font-medium">Colônia de Férias</span>
- </motion.nav>
-
- <motion.div
- initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.6 }}
- className="max-w-3xl"
- >
- <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-amber-100 text-sm font-medium mb-6">
- <Umbrella size={16} />
- Itanhaém/SP
- </span>
- <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
- Colônia de Férias
- </h1>
- <p className="text-lg sm:text-xl text-amber-100 leading-relaxed">
- Apartamentos completos na praia com restaurante, cinema, piscina e
- toda a infraestrutura para férias inesquecíveis com a família.
- </p>
- </motion.div>
- </div>
-
- <div className="absolute bottom-0 left-0 right-0">
- <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
- <path
- d="M0 60V30C240 0 480 0 720 30C960 60 1200 60 1440 30V60H0Z"
- className="fill-white dark:fill-gray-950"
- />
- </svg>
- </div>
- </section>
 
  {/* Location Card */}
  <section className="py-12 bg-white dark:bg-gray-950">
