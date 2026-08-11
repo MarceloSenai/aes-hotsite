@@ -164,8 +164,17 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               runtimeStack: 'NODE|20-lts'
               startUpCommand: 'node server.js'
-              # ADMIN_PASSWORD_HASH vem do variable group aes-next-vars (secret).
-              # Sem ela, /api/auth/admin/login responde 500 e o painel /admin
-              # fica inacessivel. Aplicar aqui garante que a configuracao seja
-              # reposta a cada deploy, em vez de viver so no portal.
-              appSettings: '-NODE_ENV production -ADMIN_PASSWORD_HASH $(ADMIN_PASSWORD_HASH)'
+              # Ambas vem do variable group aes-next-vars, como secret:
+              #
+              # ADMIN_PASSWORD_HASH — sem ela, /api/auth/admin/login responde
+              #   500 e o painel /admin fica inacessivel.
+              # AZURE_STORAGE_CONNECTION_STRING — sem ela, a gravacao no blob
+              #   falha em silencio: o cache de destaques nunca e criado e os
+              #   uploads de boletim, galeria e documentos nao funcionam.
+              #
+              # Aplicar aqui, e nao pelo portal, faz a configuracao ser reposta
+              # a cada deploy em vez de existir so como estado manual.
+              appSettings: >-
+                -NODE_ENV production
+                -ADMIN_PASSWORD_HASH $(ADMIN_PASSWORD_HASH)
+                -AZURE_STORAGE_CONNECTION_STRING $(AZURE_STORAGE_CONNECTION_STRING)
