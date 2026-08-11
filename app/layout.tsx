@@ -10,15 +10,27 @@ import A11yFilters from '@/components/layout/A11yFilters';
 import ThemeToggleFab from '@/components/layout/ThemeToggleFab';
 import PopupModal from '@/components/PopupModal';
 import { MotionConfig } from 'framer-motion';
+import { SITE_URL, SITE_NAME } from '@/lib/config/site';
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
 });
 
+const DESCRICAO_PADRAO =
+  'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.';
+
 export const metadata: Metadata = {
-  title: 'AES - Associação dos Empregados do SENAI',
-  description: 'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.',
+  // Necessário para o Next resolver URLs relativas de canonical e Open Graph.
+  // Vem de NEXT_PUBLIC_SITE_URL, então acompanha o domínio no cutover.
+  metadataBase: new URL(SITE_URL),
+  title: {
+    // `template` é aplicado ao título que cada rota define no seu layout;
+    // `default` vale para a home e para qualquer rota sem título próprio.
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: DESCRICAO_PADRAO,
   icons: {
     icon: '/favicon.ico',
   },
@@ -26,10 +38,11 @@ export const metadata: Metadata = {
     google: 'nogtkCfaXjV8YDh_YoJVvKQHI2kIRo0sDPSJOKjfM2Y',
   },
   openGraph: {
-    title: 'AES - Associação dos Empregados do SENAI',
-    description: 'Proporcionando qualidade de vida aos associados, dependentes e agregados do SENAI desde 1947.',
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: DESCRICAO_PADRAO,
     type: 'website',
-    url: 'https://aessenai.org.br',
+    url: SITE_URL,
     locale: 'pt_BR',
   },
 };
