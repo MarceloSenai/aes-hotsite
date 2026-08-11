@@ -17,6 +17,7 @@ import {
  CheckCircle2,
 } from 'lucide-react';
 import { getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
+import { beneficios } from '@/components/sections/destaques/data';
 
 /**
  * Estatuto Social hospedado no nosso Storage, não no site legado — este último
@@ -24,21 +25,32 @@ import { getPublicUrl, PUBLIC_BUCKET } from '@/lib/services/data-service';
  */
 const ESTATUTO_URL = getPublicUrl(PUBLIC_BUCKET, 'documentos/estatuto-setembro-2024.pdf');
 
+/**
+ * Título e descrição dos benefícios que também aparecem na home saem da mesma
+ * fonte — `components/sections/destaques/data.ts`. Antes eram duas listas
+ * independentes, e foi assim que divergiram: a home foi revisada com a AES e
+ * esta página ficou com o texto antigo.
+ *
+ * Erro proposital se o serviço sumir de lá: melhor falhar alto na primeira
+ * renderização do que exibir um card sem título.
+ */
+function daHome(href: string) {
+ const b = beneficios.find((item) => item.href === href);
+ if (!b) throw new Error(`Benefício "${href}" não existe em destaques/data.ts`);
+ return { title: b.title, description: b.description };
+}
+
 const benefits = [
  {
  icon: HeartPulse,
- title: 'Assistência Médica',
- description:
- 'Plano de saúde UNIMED FESP com cobertura completa para você e seus dependentes.',
+ ...daHome('/servicos/assistencia-medica'),
  gradient: 'linear-gradient(to bottom right, #f43f5e, #ef4444)',
  bgIcon: 'bg-rose-100 dark:bg-rose-900/30',
  textIcon: 'text-rose-600 dark:text-rose-400',
  },
  {
  icon: Smile,
- title: 'Assistência Odontológica',
- description:
- 'Cuidado dental completo com rede credenciada de qualidade.',
+ ...daHome('/servicos/assistencia-odontologica'),
  gradient: 'linear-gradient(to bottom right, #0ea5e9, #3b82f6)',
  bgIcon: 'bg-sky-100 dark:bg-sky-900/30',
  textIcon: 'text-sky-600 dark:text-sky-400',
@@ -54,9 +66,7 @@ const benefits = [
  },
  {
  icon: Shield,
- title: 'Fundo Mútuo (FUMUS)',
- description:
- 'Auxílio financeiro solidário em caso de falecimento do associado ou dependente.',
+ ...daHome('/servicos/fundo-mutuo'),
  gradient: 'linear-gradient(to bottom right, #f59e0b, #f97316)',
  bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
  textIcon: 'text-amber-600 dark:text-amber-400',
