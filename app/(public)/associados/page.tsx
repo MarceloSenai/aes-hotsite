@@ -124,9 +124,6 @@ export default function AssociadosPage() {
  animate={{ opacity: 1, y: 0 }}
  transition={{ duration: 0.6 }}
  >
- <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
- Faça parte da AES
- </span>
  <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
  Associados
  </h1>
@@ -157,9 +154,6 @@ export default function AssociadosPage() {
  Associado
  </span>
  </h2>
- <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
- Funcionários e aposentados do SENAI-SP podem se associar e usufruir de todos os benefícios
- </p>
  </motion.div>
 
  <motion.div
@@ -178,19 +172,18 @@ export default function AssociadosPage() {
  Quem pode se associar?
  </h3>
  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
- Funcionários ativos e aposentados do SENAI no Estado de São Paulo,
- bem como seus dependentes diretos, podem se associar à AES e ter acesso
- a todos os benefícios oferecidos pela entidade.
+ Funcionários ativos, aposentados e ex-empregados do SENAI do Estado de
+ São Paulo podem se associar.
  </p>
  </div>
  </div>
 
  <div className="space-y-3 mb-8">
  {[
- 'Preencha o formulário de associação',
- 'Apresente documentos pessoais e vínculo com o SENAI',
- 'Escolha os benefícios desejados',
- 'Comece a usufruir imediatamente',
+ 'Preencha o formulário de adesão',
+ 'Apresente os documentos exigidos',
+ 'Escolha os serviços desejados',
+ 'Comece a usufruir imediatamente das nossas instalações',
  ].map((step, idx) => (
  <div key={idx} className="flex items-center gap-3">
  <CheckCircle2 className="text-theme-primary flex-shrink-0" size={20} />
@@ -206,12 +199,12 @@ export default function AssociadosPage() {
  rel="noopener noreferrer"
  className="inline-flex items-center gap-2 px-8 py-3.5 gradient-theme-cta text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-theme-glow"
  >
- Acessar Área do Associado
+ Preencha o Formulário Agora Mesmo
  <ExternalLink size={18} />
  </a>
  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
  <Phone size={18} />
- <span className="font-medium">(11) 3367-9900</span>
+ <span className="font-medium">Em caso de dúvidas: (11) 3367-9900</span>
  </div>
  </div>
  </motion.div>

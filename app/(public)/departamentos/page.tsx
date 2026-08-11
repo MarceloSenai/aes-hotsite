@@ -34,12 +34,12 @@ const departments: DepartmentCard[] = [
  cargo: 'Departamento de Aposentados',
  href: '/departamentos/aposentados',
  description:
- 'Departamento dedicado ao suporte e integração dos associados aposentados, promovendo atividades de convivência, bem-estar e valorização dos membros que contribuíram para a história do SENAI.',
+ 'Departamento dedicado a despertar e manter o espírito associativo entre seus associados aposentados, promovendo atividades de convivência, bem-estar e de valorização daqueles que contribuíram para construir a história do SENAI e da Associação.',
  highlights: [
- 'Eventos de confraternização',
- 'Apoio e orientação',
- 'Atividades recreativas',
- 'Integração social',
+ 'Atividades culturais, musicais ou artísticas voltadas ao lazer',
+ 'Eventos de cunho social e educativo',
+ 'Passeios turísticos',
+ 'Programa de Saúde e Qualidade de Vida',
  ],
  gradient: 'linear-gradient(to bottom right, #f59e0b, #f97316)',
  bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
@@ -53,12 +53,12 @@ const departments: DepartmentCard[] = [
  cargo: 'Departamento Cultural e Recreativo',
  href: '/departamentos/cultural-recreativo',
  description:
- 'Promove atividades culturais, artísticas e recreativas para os associados e famíliares, organizando eventos, passeios, shows e programas de entretenimento ao longo do ano.',
+ 'Planeja, organiza e promove atividades voltadas ao lazer, cultura e bem-estar dos associados e de seus familiares, a partir da implementação de atividades que possam fortalecer o relacionamento e o espírito de integração entre eles.',
  highlights: [
- 'Eventos culturais',
- 'Passeios e excursões',
- 'Programação artística',
- 'Atividades recreativas',
+ 'Eventos culturais em geral',
+ 'Apresentações artísticas',
+ 'Festas temáticas',
+ 'Passeios e Excursões',
  ],
  gradient: 'linear-gradient(to bottom right, #8b5cf6, #a855f7)',
  bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
@@ -150,8 +150,9 @@ export default function DepartamentosPage() {
  Departamentos
  </h1>
  <p className="text-lg sm:text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
- Conheça os departamentos da AES SENAI e seus diretores, responsáveis por organizar
- atividades e serviços para os associados.
+ Conheça os departamentos e seus diretores, responsáveis por promover atividades
+ voltadas ao fortalecimento dos vínculos sociais e para a participação dos
+ associados na AES.
  </p>
  </motion.div>
  </div>
@@ -176,9 +177,6 @@ export default function DepartamentosPage() {
  Atuação
  </span>
  </h2>
- <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
- Cada departamento é liderado por um diretor dedicado a promover atividades e benefícios
- </p>
  </motion.div>
 
  {loading ? (

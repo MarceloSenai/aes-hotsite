@@ -69,9 +69,10 @@ export default function RepresentantesPage() {
             <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20">
               Gestão 2026-2030
             </span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Representantes</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Embaixadores</h1>
             <p className="text-lg text-white/80 max-w-2xl mx-auto">
-              Conheça os representantes da AES nas unidades do SENAI
+              Cada órgão do departamento regional do SENAI/SP é considerado como Núcleo da AES
+              e conta com um representante.
             </p>
           </motion.div>
         </div>

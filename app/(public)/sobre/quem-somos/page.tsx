@@ -348,7 +348,7 @@ export default function QuemSomosPage() {
  <p className="text-sm text-gray-600 dark:text-gray-400">
  Segunda a Sexta
  <br />
- 7:00 - 16:00
+ 7:00 - 17:00
  </p>
  </div>
  </div>
