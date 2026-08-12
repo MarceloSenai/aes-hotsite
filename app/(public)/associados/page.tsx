@@ -139,7 +139,7 @@ export default function AssociadosPage() {
 
  {/* How to become a member */}
  <section className="py-20 bg-white dark:bg-gray-900">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -147,9 +147,6 @@ export default function AssociadosPage() {
  transition={{ duration: 0.6 }}
  className="text-center mb-16"
  >
- <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
- Como Associar-se
- </span>
  <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
  Torne-se um{' '}
  <span className="text-theme-gradient">
@@ -213,9 +210,15 @@ export default function AssociadosPage() {
  Preencha o Formulário Agora Mesmo
  <ExternalLink size={18} />
  </a>
- <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
- <Phone size={18} />
- <span className="font-medium">Em caso de dúvidas: (11) 3367-9900</span>
+ {/* items-start porque o texto ocupa duas linhas: o rótulo quebra depois
+ dos dois pontos e o telefone fica inteiro na linha de baixo. */}
+ <div className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
+ <Phone size={18} className="shrink-0 mt-0.5" />
+ <span className="font-medium">
+ Em caso de dúvidas:
+ <br />
+ <span className="whitespace-nowrap">(11) 3367-9900</span>
+ </span>
  </div>
  </div>
  </motion.div>
@@ -224,7 +227,7 @@ export default function AssociadosPage() {
 
  {/* Benefits Grid */}
  <section className="py-20 bg-gray-50 dark:bg-gray-900/50">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -291,7 +294,7 @@ export default function AssociadosPage() {
 
  {/* Quick Access Links */}
  <section className="py-20 bg-white dark:bg-gray-900">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
@@ -350,7 +353,7 @@ export default function AssociadosPage() {
 
  {/* Contact CTA */}
  <section className="py-16 gradient-theme-cta">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+ <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}

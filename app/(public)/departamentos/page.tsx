@@ -35,8 +35,6 @@ interface DepartmentCard {
  gradient: string;
  bgIcon: string;
  textIcon: string;
- borderHover: string;
- shadowHover: string;
 }
 
 /** Destinos do modal do Esportivo (item 27). */
@@ -62,8 +60,6 @@ const departments: DepartmentCard[] = [
  gradient: 'linear-gradient(to bottom right, #f59e0b, #f97316)',
  bgIcon: 'bg-amber-100 dark:bg-amber-900/30',
  textIcon: 'text-amber-600 dark:text-amber-400',
- borderHover: 'hover:border-amber-200 dark:hover:border-amber-700/60',
- shadowHover: 'hover:shadow-amber-500/5',
  },
  {
  icon: Palette,
@@ -81,8 +77,6 @@ const departments: DepartmentCard[] = [
  gradient: 'linear-gradient(to bottom right, #8b5cf6, #a855f7)',
  bgIcon: 'bg-violet-100 dark:bg-violet-900/30',
  textIcon: 'text-violet-600 dark:text-violet-400',
- borderHover: 'hover:border-violet-200 dark:hover:border-violet-700/60',
- shadowHover: 'hover:shadow-violet-500/5',
  },
  {
  // Capital e Interior eram dois cards. Viraram um só: o departamento é um,
@@ -105,8 +99,6 @@ const departments: DepartmentCard[] = [
  gradient: 'linear-gradient(to bottom right, #0ea5e9, #3b82f6)',
  bgIcon: 'bg-sky-100 dark:bg-sky-900/30',
  textIcon: 'text-sky-600 dark:text-sky-400',
- borderHover: 'hover:border-sky-200 dark:hover:border-sky-700/60',
- shadowHover: 'hover:shadow-sky-500/5',
  },
 ];
 
@@ -185,7 +177,7 @@ export default function DepartamentosPage() {
  // O card inteiro é clicável (item 27). Link e button sao ramos separados
  // de proposito: como componente dinamico, o TypeScript nao consegue
  // conciliar `href` obrigatorio do Link com as props do button.
- const classeCard = `relative block h-full w-full overflow-hidden rounded-2xl bg-white dark:bg-gray-800 border border-gray-200/80 dark:border-gray-700/60 p-8 text-left transition-all duration-300 hover:shadow-xl focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-gray-900 ${dept.shadowHover} ${dept.borderHover} hover:-translate-y-1`;
+ const classeCard = `relative block h-full w-full overflow-hidden rounded-2xl bg-theme-primary-5 dark:bg-gray-800 border border-theme-light dark:border-gray-700/60 p-8 text-left transition-all duration-300 hover:border-theme-primary dark:hover:border-theme-primary hover:shadow-xl hover:shadow-theme-glow focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:outline-none dark:focus-visible:ring-offset-gray-900 hover:-translate-y-1`;
 
  const conteudo = (
  <>

@@ -106,7 +106,7 @@ export default function QuemSomosPage() {
 
  {/* ── Content ── */}
  <section className="bg-white dark:bg-gray-950 py-12 sm:py-16">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
  variants={containerVariants}
  initial="hidden"
@@ -206,7 +206,7 @@ export default function QuemSomosPage() {
  ].map((org) => (
  <div
  key={org.title}
- className="p-5 bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800"
+ className="p-5 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark"
  >
  <h3 className="font-semibold text-gray-900 dark:text-white mb-1">
  {org.title}
@@ -247,7 +247,7 @@ export default function QuemSomosPage() {
  <Link
  key={dept.name}
  href={dept.href}
- className="group flex flex-col items-center text-center p-5 bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-theme-primary-light dark:hover:border-theme-primary-dark hover:shadow-lg hover:shadow-theme-glow transition-all duration-300"
+ className="group flex flex-col items-center text-center p-5 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark hover:border-theme-primary dark:hover:border-theme-primary hover:shadow-lg hover:shadow-theme-glow transition-all duration-300"
  >
  <div className="p-3 bg-theme-primary-5 dark:bg-theme-primary-10 rounded-full mb-3 group-hover:bg-theme-primary-light dark:group-hover:bg-theme-primary-20 transition-colors">
  <Building2

@@ -18,7 +18,7 @@ import {
 const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'Quem Somos', href: '/sobre/quem-somos' },
-  { label: 'Representantes', href: '/representantes' },
+  { label: 'Embaixadores', href: '/representantes' },
   { label: 'Associados', href: '/associados' },
   { label: 'Galeria', href: '/galeria' },
   { label: 'Parcerias', href: '/parcerias' },

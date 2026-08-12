@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import PageHeader from '@/components/layout/PageHeader';
 import { MapPin } from 'lucide-react';
 import { representantesService } from '@/lib/services/data-service';
-import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ListaCarregando } from '@/components/ui/Skeleton';
 import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 type CategoriaRepresentante = 'conselho-deliberativo' | 'conselho-fiscal' | 'diretoria-executiva' | 'diretores-departamentos' | 'representantes-regionais';
@@ -83,8 +83,8 @@ export default function RepresentantesPage() {
 
       {/* Representantes regionais */}
       <section className="py-16 bg-white dark:bg-gray-950">
-        <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? <SkeletonGrid count={6} /> : error ? <ErrorState onRetry={load} /> : reps.length === 0 ? <EmptyState message="Nenhum representante regional cadastrado." /> : (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {loading ? <ListaCarregando titulo="Carregando os embaixadores…" linhas={8} /> : error ? <ErrorState onRetry={load} /> : reps.length === 0 ? <EmptyState message="Nenhum representante regional cadastrado." /> : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -119,11 +119,13 @@ export default function RepresentantesPage() {
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white dark:bg-gray-900">
+                  {/* Zebrada: com 91 linhas de nomes parecidos, a alternância é o
+                      que mantém o olho na linha certa ao varrer a coluna do CFP. */}
+                  <tbody className="bg-white dark:bg-gray-900 [&>tr:nth-child(even)]:bg-gray-50/80 dark:[&>tr:nth-child(even)]:bg-gray-800/40">
                     {linhas.map(({ cfp, nomes }) => (
                       <tr
                         key={cfp}
-                        className="border-b border-gray-100 dark:border-gray-800/70 last:border-b-0 hover:bg-gray-50/70 dark:hover:bg-gray-800/40 transition-colors"
+                        className="border-b border-gray-100 dark:border-gray-800/70 last:border-b-0 hover:bg-theme-primary-5 dark:hover:bg-theme-primary-10 transition-colors"
                       >
                         <th scope="row" className="px-5 py-3 text-left font-semibold whitespace-nowrap" style={{ color: ACCENT }}>
                           {cfp}

@@ -11,7 +11,7 @@ import {
  UserCircle,
 } from 'lucide-react';
 import { representantesService } from '@/lib/services/data-service';
-import { SkeletonGrid } from '@/components/ui/Skeleton';
+import { ListaCarregando } from '@/components/ui/Skeleton';
 import { ErrorState, EmptyState } from '@/components/ui/DataState';
 
 /* ------------------------------------------------------------------ */
@@ -367,7 +367,7 @@ export default function AdministracaoPage() {
  <section className="bg-white dark:bg-gray-950 py-16 sm:py-24">
  <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
  {loading ? (
- <SkeletonGrid count={4} />
+ <ListaCarregando titulo="Carregando o corpo administrativo…" linhas={8} />
  ) : error ? (
  <ErrorState onRetry={load} />
  ) : totalMembros === 0 && directors.length === 0 ? (
