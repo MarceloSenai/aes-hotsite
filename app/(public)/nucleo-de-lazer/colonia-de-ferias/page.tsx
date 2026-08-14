@@ -73,30 +73,35 @@ const facilities = [
  { name: 'Área Verde', icon: Umbrella },
 ];
 
+/*
+ * Valores conforme aessenai.org.br/clubeferias.asp. As colunas oficiais são
+ * "Associado/Dependente | Afins | Convidado" — associado e dependente pagam
+ * igual, e a coluna do meio é Afins, como nas telas dos dois clubes.
+ */
+
 const pricingHospedagem = [
- { category: 'Associado', daily: 'R$ 118,00' },
- { category: 'Dependente', daily: 'R$ 146,00' },
- { category: 'Convidado', daily: 'R$ 169,00' },
+ { refeicao: 'Hospedagem', associado: 'R$ 125,00', dependente: 'R$ 155,00', convidado: 'R$ 179,00' },
+ { refeicao: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
 ];
 
 const pricingRefeicoes = [
  {
- refeicao: 'Café da Manhã',
- associado: 'R$ 25,00',
- dependente: 'R$ 32,00',
- convidado: 'R$ 39,00',
+ refeicao: 'Desjejum',
+ associado: 'R$ 26,50',
+ dependente: 'R$ 37,10',
+ convidado: 'R$ 41,30',
  },
  {
  refeicao: 'Almoço',
- associado: 'R$ 40,00',
- dependente: 'R$ 52,00',
- convidado: 'R$ 64,00',
+ associado: 'R$ 42,40',
+ dependente: 'R$ 56,20',
+ convidado: 'R$ 67,80',
  },
  {
- refeicao: 'Sopa + Massa',
- associado: 'R$ 19,00',
- dependente: 'R$ 24,00',
- convidado: 'R$ 28,00',
+ refeicao: 'Sopa + 1 massa',
+ associado: 'R$ 20,10',
+ dependente: 'R$ 28,60',
+ convidado: 'R$ 29,70',
  },
 ];
 
@@ -365,7 +370,7 @@ export default function ColoniaDeFeriasPage() {
  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Regulamentos</h2>
  <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800/40">
   <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-   <li>&#8226; Check-in: 14:00 | Check-out: 12:00</li>
+   <li>&#8226; Check-in a partir das 19h | Check-out até as 16h</li>
    <li>&#8226; Máximo de hóspedes por acomodação conforme capacidade</li>
    <li>&#8226; Proibido som alto após 22:00</li>
    <li>&#8226; Animais de estimação apenas em acomodações Pet Friendly</li>
@@ -413,21 +418,34 @@ export default function ColoniaDeFeriasPage() {
  <h3 className="text-lg font-bold text-white">Hospedagem (diária por pessoa)</h3>
  </div>
  </div>
+ {/* Table header */}
+ <div className="grid grid-cols-4 gap-2 p-4 bg-gray-50 dark:bg-gray-700/30 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+ <span>Categoria</span>
+ <span className="text-center">Assoc./Depend.</span>
+ <span className="text-center">Afins</span>
+ <span className="text-center">Convidado</span>
+ </div>
  <div className="divide-y divide-gray-100 dark:divide-gray-700">
  {pricingHospedagem.map((item, index) => (
  <motion.div
- key={item.category}
+ key={item.refeicao}
  initial={{ opacity: 0, x: -20 }}
  whileInView={{ opacity: 1, x: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.4, delay: index * 0.1 }}
- className="flex items-center justify-between p-5 hover:bg-theme-primary-5 dark:hover:bg-theme-primary-10 transition-colors"
+ className="grid grid-cols-4 gap-2 p-4 hover:bg-theme-primary-5 dark:hover:bg-theme-primary-10 transition-colors items-center"
  >
- <span className="font-medium text-gray-900 dark:text-white">
- {item.category}
+ <span className="font-medium text-gray-900 dark:text-white text-sm">
+ {item.refeicao}
  </span>
- <span className="text-lg font-bold text-theme-primary dark:text-theme-primary">
- {item.daily}
+ <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
+ {item.associado}
+ </span>
+ <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
+ {item.dependente}
+ </span>
+ <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
+ {item.convidado}
  </span>
  </motion.div>
  ))}
@@ -452,8 +470,8 @@ export default function ColoniaDeFeriasPage() {
  {/* Table header */}
  <div className="grid grid-cols-4 gap-2 p-4 bg-gray-50 dark:bg-gray-700/30 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
  <span>Refeição</span>
- <span className="text-center">Associado</span>
- <span className="text-center">Dependente</span>
+ <span className="text-center">Assoc./Depend.</span>
+ <span className="text-center">Afins</span>
  <span className="text-center">Convidado</span>
  </div>
  <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -497,7 +515,8 @@ export default function ColoniaDeFeriasPage() {
  <div className="flex items-start gap-2">
  <Users size={16} className="text-theme-primary dark:text-theme-primary mt-0.5 shrink-0" />
  <p className="text-sm text-gray-600 dark:text-gray-300">
- <strong>Crianças:</strong> até 6 anos grátis. De 7 a 12 anos pagam meia (hospedagem e refeições).
+ <strong>Crianças:</strong> hospedagem e refeições — até 6 anos isenta, de 7 a 12 anos meia.
+ Diarista de convidado — até 10 anos isenta, de 11 a 12 anos meia.
  </p>
  </div>
  </div>
