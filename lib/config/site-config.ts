@@ -178,18 +178,20 @@ export const DEFAULT_CONFIG: SiteConfig = {
     {
       id: 'clube-campo', nome: 'Clube de Campo',
       precos: [
-        { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
+        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 47,70', convidado: 'R$ 77,40' },
+        { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
       ],
-      dayUse: 'R$ 50,00',
-      criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
+      dayUse: 'R$ 53,00',
+      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia. Afins: R$ 61,50 (hospedagem).',
     },
     {
       id: 'clube-nautico', nome: 'Clube Náutico',
       precos: [
-        { categoria: 'Hospedagem', associado: 'R$ 45,00', dependente: 'R$ 58,00', convidado: 'R$ 73,00' },
+        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 47,70', convidado: 'R$ 77,40' },
+        { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
       ],
-      dayUse: 'R$ 50,00',
-      criançasInfo: 'Crianças até 6 anos: grátis | 7-12 anos: meia',
+      dayUse: 'R$ 53,00',
+      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia. Afins: R$ 61,50 (hospedagem).',
     },
     {
       id: 'colonia-ferias', nome: 'Colônia de Férias',

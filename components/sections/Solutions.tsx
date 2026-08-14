@@ -14,7 +14,7 @@ const nucleosBase = [
     location: 'Jundiaí/SP',
     description:
       '24 chalés e apartamentos, piscinas, churrasqueiras, campo de futebol, sauna, playground e estacionamento gratuito.',
-    defaultPrice: 'R$ 45,00',
+    defaultPrice: 'R$ 47,70',
     link: '/nucleo-de-lazer/clube-de-campo',
     gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))' } as React.CSSProperties,
     iconBgStyle: { backgroundColor: 'var(--color-primary-light)' } as React.CSSProperties,
@@ -29,7 +29,7 @@ const nucleosBase = [
     location: 'Boracéia/SP',
     description:
       '8 chalés à beira do lago, piscina, academia ao ar livre, pier de pesca, cozinha caipira e quadra de vôlei.',
-    defaultPrice: 'R$ 45,00',
+    defaultPrice: 'R$ 47,70',
     link: '/nucleo-de-lazer/clube-nautico',
     gradientStyle: { background: 'linear-gradient(to bottom right, var(--color-primary), var(--color-primary-dark))' } as React.CSSProperties,
     iconBgStyle: { backgroundColor: 'var(--color-primary-light)' } as React.CSSProperties,

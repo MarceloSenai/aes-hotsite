@@ -3,8 +3,10 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
+    // sort_order importa: a home mostra o primeiro preço da lista como
+    // "a partir de", então a linha de hospedagem precisa vir antes da diarista.
     const data = await prisma.nucleoPricing.findMany({
-      include: { precos: true },
+      include: { precos: { orderBy: { sort_order: 'asc' } } },
     })
 
     // Rename 'precos' → 'nucleo_precos' for backward compatibility

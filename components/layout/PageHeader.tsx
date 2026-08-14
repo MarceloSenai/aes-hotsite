@@ -91,12 +91,12 @@ export default function PageHeader({
             sizes="100vw"
             className="object-cover object-center"
           />
-          {/* Preto sólido até 65% da largura e transparente no fim: o texto fica
+          {/* Preto sólido até 55% da largura e transparente no fim: o texto fica
               sobre área opaca e a foto aparece do lado direito. */}
           <div
             aria-hidden
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(to right, #000 0%, #000 65%, transparent 100%)' }}
+            style={{ background: 'linear-gradient(to right, #000 0%, #000 55%, transparent 100%)' }}
           />
           {/* Forma fluida que dá o ar de destaque destas telas. */}
           <motion.div
@@ -108,8 +108,20 @@ export default function PageHeader({
         </>
       )}
 
-      {/* py-10/12: a referência usava py-14/16 e as demais chegavam a py-24. */}
-      <div className="relative mx-auto max-w-[1920px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
+      {/*
+        py-10/12: a referência usava py-14/16 e as demais chegavam a py-24.
+
+        Com foto de fundo a onda da borda inferior tem altura proporcional à
+        largura da tela (viewBox 1440x60) e chegava a cobrir o fim do subtítulo,
+        então essas telas ganham folga extra embaixo para o texto nunca ser
+        cortado — e um pouco mais de altura, já que os subtítulos delas são
+        longos.
+      */}
+      <div
+        className={`relative mx-auto max-w-[1920px] px-4 sm:px-6 lg:px-8 ${
+          fundo ? 'pt-12 pb-24 sm:pt-14 sm:pb-28 lg:pb-36' : 'py-10 sm:py-12'
+        }`}
+      >
         <motion.nav
           aria-label="Você está aqui"
           initial={{ opacity: 0, y: -8 }}
