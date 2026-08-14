@@ -138,10 +138,13 @@ export async function POST() {
   try {
     const antes = await lerAtual()
 
-    await prisma.parceria.deleteMany({})
-    for (const parceria of PARCERIAS) {
-      await prisma.parceria.create({ data: parceria })
-    }
+    // Em transação: apagar e recriar em passos soltos deixa a tabela vazia se a
+    // conexão cair no meio — e ela cai, o App Service derruba o banco a cada
+    // reinício de deploy. Ou grava a lista inteira, ou não mexe em nada.
+    await prisma.$transaction([
+      prisma.parceria.deleteMany({}),
+      ...PARCERIAS.map((parceria) => prisma.parceria.create({ data: parceria })),
+    ])
 
     return NextResponse.json({ ok: true, aplicado: true, antes, depois: await lerAtual() })
   } catch (error) {

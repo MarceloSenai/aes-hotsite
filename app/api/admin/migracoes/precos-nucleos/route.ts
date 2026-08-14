@@ -61,24 +61,28 @@ export async function POST() {
   try {
     const antes = await lerAtual()
 
-    for (const { precos, ...cabecalho } of NUCLEOS) {
-      await prisma.nucleoPricing.upsert({
-        where: { id: cabecalho.id },
-        update: {
-          nucleo_nome: cabecalho.nucleo_nome,
-          day_use: cabecalho.day_use,
-          criancas_info: cabecalho.criancas_info,
-        },
-        create: cabecalho,
-      })
-
-      // As linhas antigas saem inteiras: os ids são cuid, não há como casar
-      // linha a linha, e deixar sobras significaria preço errado ainda no ar.
-      await prisma.nucleoPreco.deleteMany({ where: { nucleo_id: cabecalho.id } })
-      for (const preco of precos) {
-        await prisma.nucleoPreco.create({ data: { ...preco, nucleo_id: cabecalho.id } })
-      }
-    }
+    // Em transação: apagar e recriar em passos soltos deixa o núcleo sem preço
+    // se a conexão cair no meio — e ela cai, o App Service derruba o banco a
+    // cada reinício de deploy. Ou grava tudo, ou não mexe em nada.
+    await prisma.$transaction(
+      NUCLEOS.flatMap(({ precos, ...cabecalho }) => [
+        prisma.nucleoPricing.upsert({
+          where: { id: cabecalho.id },
+          update: {
+            nucleo_nome: cabecalho.nucleo_nome,
+            day_use: cabecalho.day_use,
+            criancas_info: cabecalho.criancas_info,
+          },
+          create: cabecalho,
+        }),
+        // As linhas antigas saem inteiras: os ids são cuid, não há como casar
+        // linha a linha, e deixar sobras significaria preço errado ainda no ar.
+        prisma.nucleoPreco.deleteMany({ where: { nucleo_id: cabecalho.id } }),
+        ...precos.map((preco) =>
+          prisma.nucleoPreco.create({ data: { ...preco, nucleo_id: cabecalho.id } })
+        ),
+      ])
+    )
 
     return NextResponse.json({ ok: true, aplicado: true, antes, depois: await lerAtual() })
   } catch (error) {
