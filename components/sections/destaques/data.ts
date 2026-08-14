@@ -155,9 +155,9 @@ export type ParceriaDestaque = {
  * ("milhares de psicólogos on-line + 400 áudios de meditação").
  *
  * A adesão é intermediada pela AES, não contratada direto com o parceiro:
- * site-config.ts:165 e contact.ts:41 rotulam cadastro@aessenai.org.br como o
- * canal responsável por TotalPass. Daí o CTA principal ser um mailto e não o
- * site do parceiro.
+ * contact.ts rotula cadastro@aessenai.org.br como o canal responsável por
+ * TotalPass ("Cadastro / TotalPass"). Daí o CTA principal ser um mailto e não
+ * o site do parceiro.
  *
  * O texto não cita desconto, preço nem gratuidade: não há fonte para essas
  * condições em nenhum lugar do projeto. Vende amplitude de rede, que é
