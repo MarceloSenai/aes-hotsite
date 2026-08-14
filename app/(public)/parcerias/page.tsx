@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import PageHeader from '@/components/layout/PageHeader';
 import {
@@ -60,6 +61,21 @@ function getCategoryColor(categoria: string) {
   return categoryColors[categoria] || defaultColor;
 }
 
+/**
+ * Logomarcas trazidas do site antigo. A chave é o id da parceria — fixado pela
+ * rota /api/admin/migracoes/parcerias justamente para o logo não descolar do
+ * registro quando a tabela é recarregada. Sem logo, o card cai no ícone genérico.
+ */
+const logos: Record<string, string> = {
+  'totalpass': '/images/parceiros/Totalpass.png',
+  'electrolux': '/images/parceiros/electrolux.jpg',
+  'ifepaf': '/images/parceiros/logoifepaf.jpg',
+  'univap': '/images/parceiros/univap_logo.jpg',
+  'wise-up': '/images/parceiros/logowiseup.png',
+  'pousada-alpes': '/images/parceiros/logopousada.png',
+  'rcr-sports': '/images/parceiros/academia-rrc.png',
+};
+
 export default function ParceriasPage() {
   const [parcerias, setParcerias] = useState<Parceria[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +95,7 @@ export default function ParceriasPage() {
     }
   };
 
-  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, []);
 
   return (
     <>
@@ -103,18 +119,34 @@ export default function ParceriasPage() {
           >
             {parcerias.map((partner) => {
               const color = getCategoryColor(partner.categoria);
+              const logo = logos[partner.id];
               return (
                 <motion.div
                   key={partner.id}
                   variants={cardVariants}
                   className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 hover:shadow-lg hover:shadow-theme-glow hover:border-theme-primary-light dark:hover:border-theme-primary-dark hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div
-                      className={`w-12 h-12 ${color.bg} rounded-xl flex items-center justify-center flex-shrink-0`}
-                    >
-                      <Handshake className={color.text} size={24} />
+                  {/* Logo da parceria; sem arquivo, fica o ícone genérico. */}
+                  {logo && (
+                    <div className="mb-4 flex h-20 items-center justify-center rounded-xl bg-white p-3">
+                      <Image
+                        src={logo}
+                        alt={partner.nome}
+                        width={200}
+                        height={80}
+                        className="max-h-14 w-auto object-contain"
+                      />
                     </div>
+                  )}
+
+                  <div className="flex items-start gap-4 mb-4">
+                    {!logo && (
+                      <div
+                        className={`w-12 h-12 ${color.bg} rounded-xl flex items-center justify-center flex-shrink-0`}
+                      >
+                        <Handshake className={color.text} size={24} />
+                      </div>
+                    )}
                     <div>
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                         {partner.nome}

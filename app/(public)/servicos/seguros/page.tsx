@@ -1,89 +1,97 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import PageHeader from '@/components/layout/PageHeader';
-import { ShieldCheck, Mail } from 'lucide-react';
-import { parceirosSeguroService } from '@/lib/services/data-service';
+import { ShieldCheck, Car, Bike, HeartPulse, Home, Plane, KeyRound } from 'lucide-react';
 
-interface ParceiroSeguro {
-  id: string;
-  nome: string;
-  tipo: string;
-  descricao: string;
-  contato: string;
-}
+const produtos = [
+ { nome: 'Seguro de auto', icone: Car },
+ { nome: 'Seguro de moto', icone: Bike },
+ { nome: 'Seguro de vida e acidentes pessoais', icone: HeartPulse },
+ { nome: 'Seguro residencial', icone: Home },
+ { nome: 'Seguro viagem', icone: Plane },
+ { nome: 'Seguro aluguel e fiança', icone: KeyRound },
+];
 
 export default function SegurosPage() {
- const [parceiros, setParceiros] = useState<ParceiroSeguro[]>([]);
-
- useEffect(() => {
-  const load = async () => {
-   const data = await parceirosSeguroService.getAll();
-   setParceiros(data as unknown as ParceiroSeguro[]);
-  };
-  load();
- }, []);
-
  return (
  <>
- {/* Faixa vermelha (hero) */}
  <PageHeader
  icone={ShieldCheck}
  titulo="Seguros"
- subtitulo="A AES negocia condições especiais em produtos de seguros para associados e seus familiares."
+ subtitulo="A AES oferece soluções para seus associados para complementar a segurança pública, mitigar riscos ocupacionais e promover qualidade de vida, direcionando demandas para corretoras especializadas e seguradoras, uma vez que a associação não opera como corretora ou seguradora direta."
  />
 
- {/* Conteúdo */}
  <section className="py-16 gradient-theme-page-light min-h-screen">
- <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
-
- {/* Partners */}
- <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
- {parceiros.map((parceiro, index) => (
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+ {/* Papel da AES: complementa o subtítulo, que já é longo demais para
+     absorver mais um parágrafo sem sufocar o cabeçalho. */}
  <motion.div
- key={parceiro.id}
  initial={{ opacity: 0, y: 20 }}
- animate={{ opacity: 1, y: 0 }}
- transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
- className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-6 hover:shadow-lg hover:shadow-theme-glow hover:border-theme-primary-light dark:hover:border-theme-primary-dark transition-all duration-300"
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6 }}
+ className="max-w-4xl mx-auto bg-theme-primary-5 dark:bg-theme-primary-10 rounded-2xl border border-theme-light dark:border-theme-primary-dark p-6 sm:p-8"
  >
- <div className="w-12 h-12 bg-theme-primary-light dark:bg-theme-primary-20 rounded-xl flex items-center justify-center mb-4">
- <ShieldCheck className="text-theme-primary dark:text-theme-primary" size={24} />
- </div>
- <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
- {parceiro.nome}
- </h3>
- <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 mb-3">
- {parceiro.tipo}
- </span>
- <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
- {parceiro.descricao}
+ <h2 className="font-bold text-gray-900 dark:text-white mb-2">
+ Papel da AES nas negociações
+ </h2>
+ <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+ Garantir que as condições do contrato atendam às necessidades específicas dos associados,
+ buscando as melhores soluções, ofertas e condições que proporcionem segurança financeira.
  </p>
- <a
- href={`mailto:${parceiro.contato}`}
- className="inline-flex items-center gap-1.5 text-sm text-theme-primary dark:text-theme-primary hover:underline"
- >
- <Mail size={14} />
- {parceiro.contato}
- </a>
  </motion.div>
- ))}
- </div>
 
- {/* Empty state */}
- {parceiros.length === 0 && (
+ {/* Produtos */}
  <motion.div
- initial={{ opacity: 0 }}
- animate={{ opacity: 1 }}
- className="text-center py-16"
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6, delay: 0.1 }}
+ className="max-w-4xl mx-auto"
  >
- <ShieldCheck className="mx-auto text-gray-300 dark:text-gray-600 mb-4" size={48} />
- <p className="text-gray-500 dark:text-gray-400">
- Nenhum parceiro de seguro cadastrado no momento.
- </p>
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+ Produtos{' '}
+ <span className="text-theme-gradient">oferecidos</span>
+ </h2>
+ <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+ {produtos.map((produto) => {
+ const Icone = produto.icone;
+ return (
+ <div
+ key={produto.nome}
+ className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5"
+ >
+ <div className="w-10 h-10 bg-theme-primary-light dark:bg-theme-primary-20 rounded-lg flex items-center justify-center shrink-0">
+ <Icone size={20} className="text-theme-primary dark:text-theme-primary" />
+ </div>
+ <p className="text-sm font-medium text-gray-900 dark:text-white">{produto.nome}</p>
+ </div>
+ );
+ })}
+ </div>
  </motion.div>
- )}
+
+ {/* Contato: a corretora que atende os associados */}
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6, delay: 0.2 }}
+ className="max-w-4xl mx-auto text-center"
+ >
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Contato</h2>
+ <div className="inline-flex bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 p-8">
+ <Image
+ src="/images/parceiros/seguradora_novytha.png"
+ alt="Novytha Seguros"
+ width={280}
+ height={90}
+ className="h-auto w-auto max-h-24 object-contain"
+ />
+ </div>
+ </motion.div>
  </div>
  </section>
  </>
