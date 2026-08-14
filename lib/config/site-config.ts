@@ -177,21 +177,23 @@ export const DEFAULT_CONFIG: SiteConfig = {
   nucleoPricing: [
     {
       id: 'clube-campo', nome: 'Clube de Campo',
+      // A coluna `dependente` guarda o valor de "Afins" — ver NucleoPrecoRow.
       precos: [
-        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 47,70', convidado: 'R$ 77,40' },
+        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 61,50', convidado: 'R$ 77,40' },
         { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
       ],
       dayUse: 'R$ 53,00',
-      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia. Afins: R$ 61,50 (hospedagem).',
+      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia.',
     },
     {
       id: 'clube-nautico', nome: 'Clube Náutico',
+      // A coluna `dependente` guarda o valor de "Afins" — ver NucleoPrecoRow.
       precos: [
-        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 47,70', convidado: 'R$ 77,40' },
+        { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 61,50', convidado: 'R$ 77,40' },
         { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
       ],
       dayUse: 'R$ 53,00',
-      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia. Afins: R$ 61,50 (hospedagem).',
+      criançasInfo: 'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia.',
     },
     {
       id: 'colonia-ferias', nome: 'Colônia de Férias',

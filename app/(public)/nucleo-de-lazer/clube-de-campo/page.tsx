@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import PageHeader from '@/components/layout/PageHeader';
 import { nucleoVideosService } from '@/lib/services/data-service';
+import { lerPrecosDoNucleo, type NucleoPrecoRow } from '@/lib/services/nucleo-precos';
 import {
  MapPin,
  Phone,
@@ -102,9 +103,14 @@ const facilities = [
 
 /* Tabelas de valores conforme aessenai.org.br/clubecampo.asp */
 
-const pricingCategorias = [
- { linha: 'Hospedagem', associado: 'R$ 47,70', afins: 'R$ 61,50', convidado: 'R$ 77,40' },
- { linha: 'Diarista', associado: 'Isento', afins: 'Isento', convidado: 'R$ 53,00' },
+/**
+ * Fallback da tabela principal: o que vale hoje em aessenai.org.br. Em condições
+ * normais a tela mostra o que está em nucleo_precos — ver lerPrecosDoNucleo.
+ * A coluna `dependente` guarda o valor de "Afins" (ver NucleoPrecoRow).
+ */
+const pricingCategoriasFallback: NucleoPrecoRow[] = [
+ { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 61,50', convidado: 'R$ 77,40' },
+ { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00' },
 ];
 
 const faixaEtariaHospedagem = [
@@ -184,9 +190,11 @@ function getYouTubeId(url: string): string | null {
 
 export default function ClubeDeCampoPage() {
  const [videos, setVideos] = useState<{id:string; titulo:string; youtube_url:string}[]>([]);
+ const [pricingCategorias, setPricingCategorias] = useState(pricingCategoriasFallback);
 
  useEffect(() => {
   nucleoVideosService.getAll('clube-campo').then((d) => setVideos(d as {id:string; titulo:string; youtube_url:string}[]));
+  lerPrecosDoNucleo('clube-campo', pricingCategoriasFallback).then(setPricingCategorias);
  }, []);
 
  return (
@@ -566,15 +574,15 @@ export default function ClubeDeCampoPage() {
  <div className="divide-y divide-gray-100 dark:divide-gray-700">
  {pricingCategorias.map((item) => (
  <div
- key={item.linha}
+ key={item.categoria}
  className="grid grid-cols-4 gap-2 p-4 items-center hover:bg-theme-primary-5 dark:hover:bg-theme-primary-10 transition-colors"
  >
- <span className="font-medium text-gray-900 dark:text-white text-sm">{item.linha}</span>
+ <span className="font-medium text-gray-900 dark:text-white text-sm">{item.categoria}</span>
  <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
  {item.associado}
  </span>
  <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
- {item.afins}
+ {item.dependente}
  </span>
  <span className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary">
  {item.convidado}

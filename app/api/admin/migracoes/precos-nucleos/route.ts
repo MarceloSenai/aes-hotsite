@@ -16,19 +16,20 @@ import { prisma } from '@/lib/prisma'
  */
 
 /**
- * A tabela oficial tem as colunas "Associado/Dependente | Afins | Convidado",
- * enquanto o banco tem "associado | dependente | convidado". Como associado e
- * dependente pagam o mesmo valor, os dois recebem R$ 47,70; a categoria "Afins"
- * (R$ 61,50) não tem coluna equivalente e fica registrada em criancas_info.
+ * As três colunas do banco são slots genéricos, rotulados por cada tela. No
+ * Clube de Campo e no Clube Náutico a tabela oficial é
+ * "Associado/Dependente | Afins | Convidado", então `associado` guarda o valor
+ * de associado e dependente (que pagam igual) e `dependente` guarda o de Afins.
+ * As telas rotulam as colunas assim; ver NucleoPrecoRow em lib/services/nucleo-precos.ts.
  *
  * A Colônia de Férias não entra: tem tabela própria (hospedagem + refeições) e
  * seus valores continuam corretos.
  */
 const CRIANCAS_INFO =
-  'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia. Afins: R$ 61,50 (hospedagem).'
+  'Hospedagem — até 6 anos: isenta | 7-12 anos: meia. Diarista — até 10 anos: isenta | 11-12 anos: meia.'
 
 const PRECOS = [
-  { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 47,70', convidado: 'R$ 77,40', sort_order: 0 },
+  { categoria: 'Hospedagem', associado: 'R$ 47,70', dependente: 'R$ 61,50', convidado: 'R$ 77,40', sort_order: 0 },
   { categoria: 'Diarista', associado: 'Isento', dependente: 'Isento', convidado: 'R$ 53,00', sort_order: 1 },
 ]
 

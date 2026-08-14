@@ -113,6 +113,13 @@ const REP_TABS: { slug: string; label: string }[] = [
   { slug: 'representantes-regionais', label: 'Representantes Regionais' },
 ];
 
+/**
+ * Núcleos cuja tabela oficial é "Associado/Dependente | Afins | Convidado" — a
+ * segunda coluna do banco guarda o valor de Afins neles. Na Colônia de Férias os
+ * três nomes valem ao pé da letra. Ver NucleoPrecoRow em lib/services/nucleo-precos.ts.
+ */
+const NUCLEOS_COM_AFINS = new Set(['clube-campo', 'clube-nautico']);
+
 // ─── Loading Skeleton ────────────────────────────────────────────
 
 function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number; cols?: number }) {
@@ -1740,8 +1747,15 @@ export default function AdminPage() {
                             <thead>
                               <tr className="border-b border-gray-100 dark:border-gray-700">
                                 <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Categoria</th>
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Associado</th>
-                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Dependente</th>
+                                {/* As colunas são slots genéricos e cada núcleo as rotula à sua
+                                    maneira: nos clubes a tabela oficial é
+                                    "Associado/Dependente | Afins | Convidado". Ver NucleoPrecoRow. */}
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
+                                  {NUCLEOS_COM_AFINS.has(nucleo.id as string) ? 'Associado / Dependente' : 'Associado'}
+                                </th>
+                                <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">
+                                  {NUCLEOS_COM_AFINS.has(nucleo.id as string) ? 'Afins' : 'Dependente'}
+                                </th>
                                 <th className="text-left px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Convidado</th>
                                 <th className="text-right px-4 py-2 text-xs font-semibold text-gray-600 dark:text-gray-400">Acoes</th>
                               </tr>
