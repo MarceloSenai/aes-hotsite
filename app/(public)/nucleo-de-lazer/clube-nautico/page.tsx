@@ -366,13 +366,9 @@ export default function ClubeNauticoPage() {
  transition={{ duration: 0.6 }}
  className="text-center mb-12"
  >
- <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
- Infraestrutura
- </span>
  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
- Áreas de{' '}
  <span className="text-theme-gradient">
- Lazer
+ Infraestrutura
  </span>
  </h2>
  </motion.div>

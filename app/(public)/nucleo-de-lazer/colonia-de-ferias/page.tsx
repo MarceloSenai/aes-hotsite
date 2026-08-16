@@ -31,11 +31,22 @@ import {
  Coffee,
  Video,
  Play,
+ Blocks,
+ Sparkles,
+ Dumbbell,
+ Sofa,
+ Presentation,
+ Shirt,
+ Armchair,
+ Bike,
+ TreePine,
+ FileText,
+ Download,
 } from 'lucide-react';
 
 const accommodations = [
  {
- title: '48 Apartamentos',
+ title: '41 Apartamentos',
  description: 'Capacidade para 4 a 6 hóspedes',
  icon: Bed,
  },
@@ -62,15 +73,24 @@ const facilities = [
  { name: 'Restaurante', icon: UtensilsCrossed },
  { name: 'Lanchonete', icon: Coffee },
  { name: 'Sala de Jogos', icon: Gamepad2 },
+ { name: 'Brinquedoteca', icon: Blocks },
  { name: 'Cinema', icon: Film },
+ { name: 'Auditório', icon: Presentation },
+ { name: 'Sala de Estar', icon: Sofa },
  { name: 'Playground', icon: Baby },
  { name: 'Piscina', icon: Waves },
+ { name: 'SPA', icon: Sparkles },
+ { name: 'Ginásio Esportivo', icon: Dumbbell },
+ { name: 'Vestiários', icon: Shirt },
  { name: 'Elevador', icon: ArrowUpDown },
  { name: 'Estacionamento', icon: Car },
  { name: 'Lavanderia', icon: WashingMachine },
  { name: 'Churrasqueiras', icon: Flame },
  { name: 'Forno de Pizza', icon: Pizza },
- { name: 'Área Verde', icon: Umbrella },
+ { name: 'Área Verde', icon: TreePine },
+ { name: 'Locação de Cadeiras', icon: Armchair },
+ { name: 'Locação de Guarda-sóis', icon: Umbrella },
+ { name: 'Locação de Bicicletas', icon: Bike },
 ];
 
 /*
@@ -103,6 +123,47 @@ const pricingRefeicoes = [
  dependente: 'R$ 28,60',
  convidado: 'R$ 29,70',
  },
+];
+
+/*
+ * As duas faixas etárias têm cortes diferentes: hospedagem vira meia aos 7 anos e
+ * a diária de convidado só aos 11 — por isso são duas tabelas, e não uma.
+ */
+
+const faixaEtariaHospedagem = {
+ colunas: ['Até 6 anos', '7 a 12 anos', 'A partir de 13 anos'],
+ linhas: [
+ { categoria: 'Hospedagem', valores: ['Isenta', 'Meia', 'Inteira'] },
+ { categoria: 'Diarista (convidado)', valores: ['Isenta', 'Meia', 'Inteira'] },
+ ],
+};
+
+const faixaEtariaDiarista = {
+ colunas: ['Até 10 anos', '11 a 12 anos', 'A partir de 13 anos'],
+ linhas: [{ categoria: 'Diarista (convidado)', valores: ['Isenta', 'Meia', 'Inteira'] }],
+};
+
+const horariosAtendimento = [
+ {
+ local: 'Administração',
+ detalhes: [
+ '2ª a 5ª feira: das 8h às 16h20',
+ '6ª, sábados e feriados: das 8h às 22h',
+ 'Domingo: das 8h às 16h20',
+ ],
+ },
+ {
+ local: 'Restaurante',
+ detalhes: ['Café da manhã: 7h30 às 9h30', 'Almoço: 12h30 às 15h', 'Sopa: 18h às 19h'],
+ },
+ { local: 'Ginásio de Esportes', detalhes: ['Das 9h às 21h'] },
+ { local: 'Portaria', detalhes: ['24 horas'] },
+ { local: 'Day Use', detalhes: ['Das 8h às 21h'] },
+];
+
+const arquivos = [
+ { titulo: 'Regulamento da Colônia de Férias', arquivo: '/documentos/nucleos/Regulamento_Colonia.pdf' },
+ { titulo: 'Regulamento da Piscina', arquivo: '/documentos/nucleos/Regulamento_PiscinaColonia.pdf' },
 ];
 
 const containerVariants = {
@@ -140,7 +201,7 @@ export default function ColoniaDeFeriasPage() {
  <PageHeader
  icone={Umbrella}
  titulo="Colônia de Férias"
- subtitulo="Apartamentos completos na praia, com restaurante, SPA, piscina e toda a infraestrutura para as férias da família."
+ subtitulo="Localizada em Itanhaém, está a, aproximadamente, 3 a 4 Km do centro da cidade e a 550 a 650 metros da larga faixa de areia clara da praia, mar limpo e águas calmas, sendo perfeita para caminhadas sossegadas. Lá você se sente em casa. Suas instalações oferecem conforto e segurança, o restaurante oferece refeições deliciosas e você ainda interage com outros hóspedes nas áreas comuns num clima totalmente familiar. Um excelente lugar para quem busca uma temporada de descanso e tranquilidade à beira-mar."
  selo={{ icone: MapPin, texto: "Itanhaém/SP" }}
  fundo={{ imagem: "/images/nucleos/colonia-de-ferias.webp", alt: "Praia do litoral sul paulista, onde fica a Colônia de Férias da AES" }}
  />
@@ -194,6 +255,78 @@ export default function ColoniaDeFeriasPage() {
  <p className="text-sm text-gray-600 dark:text-gray-300">colonia@aessenai.org.br</p>
  </div>
  </div>
+ </div>
+
+ {/* Horários de atendimento */}
+ <div className="mt-6 pt-6 border-t border-amber-200/60 dark:border-amber-800/40">
+ <div className="flex items-start gap-3">
+ <div className="p-2 bg-theme-primary-light dark:bg-theme-primary-20 rounded-lg shrink-0">
+ <Clock size={20} className="text-theme-primary dark:text-theme-primary" />
+ </div>
+ <div className="w-full">
+ <p className="font-semibold text-gray-900 dark:text-white text-sm mb-3">
+ Horários de atendimento
+ </p>
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+ {horariosAtendimento.map((horario) => (
+ <div key={horario.local}>
+ <p className="text-sm font-medium text-gray-900 dark:text-white">{horario.local}</p>
+ <ul className="mt-1 space-y-0.5">
+ {horario.detalhes.map((detalhe) => (
+ <li key={detalhe} className="text-sm text-gray-600 dark:text-gray-300">
+ {detalhe}
+ </li>
+ ))}
+ </ul>
+ </div>
+ ))}
+ </div>
+ </div>
+ </div>
+ </div>
+ </motion.div>
+ </div>
+ </section>
+
+ {/* Videos */}
+ <section className="py-16 bg-white dark:bg-gray-950">
+ <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+ <motion.div
+ initial={{ opacity: 0, y: 20 }}
+ whileInView={{ opacity: 1, y: 0 }}
+ viewport={{ once: true }}
+ transition={{ duration: 0.6 }}
+ className="text-center"
+ >
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 flex items-center justify-center gap-2">
+  <Video size={24} style={{ color: 'var(--color-primary)' }} />
+  Vídeos da Colônia de Férias
+ </h2>
+ <div className="flex flex-wrap justify-center gap-6">
+  {videos.length > 0 ? videos.map((v) => {
+    const videoId = getYouTubeId(v.youtube_url);
+    return videoId ? (
+      <div key={v.id} className="w-full max-w-2xl lg:w-[calc(50%-0.75rem)] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
+        <iframe
+          className="w-full aspect-video"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title={v.titulo}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+        <div className="p-3 bg-white dark:bg-gray-800">
+          <p className="text-sm font-medium text-gray-900 dark:text-white">{v.titulo}</p>
+        </div>
+      </div>
+    ) : null;
+  }) : (
+    <div className="w-full max-w-2xl aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
+      <div className="text-center text-gray-400">
+        <Play size={48} className="mx-auto mb-2 opacity-50" />
+        <p className="text-sm">Vídeos em breve</p>
+      </div>
+    </div>
+  )}
  </div>
  </motion.div>
  </div>
@@ -278,13 +411,9 @@ export default function ColoniaDeFeriasPage() {
  transition={{ duration: 0.6 }}
  className="text-center mb-12"
  >
- <span className="inline-block px-4 py-1.5 bg-theme-primary-light dark:bg-theme-primary-20 text-theme-primary-dark dark:text-theme-primary-light text-sm font-semibold rounded-full mb-4">
- Infraestrutura
- </span>
  <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">
- Áreas de{' '}
  <span className="text-theme-gradient">
- Lazer
+ Infraestrutura
  </span>
  </h2>
  </motion.div>
@@ -317,7 +446,7 @@ export default function ColoniaDeFeriasPage() {
  </div>
  </section>
 
- {/* Videos */}
+ {/* Regulamentos */}
  <section className="py-16 bg-white dark:bg-gray-950">
  <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
  <motion.div
@@ -325,58 +454,73 @@ export default function ColoniaDeFeriasPage() {
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.6 }}
- className="mb-8"
+ className="grid grid-cols-1 lg:grid-cols-2 gap-8"
  >
- <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-  <Video size={24} style={{ color: 'var(--color-primary)' }} />
-  Videos da Colonia de Ferias
- </h2>
- <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  {videos.length > 0 ? videos.map((v) => {
-    const videoId = getYouTubeId(v.youtube_url);
-    return videoId ? (
-      <div key={v.id} className="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-        <iframe
-          className="w-full aspect-video"
-          src={`https://www.youtube.com/embed/${videoId}`}
-          title={v.titulo}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-        <div className="p-3 bg-white dark:bg-gray-800">
-          <p className="text-sm font-medium text-gray-900 dark:text-white">{v.titulo}</p>
-        </div>
-      </div>
-    ) : null;
-  }) : (
-    <div className="aspect-video bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center border border-gray-200 dark:border-gray-700">
-      <div className="text-center text-gray-400">
-        <Play size={48} className="mx-auto mb-2 opacity-50" />
-        <p className="text-sm">Vídeos em breve</p>
-      </div>
-    </div>
-  )}
+ <div>
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Regulamentos</h2>
+ <div className="h-[calc(100%-3rem)] bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800/40">
+  <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+   <li>&#8226; Check-in a partir das 19h | Check-out até as 16h</li>
+   <li>&#8226; Observar o limite máximo absoluto de capacidade da acomodação, sabendo-se que crianças e bebês contam como hóspedes</li>
+   <li>&#8226; Respeitar a Lei do Silêncio</li>
+   <li>&#8226; Animais de estimação apenas em acomodações Pet Friendly</li>
+   <li>&#8226; Cancelamento gratuito até 7 dias antes do check-in</li>
+   <li>&#8226; Documentos de identidade obrigatórios no check-in</li>
+  </ul>
+ </div>
+ </div>
+
+ {/* Check-in / check-out, ao lado dos regulamentos */}
+ <div>
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Check-in e Check-out</h2>
+ <div className="h-[calc(100%-3rem)] bg-theme-primary-5 dark:bg-theme-primary-10 rounded-xl p-5 border border-theme-light dark:border-theme-primary-dark">
+ <div className="flex items-start gap-3">
+ <Clock size={20} className="text-theme-primary dark:text-theme-primary mt-0.5 shrink-0" />
+ <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+ <p>
+ O horário de check in e de check out são, respectivamente, a partir das 19h do dia
+ anterior ao período reservado e até 16h do último dia de reserva.
+ </p>
+ <p>
+ <strong className="text-gray-900 dark:text-white">Exemplo:</strong> reserva de 03 a 05.
+ O check in poderá ser feito a partir das 19h do dia 02 e o check out deverá ser feito
+ até 16h do dia 05.
+ </p>
+ </div>
+ </div>
+ </div>
  </div>
  </motion.div>
 
- {/* Regulamentos */}
+ {/* Arquivos do núcleo */}
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.6, delay: 0.1 }}
- className="mb-8"
+ className="mt-10"
  >
- <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Regulamentos</h2>
- <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-5 border border-amber-100 dark:border-amber-800/40">
-  <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-   <li>&#8226; Check-in a partir das 19h | Check-out até as 16h</li>
-   <li>&#8226; Máximo de hóspedes por acomodação conforme capacidade</li>
-   <li>&#8226; Proibido som alto após 22:00</li>
-   <li>&#8226; Animais de estimação apenas em acomodações Pet Friendly</li>
-   <li>&#8226; Cancelamento gratuito até 7 dias antes do check-in</li>
-   <li>&#8226; Documentos de identidade obrigatórios no check-in</li>
-  </ul>
+ <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Arquivos</h2>
+ {/* Duas colunas, e não três como no Campo: aqui são só dois arquivos. */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+ {arquivos.map((arq) => (
+ <a
+ key={arq.arquivo}
+ href={arq.arquivo}
+ target="_blank"
+ rel="noopener noreferrer"
+ className="flex items-center gap-3 bg-white dark:bg-gray-800 rounded-xl border border-gray-200/80 dark:border-gray-700/60 p-5 hover:shadow-lg hover:border-theme-primary-light dark:hover:border-theme-primary-dark transition-all duration-300"
+ >
+ <div className="w-10 h-10 bg-theme-primary-light dark:bg-theme-primary-20 rounded-lg flex items-center justify-center shrink-0">
+ <FileText size={20} className="text-theme-primary dark:text-theme-primary" />
+ </div>
+ <div className="min-w-0">
+ <p className="font-medium text-gray-900 dark:text-white text-sm">{arq.titulo}</p>
+ <p className="text-xs text-gray-500 dark:text-gray-400">PDF</p>
+ </div>
+ <Download size={18} className="text-gray-400 ml-auto shrink-0" />
+ </a>
+ ))}
  </div>
  </motion.div>
  </div>
@@ -503,20 +647,81 @@ export default function ColoniaDeFeriasPage() {
  </motion.div>
  </div>
 
- {/* Children info */}
+ {/* Faixas etárias */}
  <motion.div
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
  viewport={{ once: true }}
  transition={{ duration: 0.6, delay: 0.3 }}
- className="mt-6 max-w-5xl mx-auto"
+ className="mt-8 max-w-5xl mx-auto space-y-8"
  >
+ {[
+ {
+ titulo: 'Faixa etária para cobrança de valores de Hospedagem — Crianças',
+ tabela: faixaEtariaHospedagem,
+ },
+ {
+ titulo: 'Faixa etária para cobrança de valores de Diarista (convidado) — Crianças',
+ tabela: faixaEtariaDiarista,
+ },
+ ].map(({ titulo, tabela }) => (
+ <div
+ key={titulo}
+ className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200/80 dark:border-gray-700/60 overflow-hidden shadow-lg"
+ >
+ <div className="gradient-theme-cta p-5">
+ <div className="flex items-center gap-3">
+ <Users size={24} className="text-white" />
+ <h3 className="text-base font-bold text-white">{titulo}</h3>
+ </div>
+ </div>
+ {/* As faixas são colunas, como no site antigo — daí a rolagem lateral no celular. */}
+ <div className="overflow-x-auto">
+ <div className="min-w-[520px]">
+ <div className="grid grid-cols-4 gap-2 p-4 bg-gray-50 dark:bg-gray-700/30 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+ <span>Categoria</span>
+ {tabela.colunas.map((coluna) => (
+ <span key={coluna} className="text-center">
+ {coluna}
+ </span>
+ ))}
+ </div>
+ <div className="divide-y divide-gray-100 dark:divide-gray-700">
+ {tabela.linhas.map((linha) => (
+ <div
+ key={linha.categoria}
+ className="grid grid-cols-4 gap-2 p-4 items-center hover:bg-theme-primary-5 dark:hover:bg-theme-primary-10 transition-colors"
+ >
+ <span className="font-medium text-gray-900 dark:text-white text-sm">
+ {linha.categoria}
+ </span>
+ {linha.valores.map((valor, i) => (
+ <span
+ key={tabela.colunas[i]}
+ className="text-center text-sm font-semibold text-theme-primary dark:text-theme-primary"
+ >
+ {valor}
+ </span>
+ ))}
+ </div>
+ ))}
+ </div>
+ </div>
+ </div>
+ </div>
+ ))}
+
+ {/*
+   As duas tabelas acima só falam de hospedagem e diária. A regra de meia para
+   refeições não tem tabela no site antigo, mas estava escrita na tela antes
+   desta rodada — sem esta nota, a informação sumiria da página.
+ */}
  <div className="bg-theme-primary-5 dark:bg-theme-primary-10 rounded-xl border border-theme-light dark:border-theme-primary-dark p-5">
  <div className="flex items-start gap-2">
  <Users size={16} className="text-theme-primary dark:text-theme-primary mt-0.5 shrink-0" />
  <p className="text-sm text-gray-600 dark:text-gray-300">
- <strong>Crianças:</strong> hospedagem e refeições — até 6 anos isenta, de 7 a 12 anos meia.
- Diarista de convidado — até 10 anos isenta, de 11 a 12 anos meia.
+ <strong>Refeições:</strong> seguem a mesma faixa da hospedagem — até 6 anos isenta,
+ de 7 a 12 anos meia.
  </p>
  </div>
  </div>
